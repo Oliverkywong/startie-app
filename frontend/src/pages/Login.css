@@ -1,3 +1,41 @@
-.login{
-    background-image: url('../img/bgimg.png');
+.background{
+    background-image: url('../img/bgimage.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.logo{
+    width: 50vw;
+    height: 25vh;
+}
+
+.email,.password,.username{
+    display: flex;
+    flex-direction: row;
+    display: block;
+    color: #000;
+}
+input{
+    border: none;
+}
+
+h1{
+    color: #000;
+}
+
+a{
+    text-decoration: none;
+    color: #999;
+}
+
+.signup{
+    color: #000;
+}
+
+.signup > p > a{
+    color: #4fc564;
 }
