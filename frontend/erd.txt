@@ -1,0 +1,159 @@
+competition
+-----------
+id integer PK
+name text
+description text
+profilepic text
+status_id integer
+starttime timestamp
+clickrate integer
+
+
+competition_tag
+---------------
+competition_id integer FK >- competition.id
+tag_id integer FK >- tag.id
+
+
+tag
+---
+id integer PK
+name text unique
+searchcategory_id integer FK >- searchcategory.id
+
+
+competition_team
+-----------------------
+competition_id integer FK >- competition.id
+team_id integer NULL FK >- team.id
+
+
+status
+---------
+id integer PK
+name text 
+
+user
+----
+id integer PK
+username text
+password text
+email text
+phonenumber text
+status_id integer FK - status.id
+profilepic text
+location text
+description text
+clickrate integer
+
+
+notification
+----
+id integer PK
+user_id integer FK >- user.id
+content text
+isread boolean
+
+
+team
+---------
+id integer PK
+name text unique
+description text
+profilepic text
+clickrate integer
+
+
+user_team
+-----------
+team_id integer FK >- team.id
+user_id integer FK >- user.id
+is_board_member integer
+apply_time integer
+approve_time integer NULL
+approved_by integer NULL FK >- user.id
+quit_time integer NULL
+kicked_by integer NULL FK >- user.id
+
+
+team_tag
+-----------
+team_id integer FK >- team.id
+tag_id integer FK >- tag.id
+
+
+searchcategory
+----------------
+id integer PK 
+name text
+profilepic text
+
+
+job
+--------
+id integer PK
+name text
+description text
+status_id integer FK >- status.id
+clickrate integer
+
+
+job_tag
+-----------
+job_id integer FK >- job.id
+tag_id integer FK >- tag.id
+
+
+team_job
+--------------
+team_id integer FK >- team.id
+job_id integer FK >- job.id
+iswaiting boolean
+
+
+message
+------------
+id integer PK
+message text
+receiver_id integer FK - user.id
+sender_id integer FK - user.id
+isread boolean
+team_id integer
+room_id integer
+
+
+room_user
+---------------
+user_id integer FK >- user.id
+room_id integer FK >- room.id
+team_id integer FK >- team.id
+
+
+room
+------------
+id integer PK
+
+
+sector
+-----------
+id integer PK
+name text
+
+skill
+---------
+id integer PK
+name text
+sector_id integer FK >- sector.id
+
+
+user_skill
+--------------------
+user_id integer FK >- user.id
+skill_id integer FK >- skill.id
+point integer
+
+user_sector
+------------------
+user_id integer FK >- user.id
+sector_id integer FK >- sector.id
+point integer

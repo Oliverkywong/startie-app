@@ -1,0 +1,7 @@
+{
+  "name": "tryswiper",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
