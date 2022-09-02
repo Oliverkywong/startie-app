@@ -5,7 +5,7 @@ export async function up(knex: Knex): Promise<void> {
         await knex.schema.createTable("notification", (table) => {
             table.increments();
             table.integer("user_id").unsigned().notNullable();
-            table.integer("user_id").references("user.id");
+            table.foreign("user_id").references("user.id");
             table.text("content").notNullable();
             table.boolean("isread").notNullable();
             table.timestamps(false, true);
