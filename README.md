@@ -4,6 +4,10 @@ todolist
 
 - [ ] Login
 
+  - [ ] linkin login
+  - [ ] google login
+  - [ ] apple login
+
 - [ ] Register
 
   - [ ] user register
