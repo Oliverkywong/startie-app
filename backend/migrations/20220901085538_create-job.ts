@@ -7,7 +7,7 @@ export async function up(knex: Knex): Promise<void> {
             table.string("name").unique().notNullable();
             table.text("description");
             table.integer("status_id").unsigned().notNullable();
-            table.integer("status_id").references("status.id");
+            table.foreign("status_id").references("status.id");
             table.integer("clickrate").unsigned;
             table.timestamps(false, true);
         });

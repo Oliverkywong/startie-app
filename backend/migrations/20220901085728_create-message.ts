@@ -6,16 +6,16 @@ export async function up(knex: Knex): Promise<void> {
             table.increments();
             table.text("message");
             table.integer("status_id").unsigned().notNullable();
-            table.integer("status_id").references("status.id");
+            table.foreign("status_id").references("status.id");
             table.boolean("isread");
             table.integer("receiver_id").unsigned();
-            table.integer("receiver_id").references("user.id");
+            table.foreign("receiver_id").references("user.id");
             table.integer("sender_id").unsigned().notNullable();
-            table.integer("sender_id").references("user.id");
+            table.foreign("sender_id").references("user.id");
             table.integer("team_id").unsigned();
-            table.integer("team_id").references("team.id");
+            table.foreign("team_id").references("team.id");
             table.integer("room_id").unsigned().notNullable();
-            table.integer("room_id").references("room.id");
+            table.foreign("room_id").references("room.id");
             table.timestamps(false, true);
         });
     }

@@ -6,7 +6,7 @@ export async function up(knex: Knex): Promise<void> {
             table.increments();
             table.string("name").notNullable();
             table.integer("searchcategory_id").unsigned().notNullable();
-            table.integer("searchcategory_id").references("searchcategory.id");
+            table.foreign("searchcategory_id").references("searchcategory.id");
         });
     }
 }

@@ -9,7 +9,7 @@ export async function up(knex: Knex): Promise<void> {
             table.string("email").unique().notNullable();
             table.string("phonenumber");
             table.integer("status_id").unsigned().notNullable();
-            table.integer("status_id").references("status.id");
+            table.foreign("status_id").references("status.id");
             table.text("profilepic");
             table.text("description");
             table.integer("clickrate").unsigned;
