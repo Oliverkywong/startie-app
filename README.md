@@ -10,39 +10,57 @@ todolist
 
 - [ ] Register
 
+  - [x] team register
   - [ ] user register
-  - [ ] job register
-  - [ ] team register
+  - [ ] jobs register
 
 - [ ] Info
 
-  - [ ] team info
+  - [x] team info
   - [ ] user info
   - [ ] events info
   - [ ] jobs info
 
+- [ ] Update
+
+  - [ ] team update
+  - [ ] user update
+  - [ ] events update
+  - [ ] jobs update
+
 - [ ] Search
 
+  - [x] search team
+  - [ ] search user
   - [ ] search events
   - [ ] search jobs
-  - [ ] search user
-  - [ ] search team
 
 - [ ] Notification
 - [ ] Settings
 
 - [ ] followed media
-  - [ ] followed user
+
   - [ ] followed team
+  - [ ] followed user
   - [ ] followed events
   - [ ] followed jobs
+
 - [ ] Chat room
 
-required
-@ionic/cli
-swiper
-swiper/react/swiper-react.js
-@ionic/react@latest @ionic/react-router@latest
-@reduxjs/toolkit react-redux
+required / tools we need
+
+- express
+- becrypt
+- pg
+- dotenv
+- knex
+- logger
+- hash
+- react
+- @ionic/cli
+- swiper
+- swiper/react/swiper-react.js
+- @ionic/react@latest @ionic/react-router@latest
+- @reduxjs/toolkit react-redux
 
 Hi Oliver
