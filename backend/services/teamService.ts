@@ -1,33 +1,49 @@
 import { Knex } from "knex";
+import { Team } from "../utils/model";
 
 export class TeamService {
-    constructor(private knex: Knex) {}
+  constructor(private knex: Knex) {}
 
-    async getAllTeams() {
-        return await this.knex.select("id", "name")
-        .from("team");
-    }
+  async getAllTeams() {
+    return await this.knex<Team>("team").select("id", "name");
+  }
 
-    async getTeam(teamname: string) {
-        return await this.knex.select("id", teamname)
-        .from("team");
-      }
-    
-    async createTeam(teamname: string, description?:string, profilepic?:string){
-        return await this.knex
-        .insert({name: teamname, description: description, profilepic: profilepic})
-        .into("team")
-        .returning("id");
-    }
+  async getTeam(teamname: string) {
+    return await this.knex<Team>("team").select("id", teamname);
+  }
 
-    async updateTeam(teamname?: string, description?:string, profilepic?:string) {
-        return await this.knex("team")
-        .update({name: teamname});
-    }
+  async createTeam(
+    teamname: string,
+    description?: string,
+    profilepic?: string
+  ) {
+    return await this.knex<Team>("team")
+      .insert({
+        name: teamname,
+        description: description,
+        profilepic: profilepic,
+      })
+      .into("team")
+      .returning("id");
+  }
 
-    async deleteTeam(teamname: string) {
-        return await this.knex("team")
-        .where({name: teamname})
-        .del();
+  async updateTeam(
+    teamname?: string,
+    description?: string,
+    profilepic?: string
+  ) {
+    if (teamname !== null || description !== null || profilepic !== null) {
+      return await this.knex<Team>("team").update({
+        name: teamname,
+        description: description,
+        profilepic: profilepic,
+      });
+    } else {
+      return;
     }
+  }
+
+  async deleteTeam(id: number) {
+    return await this.knex<Team>("team").where({ id: id }).del();
+  }
 }
