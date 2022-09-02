@@ -22,7 +22,7 @@ export class TeamController {
     updateTeam = async (req: Request, res: Response) => {
         const team = await this.teamService.updateTeam(req.params.id, req.body)
         res.json({team})
-    }
+    } 
 
     deleteTeam = async (req: Request, res: Response) => {
         const team = await this.teamService.deleteTeam(req.params.id)
