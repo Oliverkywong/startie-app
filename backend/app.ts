@@ -2,10 +2,10 @@
 // imports (DO NOT EXPORT ANYTHING FORM App.ts)
 // -------------------------------------------------------------------------------------------------------------------
 import express from 'express'
-import { logger } from './logger'
-import { isLogin } from './middleware'
+import { logger } from './utils/logger'
+// import { isLogin } from './middleware'
 import grant from 'grant'
-import { client } from './db'
+import { client } from './utils/db'
 import dotenv from 'dotenv'
 import { UserService } from './services/userService'
 import { UserController } from './controllers/userController'

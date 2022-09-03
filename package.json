@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "@react-navigation/native": "^6.0.12",
-    "fusioncharts": "^3.19.0",
-    "react-fusioncharts": "^4.0.0"
-  }
-}
