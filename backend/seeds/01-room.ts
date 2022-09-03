@@ -9,26 +9,26 @@ export async function seed(knex: Knex): Promise<void> {
     
     .insert([
         { 
-          
             created_at: new Date(),
             updated_at: new Date(),
-
         },
-        {
-      
+        { 
             created_at: new Date(),
             updated_at: new Date(),
-
         },
-        {
-          
+        { 
             created_at: new Date(),
             updated_at: new Date(),
-            
-        }
-
-
-
+        },
+        { 
+            created_at: new Date(),
+            updated_at: new Date(),
+        },
+        { 
+            created_at: new Date(),
+            updated_at: new Date(),
+        },
+        
     ])
         .into("room")
 

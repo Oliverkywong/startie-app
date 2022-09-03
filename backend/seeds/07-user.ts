@@ -8,7 +8,7 @@ export async function seed(knex: Knex): Promise<void> {
     let a = "$2a$10$HhCxInVGPMLAQdOGt8/qmuEz4kfjjmsTvltcjeqNjctgzCreh7sce" //await hashPassword('admin');
     let b = "$2a$10$2gKOYijOs8sl/Gt27mXXo.eL1DrLpeFFoYvEbqHsgReToP.xWBqdK" //await hashPassword('user');
     let c = "$2a$10$Jrjugzolh7gDkMdIbqjGf.KVX1LG3N7FgMTli.jemY7mh3hUcB.WW" //await hashPassword('vip');
-    // let d = "$2a$10$Tqgwr4gqyk8ZJVLCX2Vw3eeW7m4ic91ahsmHGIfYDmUfDBOhAKw5W" //await hashPassword('inactiveuser');
+    let d = "$2a$10$Tqgwr4gqyk8ZJVLCX2Vw3eeW7m4ic91ahsmHGIfYDmUfDBOhAKw5W" //await hashPassword('inactiveuser');
 
         await knex
         .insert([
@@ -40,6 +40,16 @@ export async function seed(knex: Knex): Promise<void> {
             phonenumber: "54129917",
             status_id: 1,
             profilepic: "yeung.jpg",
+            description: "testing",
+            clickrate: 0,
+        },
+        {
+            username: "Leo",
+            password: d,
+            email: "leo@gmail.com",
+            phonenumber: "64129917",
+            status_id: 1,
+            profilepic: "leo.jpg",
             description: "testing",
             clickrate: 0,
         },
