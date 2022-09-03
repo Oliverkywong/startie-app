@@ -1,13 +1,44 @@
 import { Knex } from "knex";
 
+
 export async function seed(knex: Knex): Promise<void> {
     // Deletes ALL existing entries
-    await knex("table_name").del();
+    await knex("user_skill").del();
 
-    // Inserts seed entries
-    await knex("table_name").insert([
-        { id: 1, colName: "rowValue1" },
-        { id: 2, colName: "rowValue2" },
-        { id: 3, colName: "rowValue3" }
-    ]);
-};
+        await knex
+        .insert([
+
+        {
+            user_id: 1,
+            skill_id: 1,
+            point: 5
+        },
+        {
+            user_id: 1,
+            skill_id: 1,
+            point: 8
+        },
+        {
+            user_id: 1,
+            skill_id: 1,
+            point: 6
+        },
+        {
+            user_id: 1,
+            skill_id: 2,
+            point: 3
+        },
+        {
+            user_id: 1,
+            skill_id: 2,
+            point: 1
+        },
+        {
+            user_id: 1,
+            skill_id: 2,
+            point: 7
+        },
+    ])
+    .into("user_skill");
+
+}

@@ -4,7 +4,7 @@ export async function up(knex: Knex): Promise<void> {
     if (!(await knex.schema.hasTable("skill"))) {
         await knex.schema.createTable("skill", (table) => {
             table.increments();
-            table.string("name").unique().notNullable();
+            table.string("name").notNullable();
             table.integer("sector_id").unsigned().notNullable();
             table.foreign("sector_id").references("sector.id");
         });

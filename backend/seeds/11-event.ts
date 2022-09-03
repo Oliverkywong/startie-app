@@ -1,13 +1,38 @@
 import { Knex } from "knex";
 
+
 export async function seed(knex: Knex): Promise<void> {
     // Deletes ALL existing entries
-    await knex("table_name").del();
+    await knex("event").del();
 
-    // Inserts seed entries
-    await knex("table_name").insert([
-        { id: 1, colName: "rowValue1" },
-        { id: 2, colName: "rowValue2" },
-        { id: 3, colName: "rowValue3" }
-    ]);
-};
+        await knex
+        .insert([
+
+        {
+            name: "Programming Contest",
+            description: "Programming Contest",
+            status_id: 1,
+            starttime: new Date(),
+            profilepic: "event.jpg",
+            clickrate: 0,
+        },
+        {
+            name: "Investment Contest",
+            description: "Test",
+            status_id: 1,
+            starttime: new Date(),
+            profilepic: "event.jpg",
+            clickrate: 0,
+        },
+        {
+            name: "Marketing Contest",
+            description: "Test",
+            status_id: 1,
+            starttime: new Date(),
+            profilepic: "event.jpg",
+            clickrate: 0,
+        },
+    ])
+    .into("event");
+
+}
