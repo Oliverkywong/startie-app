@@ -9,11 +9,9 @@ import { client } from './utils/db'
 import dotenv from 'dotenv'
 import { UserService } from './services/userService'
 import { UserController } from './controllers/userController'
-import { createUserRoutes } from './routes/userRoutes'
+import { userRoutes } from './routes/userRoute'
 import Knex from "knex"
-import { createProfileRoutes } from './routes/profileRoutes'
-import { ProfileController } from './controllers/profileController'
-import { ProfileService } from './services/profileService'
+import { isLogin } from './utils/middleware'
 
 
 // -------------------------------------------------------------------------------------------------------------------
@@ -65,7 +63,6 @@ app.use(express.json())
 //get HTML files from public, default images & uploads
 app.use(express.static('public'))//get files from private
 const userService = new UserService(knex)
-const profileService = new ProfileService(knex)
 
 const userController = new UserController(userService)
 app.use(isLogin, express.static('private'))	
@@ -74,10 +71,8 @@ app.use('/serverDefaultedImages', express.static('images'))
 app.use('/userUploadedFiles', express.static('uploads'))
 
 // get code from usersRoute
-const profileController = new ProfileController(profileService)
 
-app.use(createUserRoutes(userController))
-app.use(createProfileRoutes(profileController))
+app.use(userRoutes(userController))
 
 // --------------------------------------------------------------------------------------------------------------------
 // Error 404

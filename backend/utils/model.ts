@@ -3,7 +3,11 @@ export interface User {
   username: string;
   password: string;
   email: string;
-  role_id: number;
+  status_id: number;
+  profilepic: string;
+  phonenumber: string;
+  description: string;
+  clickrate: number;
 }
 
 export interface Team {
