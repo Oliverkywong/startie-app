@@ -36,6 +36,7 @@ import Homepage from './pages/Homepage';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Profile from './pages/Profile';
+import UserFollows from './pages/UserFollows';
 
 setupIonicReact();
 
@@ -59,6 +60,9 @@ const App: React.FC = () => (
           </Route>
           <Route exact path="/tab5">
             <Profile />
+          </Route>
+          <Route exact path="/tab6">
+            <UserFollows />
           </Route>
           <Route exact path="/homepage">
             <Redirect to="/homepage" />

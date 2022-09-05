@@ -10,6 +10,7 @@ import UserStats from './UserStats';
 import UserTeams from './UserTeams';
 import UserFollows from './UserFollows';
 import UserSettings from './UserSettings';
+import { Link } from 'react-router-dom';
 
 const Profile: React.FC = () => {
 
@@ -27,23 +28,23 @@ const Profile: React.FC = () => {
                 <IonLabel className="uresname">Tony Stark</IonLabel>
 
                 <div className="profilebar">
-                    <div onClick={() => {setInfo(true);setStat(false);setFollow(false);setTeam(false);setSetting(false)}}>
+                    <div onClick={() => { setInfo(true); setStat(false); setFollow(false); setTeam(false); setSetting(false) }}>
                         <IonIcon icon={documentTextOutline} />
                         <IonLabel>Details</IonLabel>
                     </div>
-                    <div onClick={() => {setInfo(false);setStat(true);setFollow(false);setTeam(false);setSetting(false)}}>
+                    <div onClick={() => { setInfo(false); setStat(true); setFollow(false); setTeam(false); setSetting(false) }}>
                         <IonIcon icon={statsChart} />
                         <IonLabel>Stats</IonLabel>
                     </div>
-                    <div onClick={() => {setInfo(false);setStat(false);setFollow(true);setTeam(false);setSetting(false)}}>
+                    <div onClick={() => { setInfo(false); setStat(false); setFollow(true); setTeam(false); setSetting(false) }}>
                         <IonIcon icon={bookmarkOutline} />
                         <IonLabel>My Follows</IonLabel>
                     </div>
-                    <div onClick={() => {setInfo(false);setStat(false);setFollow(false);setTeam(true);setSetting(false)}}>
+                    <div onClick={() => { setInfo(false); setStat(false); setFollow(false); setTeam(true); setSetting(false) }}>
                         <IonIcon icon={peopleOutline} />
                         <IonLabel>My Teams</IonLabel>
                     </div>
-                    <div onClick={() => {setInfo(false);setStat(false);setFollow(false);setTeam(false);setSetting(true)}}>
+                    <div onClick={() => window.location.replace('/tab6') }>
                         <IonIcon icon={settingsOutline} />
                         <IonLabel>Settings</IonLabel>
                     </div>
