@@ -1,5 +1,5 @@
 .background{
-    background-image: url('../img/bgimage.png');
+    background-image: url('../../img/bgimage.png');
     background-repeat: no-repeat;
     background-size: cover;
     height: 100vh;
@@ -38,4 +38,17 @@ a{
 
 .signup > p > a{
     color: #4fc564;
+}
+
+span{
+    color: #000;
+}
+
+button{
+    background: linear-gradient(43.6deg, #7F398D 15.02%, #DA2F69 67.96%, #EA5729 100.39%);
+    padding: 15px;
+    margin: 10px;
+    border-radius: 10px;
+    font-size: larger;
+    font-weight: bold;
 }

@@ -2,24 +2,24 @@
 // imports
 // -------------------------------------------------------------------------------------------------------------------
 import express from "express";
+import formidable from "formidable";
 import fs from "fs";
 // import formidable from 'formidable'
 
 // -------------------------------------------------------------------------------------------------------------------
 // check if the user is login or not
 // -------------------------------------------------------------------------------------------------------------------
-// export const isLogin = (
-//   req: express.Request,
-//   res: express.Response,
-//   next: express.NextFunction
-// ) => {
-//   if ((req.session["isLogin"] = true)) {
-//     next();
-//   } else {
-//     res.redirect("/");
-//     // next()
-//   }
-// };
+export const isLogin = (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  if (true) {
+    next();
+  } else {
+    res.redirect("/");
+  }
+};
 
 // -------------------------------------------------------------------------------------------------------------------
 // check if the user is Admin
@@ -55,11 +55,11 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync("uploads", { recursive: true });
 }
 
-// export const form = formidable({
-// 	uploadDir: uploadDir,
-// 	keepExtensions: true,
-// 	multiples: true,
-// 	maxFiles: 1,
-// 	maxFileSize: 20 * 1024 * 1024 ** 2, // 20MB
-// 	filter: (part) => part.mimetype?.startsWith('image/') || false
-// })
+export const form = formidable({
+  uploadDir: uploadDir,
+  keepExtensions: true,
+  multiples: true,
+  maxFiles: 1,
+  maxFileSize: 20 * 1024 * 1024 ** 2, // 20MB
+  filter: (part) => part.mimetype?.startsWith("image/") || false,
+});

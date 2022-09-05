@@ -14,7 +14,7 @@ import cat3 from '../img/cat3.png'
 import team1 from '../img/team1.png'
 import team2 from '../img/team2.png'
 import icon from '../img/tonystarkicon.png'
-import "./Homepage.css";
+import "./css/Homepage.css";
 
 // Import Swiper styles
 import "swiper/css";
@@ -36,12 +36,12 @@ const Homepage: React.FC = () => {
       <IonContent>
 
         <IonToolbar>
-          <IonButtons slot="primary">
+          <IonButtons slot="end">
             <IonButton onClick={() => { }}>
               <IonIcon icon={notificationsOutline} />
             </IonButton>
           </IonButtons>
-          <IonButtons slot="secondary">
+          <IonButtons slot="start">
             <IonButton onClick={() => { }}>
             <IonImg className='icon' src={icon} />
             </IonButton>
