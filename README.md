@@ -50,12 +50,12 @@ todolist
 required / tools we need
 
 - express
-- becrypt
+- bcrypt
 - pg
 - dotenv
 - knex
 - logger
-- hash
+- jest
 - react
 - @ionic/cli
 - swiper
