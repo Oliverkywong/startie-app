@@ -74,6 +74,7 @@ export class UserController {
 			return res.status(500).json({ result: false, msg: 'register error' })			
 		}
 	}
+	
 // -------------------------------------------------------------------------------------------------------------------
 // LOGIN ✅
 // -------------------------------------------------------------------------------------------------------------------
@@ -82,18 +83,20 @@ export class UserController {
 			let username = req.body.username.trim()
 			let password = req.body.password.trim()
 			let user = await this.userService.login(username, password)
-
-			// 放userRecord入redux
+			let token = jwtSimple.encode(
+				{userId: user[0].id,
+				 username: user[0].username}, "key"
+			)
 
 			logger.info(`${username} logged in`)
 			return res.json({
 				result: true,
 				msg: 'login success',
-				user: user[0],
-				token: jwtSimple.encode({email:user[0].email}, '1234')
+				user: user[0]
 			})
 
 		} catch (err) {
+
 			if (err instanceof UserNotExistError) {
 				return res
 					.status(500)
@@ -157,7 +160,7 @@ export class UserController {
 						
 				const newPhoneNumber =
 						fields.phonenumber != null && !Array.isArray(fields.phonenumber)
-							? fields.phonenumber
+							? fields.phonenumber.trim()
 							: oldPhoneNumber
 
 				const newDescription =

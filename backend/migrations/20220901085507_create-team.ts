@@ -9,7 +9,7 @@ export async function up(knex: Knex): Promise<void> {
       table.foreign("room_id").references("room.id");
       table.text("description");
       table.text("profilepic");
-      table.integer("clickrate").unsigned;
+      table.integer("clickrate").defaultTo(0).unsigned();
       table.timestamps(false, true);
     });
   }

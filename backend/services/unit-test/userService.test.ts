@@ -5,16 +5,6 @@ import { UserDuplicateEmailError, UserDuplicateUsernameError, UserMissingRegiste
 const knexfile = require('../../knexfile') // Assuming you test case is inside `services/ folder`
 const knex = Knex(knexfile['test']) // Now the connection is a testing connection.
 
-// describe('', () => {
-//     let userService: UserService = new UserService(knex)
-//     it('can login', async () => {
-//         const userRecord = await userService.login('Oliver', 'admin')
-//         console.log(userRecord);
-        
-//     }
-
-// )})
-
 describe('Integration test of userService', () => {
 	let userService:UserService = new UserService(knex)
 
@@ -28,15 +18,20 @@ describe('Integration test of userService', () => {
     });
 });
 
-	afterAll(async () => {
-		return knex.migrate.rollback()
-    .then(function() {
-      return knex.migrate.latest();
-    })
-    .then(function() {
-      return knex.seed.run();
-    });
-});
+afterAll(async () => {
+	await knex.destroy()
+
+})
+
+// 	afterAll(async () => {
+// 		return knex.migrate.rollback()
+//     .then(function() {
+//       return knex.migrate.latest();
+//     })
+//     .then(function() {
+//       return knex.seed.run();
+//     });
+// });
 
 // -------------------------------------------------------------------------------------------------------------------
 	it('can login', async () => {
@@ -71,18 +66,6 @@ describe('Integration test of userService', () => {
             expect(err).toBeInstanceOf(UserPasswordMissMatchError)
         }
 	})
-// -------------------------------------------------------------------------------------------------------------------
-	// it('cannot login (UserStatusError)', async () => {
-	// 	//Act
-    //     try{
-    //         await userService.login("Inactive User", "inactiveuser")
-	// 		fail('should throw UserStatusError')
-    //     }
-	// 	//Assert
-    //     catch(err){
-    //         expect(err).toBeInstanceOf(UserStatusError)
-    //     }
-	// })
 // -------------------------------------------------------------------------------------------------------------------
 	it('can register', async () => {
 		//Act
@@ -190,8 +173,8 @@ describe('Integration test of userService', () => {
             expect(userRecord[0].description).toBe('testing')
 [0]
 })[0]
-// --------------------------[0]-----------------------------------------------------------------------------------------
-        it('can edit user inf[0]ormation', async () => {
+// -------------------------------------------------------------------------------------------------------------------
+        it('can edit user information', async () => {
             const phoneNumber = '95804971'
             const description = 'I am Oliver Wong'
             const profilePic = 'oliverwong.jpg'

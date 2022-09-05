@@ -1,6 +1,6 @@
 import type { Knex } from "knex";
-import dotenv from 'dotenv'
-dotenv.config()
+import dotenv from "dotenv";
+dotenv.config();
 
 // Update with your config settings.
 
@@ -12,32 +12,32 @@ const config: { [key: string]: Knex.Config } = {
       host: process.env.DB_HOST || "localhost",
       database: process.env.DB_NAME,
       user: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD
+      password: process.env.DB_PASSWORD,
     },
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
-      tableName: "knex_migrations"
-    }
+      tableName: "knex_migrations",
+    },
   },
 
   test: {
-    client: 'postgresql',
+    client: "postgresql",
     connection: {
       host: process.env.DB_HOST || "localhost",
       database: process.env.TEST__DB_NAME,
-      user: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD
+      user: process.env.TEST_DB_USERNAME,
+      password: process.env.TEST_DB_PASSWORD,
     },
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
-      tableName: 'knex_migrations'
-    }
+      tableName: "knex_migrations",
+    },
   },
 
   staging: {
@@ -47,15 +47,15 @@ const config: { [key: string]: Knex.Config } = {
       host: process.env.DB_HOST || "localhost",
       database: process.env.DB_NAME,
       user: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD
+      password: process.env.DB_PASSWORD,
     },
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
-      tableName: "knex_migrations"
-    }
+      tableName: "knex_migrations",
+    },
   },
 
   production: {
@@ -63,17 +63,16 @@ const config: { [key: string]: Knex.Config } = {
     connection: {
       database: process.env.DB_NAME,
       user: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD
+      password: process.env.DB_PASSWORD,
     },
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
-      tableName: "knex_migrations"
-    }
-  }
-
+      tableName: "knex_migrations",
+    },
+  },
 };
 
 module.exports = config;
