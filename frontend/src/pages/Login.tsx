@@ -1,46 +1,47 @@
-import React from 'react'
-import { IonButton, IonIcon, IonImg, IonPage } from '@ionic/react'
+import React, { useState } from 'react'
+import { IonIcon, IonImg, IonPage } from '@ionic/react'
 import logo from '../img/StartieLogo.png'
-import './css/Login.css'
 import { eyeOffOutline, eyeOutline, lockClosedOutline, mailOutline } from 'ionicons/icons'
-
+import { useForm } from "react-hook-form";
+import './css/Login.css'
 
 const Login: React.FC = () => {
 
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState({
-    password: "",
-    showPassword: false,
-  });
+  const { register, handleSubmit } = useForm();
+  const [passwordShown, setPasswordShown] = useState(false);
 
   return (
     <IonPage>
       <div className='background' >
         <IonImg src={logo} className="logo" />
         <h1>Hey, Welcome Back!</h1>
-        <form onSubmit={(e) => e.preventDefault()}>
-        <div className='email'>
-          <IonIcon icon={mailOutline} />
-          <input type="email" placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)} />
-        </div>
-        <div className='password'>
-          <IonIcon icon={lockClosedOutline} />
-          <input
-            type={password.showPassword ? "text" : "password"}
-            onChange={(e) => setPassword({ ...password, password: e.target.value })}
-            placeholder="Password"
-            value={password.password}
-          />
-          <IonIcon
-            icon={password.showPassword ? eyeOutline : eyeOffOutline}
-            onClick={() => setPassword({ ...password, showPassword: !password.showPassword })}
-          /><br />
-        </div>
+        <form onSubmit={
+          handleSubmit(data => {
+            console.log(data);
+          })}>
+          <div className='email'>
+            <IonIcon icon={mailOutline} />
+            <input
+              {...register('email')}
+              type="email"
+              placeholder='Email'
+            />
+          </div>
+          <div className='password'>
+            <IonIcon icon={lockClosedOutline} />
+            <input
+              {...register('password')}
+              placeholder='Password'
+              type={passwordShown ? "text" : "password"}
+            />
+            <IonIcon
+              icon={passwordShown ? eyeOutline : eyeOffOutline}
+              onClick={() => setPasswordShown(passwordShown ? false : true)}
+            /><br />
+          </div>
           <button type="submit">Continue</button>
-          </form>
-          <a href='#'>Forgot Password?</a>
+        </form>
+        <a href='#'>Forgot Password?</a>
         <div className='signup'>
           <p>New to Startie?<a href='#'>Sign Up</a></p>
         </div>
