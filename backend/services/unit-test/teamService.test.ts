@@ -1,6 +1,7 @@
 import Knex from "knex";
 import { TeamService } from "../teamService";
 import dotenv from "dotenv";
+import { Team } from "../../utils/model";
 
 dotenv.config();
 const knexfile = require("../../knexfile");
@@ -20,27 +21,45 @@ describe("TeamService CRUD", () => {
       });
   });
 
+  afterAll(async () => {
+    await knex.destroy();
+  });
+
   it("function getAllTeams test", async () => {
-    const teams = await teamService.getAllTeams();
-    expect(teams.length).toBeGreaterThan(0);
+    const getAllTeams = await teamService.getAllTeams();
+    expect(getAllTeams.length).toBeGreaterThan(0);
   });
 
   it("function createTeam test", async () => {
-    const team = await teamService.createTeam("test", "test", "test");
-    expect(team[0].name).toBe("test");
-    expect(team[0].description).toBe("test");
-    expect(team[0].profilepic).toBe("test");
+    const createTeam = await teamService.createTeam("test", "test", "test");
+    expect(createTeam[0].name).toBe("test");
+    expect(createTeam[0].description).toBe("test");
+    expect(createTeam[0].profilepic).toBe("test");
   });
 
   it("function getTeam test", async () => {
-    const team = await teamService.getTeam("test");
-    expect(team[0].name).toBe("test");
+    const getTeam = await teamService.getTeam("test");
+    expect(getTeam[0].name).toBe("test");
   });
 
   it("function updateTeam test", async () => {
-    const team = await teamService.updateTeam(5, "test2", "test2", "test2");
-    expect(team![0].name).toBe("test2");
-    expect(team![0].description).toBe("test2");
-    expect(team![0].profilepic).toBe("test2");
+    const updateTeam = await teamService.updateTeam(
+      5,
+      undefined,
+      "test2",
+      "test2"
+    );
+    expect(updateTeam![0].name).toBe("test");
+    expect(updateTeam![0].description).toBe("test2");
+    expect(updateTeam![0].profilepic).toBe("test2");
+  });
+
+  it("function deleteTeam test", async () => {
+    await teamService.deleteTeam(5);
+    const deleteTeam = await knex<Team>("team")
+      .select("id", "name")
+      .where("id", 5)
+      .returning("*");
+    expect(deleteTeam.length).toBe(0);
   });
 });

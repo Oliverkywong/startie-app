@@ -16,5 +16,12 @@
     "noUnusedLocals": true,
     "outDir": "build"
   },
-  "exclude": ["node_modules", "build", "scripts", "index.js", "public/**/*", "build/**/*"]
+  "exclude": [
+    "node_modules",
+    "build",
+    "scripts",
+    "index.js",
+    "public/**/*",
+    "build/**/*"
+  ]
 }
