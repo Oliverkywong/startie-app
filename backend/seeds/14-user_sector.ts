@@ -20,7 +20,7 @@ export async function seed(knex: Knex): Promise<void> {
         },
         {
             user_id: 1,
-            sector_id: 1,
+            sector_id: 3,
             point: 1
         },
         {

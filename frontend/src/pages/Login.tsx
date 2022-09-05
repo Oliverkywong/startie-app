@@ -10,6 +10,10 @@ const Login: React.FC = () => {
   const { register, handleSubmit } = useForm();
   const [passwordShown, setPasswordShown] = useState(false);
 
+
+			// 放userRecord入redux
+
+      
   return (
     <IonPage>
       <div className='background' >
