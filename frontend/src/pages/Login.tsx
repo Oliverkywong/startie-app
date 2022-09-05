@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { IonIcon, IonImg, IonPage } from '@ionic/react'
 import logo from '../img/StartieLogo.png'
-import { eyeOffOutline, eyeOutline, lockClosedOutline, mailOutline } from 'ionicons/icons'
+import { eyeOffOutline, eyeOutline, lockClosedOutline, mailOutline, personOutline } from 'ionicons/icons'
 import { useForm } from "react-hook-form";
 import './css/Login.css'
 
@@ -16,15 +16,26 @@ const Login: React.FC = () => {
         <IonImg src={logo} className="logo" />
         <h1>Hey, Welcome Back!</h1>
         <form onSubmit={
-          handleSubmit(data => {
-            console.log(data);
+          handleSubmit(async data => {
+            const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/login`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              credentials: 'include',
+              body: JSON.stringify(data)
+            })
+
+            if(res.status === 200) {
+              window.location.replace('/homepage') 
+            }
           })}>
-          <div className='email'>
-            <IonIcon icon={mailOutline} />
+          <div className='username'>
+            <IonIcon icon={personOutline} />
             <input
-              {...register('email')}
-              type="email"
-              placeholder='Email'
+              {...register('username')}
+              type="text"
+              placeholder='User Name'
             />
           </div>
           <div className='password'>
