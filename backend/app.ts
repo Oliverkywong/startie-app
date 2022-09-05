@@ -11,7 +11,7 @@ import { UserService } from './services/userService'
 import { UserController } from './controllers/userController'
 import { userRoutes } from './routes/userRoute'
 import Knex from "knex"
-import { isLogin } from './utils/middleware'
+// import { isLogin } from './utils/middleware'
 
 
 // -------------------------------------------------------------------------------------------------------------------
@@ -47,6 +47,7 @@ const grantExpress = grant.express({
 
 
 app.use(grantExpress as express.RequestHandler)
+
 // -------------------------------------------------------------------------------------------------------------------
 // others
 // -------------------------------------------------------------------------------------------------------------------
@@ -65,7 +66,6 @@ app.use(express.static('public'))//get files from private
 const userService = new UserService(knex)
 
 const userController = new UserController(userService)
-app.use(isLogin, express.static('private'))	
 
 app.use('/serverDefaultedImages', express.static('images'))
 app.use('/userUploadedFiles', express.static('uploads'))

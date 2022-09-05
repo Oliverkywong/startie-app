@@ -56,7 +56,7 @@ export class UserService {
 		password: string,
 		email: string,
 		statusId: number
-	) {
+	) { try {
 		{
 			const userEmailRecord = await this.knex<User>('user')
 				.select('*')
@@ -87,7 +87,9 @@ export class UserService {
 			status_id: statusId
 		})
 
-		return true
+		return true}
+	catch (err) {
+		throw err
 	}
 
 	// -------------------------------------------------------------------------------------------------------------------
@@ -150,6 +152,7 @@ export class UserService {
 // -------------------------------------------------------------------------------------------------------------------
 
 	async login(username: string, password: string) {
+		try
 		{
 			let result = this.knex<User>('user')
 				.select('*')
@@ -161,37 +164,42 @@ export class UserService {
 				throw new UserNotExistError()
 			}
 
-			if (
-				!(
+			if 
+				(!(
 					username === userRecord[0].username &&
 					(await checkPassword(password, userRecord[0].password))
-				)
-			) {
+				))
+			{
 				throw new UserPasswordMissMatchError()
 			}
 			if (userRecord[0].status_id != 1) {
 				throw new UserStatusError()
 			}
 			return userRecord
+		} catch (err) {
+			throw err
 		}
 	}
 // -------------------------------------------------------------------------------------------------------------------
 // get User Info by ID ✅
 // -------------------------------------------------------------------------------------------------------------------
 	async userInfo(userId: number) {
+		try
 		{
 			const userRecord = await this.knex<User>('user')
 				.select('*')
 				.where('id', userId)
 
 			return userRecord
+		} catch (err) {
+			throw err
 		}
 	}
 // -------------------------------------------------------------------------------------------------------------------
 // edit User Info
 // -------------------------------------------------------------------------------------------------------------------
     async editUser(userId: number, newProfilepic:string, newPhoneNumber:string, newDescription:string) {
-		// check username uniqueness
+		try
 		{
 			const userRecord = await this.knex<User>('user')
 				.update({profilepic: newProfilepic, phonenumber: newPhoneNumber, description: newDescription})
@@ -199,5 +207,8 @@ export class UserService {
 
 			return userRecord
 		}
+	catch (err) {
+		throw err
 	}
+}
 }
