@@ -18,6 +18,12 @@ export async function seed(knex: Knex): Promise<void> {
     { name: "Backend Development" ,
       sector_id: 1    
     },
+    { name: "UI design" ,
+      sector_id: 1    
+    },
+    { name: "AI Development" ,
+      sector_id: 1    
+    },
     { name: "Communication" ,
       sector_id: 2  
     },
@@ -26,6 +32,12 @@ export async function seed(knex: Knex): Promise<void> {
     },
     { name: "Management" ,
       sector_id: 2   
+    },
+    { name: "Marketing" ,
+      sector_id: 2    
+    },
+    { name: "Time Management" ,
+      sector_id: 2    
     },
     { name: "Time Management" ,
       sector_id: 3    
@@ -36,6 +48,12 @@ export async function seed(knex: Knex): Promise<void> {
     { name: "Teamwork" ,
       sector_id: 3    
     },
+    { name: "Graphic Design" ,
+      sector_id: 3    
+    },
+    { name: "Visual Design" ,
+      sector_id: 3    
+    }
     ])
         .into("skill")
 

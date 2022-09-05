@@ -49,7 +49,7 @@ export class UserController {
 				email,
 				statusId
 			)
-			return res.json({ result: true, msg: 'register success' })
+			return res.status(200).json({ result: true, msg: 'register success' })
 
 		} catch (err) {
 			if (err instanceof UserDuplicateUsernameError) {
@@ -92,8 +92,7 @@ export class UserController {
 			return res.json({
 				result: true,
 				msg: 'login success',
-				user: user[0],
-				token: token
+				user: user[0]
 			})
 
 		} catch (err) {
