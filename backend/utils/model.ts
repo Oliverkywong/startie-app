@@ -17,6 +17,12 @@ export interface Team {
   profilepic?: string;
 }
 
+export interface Job {
+  id: number;
+  name: string;
+  description: string;
+}
+
 export interface UserId_Username {
   userId: number;
   username: string;
