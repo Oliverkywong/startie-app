@@ -5,11 +5,7 @@ export class TeamService {
   constructor(private knex: Knex) {}
 
   async getAllTeams() {
-    return await this.knex<Team>("team").select("id", "name");
-  }
-
-  async getTeam(teamname: string) {
-    return await this.knex<Team>("team").select("id", teamname);
+    return await this.knex<Team>("team").select("id", "name").returning("*");
   }
 
   async createTeam(
@@ -24,20 +20,31 @@ export class TeamService {
         profilepic: profilepic,
       })
       .into("team")
-      .returning("id");
+      .returning("*");
+  }
+
+  async getTeam(teamname: string) {
+    return await this.knex<Team>("team")
+      .select("id", "name")
+      .where("name", teamname)
+      .returning("*");
   }
 
   async updateTeam(
+    id: number,
     teamname?: string,
     description?: string,
     profilepic?: string
   ) {
     if (teamname !== null || description !== null || profilepic !== null) {
-      return await this.knex<Team>("team").update({
-        name: teamname,
-        description: description,
-        profilepic: profilepic,
-      });
+      return await this.knex<Team>("team")
+        .update({
+          name: teamname,
+          description: description,
+          profilepic: profilepic,
+        })
+        .where("id", id)
+        .returning("*");
     } else {
       return;
     }
