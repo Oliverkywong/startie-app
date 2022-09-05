@@ -1,5 +1,6 @@
 import express from 'express'
-import { logger } from '../logger'
+import { form } from '../utils/middleware'
+import { logger } from '../utils/logger'
 import {
 	UserDuplicateEmailError,
 	UserDuplicateUsernameError,
@@ -9,47 +10,46 @@ import {
 	UserService,
 	UserStatusError
 } from '../services/userService'
-import { InvoiceService } from '../services/invoiceService'
 
 export class UserController {
 	constructor(
-		private userService: UserService,
-		private invoiceService: InvoiceService
+		private userService: UserService
 	) {}
+// -------------------------------------------------------------------------------------------------------------------
+// Google Login
+// -------------------------------------------------------------------------------------------------------------------
 
-	loginGoogle = async (req: express.Request, res: express.Response) => {
-		const accessToken = req.session?.['grant'].response.access_token
-		const [user, username] = await this.userService.loginGoogle(accessToken)
+	// loginGoogle = async (req: express.Request, res: express.Response) => {
+	// 	const accessToken = req.session?.['grant'].response.access_token
+	// 	const [user, username] = await this.userService.loginGoogle(accessToken)
 
-		if (req.session) {
-			req.session['isLogin'] = true
-			req.session['user'] = user
-			res.json({ result: true, msg: 'google login success' })
-			logger.info(`${username} logged in`)
-			return
-		}
-		return res.json({ result: false, msg: 'google login error' })
-	}
-
+	// 	if (req.session) {
+	// 		req.session['isLogin'] = true
+	// 		req.session['user'] = user
+	// 		res.json({ result: true, msg: 'google login success' })
+	// 		logger.info(`${username} logged in`)
+	// 		return
+	// 	}
+	// 	return res.json({ result: false, msg: 'google login error' })
+	// }
+// -------------------------------------------------------------------------------------------------------------------
+// Register ✅
+// -------------------------------------------------------------------------------------------------------------------
 	register = async (req: express.Request, res: express.Response) => {
 		try {
 			let username = req.body.username.trim()
 			let password = req.body.password.trim()
 			let email = req.body.email.trim()
-			let nickname = req.body.nickname.trim()
-
-			let role_id = 2
-			let status_id = 1
+			const statusId = 1
 
 			await this.userService.register(
 				username,
 				password,
 				email,
-				nickname,
-				role_id,
-				status_id
+				statusId
 			)
 			return res.json({ result: true, msg: 'register success' })
+
 		} catch (err) {
 			if (err instanceof UserDuplicateUsernameError) {
 				return res
@@ -70,38 +70,27 @@ export class UserController {
 			}
 
 			logger.error(err)
-			res.status(500).json({ result: false, msg: 'register error' })
-
-			return //ask tutor about this
+			return res.status(500).json({ result: false, msg: 'register error' })			
 		}
 	}
-
+// -------------------------------------------------------------------------------------------------------------------
+// LOGIN ✅
+// -------------------------------------------------------------------------------------------------------------------
 	login = async (req: express.Request, res: express.Response) => {
 		try {
 			let username = req.body.username.trim()
 			let password = req.body.password.trim()
 			let user = await this.userService.login(username, password)
-			req.session['user'] = user[0].id
-			req.session['isLogin'] = true
 
-			let invoice = await this.invoiceService.getInvoiceDetailByUserId(
-				user[0].id
-			) //test after create invoice is done
-			
-			//also check if the user has invoice
-			if (invoice != null) {
-				req.session['Invoice'] = invoice[0]
-			}
+			// 放userRecord入redux
 
-			res.json({
+			logger.info(`${username} logged in`)
+			return res.json({
 				result: true,
 				msg: 'login success',
-				user: user[0],
-				invoice: invoice[0] != null ? invoice[0] : null,
-				// isAdmin: user[0].role_id === 1
+				user: user[0]
 			})
-			logger.info(`${username} logged in`)
-			return
+
 		} catch (err) {
 			if (err instanceof UserNotExistError) {
 				return res
@@ -122,20 +111,90 @@ export class UserController {
 			}
 
 			logger.error(err)
-			res.status(500).json({ result: false, msg: 'login error' })
-			return //ask tutor about this
+			return res.status(500).json({ result: false, msg: 'login error' })
 		}
 	}
-
-	logout = async (req: express.Request, res: express.Response) => {
+// -------------------------------------------------------------------------------------------------------------------
+// get User Info
+// -------------------------------------------------------------------------------------------------------------------
+	userInfo = async (req: express.Request, res: express.Response) => {
 		try {
-			req.session['isLogin'] = false
-			res.json({ result: true, msg: 'logout success' })
-			logger.info(`${req.session['user'].username} logged out`)
+			const userId =  req.body.user_id   // get userId from redux
+			const userInfo = await this.userService.userInfo(userId)
+			return res.json({
+				result: true,
+				msg: 'Get user profile success',
+				userInfo: userInfo
+				
+			})
 		} catch (err) {
 			logger.error(err)
-			res.status(500).json({ result: false, msg: 'logout Error' })
-			return
+			return res.json({ result: false, msg: 'Get user profile fail' })
 		}
 	}
+// -------------------------------------------------------------------------------------------------------------------
+// edit User Info
+// -------------------------------------------------------------------------------------------------------------------
+
+	editUser = async (req: express.Request, res: express.Response) => {
+		form.parse(req, async (err, fields, files) => {
+			try {
+				const userId = req.body.user_id  // get userId from redux
+				
+				const userInfos = await this.userService.userInfo(userId)
+				let oldProfilepic = userInfos[0].profilepic
+				let oldPhoneNumber = userInfos[0].phonenumber
+				let oldDescription = userInfos[0].description
+				console.log(userInfos);
+				
+
+				const newProfilepic =
+					files.profilepic != null && !Array.isArray(files.profilepic)
+						? files.profilepic.newFilename
+						: oldProfilepic
+						
+				const newPhoneNumber =
+						fields.phonenumber != null && !Array.isArray(fields.phonenumber)
+							? fields.phonenumber
+							: oldPhoneNumber
+
+				const newDescription =
+							fields.description != null && !Array.isArray(fields.description)
+								? fields.description
+								: oldDescription
+
+				const userInfo = await this.userService.editUser(
+					userId,
+					newProfilepic,
+					newPhoneNumber,
+					newDescription
+				)
+				return res.json({
+					result: true,
+					msg: 'Edit user profile success',
+					userInfo
+				})
+			} catch (err) {
+				logger.error(err)
+				return res.json({
+					result: false,
+					msg: 'Edit user profile fail'
+				})
+			}
+		})
+	}
+// -------------------------------------------------------------------------------------------------------------------
+// Log out
+// -------------------------------------------------------------------------------------------------------------------
+// 	logout = async (req: express.Request, res: express.Response) => {
+// 		try {
+// 			req.session['isLogin'] = false
+// 			res.json({ result: true, msg: 'logout success' })
+// 			logger.info(`${req.session['user'].username} logged out`)
+// 		} 
+// 		catch (err) {
+// 			logger.error(err)
+// 			return res.status(500).json({ result: false, msg: 'logout Error' })
+// 		}
+// 	}
 }

@@ -5,13 +5,11 @@ export async function up(knex: Knex): Promise<void> {
         await knex.schema.createTable("message", (table) => {
             table.increments();
             table.text("message");
-            table.integer("status_id").unsigned().notNullable();
-            table.foreign("status_id").references("status.id");
-            table.boolean("isread");
             table.integer("receiver_id").unsigned();
             table.foreign("receiver_id").references("user.id");
             table.integer("sender_id").unsigned().notNullable();
             table.foreign("sender_id").references("user.id");
+            table.boolean("isread");
             table.integer("team_id").unsigned();
             table.foreign("team_id").references("team.id");
             table.integer("room_id").unsigned().notNullable();

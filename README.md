@@ -63,4 +63,3 @@ required / tools we need
 - @ionic/react@latest @ionic/react-router@latest
 - @reduxjs/toolkit react-redux
 
-Hi Oliver
