@@ -47,51 +47,52 @@ export class UserStatusError extends Error {
 export class UserService {
 	constructor(private knex: Knex) {}
 
-// -------------------------------------------------------------------------------------------------------------------
-// Register ✅
-// -------------------------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------------------------
+	// Register ✅
+	// -------------------------------------------------------------------------------------------------------------------
 
 	async register(
 		username: string,
 		password: string,
 		email: string,
 		statusId: number
-	) { try {
-		{
-			const userEmailRecord = await this.knex<User>('user')
-				.select('*')
-				.where('email', email)
+	) {
+		try {
+			{
+				const userEmailRecord = await this.knex<User>('user')
+					.select('*')
+					.where('email', email)
 
-			const userRecord = await this.knex<User>('user')
-				.select('*')
-				.where('username', username)
+				const userRecord = await this.knex<User>('user')
+					.select('*')
+					.where('username', username)
 
-			if (userRecord.length > 0) {
-				throw new UserDuplicateUsernameError()
+				if (userRecord.length > 0) {
+					throw new UserDuplicateUsernameError()
+				}
+
+				if (userEmailRecord.length > 0) {
+					throw new UserDuplicateEmailError()
+				}
+
+				if (!username || !password || !email) {
+					throw new UserMissingRegisterInfoError()
+				}
 			}
 
-			if (userEmailRecord.length > 0) {
-				throw new UserDuplicateEmailError()
-			}
+			// insert user
+			await this.knex<User>('user').insert({
+				username: username,
+				password: await hashPassword(password),
+				email: email,
+				status_id: statusId
+			})
 
-			if (!username || !password || !email) {
-				throw new UserMissingRegisterInfoError()
-			}
+			return true
+		} catch (err) {
+			throw err
 		}
-
-		// insert user
-		await this.knex<User>('user').insert({
-			username: username,
-			password: await hashPassword(password),
-			email: email,
-			status_id: statusId
-		})
-
-		return true}
-	catch (err) {
-		throw err
 	}
-}
 
 	// -------------------------------------------------------------------------------------------------------------------
 	// Login Google
@@ -148,13 +149,12 @@ export class UserService {
 	// 		return userRecord
 	// 	}
 	// }
-// -------------------------------------------------------------------------------------------------------------------
-// Login ✅
-// -------------------------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------------------------
+	// Login ✅
+	// -------------------------------------------------------------------------------------------------------------------
 
 	async login(username: string, password: string) {
-		try
-		{
+		try {
 			let result = this.knex<User>('user')
 				.select('*')
 				.where('username', username)
@@ -165,12 +165,12 @@ export class UserService {
 				throw new UserNotExistError()
 			}
 
-			if 
-				(!(
+			if (
+				!(
 					username === userRecord[0].username &&
 					(await checkPassword(password, userRecord[0].password))
-				))
-			{
+				)
+			) {
 				throw new UserPasswordMissMatchError()
 			}
 			if (userRecord[0].status_id != 1) {
@@ -181,12 +181,11 @@ export class UserService {
 			throw err
 		}
 	}
-// -------------------------------------------------------------------------------------------------------------------
-// get User Info by ID ✅
-// -------------------------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------------------------
+	// get User Info by ID ✅
+	// -------------------------------------------------------------------------------------------------------------------
 	async userInfo(userId: number) {
-		try
-		{
+		try {
 			const userRecord = await this.knex<User>('user')
 				.select('*')
 				.where('id', userId)
@@ -196,20 +195,28 @@ export class UserService {
 			throw err
 		}
 	}
-// -------------------------------------------------------------------------------------------------------------------
-// edit User Info
-// -------------------------------------------------------------------------------------------------------------------
-    async editUser(userId: number, newProfilepic:string, newPhoneNumber:string, newDescription:string) {
-		try
-		{
+	// -------------------------------------------------------------------------------------------------------------------
+	// edit User Info
+	// -------------------------------------------------------------------------------------------------------------------
+	async editUser(
+		userId: number,
+		newProfilepic: string,
+		newPhoneNumber: string,
+		newDescription: string
+	) {
+		try {
 			const userRecord = await this.knex<User>('user')
-				.update({profilepic: newProfilepic, phonenumber: newPhoneNumber, description: newDescription})
-				.where('id', userId).returning('*')
+				.update({
+					profilepic: newProfilepic,
+					phonenumber: newPhoneNumber,
+					description: newDescription
+				})
+				.where('id', userId)
+				.returning('*')
 
 			return userRecord
+		} catch (err) {
+			throw err
 		}
-	catch (err) {
-		throw err
 	}
-}
 }

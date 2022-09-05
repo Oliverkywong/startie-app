@@ -49,7 +49,7 @@ export class UserController {
 				email,
 				statusId
 			)
-			return res.json({ result: true, msg: 'register success' })
+			return res.status(200).json({ result: true, msg: 'register success' })
 
 		} catch (err) {
 			if (err instanceof UserDuplicateUsernameError) {
@@ -125,7 +125,8 @@ export class UserController {
 // -------------------------------------------------------------------------------------------------------------------
 	userInfo = async (req: express.Request, res: express.Response) => {
 		try {
-			const userId =  req.body.user_id   // get userId from redux
+
+			const userId =  req.user!.userId   // get userId from JWT
 			const userInfo = await this.userService.userInfo(userId)
 			return res.json({
 				result: true,
@@ -145,7 +146,7 @@ export class UserController {
 	editUser = async (req: express.Request, res: express.Response) => {
 		form.parse(req, async (err, fields, files) => {
 			try {
-				const userId = req.body.user_id  // get userId from redux
+				const userId = req.user!.userId  // get userId from JWT
 				
 				const userInfos = await this.userService.userInfo(userId)
 				let oldProfilepic = userInfos[0].profilepic

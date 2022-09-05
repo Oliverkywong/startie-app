@@ -28,6 +28,10 @@ export const isLogin = (
 		const payload = jwtSimple.decode(token, 'key') //decode the token, change to jose later
 
 		if (payload['userId']) {
+			req.user = {
+				userId: payload['userId'],
+				username: payload['username']
+			};			
 			next()
 		} else {
 			res.status(401).json({ result: 'Unauthorized' })
