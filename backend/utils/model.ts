@@ -16,3 +16,9 @@ export interface Team {
   description?: string;
   profilepic?: string;
 }
+
+export interface Job {
+  id: number;
+  name: string;
+  description: string;
+}
