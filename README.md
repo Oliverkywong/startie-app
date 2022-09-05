@@ -11,7 +11,7 @@ todolist
 - [ ] Register
 
   - [x] team register
-  - [ ] user register
+  - [x] user register
   - [ ] jobs register
 
 - [ ] Info
