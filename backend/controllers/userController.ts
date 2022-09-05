@@ -10,6 +10,7 @@ import {
 	UserService,
 	UserStatusError
 } from '../services/userService'
+import jwtSimple from "jwt-simple";
 
 export class UserController {
 	constructor(
@@ -48,7 +49,7 @@ export class UserController {
 				email,
 				statusId
 			)
-			return res.json({ result: true, msg: 'register success' })
+			return res.status(200).json({ result: true, msg: 'register success' })
 
 		} catch (err) {
 			if (err instanceof UserDuplicateUsernameError) {
@@ -88,7 +89,8 @@ export class UserController {
 			return res.json({
 				result: true,
 				msg: 'login success',
-				user: user[0]
+				user: user[0],
+				token: jwtSimple.encode({email:user[0].email}, '1234')
 			})
 
 		} catch (err) {
