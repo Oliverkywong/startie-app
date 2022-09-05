@@ -8,7 +8,7 @@ import PasswordComplexity from './PasswordComplexity';
 
 const SignUp: React.FC = () => {
 
-    const { register, handleSubmit, getValues, watch } = useForm();
+    const { register, handleSubmit, watch } = useForm();
     const [passwordShown, setPasswordShown] = useState(false);
     const [checkbox, setCheckbox] = useState(false)
 
@@ -27,7 +27,7 @@ const SignUp: React.FC = () => {
                         <input
                             {...register('username')}
                             type="text"
-                            placeholder="Username"
+                            placeholder="User Name"
                         />
                     </div>
                     <div className='email'>
