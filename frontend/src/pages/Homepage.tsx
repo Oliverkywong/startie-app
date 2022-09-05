@@ -1,6 +1,6 @@
 // Import Swiper React components
 import React from 'react';
-import { IonContent, IonImg, IonPage, IonLabel, IonButton, IonCard, IonCardContent, IonIcon, IonItem, IonButtons, IonSearchbar, IonToolbar } from "@ionic/react";
+import { IonContent, IonImg, IonPage, IonLabel, IonButton, IonCard, IonCardContent, IonIcon, IonItem, IonButtons, IonSearchbar, IonToolbar, IonRouterOutlet } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import com1 from '../img/com1.png'
@@ -21,6 +21,9 @@ import "swiper/css";
 
 import 'swiper/css/autoplay';
 import { notificationsOutline } from 'ionicons/icons';
+import { Route } from 'react-router';
+import Profile from './Profile';
+import { IonReactRouter } from '@ionic/react-router';
 
 const catergorys = {
   cat1: { src: cat1, title: 'NFT比賽' },
@@ -42,8 +45,8 @@ const Homepage: React.FC = () => {
             </IonButton>
           </IonButtons>
           <IonButtons slot="start">
-            <IonButton onClick={() => { }}>
-            <IonImg className='icon' src={icon} />
+            <IonButton href="/tab5">
+              <IonImg className='icon' src={icon} />
             </IonButton>
           </IonButtons>
           <IonSearchbar placeholder="Search" />

@@ -18,9 +18,9 @@ const permit = new Bearer({
 // check if the user is login or not
 // -------------------------------------------------------------------------------------------------------------------
 export const isLogin = (
-	req: express.Request,
-	res: express.Response,
-	next: express.NextFunction
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
 ) => {
 	try {
 		const token = permit.check(req)
@@ -51,10 +51,9 @@ export const isLogin = (
 // check if the user is Board of the team
 // -------------------------------------------------------------------------------------------------------------------
 export const isBoard = (
-	//   roleId: number,
-	req: express.Request,
-	res: express.Response,
-	next: express.NextFunction
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
 ) => {
 	if (true) {
 		next()
@@ -73,10 +72,10 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 export const form = formidable({
-	uploadDir: uploadDir,
-	keepExtensions: true,
-	multiples: true,
-	maxFiles: 1,
-	maxFileSize: 20 * 1024 * 1024 ** 2, // 20MB
-	filter: (part) => part.mimetype?.startsWith('image/') || false
-})
+  uploadDir: uploadDir,
+  keepExtensions: true,
+  multiples: true,
+  maxFiles: 1,
+  maxFileSize: 20 * 1024 * 1024 ** 2, // 20MB
+  filter: (part) => part.mimetype?.startsWith("image/") || false,
+});
