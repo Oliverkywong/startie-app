@@ -13,6 +13,10 @@ const Login: React.FC = () => {
     showPassword: false,
   });
 
+
+			// 放userRecord入redux
+
+      
   return (
     <IonPage>
       <div className='background' >
