@@ -9,17 +9,17 @@ import fs from "fs";
 // check if the user is login or not
 // -------------------------------------------------------------------------------------------------------------------
 // export const isLogin = (
-// 	req: express.Request,
-// 	res: express.Response,
-// 	next: express.NextFunction
+//   req: express.Request,
+//   res: express.Response,
+//   next: express.NextFunction
 // ) => {
-// 	if (req.session['isLogin'] = true) {
-// 		next()
-// 	} else {
-// 		res.redirect('/')
-// 		// next()
-// 	}
-// }
+//   if ((req.session["isLogin"] = true)) {
+//     next();
+//   } else {
+//     res.redirect("/");
+//     // next()
+//   }
+// };
 
 // -------------------------------------------------------------------------------------------------------------------
 // check if the user is Admin
@@ -35,7 +35,6 @@ import fs from "fs";
 // check if the user is Board of the team
 // -------------------------------------------------------------------------------------------------------------------
 export const isBoard = (
-  //   roleId: number,
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
