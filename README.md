@@ -4,6 +4,7 @@ todolist
 
 - [ ] Login
 
+  - [x] basic login
   - [ ] linkin login
   - [ ] google login
   - [ ] apple login
