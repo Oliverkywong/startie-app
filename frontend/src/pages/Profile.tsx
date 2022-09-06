@@ -10,8 +10,11 @@ import UserStats from './UserStats';
 import UserTeams from './UserTeams';
 import UserFollows from './UserFollows';
 import UserSettings from './UserSettings';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
 
 const Profile: React.FC = () => {
+    const userdetails = useSelector((state: RootState) => state.auth.info);
 
     const [info, setInfo] = React.useState(true);
     const [stat, setStat] = React.useState(false);
@@ -26,7 +29,7 @@ const Profile: React.FC = () => {
             <div className="profile">
                 <IonImg className='profilepic' src={icon} />
                 <IonIcon className='proedit' icon={pencil} />
-                <IonLabel className="uresname">Tony Stark</IonLabel>
+                <IonLabel className="uresname">{userdetails?.username}</IonLabel>
 
                 <div className="profilebar">
                     <div onClick={() => { setInfo(true); setStat(false); setFollow(false); setTeam(false); setSetting(false) }}>

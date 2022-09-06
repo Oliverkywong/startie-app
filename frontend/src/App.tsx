@@ -6,7 +6,8 @@ import {
   IonTabBar,
   IonTabButton,
   IonTabs,
-  setupIonicReact
+  setupIonicReact,
+  useIonRouter
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { addCircleOutline, chatbubbleEllipsesOutline, homeOutline, personOutline, planetOutline } from 'ionicons/icons';
@@ -36,16 +37,14 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Profile from './pages/Profile';
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from './store';
 import { Redirect, Route } from 'react-router';
 import UserSettings from './pages/UserSettings';
 
 setupIonicReact();
 
 const App: React.FC = () => {
-  const info = useSelector((state: RootState) => state.auth.info);
-  // const dispatch = useDispatch();
+
+  const router = useIonRouter();
 
   const [userInfo, setUserInfo] = useState({
     id: 0,
@@ -60,43 +59,50 @@ const App: React.FC = () => {
       })
       const userRecord = await res.json()
       setUserInfo(userRecord)
+      console.log(userRecord)
+      if (!userRecord.result) {
+        router.push("/tab2", "forward", "push");
+      }
     }
     userInfo();
   }, [])
+
 
   return (
     <IonApp>
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
-            <Route  path="/">
+            <Route path="/">
               <Homepage />
             </Route>
-            <Route  path="/tab1">
+            <Route path="/home">
               <Homepage />
             </Route>
-            <Route  path="/tab2">
+            <Route path="/tab2">
               <Login />
             </Route>
-            <Route  path="/tab3">
+            <Route path="/tab3">
               <Tab3 />
             </Route>
-            <Route  path="/tab4">
+            <Route path="/tab4">
               <SignUp />
             </Route>
-            <Route  path="/tab5">
+            <Route path="/tab5">
               <Profile />
             </Route>
-            <Route  path="/tab6">
+            <Route path="/tab6">
               <UserSettings />
             </Route>
-            <Route  path="/homepage">
-              {/* <Homepage /> */}
-              <Redirect to="/homepage" />
-            </Route>
+            {/* <Route  path="/login">
+              <Login />
+            </Route> */}
+            {/* <Route path="/home">
+              <Redirect to="/home" />
+            </Route> */}
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
-            <IonTabButton tab="tab1" href="/tab1">
+            <IonTabButton tab="home" href="/home">
               <IonIcon icon={homeOutline} />
               <IonLabel>Home</IonLabel>
             </IonTabButton>
