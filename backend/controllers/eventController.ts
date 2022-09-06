@@ -5,7 +5,13 @@ export class EventController {
   constructor(private eventService: EventService) {}
 
   createEvent = async (req: Request, res: Response) => {
-    const event = await this.eventService.createEvent(req.body);
+    const fetchData = req.body;
+    const event = await this.eventService.createEvent(
+      fetchData.name,
+      fetchData.description,
+      fetchData.profilepic,
+      fetchData.starttime
+    );
     res.json({ event });
   };
 
@@ -20,9 +26,13 @@ export class EventController {
   };
 
   updateEvent = async (req: Request, res: Response) => {
+    const fetchData = req.body;
     const event = await this.eventService.updateEvent(
       parseInt(req.params.id),
-      req.body
+      fetchData.name,
+      fetchData.description,
+      fetchData.profilepic,
+      fetchData.starttime
     );
     res.json({ event });
   };

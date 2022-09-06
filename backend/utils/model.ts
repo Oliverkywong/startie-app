@@ -21,7 +21,7 @@ export interface Team {
 export interface Job {
   id: number;
   name: string;
-  description: string;
+  description?: string;
   status_id: number;
   clickrate: number;
 }
@@ -29,16 +29,9 @@ export interface Job {
 export interface Event {
   id: number;
   name: string;
-  description: string;
+  description?: string;
   profilepic?: string;
-  // starttime(
-  //   year: number,
-  //   month: number,
-  //   date?: number,
-  //   hours?: number,
-  //   minutes?: number
-  // ): Date;
-  starttime?: string;
+  starttime: Date;
   status_id: number;
   clickrate: number;
 }

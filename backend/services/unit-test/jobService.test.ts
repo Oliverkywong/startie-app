@@ -8,6 +8,7 @@ const knex = Knex(knexfile["test"]);
 
 describe("JobService", () => {
   let jobService = new JobService(knex);
+
   beforeAll(async () => {
     return knex.migrate
       .rollback()

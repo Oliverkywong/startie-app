@@ -6,10 +6,9 @@ export class EventService {
 
   async createEvent(
     EventName: string,
-    description?: string,
-    profilepic?: string,
-    // starttime?: Date
-    starttime?: string
+    description: string,
+    profilepic: string,
+    starttime: Date
   ) {
     return await this.knex<Event>("event")
       .insert({
@@ -17,6 +16,7 @@ export class EventService {
         description: description,
         profilepic: profilepic,
         starttime: starttime,
+        status_id: 1,
       })
       .into("event")
       .returning("*");
@@ -37,10 +37,10 @@ export class EventService {
 
   async updateEvent(
     eventId: number,
-    eventName?: string,
-    description?: string,
-    profilepic?: string,
-    starttime?: string
+    eventName: string,
+    description: string,
+    profilepic: string,
+    starttime: Date
   ) {
     if (
       eventName !== null ||
