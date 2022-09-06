@@ -40,13 +40,14 @@ describe("JobService", () => {
   });
 
   it("function updateJob test", async () => {
-    const updateJob = await jobService.updateJob(5, "jobtest2", "jobtest2");
+    const updateJob = await jobService.updateJob(4, "jobtest2", "jobtest2");
     expect(updateJob![0].name).toBe("jobtest2");
     expect(updateJob![0].description).toBe("jobtest2");
   });
 
   it("function deleteJob test", async () => {
-    const deleteJob = await jobService.deleteJob(5);
-    expect(deleteJob).toBe(0);
+    await jobService.deleteJob(4);
+    const result = knex<Job>("job").select("*").where("id", 4).returning("*");
+    expect((await result).length).toBe(0);
   });
 });
