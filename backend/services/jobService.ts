@@ -6,7 +6,7 @@ export class JobService {
 
   async getAllJobs() {
     return await this.knex<Job>("job")
-      .select("name, description")
+      .select("id", "name", "description")
       .returning("*");
   }
 
