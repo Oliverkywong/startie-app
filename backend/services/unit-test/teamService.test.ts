@@ -10,6 +10,18 @@ const knex = Knex(knexfile["test"]);
 describe("TeamService CRUD", () => {
   let teamService = new TeamService(knex);
 
+  const teamInfo = {
+    name: "teamName",
+    description: "teamDescription",
+    profilepic: "teamProfilepic",
+  };
+
+  const newTeamInfo = {
+    name: "newTeamName",
+    description: "newTeamDescription",
+    profilepic: "newTeamProfilepic",
+  };
+
   beforeAll(async () => {
     return knex.migrate
       .rollback()
@@ -31,34 +43,35 @@ describe("TeamService CRUD", () => {
   });
 
   it("function createTeam test", async () => {
-    const createTeam = await teamService.createTeam("test", "test", "test");
-    expect(createTeam[0].name).toBe("test");
-    expect(createTeam[0].description).toBe("test");
-    expect(createTeam[0].profilepic).toBe("test");
-  });
-
-  it("function getTeam test", async () => {
-    const getTeam = await teamService.getTeam("test");
-    expect(getTeam[0].name).toBe("test");
-  });
-
-  it("function updateTeam test", async () => {
-    const updateTeam = await teamService.updateTeam(
-      5,
-      undefined,
-      "test2",
-      "test2"
+    const createTeam = await teamService.createTeam(
+      teamInfo.name,
+      teamInfo.description,
+      teamInfo.profilepic
     );
-    expect(updateTeam![0].name).toBe("test");
-    expect(updateTeam![0].description).toBe("test2");
-    expect(updateTeam![0].profilepic).toBe("test2");
+    expect(createTeam[0].name).toBe(teamInfo.name);
+    expect(createTeam[0].description).toBe(teamInfo.description);
+    expect(createTeam[0].profilepic).toBe(teamInfo.profilepic);
   });
 
-  it("function deleteTeam test", async () => {
-    await teamService.deleteTeam(5);
+  it("function getTeam, updateTeam and deleteTeam test", async () => {
+    const getTeam = await teamService.getTeam(teamInfo.name);
+    expect(getTeam.length).toBeGreaterThan(0);
+    expect(getTeam[0].name).toBe(teamInfo.name);
+
+    const updateTeam = await teamService.updateTeam(
+      getTeam[0].id,
+      newTeamInfo.name,
+      newTeamInfo.description,
+      newTeamInfo.profilepic
+    );
+    expect(updateTeam![0].name).toBe(newTeamInfo.name);
+    expect(updateTeam![0].description).toBe(newTeamInfo.description);
+    expect(updateTeam![0].profilepic).toBe(newTeamInfo.profilepic);
+
+    await teamService.deleteTeam(getTeam[0].id);
     const deleteTeam = await knex<Team>("team")
       .select("id", "name")
-      .where("id", 5)
+      .where("id", getTeam[0].id)
       .returning("*");
     expect(deleteTeam.length).toBe(0);
   });
