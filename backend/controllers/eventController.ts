@@ -4,13 +4,13 @@ import { Request, Response } from "express";
 export class EventController {
   constructor(private eventService: EventService) {}
 
-  getAllEvents = async (req: Request, res: Response) => {
-    const event = await this.eventService.getAllEvents();
+  createEvent = async (req: Request, res: Response) => {
+    const event = await this.eventService.createEvent(req.body);
     res.json({ event });
   };
 
-  createEvent = async (req: Request, res: Response) => {
-    const event = await this.eventService.createEvent(req.body);
+  getAllEvents = async (req: Request, res: Response) => {
+    const event = await this.eventService.getAllEvents();
     res.json({ event });
   };
 

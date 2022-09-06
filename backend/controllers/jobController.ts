@@ -4,13 +4,13 @@ import { Request, Response } from "express";
 export class JobController {
   constructor(private jobService: JobService) {}
 
-  getAllJobs = async (req: Request, res: Response) => {
-    const job = await this.jobService.getAllJobs();
+  createJob = async (req: Request, res: Response) => {
+    const job = await this.jobService.createJob(req.body);
     res.json({ job });
   };
 
-  createJob = async (req: Request, res: Response) => {
-    const job = await this.jobService.createJob(req.body);
+  getAllJobs = async (req: Request, res: Response) => {
+    const job = await this.jobService.getAllJobs();
     res.json({ job });
   };
 
