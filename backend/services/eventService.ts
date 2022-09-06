@@ -4,12 +4,6 @@ import { Event } from "../utils/model";
 export class EventService {
   constructor(private knex: Knex) {}
 
-  async getAllEvents() {
-    return await this.knex<Event>("event")
-      .select("id", "name", "description")
-      .returning("*");
-  }
-
   async createEvent(
     EventName: string,
     description?: string,
@@ -25,6 +19,12 @@ export class EventService {
         starttime: starttime,
       })
       .into("event")
+      .returning("*");
+  }
+
+  async getAllEvents() {
+    return await this.knex<Event>("event")
+      .select("id", "name", "description")
       .returning("*");
   }
 
