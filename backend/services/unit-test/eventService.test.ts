@@ -35,8 +35,6 @@ describe("EventService CRUD", () => {
     await knex.destroy();
   });
 
-  beforeEach(async () => {});
-
   it("function createEvent test", async () => {
     const time = new Date();
     const createEvent = await eventService.createEvent(
@@ -56,7 +54,13 @@ describe("EventService CRUD", () => {
     expect(getAllEvents.length).toBeGreaterThan(0);
   });
 
-  it("function getEvent and updateEvent test", async () => {
+  it("function getEvent", async () => {
+    const getEvent = await eventService.getEvent(eventInfo.name);
+    expect(getEvent.length).toBeGreaterThan(0);
+    expect(getEvent[0].name).toBe(eventInfo.name);
+  });
+
+  it("function updateEvent test", async () => {
     const getEvent = await eventService.getEvent(eventInfo.name);
     expect(getEvent[0].name).toBe(eventInfo.name);
 
