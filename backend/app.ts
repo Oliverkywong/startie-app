@@ -11,6 +11,7 @@ import { UserService } from './services/userService'
 import { UserController } from './controllers/userController'
 import { userRoutes } from './routes/userRoute'
 import Knex from "knex"
+import cors from 'cors'
 // import { isLogin } from './utils/middleware'
 
 
@@ -29,6 +30,11 @@ const knex = Knex(knexConfig);
 // -------------------------------------------------------------------------------------------------------------------
 const app = express();
 const PORT = process.env.PORT || 8000;
+
+app.use(cors({
+  origin: [process.env.REACT_DOMAIN!],
+  credentials: true
+}))
 
 //grant
 const grantExpress = grant.express({
