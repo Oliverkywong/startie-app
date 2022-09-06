@@ -4,6 +4,11 @@ import { Request, Response } from "express";
 export class TeamController {
   constructor(private teamService: TeamService) {}
 
+  createTeam = async (req: Request, res: Response) => {
+    const team = await this.teamService.createTeam(req.body);
+    res.json({ team });
+  };
+
   getAllTeams = async (req: Request, res: Response) => {
     const team = await this.teamService.getAllTeams();
     res.json({ team });
@@ -11,11 +16,6 @@ export class TeamController {
 
   getTeam = async (req: Request, res: Response) => {
     const team = await this.teamService.getTeam(req.body);
-    res.json({ team });
-  };
-
-  createTeam = async (req: Request, res: Response) => {
-    const team = await this.teamService.createTeam(req.body);
     res.json({ team });
   };
 

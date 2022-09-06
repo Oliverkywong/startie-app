@@ -4,12 +4,6 @@ import { Team } from "../utils/model";
 export class TeamService {
   constructor(private knex: Knex) {}
 
-  async getAllTeams() {
-    return await this.knex<Team>("team")
-      .select("name", "description", "profilepic")
-      .returning("*");
-  }
-
   async createTeam(
     teamName: string,
     description?: string,
@@ -22,6 +16,12 @@ export class TeamService {
         profilepic: profilepic,
       })
       .into("team")
+      .returning("*");
+  }
+
+  async getAllTeams() {
+    return await this.knex<Team>("team")
+      .select("name", "description", "profilepic")
       .returning("*");
   }
 
