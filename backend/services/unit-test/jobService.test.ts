@@ -48,7 +48,13 @@ describe("JobService CRUD", () => {
     expect(getAllJobs.length).toBeGreaterThan(0);
   });
 
-  it("function getJob, updateJob and deleteJob test", async () => {
+  it("function getJob test", async () => {
+    const getJob = await jobService.getJob(jobInfo.name);
+    expect(getJob.length).toBeGreaterThan(0);
+    expect(getJob[0].name).toBe(jobInfo.name);
+  });
+
+  it("function updateJob test", async () => {
     const getJob = await jobService.getJob(jobInfo.name);
     expect(getJob.length).toBeGreaterThan(0);
     expect(getJob[0].name).toBe(jobInfo.name);
@@ -60,6 +66,12 @@ describe("JobService CRUD", () => {
     );
     expect(updateJob![0].name).toBe(newJobInfo.name);
     expect(updateJob![0].description).toBe(newJobInfo.description);
+  });
+
+  it("function deleteJob test", async () => {
+    const getJob = await jobService.getJob(newJobInfo.name);
+    expect(getJob.length).toBeGreaterThan(0);
+    expect(getJob[0].name).toBe(newJobInfo.name);
 
     await jobService.deleteJob(getJob[0].id);
     const result = await knex<Job>("job")

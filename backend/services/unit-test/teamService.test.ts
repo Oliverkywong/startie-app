@@ -53,7 +53,13 @@ describe("TeamService CRUD", () => {
     expect(createTeam[0].profilepic).toBe(teamInfo.profilepic);
   });
 
-  it("function getTeam, updateTeam and deleteTeam test", async () => {
+  it("function getTeam test", async () => {
+    const getTeam = await teamService.getTeam(teamInfo.name);
+    expect(getTeam.length).toBeGreaterThan(0);
+    expect(getTeam[0].name).toBe(teamInfo.name);
+  });
+
+  it("function updateTeam test", async () => {
     const getTeam = await teamService.getTeam(teamInfo.name);
     expect(getTeam.length).toBeGreaterThan(0);
     expect(getTeam[0].name).toBe(teamInfo.name);
@@ -67,6 +73,12 @@ describe("TeamService CRUD", () => {
     expect(updateTeam![0].name).toBe(newTeamInfo.name);
     expect(updateTeam![0].description).toBe(newTeamInfo.description);
     expect(updateTeam![0].profilepic).toBe(newTeamInfo.profilepic);
+  });
+
+  it("function deleteTeam test", async () => {
+    const getTeam = await teamService.getTeam(newTeamInfo.name);
+    expect(getTeam.length).toBeGreaterThan(0);
+    expect(getTeam[0].name).toBe(newTeamInfo.name);
 
     await teamService.deleteTeam(getTeam[0].id);
     const deleteTeam = await knex<Team>("team")
