@@ -10,11 +10,11 @@ const PasswordStrengthMeter = () => {
             confirmPassword: ''
         }
     }
-    const { register, handleSubmit, getValues, watch, formState: { errors } } = useForm({
+    const { register, handleSubmit, getValues, formState: { errors } } = useForm({
         defaultValues: DefaultVauleForForm.registration
     });
 
-    const watchPassword = watch();
+    // const watchPassword = watch();
 
     // console.log(watchPassword);
 

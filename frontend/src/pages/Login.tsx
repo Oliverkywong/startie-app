@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
-import { IonIcon, IonImg, IonPage } from '@ionic/react'
+import { IonIcon, IonImg, IonPage,useIonRouter } from '@ionic/react'
 import logo from '../img/StartieLogo.png'
-import { eyeOffOutline, eyeOutline, lockClosedOutline, mailOutline, personOutline } from 'ionicons/icons'
+import { eyeOffOutline, eyeOutline, lockClosedOutline, personOutline } from 'ionicons/icons'
 import { useForm } from "react-hook-form";
 import './css/Login.css'
+import { useDispatch } from 'react-redux';
+import { loggedIn } from '../redux/auth/action';
+
 
 const Login: React.FC = () => {
 
   const { register, handleSubmit } = useForm();
   const [passwordShown, setPasswordShown] = useState(false);
-
-
-			// 放userRecord入redux
+  const dispatch = useDispatch();
+  const router = useIonRouter();
 
       
   return (
@@ -26,12 +28,14 @@ const Login: React.FC = () => {
               headers: {
                 'Content-Type': 'application/json'
               },
-              credentials: 'include',
               body: JSON.stringify(data)
             })
 
             if(res.status === 200) {
-              window.location.replace('/homepage') 
+              const userRecord = await res.json()
+              console.log(userRecord)
+              dispatch(loggedIn(userRecord))
+              router.push("/tab1", "forward", "push");
             }
           })}>
           <div className='username'>

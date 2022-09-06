@@ -1,24 +1,22 @@
-import { IonPage, IonRouterOutlet } from '@ionic/react'
-import { IonReactRouter } from '@ionic/react-router'
+import { IonPage, IonHeader, IonContent, IonList, IonItem, IonLabel, IonBackButton } from '@ionic/react'
 import React from 'react'
-import { Route, Redirect } from 'react-router'
-import PasswordStrengthMeter from './PasswordStrengthMeter'
-import UserFollows from './UserFollows'
 
 export default function UserSettings() {
     return (
-        // <IonPage>
-        <div>
-            <h1 style={{color: 'white'}}>UserSettings</h1>
-            <PasswordStrengthMeter/>
-            {/* <IonReactRouter>
-      <IonRouterOutlet>
-        <Route path="/tab6" component={UserFollows} />
-        <Redirect exact from="/" to="/tab6" />
-      </IonRouterOutlet>
-    </IonReactRouter> */}
-        </div>
+        <IonPage>
+            <IonHeader>
+                <IonBackButton defaultHref="/tab5" />
+                User Settings
+            </IonHeader>
+            <IonContent>
+                <IonList>
+                    <IonItem>
+                        <IonLabel>Username</IonLabel>
+                    </IonItem>
+                </IonList>
+            </IonContent>
+        </IonPage>
+
         
-        // </IonPage>
     )
 }
