@@ -20,7 +20,10 @@ export class TeamController {
   };
 
   updateTeam = async (req: Request, res: Response) => {
-    const team = await this.teamService.updateTeam(req.params.id, req.body);
+    const team = await this.teamService.updateTeam(
+      parseInt(req.params.id),
+      req.body
+    );
     res.json({ team });
   };
 

@@ -16,3 +16,21 @@ export interface Team {
   description?: string;
   profilepic?: string;
 }
+
+export interface Job {
+  id: number;
+  name: string;
+  description: string;
+}
+
+export interface UserId_Username {
+  userId: number;
+  username: string;
+}
+declare global{
+  namespace Express{
+      interface Request{
+          user?: UserId_Username
+      }
+  }
+}
