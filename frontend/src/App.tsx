@@ -60,8 +60,11 @@ const App: React.FC = () => {
       const userRecord = await res.json()
       setUserInfo(userRecord)
       console.log(userRecord)
-      if (!userRecord.result) {
+      console.log(userRecord.result)
+      if (userRecord.result === false) {
+        // router.push('/login')
         router.push("/tab2", "forward", "push");
+        // window.location.replace("/login")
       }
     }
     userInfo();
@@ -94,9 +97,9 @@ const App: React.FC = () => {
             <Route path="/tab6">
               <UserSettings />
             </Route>
-            {/* <Route  path="/login">
+            <Route  path="/login">
               <Login />
-            </Route> */}
+            </Route>
             {/* <Route path="/home">
               <Redirect to="/home" />
             </Route> */}
