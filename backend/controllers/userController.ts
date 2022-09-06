@@ -89,7 +89,7 @@ export class UserController {
 			)
 
 			logger.info(`${username} logged in`)
-			return res.status(200).json({
+			return res.json({
 				result: true,
 				msg: 'login success',
 				user: user[0],
