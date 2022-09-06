@@ -4,7 +4,7 @@
 	"main": "index.js",
 	"scripts": {
 		"format": "prettier --write .",
-		"start": "ts-node app.ts",
+		"start": "ts-node-dev app.ts",
 		"dev": "ts-node-dev app.ts",
 		"test": "jest --maxWorkers 1"
 	},

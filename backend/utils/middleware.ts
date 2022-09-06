@@ -4,8 +4,15 @@
 import express from "express";
 import formidable from "formidable";
 import fs from "fs";
-// import formidable from 'formidable'
+import { Bearer } from "permit";
+import jwtSimple from "jwt-simple";
 
+// -------------------------------------------------------------------------------------------------------------------
+// JWT Bearer
+// -------------------------------------------------------------------------------------------------------------------
+const permit = new Bearer({
+    query:"access_token"
+})
 // -------------------------------------------------------------------------------------------------------------------
 // check if the user is login or not
 // -------------------------------------------------------------------------------------------------------------------
@@ -14,10 +21,22 @@ export const isLogin = (
   res: express.Response,
   next: express.NextFunction
 ) => {
-	if (true) {
-		next()
-	} else {
-		res.redirect('/')
+	try {
+		const token = permit.check(req)
+
+		const payload = jwtSimple.decode(token, 'key') //decode the token, change to jose later
+
+		if (payload['userId']) {
+			req.user = {
+				userId: payload['userId'],
+				username: payload['username']
+			};			
+			next()
+		} else {
+			res.status(401).json({ result: 'Unauthorized' })
+		}
+	} catch (e) {
+		res.status(401).json({ result: 'Incorrect Token' })
 	}
 }
 

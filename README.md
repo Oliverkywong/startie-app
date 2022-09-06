@@ -11,7 +11,7 @@ todolist
 - [ ] Register
 
   - [x] team register
-  - [ ] user register
+  - [x] user register
   - [ ] jobs register
 
 - [ ] Info
@@ -62,4 +62,7 @@ required / tools we need
 - swiper/react/swiper-react.js
 - @ionic/react@latest @ionic/react-router@latest
 - @reduxjs/toolkit react-redux
+- zxcvbn
+- cors
+- formiddable
 

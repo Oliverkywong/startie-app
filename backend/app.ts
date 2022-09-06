@@ -3,7 +3,6 @@
 // -------------------------------------------------------------------------------------------------------------------
 import express from "express";
 import { logger } from "./utils/logger";
-// import { isLogin } from './middleware'
 import grant from 'grant'
 import { client } from './utils/db'
 import dotenv from 'dotenv'
@@ -67,8 +66,6 @@ app.use(express.urlencoded({ extended: true }));
 //json
 app.use(express.json());
 
-//get HTML files from public, default images & uploads
-app.use(express.static("public")); //get files from private
 const userService = new UserService(knex);
 
 const userController = new UserController(userService)
@@ -77,7 +74,6 @@ app.use("/serverDefaultedImages", express.static("images"));
 app.use("/userUploadedFiles", express.static("uploads"));
 
 // get code from usersRoute
-
 app.use(userRoutes(userController));
 
 // --------------------------------------------------------------------------------------------------------------------
