@@ -35,7 +35,8 @@ const Login: React.FC = () => {
               const userRecord = await res.json()
               console.log(userRecord)
               dispatch(loggedIn(userRecord['user'], userRecord['token']))
-              router.push("/home");
+              router.push("/tab/home");
+              // window.location.replace("/tab/home");
             }
           })}>
           <div className='username'>

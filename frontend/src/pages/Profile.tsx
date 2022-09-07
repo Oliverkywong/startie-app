@@ -1,5 +1,5 @@
 import React from 'react'
-import { IonIcon, IonImg, IonLabel, IonPage, useIonRouter } from '@ionic/react';
+import { IonContent, IonIcon, IonImg, IonLabel, IonPage, useIonRouter } from '@ionic/react';
 
 import icon from '../img/tonystarkicon.png'
 import { bookmarkOutline, documentTextOutline, pencil, peopleOutline, settingsOutline, statsChart } from 'ionicons/icons';
@@ -16,6 +16,9 @@ import { RootState } from '../store';
 const Profile: React.FC = () => {
     const userdetails = useSelector((state: RootState) => state.auth.info);
 
+     
+   
+
     const [info, setInfo] = React.useState(true);
     const [stat, setStat] = React.useState(false);
     const [follow, setFollow] = React.useState(false);
@@ -26,40 +29,42 @@ const Profile: React.FC = () => {
 
     return (
         <IonPage>
-            <div className="profile">
-                <IonImg className='profilepic' src={userdetails?.profilepic} />
-                <IonIcon className='proedit' icon={pencil} />
-                <IonLabel className="uresname">{userdetails?.username}</IonLabel>
-            
+            <IonContent>
+                <div className="profile">
+                    <IonImg className='profilepic' src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails?.profilepic}`} />
+                    <IonIcon className='proedit' icon={pencil} />
+                    <IonLabel className="uresname">{userdetails?.username}</IonLabel>
 
-                <div className="profilebar">
-                    <div onClick={() => { setInfo(true); setStat(false); setFollow(false); setTeam(false); setSetting(false) }}>
-                        <IonIcon icon={documentTextOutline} />
-                        <IonLabel>Details</IonLabel>
+
+                    <div className="profilebar">
+                        <div onClick={() => { setInfo(true); setStat(false); setFollow(false); setTeam(false); setSetting(false) }}>
+                            <IonIcon icon={documentTextOutline} />
+                            <IonLabel>Details</IonLabel>
+                        </div>
+                        <div onClick={() => { setInfo(false); setStat(true); setFollow(false); setTeam(false); setSetting(false) }}>
+                            <IonIcon icon={statsChart} />
+                            <IonLabel>Stats</IonLabel>
+                        </div>
+                        <div onClick={() => { setInfo(false); setStat(false); setFollow(true); setTeam(false); setSetting(false) }}>
+                            <IonIcon icon={bookmarkOutline} />
+                            <IonLabel>My Follows</IonLabel>
+                        </div>
+                        <div onClick={() => { setInfo(false); setStat(false); setFollow(false); setTeam(true); setSetting(false) }}>
+                            <IonIcon icon={peopleOutline} />
+                            <IonLabel>My Teams</IonLabel>
+                        </div>
+                        <div onClick={() => { router.push("/tab/settings"); }}>
+                            <IonIcon icon={settingsOutline} />
+                            <IonLabel>Settings</IonLabel>
+                        </div>
                     </div>
-                    <div onClick={() => { setInfo(false); setStat(true); setFollow(false); setTeam(false); setSetting(false) }}>
-                        <IonIcon icon={statsChart} />
-                        <IonLabel>Stats</IonLabel>
-                    </div>
-                    <div onClick={() => { setInfo(false); setStat(false); setFollow(true); setTeam(false); setSetting(false) }}>
-                        <IonIcon icon={bookmarkOutline} />
-                        <IonLabel>My Follows</IonLabel>
-                    </div>
-                    <div onClick={() => { setInfo(false); setStat(false); setFollow(false); setTeam(true); setSetting(false) }}>
-                        <IonIcon icon={peopleOutline} />
-                        <IonLabel>My Teams</IonLabel>
-                    </div>
-                    <div onClick={() => { router.push("/tab6"); }}>
-                        <IonIcon icon={settingsOutline} />
-                        <IonLabel>Settings</IonLabel>
-                    </div>
+                    {info && <UserInfo description={userdetails?.description} />}
+                    {stat && <UserStats username={userdetails?.username} />}
+                    {follow && <UserFollows />}
+                    {team && <UserTeams />}
+                    {setting && <UserSettings />}
                 </div>
-                {info && <UserInfo description={userdetails?.description}/>}
-                {stat && <UserStats username={userdetails?.username} />}
-                {follow && <UserFollows />}
-                {team && <UserTeams />}
-                {setting && <UserSettings />}
-            </div>
+            </IonContent>
         </IonPage>
     );
 };
