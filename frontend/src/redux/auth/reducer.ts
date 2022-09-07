@@ -1,14 +1,16 @@
-import { userInfo } from "../../module";
+import { UserInfo } from "../../module";
 import { AuthActions } from "./action";
 
 export interface AuthState{
-    info: userInfo | null
+    info: UserInfo | null
     loggedIn: boolean | null
+    token: string | null
 }
 
 const initialState: AuthState = {
     info: null,
-    loggedIn: null
+    loggedIn: null,
+    token: null
 }
 
 export function authReducer(state: AuthState = initialState, action: AuthActions): AuthState {
@@ -17,13 +19,15 @@ export function authReducer(state: AuthState = initialState, action: AuthActions
             return {
                 ...state,
                 info: action.userinfo,
-                loggedIn: true
+                loggedIn: true,
+                token: action.token
             }
         case '@@auth/LOGGED_OUT':
             return {
                 ...state,
                 info: null,
-                loggedIn: false
+                loggedIn: false,
+                token: null
             }
         default:
             return state

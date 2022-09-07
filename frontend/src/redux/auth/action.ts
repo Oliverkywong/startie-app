@@ -1,9 +1,10 @@
-import { userInfo } from "../../module";
+import { UserInfo } from "../../module";
 
-export function loggedIn(info: userInfo) {
+export function loggedIn(info: UserInfo ,token: string) {
     return {
         type: '@@auth/LOGGED_IN' as const,
-        userinfo: info
+        userinfo: info,
+        token: token
     }
 }
 

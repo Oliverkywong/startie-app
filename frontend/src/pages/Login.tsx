@@ -34,8 +34,8 @@ const Login: React.FC = () => {
             if(res.status === 200) {
               const userRecord = await res.json()
               console.log(userRecord)
-              dispatch(loggedIn(userRecord))
-              router.push("/tab1", "forward", "push");
+              dispatch(loggedIn(userRecord['user'], userRecord['token']))
+              router.push("/home");
             }
           })}>
           <div className='username'>
@@ -62,7 +62,7 @@ const Login: React.FC = () => {
         </form>
         <a href='#'>Forgot Password?</a>
         <div className='signup'>
-          <p>New to Startie?<a href='#'>Sign Up</a></p>
+          <p>New to Startie?<a href='/signup'>Sign Up</a></p>
         </div>
       </div>
     </IonPage >
