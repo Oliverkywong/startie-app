@@ -15,27 +15,25 @@ export interface Team {
   name: string;
   description?: string;
   profilepic?: string;
+  clickrate: number;
 }
 
 export interface Job {
   id: number;
   name: string;
-  description: string;
+  description?: string;
+  status_id: number;
+  clickrate: number;
 }
 
 export interface Event {
   id: number;
   name: string;
-  description: string;
+  description?: string;
   profilepic?: string;
-  // starttime(
-  //   year: number,
-  //   month: number,
-  //   date?: number,
-  //   hours?: number,
-  //   minutes?: number
-  // ): Date;
-  starttime?: string;
+  starttime: Date;
+  status_id: number;
+  clickrate: number;
 }
 
 export interface UserId_Username {

@@ -4,18 +4,11 @@ import { Event } from "../utils/model";
 export class EventService {
   constructor(private knex: Knex) {}
 
-  async getAllEvents() {
-    return await this.knex<Event>("event")
-      .select("id", "name", "description")
-      .returning("*");
-  }
-
   async createEvent(
     EventName: string,
-    description?: string,
-    profilepic?: string,
-    // starttime?: Date
-    starttime?: string
+    description: string,
+    profilepic: string,
+    starttime: Date
   ) {
     return await this.knex<Event>("event")
       .insert({
@@ -23,8 +16,15 @@ export class EventService {
         description: description,
         profilepic: profilepic,
         starttime: starttime,
+        status_id: 1,
       })
       .into("event")
+      .returning("*");
+  }
+
+  async getAllEvents() {
+    return await this.knex<Event>("event")
+      .select("id", "name", "description")
       .returning("*");
   }
 
@@ -37,10 +37,10 @@ export class EventService {
 
   async updateEvent(
     eventId: number,
-    eventName?: string,
-    description?: string,
-    profilepic?: string,
-    starttime?: string
+    eventName: string,
+    description: string,
+    profilepic: string,
+    starttime: Date
   ) {
     if (
       eventName !== null ||

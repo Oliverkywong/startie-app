@@ -15,6 +15,7 @@ export class JobService {
       .insert({
         name: jobName,
         description: description,
+        status_id: 1,
       })
       .into("job")
       .returning("*");
