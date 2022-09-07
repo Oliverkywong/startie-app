@@ -20,7 +20,6 @@ describe('Integration test of userService', () => {
 
 afterAll(async () => {
 	await knex.destroy()
-
 })
 
 // 	afterAll(async () => {
@@ -36,11 +35,11 @@ afterAll(async () => {
 // -------------------------------------------------------------------------------------------------------------------
 	it('can login', async () => {
 		//Act
-		const userRecord = await userService.login('Oliver', 'admin')
+		const userRecord = await userService.login('Oliver', 'oliver')
 
 		//Assert
 		expect(userRecord[0].username).toBe('Oliver')
-		expect(await checkPassword('admin', userRecord[0].password)).toBe(true)
+		expect(await checkPassword('oliver', userRecord[0].password)).toBe(true)
 	})
 // -------------------------------------------------------------------------------------------------------------------
     it('cannot login (UserNotExistError)', async () => {
@@ -171,22 +170,20 @@ afterAll(async () => {
             expect(userRecord[0].phonenumber).toBe('95804970')
             expect(userRecord[0].profilepic).toBe('oliver.jpg')
             expect(userRecord[0].description).toBe('testing')
-[0]
-})[0]
+})
 // -------------------------------------------------------------------------------------------------------------------
         it('can edit user information', async () => {
-            const phoneNumber = '95804971'
+            const phoneNumber = "95804971"
             const description = 'I am Oliver Wong'
             const profilePic = 'oliverwong.jpg'
-[0]
-            //Act[0]
+            //Act
             const userRecord = await userService.editUser(1, profilePic, phoneNumber, description)
-[0]
-            //Assert[0]
+
+            //Assert
             expect(userRecord[0].id).toBe(1)
             expect(userRecord[0].username).toBe('Oliver')
             expect(userRecord[0].email).toBe('oliverwong@gmail.com')
-            expect(userRecord[0].phonenumber).toBe(95804971)
+            expect(userRecord[0].phonenumber).toBe("95804971")
             expect(userRecord[0].profilepic).toBe('oliverwong.jpg')
             expect(userRecord[0].description).toBe('I am Oliver Wong')
         })
