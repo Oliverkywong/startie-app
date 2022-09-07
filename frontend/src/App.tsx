@@ -40,6 +40,7 @@ import { Route } from 'react-router';
 import UserSettings from './pages/UserSettings';
 import { useSelector } from 'react-redux';
 import { RootState } from './store';
+import Routes from './Routes';
 
 setupIonicReact();
 
@@ -73,62 +74,8 @@ const App: React.FC = () => {
   return (
     <IonApp>
       <IonReactRouter>
-        <IonRouterOutlet>
-          <Route path="/" component={Login}  />
-          <Route path="/signup" component={SignUp} exact={true} />
-        </IonRouterOutlet>
+        <Routes />
       </IonReactRouter>
-      
-      {isLogin && <IonReactRouter>
-        <IonTabs>
-          <IonRouterOutlet>
-            <Route path="/">
-              <Login />
-            </Route>
-            <Route path="/home">
-              <Homepage />
-            </Route>
-            <Route path="/tab2">
-            </Route>
-            <Route path="/tab3">
-              <Tab3 />
-            </Route>
-            <Route path="/tab4">
-            </Route>
-            <Route path="/tab5">
-              <Profile />
-            </Route>
-            <Route path="/tab6">
-              <UserSettings />
-            </Route>
-            <Route path="/login">
-              <Login />
-            </Route>
-          </IonRouterOutlet>
-          <IonTabBar slot="bottom">
-            <IonTabButton tab="home" href="/home">
-              <IonIcon icon={homeOutline} />
-              <IonLabel>Home</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="tab2" href="/tab2">
-              <IonIcon icon={planetOutline} />
-              <IonLabel>Team</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="tab3" href="/tab3">
-              <IonIcon icon={addCircleOutline} />
-              <IonLabel>Build New Team</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="tab4" href="/tab4">
-              <IonIcon icon={chatbubbleEllipsesOutline} />
-              <IonLabel>Chat</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="tab5" href="/tab5">
-              <IonIcon icon={personOutline} />
-              <IonLabel>Profile</IonLabel>
-            </IonTabButton>
-          </IonTabBar>
-        </IonTabs>
-      </IonReactRouter>}
     </IonApp>
   )
 };

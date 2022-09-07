@@ -4,11 +4,11 @@ import React from 'react'
 export default function UserSettings() {
     return (
         <IonPage>
-            <IonHeader>
-                <IonBackButton defaultHref="/tab5" />
-                User Settings
-            </IonHeader>
             <IonContent>
+                <IonHeader>
+                    <IonBackButton defaultHref="/tab5" />
+                    User Settings
+                </IonHeader>
                 <IonList>
                     <IonItem>
                         <IonLabel>Username</IonLabel>
