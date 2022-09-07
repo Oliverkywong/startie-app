@@ -27,9 +27,10 @@ const Profile: React.FC = () => {
     return (
         <IonPage>
             <div className="profile">
-                <IonImg className='profilepic' src={icon} />
+                <IonImg className='profilepic' src={userdetails?.profilepic} />
                 <IonIcon className='proedit' icon={pencil} />
                 <IonLabel className="uresname">{userdetails?.username}</IonLabel>
+            
 
                 <div className="profilebar">
                     <div onClick={() => { setInfo(true); setStat(false); setFollow(false); setTeam(false); setSetting(false) }}>
@@ -48,13 +49,13 @@ const Profile: React.FC = () => {
                         <IonIcon icon={peopleOutline} />
                         <IonLabel>My Teams</IonLabel>
                     </div>
-                    <div onClick={() => { router.push("/tab6", "forward", "push"); }}>
+                    <div onClick={() => { router.push("/tab6"); }}>
                         <IonIcon icon={settingsOutline} />
                         <IonLabel>Settings</IonLabel>
                     </div>
                 </div>
-                {info && <UserInfo />}
-                {stat && <UserStats />}
+                {info && <UserInfo description={userdetails?.description}/>}
+                {stat && <UserStats username={userdetails?.username} />}
                 {follow && <UserFollows />}
                 {team && <UserTeams />}
                 {setting && <UserSettings />}

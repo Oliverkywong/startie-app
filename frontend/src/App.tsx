@@ -6,8 +6,7 @@ import {
   IonTabBar,
   IonTabButton,
   IonTabs,
-  setupIonicReact,
-  useIonRouter
+  setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { addCircleOutline, chatbubbleEllipsesOutline, homeOutline, personOutline, planetOutline } from 'ionicons/icons';
@@ -37,59 +36,64 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Profile from './pages/Profile';
 import { useState, useEffect } from 'react';
-import { Redirect, Route } from 'react-router';
+import { Route } from 'react-router';
 import UserSettings from './pages/UserSettings';
+import { useSelector } from 'react-redux';
+import { RootState } from './store';
 
 setupIonicReact();
 
 const App: React.FC = () => {
 
-  const router = useIonRouter();
+  const token = useSelector((state: RootState) => state.auth.token);
+  const isLogin = useSelector((state: RootState) => state.auth.loggedIn) || false;
 
-  const [userInfo, setUserInfo] = useState({
+  const [user, setUserInfo] = useState({
     id: 0,
     username: "dummy",
-    profilepic: './img/tonystarkicon.png'
+    profilepic: './img/tonystarkicon.png',
+    description: "testing"
   });
 
   useEffect(() => {
     async function userInfo() {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/userInfo`, {
-        credentials: 'include'
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/userInfo`,{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       })
       const userRecord = await res.json()
       setUserInfo(userRecord)
-      console.log(userRecord)
-      console.log(userRecord.result)
-      if (userRecord.result === false) {
-        // router.push('/login')
-        router.push("/tab2", "forward", "push");
-        // window.location.replace("/login")
-      }
     }
+
     userInfo();
-  }, [])
+  }, [token])
 
 
   return (
     <IonApp>
       <IonReactRouter>
+        <IonRouterOutlet>
+          <Route path="/" component={Login}  />
+          <Route path="/signup" component={SignUp} exact={true} />
+        </IonRouterOutlet>
+      </IonReactRouter>
+      
+      {isLogin && <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
             <Route path="/">
-              <Homepage />
+              <Login />
             </Route>
             <Route path="/home">
               <Homepage />
             </Route>
             <Route path="/tab2">
-              <Login />
             </Route>
             <Route path="/tab3">
               <Tab3 />
             </Route>
             <Route path="/tab4">
-              <SignUp />
             </Route>
             <Route path="/tab5">
               <Profile />
@@ -97,12 +101,9 @@ const App: React.FC = () => {
             <Route path="/tab6">
               <UserSettings />
             </Route>
-            <Route  path="/login">
+            <Route path="/login">
               <Login />
             </Route>
-            {/* <Route path="/home">
-              <Redirect to="/home" />
-            </Route> */}
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
             <IonTabButton tab="home" href="/home">
@@ -127,7 +128,7 @@ const App: React.FC = () => {
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
-      </IonReactRouter>
+      </IonReactRouter>}
     </IonApp>
   )
 };

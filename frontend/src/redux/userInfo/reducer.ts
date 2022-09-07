@@ -1,15 +1,16 @@
-import { userInfo } from "../../module"
+import { UserInfo } from "../../module"
 import { UserActions } from "./action"
 
 export interface userInfoState {
-    userinfo: userInfo
+    userinfo: UserInfo
 }
 
 const initialState: userInfoState = {
     userinfo: {
         id: 0,
         username: 'dummy',
-        profilepic: '../../img/tonystarkicon.png'
+        profilepic: '../../img/tonystarkicon.png',
+        description: 'testing'
     }
 }
 

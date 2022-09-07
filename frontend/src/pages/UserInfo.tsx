@@ -1,11 +1,10 @@
 import React from 'react'
 
-export default function UserInfo() {
+export default function UserInfo(props:{description:string | undefined}) {
     
   return (
     <div >UserInfo
-  
-        
+      <p>{props.description}</p>
     </div>
   )
 }

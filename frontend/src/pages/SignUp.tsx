@@ -63,7 +63,7 @@ const SignUp: React.FC = () => {
                     {checkbox && <button color="danger">Register</button>}
                 </form>
                 <div className='signup'>
-                    <p>Already a member?<a href='#'>Log In</a></p>
+                    <p>Already a member?<a href='/'>Log In</a></p>
                 </div>
             </div>
         </IonPage >
