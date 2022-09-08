@@ -12,8 +12,8 @@ import { userRoutes } from './routes/userRoute'
 import Knex from "knex"
 import cors from 'cors'
 import { sectorskillRoutes } from "./routes/sectorskillRoute";
-import { SectorskillService } from './services/SectorSkillService'
-import { SectorskillController } from './controllers/SectorSkillController'
+import { SectorskillService } from './services/sectorSkillService'
+import { SectorskillController } from './controllers/sectorSkillController'
 // import { isLogin } from './utils/middleware'
 
 
