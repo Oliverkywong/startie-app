@@ -6,17 +6,17 @@ export class JobController {
 
   createJob = async (req: Request, res: Response) => {
     const job = await this.jobService.createJob(req.body);
-    res.json({ job });
+    res.json(job);
   };
 
   getAllJobs = async (req: Request, res: Response) => {
     const job = await this.jobService.getAllJobs();
-    res.json({ job });
+    res.json(job);
   };
 
   getJob = async (req: Request, res: Response) => {
     const job = await this.jobService.getJob(req.body);
-    res.json({ job });
+    res.json(job);
   };
 
   updateJob = async (req: Request, res: Response) => {
@@ -24,11 +24,11 @@ export class JobController {
       parseInt(req.params.id),
       req.body
     );
-    res.json({ job });
+    res.json(job);
   };
 
   deleteJob = async (req: Request, res: Response) => {
     const job = await this.jobService.deleteJob(parseInt(req.params.id));
-    res.json({ job });
+    res.json(`Job: ${job} has been deleted`);
   };
 }
