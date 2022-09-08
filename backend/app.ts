@@ -11,6 +11,10 @@ import { UserController } from './controllers/userController'
 import { userRoutes } from './routes/userRoute'
 import Knex from "knex"
 import cors from 'cors'
+import { sectorskillRoutes } from "./routes/sectorskillRoute";
+import { SectorskillService } from './services/sectorskillService'
+import { SectorskillController } from './controllers/sectorskillController'
+// import { isLogin } from './utils/middleware'
 
 
 // -------------------------------------------------------------------------------------------------------------------
@@ -66,14 +70,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 const userService = new UserService(knex);
-
 const userController = new UserController(userService)
+
+const sectorskillService = new SectorskillService(knex);
+const sectorskillController = new SectorskillController(sectorskillService)
+
+
 
 app.use("/serverDefaultedImages", express.static("images"));
 app.use("/userUploadedFiles", express.static("uploads"));
 
 // get code from usersRoute
 app.use(userRoutes(userController));
+app.use(sectorskillRoutes(sectorskillController));
 
 // --------------------------------------------------------------------------------------------------------------------
 // Error 404

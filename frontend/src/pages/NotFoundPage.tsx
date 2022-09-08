@@ -4,13 +4,11 @@ import {
     IonHeader,
     IonPage,
     IonTitle,
-    IonToolbar,
-    useIonRouter,
+    IonToolbar
   } from '@ionic/react'
   
   const NotFoundPage: React.FC = () => {
     let title = 'Page Not Found'
-    const router = useIonRouter()
     return (
       <IonPage>
         <IonHeader>
@@ -24,12 +22,8 @@ import {
               <IonTitle size="large">{title}</IonTitle>
             </IonToolbar>
           </IonHeader>
-  
-          <IonButton routerLink={'/'}>Back to Home</IonButton>
-  
-          {/* <pre>
-            <code>{JSON.stringify(router.routeInfo, null, 2)}</code>
-          </pre> */}
+          <IonButton routerLink={'/login'}>Back to Home</IonButton>
+
         </IonContent>
       </IonPage>
     )
