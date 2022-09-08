@@ -1,5 +1,5 @@
 // Import Swiper React components
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { IonContent, IonImg, IonPage, IonLabel, IonButton, IonCard, IonCardContent, IonIcon, IonItem, IonButtons, IonSearchbar, IonToolbar, useIonRouter } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { notificationsOutline } from 'ionicons/icons';
@@ -19,6 +19,8 @@ import "./css/Homepage.css";
 
 // Import Swiper styles
 import "swiper/css";
+import { useAppDispatch } from '../store';
+import { loggedIn, logOut } from '../redux/auth/action';
 
 const catergorys = {
   cat1: { src: cat1, title: 'NFT比賽' },
@@ -30,6 +32,29 @@ const catergorys = {
 const Homepage: React.FC = () => {
 
   const router = useIonRouter();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    (async function () {
+      const localtoken = localStorage.getItem('token')
+      if (localtoken === null) {
+        dispatch(logOut())
+      }
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/userInfo`, {
+        headers: {
+          'Authorization': `Bearer ${localtoken}`
+        }
+      })
+
+      if (res.status === 200) {
+        const userRecord = await res.json()
+        // console.log(userRecord)
+        dispatch(loggedIn(userRecord['userInfo'], localtoken!))
+        router.push("/tab/home");
+      }
+
+    })()
+  }, [])
 
   return (
     <IonPage>

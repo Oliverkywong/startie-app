@@ -44,7 +44,7 @@ ChartJS.register(
 //   }
 // }
 
-export default function UserStats(props: { username: string | undefined }) {
+export default function UserStats() {
 
   const token = useSelector((state: RootState) => state.auth.token);
 
