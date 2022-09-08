@@ -33,10 +33,10 @@ export const isLogin = (
 			};			
 			next()
 		} else {
-			res.status(401).json({ result: 'Unauthorized' })
+			res.status(401).json({ result: false, msg: 'Unauthorized' })
 		}
 	} catch (e) {
-		res.status(401).json({ result: 'Incorrect Token' })
+		res.status(401).json({ result: false, msg: 'Incorrect Token' })
 	}
 }
 
