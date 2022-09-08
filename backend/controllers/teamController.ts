@@ -29,6 +29,6 @@ export class TeamController {
 
   deleteTeam = async (req: Request, res: Response) => {
     const team = await this.teamService.deleteTeam(parseInt(req.params.id));
-    res.json(team);
+    res.json(`${team} has been deleted`);
   };
 }
