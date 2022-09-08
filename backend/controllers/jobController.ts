@@ -5,30 +5,61 @@ export class JobController {
   constructor(private jobService: JobService) {}
 
   createJob = async (req: Request, res: Response) => {
-    const job = await this.jobService.createJob(req.body);
-    res.json(job);
-  };
-
-  getAllJobs = async (req: Request, res: Response) => {
-    const job = await this.jobService.getAllJobs();
-    res.json(job);
+    try {
+      const { jobName, description } = req.body;
+      const job = await this.jobService.createJob(jobName, description);
+      res.status(200).json(job);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Internal server error" });
+    }
   };
 
   getJob = async (req: Request, res: Response) => {
-    const job = await this.jobService.getJob(req.body);
-    res.json(job);
+    try {
+      const { jobName } = req.params;
+      const job = await this.jobService.getJob(jobName);
+      res.json(job);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+
+  getAllJobs = async (req: Request, res: Response) => {
+    try {
+      const job = await this.jobService.getAllJobs();
+      res.json(job);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Internal server error" });
+    }
   };
 
   updateJob = async (req: Request, res: Response) => {
-    const job = await this.jobService.updateJob(
-      parseInt(req.params.id),
-      req.body
-    );
-    res.json(job);
+    try {
+      const { jobId } = req.params;
+      const { jobName, description } = req.body;
+      const job = await this.jobService.updateJob(
+        parseInt(jobId),
+        jobName,
+        description
+      );
+      res.json(job);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Internal server error" });
+    }
   };
 
   deleteJob = async (req: Request, res: Response) => {
-    const job = await this.jobService.deleteJob(parseInt(req.params.id));
-    res.json(`Job: ${job} has been deleted`);
+    try {
+      const { jobId } = req.params;
+      const job = await this.jobService.deleteJob(parseInt(jobId));
+      res.json(`Job: ${job} has been deleted`);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Internal server error" });
+    }
   };
 }
