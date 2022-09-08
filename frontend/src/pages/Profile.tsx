@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { IonContent, IonIcon, IonImg, IonLabel, IonPage, useIonRouter } from '@ionic/react';
 
-import icon from '../img/tonystarkicon.png'
 import { bookmarkOutline, documentTextOutline, pencil, peopleOutline, settingsOutline, statsChart } from 'ionicons/icons';
 
 import './css/Profile.css'
@@ -10,14 +9,11 @@ import UserStats from './UserStats';
 import UserTeams from './UserTeams';
 import UserFollows from './UserFollows';
 import UserSettings from './UserSettings';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store';
+import { RootState, useAppDispatch, useAppSelector } from '../store';
+import { loggedIn, logOut} from '../redux/auth/action';
 
 const Profile: React.FC = () => {
-    const userdetails = useSelector((state: RootState) => state.auth.info);
-
-     
-   
+    const userdetails = useAppSelector((state: RootState) => state.auth.info); 
 
     const [info, setInfo] = React.useState(true);
     const [stat, setStat] = React.useState(false);
@@ -26,6 +22,28 @@ const Profile: React.FC = () => {
     const [setting, setSetting] = React.useState(false);
 
     const router = useIonRouter();
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        (async function () {
+            const localtoken = localStorage.getItem('token')
+            if (localtoken === null) {
+                return
+            }
+            const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/userInfo`, {
+              headers: {
+                'Authorization': `Bearer ${localtoken}`
+              }
+            })
+      
+            if (res.status === 200) {
+              const userRecord = await res.json()
+              // console.log(userRecord)
+              dispatch(loggedIn(userRecord['userInfo'], localtoken!))
+            //   router.push("/tab/home");
+            }
+          })()
+    }, [])
 
     return (
         <IonPage>
@@ -59,7 +77,7 @@ const Profile: React.FC = () => {
                         </div>
                     </div>
                     {info && <UserInfo description={userdetails?.description} />}
-                    {stat && <UserStats username={userdetails?.username} />}
+                    {stat && <UserStats />}
                     {follow && <UserFollows />}
                     {team && <UserTeams />}
                     {setting && <UserSettings />}
