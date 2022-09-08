@@ -33,10 +33,10 @@ const Login: React.FC = () => {
 
             if(res.status === 200) {
               const userRecord = await res.json()
-              console.log(userRecord)
+              // console.log(userRecord)
               dispatch(loggedIn(userRecord['user'], userRecord['token']))
+              localStorage.setItem('token', userRecord['token'])
               router.push("/tab/home");
-              // window.location.replace("/tab/home");
             }
           })}>
           <div className='username'>

@@ -1,4 +1,5 @@
 import { UserInfo } from "../../module";
+import { AppDispatch } from "../../store";
 
 export function loggedIn(info: UserInfo ,token: string) {
     return {
@@ -11,6 +12,13 @@ export function loggedIn(info: UserInfo ,token: string) {
 export function loggedOut() {
     return {
         type: '@@auth/LOGGED_OUT' as const,
+    }
+}
+
+export function logOut() {
+    return (dicpatch: AppDispatch) => {
+        localStorage.removeItem('token');
+        dicpatch(loggedOut());
     }
 }
 
