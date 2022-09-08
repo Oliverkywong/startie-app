@@ -73,6 +73,8 @@ describe("TeamController test", () => {
       ])
     );
 
+    service.deleteTeam = jest.fn(() => Promise.resolve(300));
+
     req = {
       params: {},
       query: {},
@@ -149,5 +151,10 @@ describe("TeamController test", () => {
         clickrate: 0,
       },
     ]);
+  });
+
+  it("function deleteTeam test", async () => {
+    await controller.deleteTeam(req, res);
+    expect(res.json).toBeCalledWith("team: " + 300 + " has been deleted");
   });
 });

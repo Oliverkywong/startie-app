@@ -4,12 +4,6 @@ import { Job } from "../utils/model";
 export class JobService {
   constructor(private knex: Knex) {}
 
-  async getAllJobs() {
-    return await this.knex<Job>("job")
-      .select("id", "name", "description")
-      .returning("*");
-  }
-
   async createJob(jobName: string, description?: string) {
     return await this.knex<Job>("job")
       .insert({
@@ -25,6 +19,12 @@ export class JobService {
     return await this.knex<Job>("job")
       .select("id", "name", "description")
       .where("name", jobName)
+      .returning("*");
+  }
+
+  async getAllJobs() {
+    return await this.knex<Job>("job")
+      .select("id", "name", "description")
       .returning("*");
   }
 
