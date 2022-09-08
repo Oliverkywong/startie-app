@@ -150,4 +150,9 @@ describe("TeamController test", () => {
       },
     ]);
   });
+
+  it("function deleteTeam test", async () => {
+    await controller.deleteTeam(req, res);
+    expect(res.json).toBeCalledWith(undefined + " has been deleted");
+  });
 });
