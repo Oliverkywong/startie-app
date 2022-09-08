@@ -1,10 +1,10 @@
 import * as jose from 'jose'
 /*
 openssl ecparam -name prime256v1 -genkey -noout -out private.ec.key  //generate private key
-openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in private.ec.key -out privatejose.key   //change to jose format
-
 openssl pkcs8 -topk8 -in private.ec.key -out private.pem
 openssl ec -in private.pem -pubout -out public.pem //generate public key from private.pem
+
+openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in private.ec.key -out privatejose.key   //change to jose format
 */
 
 export async function joseKey() {
