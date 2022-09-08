@@ -5,27 +5,30 @@ import express from "express";
 import formidable from "formidable";
 import fs from "fs";
 import { Bearer } from "permit";
-import jwtSimple from "jwt-simple";
+import * as jose from "jose";
+import { josePublicKey } from "../josekey";
 
 // -------------------------------------------------------------------------------------------------------------------
 // JWT Bearer
 // -------------------------------------------------------------------------------------------------------------------
 const permit = new Bearer({
-    query:"access_token"
-})
+  query: "access_token",
+});
 // -------------------------------------------------------------------------------------------------------------------
 // check if the user is login or not
 // -------------------------------------------------------------------------------------------------------------------
-export const isLogin = (
+export const isLogin = async (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
 ) => {
-	try {
-		const token = permit.check(req)
+  try {
+    const jwt = permit.check(req); //receive token from redux
 
-		const payload = jwtSimple.decode(token, 'key') //decode the token, change to jose later
+    const publicKey = await josePublicKey();
+    const { payload } = await jose.jwtVerify(jwt, publicKey);
 
+<<<<<<< HEAD
 		if (payload['userId']) {
 			req.user = {
 				userId: payload['userId'],
@@ -39,17 +42,28 @@ export const isLogin = (
 		res.status(401).json({ result: false, msg: 'Incorrect Token' })
 	}
 }
+=======
+    if (payload["userId"]) {
+      req.user = {
+        userId: payload["userId"] as number,
+        username: payload["username"] as string,
+      };
+      next();
 
-// -------------------------------------------------------------------------------------------------------------------
-// check if the user is Admin
-// -------------------------------------------------------------------------------------------------------------------
-// export const isAdmin = (roleId: number) => {
-// 	if (roleId == 1) {
-// 		return true
-// 	} else {
-// 		return false
-// 	}
-// }
+    } else {
+      res.status(401).json({ result: false, msg: "Unauthorized" });
+    }
+  } catch (e) {
+    console.log(e);
+    if (e.code === "ERR_JWT_EXPIRED") {
+      res.status(401).json({ result: false, msg: "Token expired" });
+    } else {
+      res.status(401).json({ result: false, msg: "Incorrect Token" });
+    }
+  }
+};
+>>>>>>> 82d1849e50b46a84dabbc30053a8c32ce1b8451a
+
 // -------------------------------------------------------------------------------------------------------------------
 // check if the user is Board of the team
 // -------------------------------------------------------------------------------------------------------------------
@@ -70,7 +84,7 @@ export const isBoard = (
 // formidable (upload dir will be opened if it doesn't exist)
 // -------------------------------------------------------------------------------------------------------------------
 
-const uploadDir = 'uploads'
+const uploadDir = "uploads";
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync("uploads", { recursive: true });
 }
