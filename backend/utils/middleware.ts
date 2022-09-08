@@ -25,8 +25,8 @@ export const isLogin = async (
   try {
     const jwt = permit.check(req); //receive token from redux
 
-    const publicKey = await josePublicKey();
-    const { payload } = await jose.jwtVerify(jwt, publicKey);
+    const publicKey = await josePublicKey(); 
+    const { payload } = await jose.jwtVerify(jwt, publicKey);//use the public key to verify the token
 
     if (payload["userId"]) {
       req.user = {
