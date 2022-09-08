@@ -28,21 +28,6 @@ export const isLogin = async (
     const publicKey = await josePublicKey();
     const { payload } = await jose.jwtVerify(jwt, publicKey);
 
-<<<<<<< HEAD
-		if (payload['userId']) {
-			req.user = {
-				userId: payload['userId'],
-				username: payload['username']
-			};			
-			next()
-		} else {
-			res.status(401).json({ result: false, msg: 'Unauthorized' })
-		}
-	} catch (e) {
-		res.status(401).json({ result: false, msg: 'Incorrect Token' })
-	}
-}
-=======
     if (payload["userId"]) {
       req.user = {
         userId: payload["userId"] as number,
@@ -62,7 +47,6 @@ export const isLogin = async (
     }
   }
 };
->>>>>>> 82d1849e50b46a84dabbc30053a8c32ce1b8451a
 
 // -------------------------------------------------------------------------------------------------------------------
 // check if the user is Board of the team
