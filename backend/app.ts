@@ -11,7 +11,6 @@ import { UserController } from './controllers/userController'
 import { userRoutes } from './routes/userRoute'
 import Knex from "knex"
 import cors from 'cors'
-// import { isLogin } from './utils/middleware'
 
 
 // -------------------------------------------------------------------------------------------------------------------
