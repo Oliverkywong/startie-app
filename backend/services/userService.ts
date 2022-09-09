@@ -190,7 +190,7 @@ export class UserService {
 				.select('*')
 				.where('id', userId)
 
-			return userRecord[0]
+			return userRecord
 		} catch (err) {
 			throw err
 		}
