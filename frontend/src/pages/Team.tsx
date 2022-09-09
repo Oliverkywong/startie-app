@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-import { IonPage, IonHeader, IonContent, IonList, IonItem, IonLabel, IonBackButton, IonSearchbar, IonButton, IonCard, IonCardContent, IonImg, useIonViewWillEnter, IonInfiniteScroll, IonInfiniteScrollContent } from '@ionic/react'
+import { IonPage, IonHeader, IonContent, IonList, IonItem, IonLabel, IonBackButton, IonSearchbar, IonButton, IonCard, IonCardContent, IonImg, useIonViewWillEnter, IonInfiniteScroll, IonInfiniteScrollContent, IonGrid, IonCol, IonRow, IonTitle, IonCardHeader, useIonRouter, IonButtons } from '@ionic/react'
 
 import team1 from '../img/team1.png'
 import team2 from '../img/team2.png'
+import './css/Team.css'
 
 const Team: React.FC = () => {
     const [data, setData] = useState<string[]>([]);
     const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
+    const router = useIonRouter();
 
     const pushData = () => {
         const max = data.length + 30;
@@ -37,51 +39,32 @@ const Team: React.FC = () => {
     });
     return (
         <IonPage>
+            <IonHeader>
+                <IonSearchbar placeholder="Search" />
+            </IonHeader>
             <IonContent>
-                <IonHeader>
-                    <IonSearchbar placeholder="Search" />
-                </IonHeader>
-                {/* <IonCard>
-            <IonItem>
-              <IonImg src={team1} />
-              <IonLabel>ion-item in a card, icon left, button right</IonLabel>
-              <IonButton fill="outline" slot="end">View</IonButton>
-            </IonItem>
-            <IonCardContent>
-              This is content, without any paragraph or header tags,
-              within an ion-cardContent element.
-            </IonCardContent>
-          </IonCard>
-          <IonCard>
-            <IonItem>
-              <IonImg src={team2} />
-              <IonLabel>ion-item in a card, icon left, button right</IonLabel>
-              <IonButton fill="outline" slot="end">View</IonButton>
-            </IonItem>
-            <IonCardContent>
-              This is content, without any paragraph or header tags,
-              within an ion-cardContent element.
-            </IonCardContent>
-          </IonCard> */}
-
-                <IonContent>
-                    <IonList>
+                <IonGrid>
+                    <IonRow>
                         {data.map((item, index) => {
                             return (
-                            <IonCard key={index}>
-                                <IonItem>
-                                  <IonImg src={team1} />
-                                  <IonLabel>{item}</IonLabel>
-                                  <IonButton fill="outline" slot="end">View</IonButton>
-                                </IonItem>
-                                <IonCardContent>
-                                  This is content, without any paragraph or header tags,
-                                  within an ion-cardContent element.
-                                </IonCardContent>
-                              </IonCard>
-                              )
+                                    <IonCol size='6'>
+                                <a href='/teamdetail'>
+                                        <IonCard key={index} className="card">
+                                            <IonImg src={team1} style={{ width: '100%' }} />
+                                            <IonCardContent className='content' style={{ fontSize: '10px' }}>
+                                                <p style={{ fontSize: '14px', color: 'white' }}>Name</p><br />
+                                                {item}
+                                                <div className='tag'>
+                                                    <span>View</span>
+                                                    <span>View</span>
+                                                </div>
+                                            </IonCardContent>
+                                        </IonCard>
+                                </a>
+                                    </IonCol>
+                            )
                         })}
-                    </IonList>
+                    </IonRow>
                     <IonInfiniteScroll
                         onIonInfinite={loadData}
                         threshold="100px"
@@ -92,7 +75,8 @@ const Team: React.FC = () => {
                             loadingText="Loading more data..."
                         ></IonInfiniteScrollContent>
                     </IonInfiniteScroll>
-                </IonContent>
+
+                </IonGrid>
             </IonContent>
         </IonPage>
     )

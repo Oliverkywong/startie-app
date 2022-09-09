@@ -23,6 +23,8 @@ const UserSettings: React.FC = () => {
                     </IonItem>
                 </IonList>
                 <IonButton color="danger" onClick={() => {
+                }}>Delect Account</IonButton>
+                <IonButton color="danger" onClick={() => {
                     dispatch(logOut());
                     window.location.replace('/login');
                 }}>Log Out</IonButton>
