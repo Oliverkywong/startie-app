@@ -6,7 +6,7 @@ import formidable from "formidable";
 import fs from "fs";
 import { Bearer } from "permit";
 import * as jose from "jose";
-import { josePublicKey } from "../josekey";
+import { josePublicKey } from "../jose";
 
 // -------------------------------------------------------------------------------------------------------------------
 // JWT Bearer
@@ -24,6 +24,9 @@ export const isLogin = async (
 ) => {
   try {
     const jwt = permit.check(req); //receive token from redux
+
+    console.log(jwt);
+    
 
     const publicKey = await josePublicKey(); 
     const { payload } = await jose.jwtVerify(jwt, publicKey);//use the public key to verify the token
