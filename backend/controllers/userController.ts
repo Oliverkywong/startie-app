@@ -94,7 +94,11 @@ export class UserController {
         result: true,
         msg: "login success",
         user: user[0],
+<<<<<<< HEAD
         jwt: jwt,
+=======
+		    jwt: jwt
+>>>>>>> 3c8d315af6ea7807f77cb21ce2e84d88007c9ad0
       });
     } catch (err) {
       if (err instanceof UserNotExistError) {
@@ -129,7 +133,7 @@ export class UserController {
       return res.json({
         result: true,
         msg: "Get user profile success",
-        userInfo: userInfo,
+        userInfo: userInfo[0],
       });
     } catch (err) {
       logger.error(err);
