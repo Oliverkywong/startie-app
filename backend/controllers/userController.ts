@@ -10,7 +10,7 @@ import {
   UserService,
   UserStatusError,
 } from "../services/userService";
-import { joseKey } from "../josekey";
+import { joseKey } from "../jose";
 import * as jose from "jose";
 
 export class UserController {
@@ -79,18 +79,22 @@ export class UserController {
 
       const ecPrivateKey = await joseKey();
 
-      const jwt = await new jose.SignJWT({ "urn:example:claim": true , userId: user[0].id, username: user[0].username}) // use private key to sign
+      const jwt = await new jose.SignJWT({
+        "urn:example:claim": true,
+        userId: user[0].id,
+        username: user[0].username,
+      }) // use private key to sign
         .setProtectedHeader({ alg: "ES256" })
         .setIssuedAt()
         .setExpirationTime("24h")
-        .sign(ecPrivateKey);	
+        .sign(ecPrivateKey);
 
       logger.info(`${username} logged in`);
       return res.json({
         result: true,
         msg: "login success",
         user: user[0],
-		jwt: jwt
+        jwt: jwt,
       });
     } catch (err) {
       if (err instanceof UserNotExistError) {

@@ -6,7 +6,7 @@ import formidable from "formidable";
 import fs from "fs";
 import { Bearer } from "permit";
 import * as jose from "jose";
-import { josePublicKey } from "../josekey";
+import { josePublicKey } from "../jose";
 
 // -------------------------------------------------------------------------------------------------------------------
 // JWT Bearer
@@ -25,8 +25,8 @@ export const isLogin = async (
   try {
     const jwt = permit.check(req); //receive token from redux
 
-    const publicKey = await josePublicKey(); 
-    const { payload } = await jose.jwtVerify(jwt, publicKey);//use the public key to verify the token
+    const publicKey = await josePublicKey();
+    const { payload } = await jose.jwtVerify(jwt, publicKey); //use the public key to verify the token
 
     if (payload["userId"]) {
       req.user = {
@@ -34,7 +34,6 @@ export const isLogin = async (
         username: payload["username"] as string,
       };
       next();
-
     } else {
       res.status(401).json({ result: false, msg: "Unauthorized" });
     }
@@ -52,7 +51,6 @@ export const isLogin = async (
 // check if the user is Board of the team
 // -------------------------------------------------------------------------------------------------------------------
 export const isBoard = (
-  //   roleId: number,
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
