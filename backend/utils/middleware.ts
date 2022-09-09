@@ -50,7 +50,7 @@ export const isLogin = async (
 // -------------------------------------------------------------------------------------------------------------------
 // check if the user is Board of the team
 // -------------------------------------------------------------------------------------------------------------------
-export const isBoard = (
+export const isBoard = async (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction

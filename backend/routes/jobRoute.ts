@@ -7,7 +7,7 @@ export function createJobRoutes(jobController: JobController) {
   router.get("/job", jobController.getAllJobs);
   router.get("/job/:id", jobController.getJob);
   router.post("/job", isLogin, jobController.createJob);
-  router.put("/job/:id", isBoard, jobController.updateJob);
-  router.delete("/job/:id", isBoard, jobController.deleteJob);
+  router.put("/job/:id", isLogin, isBoard, jobController.updateJob);
+  router.delete("/job/:id", isLogin, isBoard, jobController.deleteJob);
   return router;
 }

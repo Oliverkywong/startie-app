@@ -7,7 +7,7 @@ export function createTeamRoutes(teamController: TeamController) {
   router.get("/team", teamController.getAllTeams);
   router.get("/team/:id", teamController.getTeam);
   router.post("/team", isLogin, teamController.createTeam);
-  router.put("/team/:id", isBoard, teamController.updateTeam);
-  router.delete("/team/:id", isBoard, teamController.deleteTeam);
+  router.put("/team/:id", isLogin, isBoard, teamController.updateTeam);
+  router.delete("/team/:id", isLogin, isBoard, teamController.deleteTeam);
   return router;
 }
