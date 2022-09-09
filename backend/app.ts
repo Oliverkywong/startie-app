@@ -3,22 +3,27 @@
 // -------------------------------------------------------------------------------------------------------------------
 import express from "express";
 import { logger } from "./utils/logger";
-import grant from 'grant'
-import { client } from './utils/db'
-import dotenv from 'dotenv'
-import { UserService } from './services/userService'
-import { UserController } from './controllers/userController'
-import { userRoutes } from './routes/userRoute'
-import Knex from "knex"
-import cors from 'cors'
+import grant from "grant";
+import { client } from "./utils/db";
+import dotenv from "dotenv";
+import { UserService } from "./services/userService";
+import { UserController } from "./controllers/userController";
+import { userRoutes } from "./routes/userRoute";
+import Knex from "knex";
+import cors from "cors";
 import { sectorskillRoutes } from "./routes/sectorskillRoute";
-import { SectorskillService } from './services/sectorskillService'
-import { SectorskillController } from './controllers/sectorskillController'
+import { SectorskillService } from "./services/sectorskillService";
+import { SectorskillController } from "./controllers/sectorskillController";
 import { TeamService } from "./services/teamService";
+import { JobService } from "./services/jobService";
 import { TeamController } from "./controllers/teamController";
+import { JobController } from "./controllers/jobController";
+import { EventService } from "./services/eventService";
+import { EventController } from "./controllers/eventController";
 import { teamRoutes } from "./routes/teamRoute";
+import { eventRoutes } from "./routes/eventRoute";
+import { jobRoutes } from "./routes/jobRoute";
 // import { isLogin } from './utils/middleware'
-
 
 // -------------------------------------------------------------------------------------------------------------------
 // Knex
@@ -36,10 +41,12 @@ const knex = Knex(knexConfig);
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-app.use(cors({
-  origin: [process.env.REACT_DOMAIN!],
-  credentials: true
-}))
+app.use(
+  cors({
+    origin: [process.env.REACT_DOMAIN!],
+    credentials: true,
+  })
+);
 
 //grant
 const grantExpress = grant.express({
@@ -56,8 +63,7 @@ const grantExpress = grant.express({
   },
 });
 
-
-app.use(grantExpress as express.RequestHandler)
+app.use(grantExpress as express.RequestHandler);
 
 // -------------------------------------------------------------------------------------------------------------------
 // others
@@ -73,21 +79,34 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 const userService = new UserService(knex);
-const userController = new UserController(userService)
+const userController = new UserController(userService);
 
-const sectorskillService = new SectorskillService(knex);
-const sectorskillController = new SectorskillController(sectorskillService)
+const teamService = new TeamService(knex);
+const teamController = new TeamController(teamService);
 
+<<<<<<< HEAD
 const teamService = new TeamService(knex);
 const teamController = new TeamController(teamService)
 
+=======
+const jobService = new JobService(knex);
+const jobController = new JobController(jobService);
+>>>>>>> 77de962f4a0ff5c19db16df67b5f7c2fdb979524
 
+const eventService = new EventService(knex);
+const eventController = new EventController(eventService);
+
+const sectorskillService = new SectorskillService(knex);
+const sectorskillController = new SectorskillController(sectorskillService);
 
 app.use("/serverDefaultedImages", express.static("images"));
 app.use("/userUploadedFiles", express.static("uploads"));
 
 // get code from usersRoute
 app.use(userRoutes(userController));
+app.use(teamRoutes(teamController));
+app.use(jobRoutes(jobController));
+app.use(eventRoutes(eventController));
 app.use(sectorskillRoutes(sectorskillController));
 app.use(teamRoutes(teamController));
 

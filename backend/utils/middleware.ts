@@ -26,7 +26,7 @@ export const isLogin = async (
     const jwt = permit.check(req); //receive token from redux
 
     const publicKey = await josePublicKey();
-    const { payload } = await jose.jwtVerify(jwt, publicKey);
+    const { payload } = await jose.jwtVerify(jwt, publicKey); //use the public key to verify the token
 
 
     if (payload["userId"]) {
@@ -35,7 +35,6 @@ export const isLogin = async (
         username: payload["username"] as string,
       };
       next();
-
     } else {
       res.status(401).json({ result: false, msg: "Unauthorized" });
     }
@@ -52,8 +51,7 @@ export const isLogin = async (
 // -------------------------------------------------------------------------------------------------------------------
 // check if the user is Board of the team
 // -------------------------------------------------------------------------------------------------------------------
-export const isBoard = (
-  //   roleId: number,
+export const isBoard = async (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
