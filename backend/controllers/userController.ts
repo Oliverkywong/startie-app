@@ -37,9 +37,9 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   register = async (req: express.Request, res: express.Response) => {
     try {
-      let username = req.body.username.trim();
-      let password = req.body.password.trim();
-      let email = req.body.email.trim();
+      let username: string = req.body.username.trim();
+      let password: string = req.body.password.trim();
+      let email: string = req.body.email.trim();
       const statusId = 1;
 
       await this.userService.register(username, password, email, statusId);
@@ -79,18 +79,22 @@ export class UserController {
 
       const ecPrivateKey = await joseKey();
 
-      const jwt = await new jose.SignJWT({ "urn:example:claim": true , userId: user[0].id, username: user[0].username}) // use private key to sign
+      const jwt = await new jose.SignJWT({
+        "urn:example:claim": true,
+        userId: user[0].id,
+        username: user[0].username,
+      }) // use private key to sign
         .setProtectedHeader({ alg: "ES256" })
         .setIssuedAt()
         .setExpirationTime("24h")
-        .sign(ecPrivateKey);	
+        .sign(ecPrivateKey);
 
       logger.info(`${username} logged in`);
       return res.json({
         result: true,
         msg: "login success",
         user: user[0],
-		    jwt: jwt
+        jwt: jwt,
       });
     } catch (err) {
       if (err instanceof UserNotExistError) {

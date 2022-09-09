@@ -10,16 +10,23 @@ export class EventService {
     profilepic: string,
     starttime: Date
   ) {
-    return await this.knex<Event>("event")
-      .insert({
-        name: EventName,
-        description: description,
-        profilepic: profilepic,
-        starttime: starttime,
-        status_id: 1,
-      })
-      .into("event")
-      .returning("*");
+    try {
+      const eventInfo = await this.knex<Event>("event")
+        .insert({
+          name: EventName,
+          description: description,
+          profilepic: profilepic,
+          starttime: starttime,
+          status_id: 1,
+        })
+        .into("event")
+        .returning("*");
+
+      return eventInfo;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
   }
 
   async getAllEvents() {
@@ -48,15 +55,22 @@ export class EventService {
       profilepic !== null ||
       starttime !== null
     ) {
-      return await this.knex<Event>("event")
-        .update({
-          name: eventName,
-          description: description,
-          profilepic: profilepic,
-          starttime: starttime,
-        })
-        .where("id", eventId)
-        .returning("*");
+      try {
+        const eventInfo = await this.knex<Event>("event")
+          .update({
+            name: eventName,
+            description: description,
+            profilepic: profilepic,
+            starttime: starttime,
+          })
+          .where("id", eventId)
+          .returning("*");
+
+        return eventInfo;
+      } catch (err) {
+        console.error(err);
+        throw err;
+      }
     } else {
       return;
     }

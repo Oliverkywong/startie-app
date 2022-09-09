@@ -39,10 +39,10 @@ export class TeamController {
   updateTeam = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const { teamName, description, profilepic } = req.body;
+      const { name, description, profilepic } = req.body;
       const team = await this.teamService.updateTeam(
         parseInt(id),
-        teamName,
+        name,
         description,
         profilepic
       );
