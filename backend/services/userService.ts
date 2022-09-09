@@ -183,12 +183,6 @@ export class UserService {
 				.where('id', userId)
 
 			return userRecord
-<<<<<<< HEAD
-		} catch (err) {
-			throw err
-		}
-=======
->>>>>>> 77de962f4a0ff5c19db16df67b5f7c2fdb979524
 	}
 // -------------------------------------------------------------------------------------------------------------------
 // edit User Info
