@@ -14,6 +14,9 @@ import cors from 'cors'
 import { sectorskillRoutes } from "./routes/sectorskillRoute";
 import { SectorskillService } from './services/sectorskillService'
 import { SectorskillController } from './controllers/sectorskillController'
+import { TeamService } from "./services/teamService";
+import { TeamController } from "./controllers/teamController";
+import { teamRoutes } from "./routes/teamRoute";
 // import { isLogin } from './utils/middleware'
 
 
@@ -75,6 +78,9 @@ const userController = new UserController(userService)
 const sectorskillService = new SectorskillService(knex);
 const sectorskillController = new SectorskillController(sectorskillService)
 
+const teamService = new TeamService(knex);
+const teamController = new TeamController(teamService)
+
 
 
 app.use("/serverDefaultedImages", express.static("images"));
@@ -83,6 +89,7 @@ app.use("/userUploadedFiles", express.static("uploads"));
 // get code from usersRoute
 app.use(userRoutes(userController));
 app.use(sectorskillRoutes(sectorskillController));
+app.use(teamRoutes(teamController));
 
 // --------------------------------------------------------------------------------------------------------------------
 // Error 404
@@ -99,3 +106,4 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   logger.info(`listening on port ${PORT}`);
 });
+
