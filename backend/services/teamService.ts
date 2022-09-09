@@ -4,19 +4,22 @@ import { Team } from "../utils/model";
 export class TeamService {
   constructor(private knex: Knex) {}
 
-  async createTeam(
-    teamName: string,
-    description?: string,
-    profilepic?: string
-  ) {
-    return await this.knex<Team>("team")
-      .insert({
-        name: teamName,
-        description: description,
-        profilepic: profilepic,
-      })
-      .into("team")
-      .returning("*");
+  async createTeam(name: string, description?: string, profilepic?: string) {
+    try {
+      const teaminfo = await this.knex<Team>("team")
+        .insert({
+          name: name,
+          description: description,
+          profilepic: profilepic,
+        })
+        .into("team")
+        .returning("*");
+
+      return teaminfo;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
   }
 
   async getAllTeams() {
@@ -25,28 +28,35 @@ export class TeamService {
       .returning("*");
   }
 
-  async getTeam(teamName: string) {
+  async getTeam(name: string) {
     return await this.knex<Team>("team")
       .select("id", "name")
-      .where("name", teamName)
+      .where("name", name)
       .returning("*");
   }
 
   async updateTeam(
-    teamId: number,
-    teamName?: string,
+    id: number,
+    name?: string,
     description?: string,
     profilepic?: string
   ) {
-    if (teamName !== null || description !== null || profilepic !== null) {
-      return await this.knex<Team>("team")
-        .update({
-          name: teamName,
-          description: description,
-          profilepic: profilepic,
-        })
-        .where("id", teamId)
-        .returning("*");
+    if (name !== null || description !== null || profilepic !== null) {
+      try {
+        const teamInfo = await this.knex<Team>("team")
+          .update({
+            name: name,
+            description: description,
+            profilepic: profilepic,
+          })
+          .where("id", id)
+          .returning("*");
+
+        return teamInfo;
+      } catch (err) {
+        console.error(err);
+        throw err;
+      }
     } else {
       return;
     }
