@@ -83,7 +83,6 @@ export default function UserStats() {
   return (
     <div className="char">
       <IonContent>
-
         {sectorName.map((sectorName, index) => {
           return (
             <IonInfiniteScroll>
@@ -97,9 +96,9 @@ export default function UserStats() {
                     data: [skillPoint[index * 5], skillPoint[index * 5 + 1], skillPoint[index * 5 + 2], skillPoint[index * 5 + 3], skillPoint[index * 5 + 4]]
                   }
                 ]
-              }} /></IonInfiniteScroll>)
-        })
-        }
+              }} />
+            </IonInfiniteScroll>)
+        })}
       </IonContent>
     </div>
   )

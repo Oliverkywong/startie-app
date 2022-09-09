@@ -8,8 +8,11 @@ import NotFoundPage from './pages/NotFoundPage'
 import Profile from './pages/Profile'
 import SignUp from './pages/SignUp'
 import Team from './pages/Team'
+import Event from './pages/Event'
 import UserSettings from './pages/UserSettings'
 import BuildTeam from './pages/BuildTeam'
+import EventDetail from './pages/EventDetail'
+import TeamDetail from './pages/TeamDetail'
 
 export default function Routes() {
 
@@ -19,12 +22,15 @@ export default function Routes() {
             <Route path="/login" component={Login} />
             <Route path="/signup" component={SignUp} />
             <Route path="/buildteam" component={BuildTeam} />
+            <Route path="/eventdetail" component={EventDetail} />
+            <Route path="/teamdetail" component={TeamDetail} />
 
             <Route path="/tab">
                 <IonTabs>
                     <IonRouterOutlet>
                         <Route path="/tab/home" component={Homepage} />
                         <Route path="/tab/team" component={Team} />
+                        <Route path="/tab/event" component={Event} />
                         <Route path="/tab/profile" component={Profile} />
                         <Route path="/tab/settings" component={UserSettings} />
                     </IonRouterOutlet>
@@ -42,9 +48,9 @@ export default function Routes() {
                             <IonIcon icon={addCircleOutline} />
                             <IonLabel>Build New Team</IonLabel>
                         </IonTabButton>
-                        <IonTabButton tab="tab4" href="/tab/tab4">
+                        <IonTabButton tab="tab4" href="/tab/event">
                             <IonIcon icon={chatbubbleEllipsesOutline} />
-                            <IonLabel>Chat</IonLabel>
+                            <IonLabel>Event</IonLabel>
                         </IonTabButton>
                         <IonTabButton tab="tab5" href="/tab/profile">
                             <IonIcon icon={personOutline} />

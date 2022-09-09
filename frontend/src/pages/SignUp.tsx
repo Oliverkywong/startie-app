@@ -20,7 +20,7 @@ const SignUp: React.FC = () => {
                 <IonImg src={logo} className="logo" />
                 <form onSubmit={
                     handleSubmit(data => {
-                        console.log(data);
+                        // console.log(data);
                     })}>
                     <div className='username'>
                         <IonIcon icon={personOutline} />

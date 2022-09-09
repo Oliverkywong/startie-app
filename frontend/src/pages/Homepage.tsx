@@ -14,12 +14,11 @@ import cat2 from '../img/cat2.png'
 import cat3 from '../img/cat3.png'
 import team1 from '../img/team1.png'
 import team2 from '../img/team2.png'
-import icon from '../img/tonystarkicon.png'
 import "./css/Homepage.css";
 
 // Import Swiper styles
 import "swiper/css";
-import { useAppDispatch } from '../store';
+import { RootState, useAppDispatch, useAppSelector } from '../store';
 import { loggedIn, logOut } from '../redux/auth/action';
 
 const catergorys = {
@@ -31,11 +30,14 @@ const catergorys = {
 
 const Homepage: React.FC = () => {
 
+
+  const userdetails = useAppSelector((state: RootState) => state.auth.info); 
   const router = useIonRouter();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     (async function () {
+      // console.log(userdetails)
       const localtoken = localStorage.getItem('token')
       if (localtoken === null) {
         dispatch(logOut())
@@ -67,15 +69,16 @@ const Homepage: React.FC = () => {
           </IonButtons>
           <IonButtons slot="start">
             <IonButton onClick={() => {
-              router.push("/tab5", "forward", "push");
+              router.push("/tab/profile", "forward", "push");
             }}>
-              <IonImg className='icon' src={icon} />
+              <IonImg className='icon' src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails?.profilepic}`} />
             </IonButton>
           </IonButtons>
           <IonSearchbar placeholder="Search" />
         </IonToolbar>
 
-        <IonLabel>Hot Competition</IonLabel>
+        <IonLabel>Hot Events</IonLabel>
+        <a href='#'>See More</a>
         <Swiper className="mySwiper"
           slidesPerView={3}
           loop={true}>
@@ -87,6 +90,7 @@ const Homepage: React.FC = () => {
         </Swiper>
 
         <IonLabel>Catergories</IonLabel>
+        <a href='#'>See More</a>
         <Swiper className="mySwiper"
           slidesPerView={1}>
           <SwiperSlide className="catelement"><IonImg src={catergorys.cat1.src} />
@@ -97,8 +101,8 @@ const Homepage: React.FC = () => {
             <IonLabel>{catergorys.cat3.title}</IonLabel></SwiperSlide>
         </Swiper>
 
-        <IonLabel>Brownse Team</IonLabel>
-        <IonContent>
+        <IonLabel>Brownse Teams</IonLabel>
+        <a href='/tab/team'>See More</a>
           <IonCard>
             <IonItem>
               <IonImg src={team1} />
@@ -121,7 +125,6 @@ const Homepage: React.FC = () => {
               within an ion-cardContent element.
             </IonCardContent>
           </IonCard>
-        </IonContent>
 
       </IonContent>
     </IonPage>
