@@ -2,7 +2,7 @@ import express from "express";
 import { JobController } from "../controllers/jobController";
 import { isBoard, isLogin } from "../utils/middleware";
 
-export function createJobRoutes(jobController: JobController) {
+export function jobRoutes(jobController: JobController) {
   const router = express.Router();
   router.get("/job", jobController.getAllJobs);
   router.get("/job/:id", jobController.getJob);
