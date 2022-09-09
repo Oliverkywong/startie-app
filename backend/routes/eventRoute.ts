@@ -7,6 +7,6 @@ export function createEventRoutes(eventController: EventController) {
   router.get("/event", eventController.getAllEvents);
   router.get("/event/:id", eventController.getEvent);
   router.post("/event", isLogin, eventController.createEvent);
-  router.put("/event/:id", isBoard, eventController.updateEvent);
+  router.put("/event/:id", isLogin, isBoard, eventController.updateEvent);
   return router;
 }
