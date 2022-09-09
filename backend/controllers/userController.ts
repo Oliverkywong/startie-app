@@ -10,7 +10,7 @@ import {
   UserService,
   UserStatusError,
 } from "../services/userService";
-import { joseKey } from "../josekey";
+import { joseKey } from "../jose";
 import * as jose from "jose";
 
 export class UserController {
@@ -90,7 +90,7 @@ export class UserController {
         result: true,
         msg: "login success",
         user: user[0],
-		jwt: jwt
+		    jwt: jwt
       });
     } catch (err) {
       if (err instanceof UserNotExistError) {
@@ -125,7 +125,7 @@ export class UserController {
       return res.json({
         result: true,
         msg: "Get user profile success",
-        userInfo: userInfo,
+        userInfo: userInfo[0],
       });
     } catch (err) {
       logger.error(err);
