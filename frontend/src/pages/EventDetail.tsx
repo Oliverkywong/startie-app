@@ -1,4 +1,4 @@
-import { IonPage, IonHeader, IonImg, IonLabel, IonButton, IonContent, IonBackButton, IonButtons, IonToolbar } from '@ionic/react'
+import { IonPage, IonHeader, IonImg, IonButton, IonBackButton, IonButtons, IonToolbar } from '@ionic/react'
 import React from 'react'
 import eventimg from '../img/com1.png'
 

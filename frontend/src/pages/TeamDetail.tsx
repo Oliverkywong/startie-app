@@ -1,4 +1,4 @@
-import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonImg, IonItem, IonLabel, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react'
+import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonImg, IonLabel, IonList, IonPage, IonToolbar } from '@ionic/react'
 import React from 'react'
 import team from '../img/team1.png'
 import icon from '../img/tonystarkicon.png'

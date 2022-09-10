@@ -1,6 +1,6 @@
 // Import Swiper React components
-import React, { useEffect, useState } from 'react';
-import { IonContent, IonImg, IonPage, IonLabel, IonButton, IonCard, IonCardContent, IonIcon, IonItem, IonButtons, IonSearchbar, IonToolbar, useIonRouter } from "@ionic/react";
+import React, { useEffect } from 'react';
+import { IonContent, IonImg, IonPage, IonLabel, IonButton, IonCard, IonCardContent, IonIcon, IonItem, IonButtons, IonSearchbar, IonToolbar, useIonRouter, IonList } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { notificationsOutline } from 'ionicons/icons';
 
@@ -31,7 +31,7 @@ const catergorys = {
 const Homepage: React.FC = () => {
 
 
-  const userdetails = useAppSelector((state: RootState) => state.auth.info); 
+  const userdetails = useAppSelector((state: RootState) => state.auth.info);
   const router = useIonRouter();
   const dispatch = useAppDispatch();
 
@@ -63,7 +63,7 @@ const Homepage: React.FC = () => {
       <IonContent>
         <IonToolbar>
           <IonButtons slot="end">
-            <IonButton onClick={() => { }}>
+            <IonButton onClick={() => { router.push("/notification") }}>
               <IonIcon icon={notificationsOutline} />
             </IonButton>
           </IonButtons>
@@ -74,7 +74,11 @@ const Homepage: React.FC = () => {
               <IonImg className='icon' src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails?.profilepic}`} />
             </IonButton>
           </IonButtons>
-          <IonSearchbar placeholder="Search" />
+          <IonButtons style={{ width: '100%' }} slot="primary">
+            <IonButton style={{ width: '100%' }} onClick={() => { router.push("/search") }}>
+              <IonSearchbar placeholder="Search" />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
 
         <IonLabel>Hot Events</IonLabel>
@@ -93,16 +97,23 @@ const Homepage: React.FC = () => {
         <a href='#'>See More</a>
         <Swiper className="mySwiper"
           slidesPerView={1}>
-          <SwiperSlide className="catelement"><IonImg src={catergorys.cat1.src} />
-            <IonLabel>{catergorys.cat1.title}</IonLabel></SwiperSlide>
-          <SwiperSlide className="catelement"><IonImg src={catergorys.cat2.src} />
-            <IonLabel>{catergorys.cat2.title}</IonLabel></SwiperSlide>
-          <SwiperSlide className="catelement"><IonImg src={catergorys.cat3.src} />
-            <IonLabel>{catergorys.cat3.title}</IonLabel></SwiperSlide>
+          <SwiperSlide className="catelement">
+            <IonImg src={catergorys.cat1.src} />
+            <IonLabel>{catergorys.cat1.title}</IonLabel>
+          </SwiperSlide>
+          <SwiperSlide className="catelement">
+            <IonImg src={catergorys.cat2.src} />
+            <IonLabel>{catergorys.cat2.title}</IonLabel>
+          </SwiperSlide>
+          <SwiperSlide className="catelement">
+            <IonImg src={catergorys.cat3.src} />
+            <IonLabel>{catergorys.cat3.title}</IonLabel>
+          </SwiperSlide>
         </Swiper>
 
         <IonLabel>Brownse Teams</IonLabel>
-        <a href='/tab/team'>See More</a>
+        <IonList>
+          <a href='/tab/team'>See More</a>
           <IonCard>
             <IonItem>
               <IonImg src={team1} />
@@ -125,7 +136,7 @@ const Homepage: React.FC = () => {
               within an ion-cardContent element.
             </IonCardContent>
           </IonCard>
-
+        </IonList>
       </IonContent>
     </IonPage>
   );

@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { IonPage, IonHeader, IonContent, IonSearchbar, IonCard, IonCardContent, IonImg, useIonViewWillEnter, IonInfiniteScroll, IonInfiniteScrollContent, IonGrid, IonCol, IonRow } from '@ionic/react'
 
-import team1 from '../img/team1.png'
+import icon from '../img/tonystarkicon.png'
 import './css/Team.css'
 
-const Team: React.FC = () => {
+const User: React.FC = () => {
     const [data, setData] = useState<string[]>([]);
     const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
 
@@ -48,7 +48,7 @@ const Team: React.FC = () => {
                                 <IonCol size='6'>
                                     <a href='/teamdetail'>
                                         <IonCard key={index} className="card">
-                                            <IonImg src={team1} style={{ width: '100%' }} />
+                                            <IonImg src={icon} style={{ width: '100%' }} />
                                             <IonCardContent className='content' style={{ fontSize: '10px' }}>
                                                 <p style={{ fontSize: '14px', color: 'white' }}>Name</p><br />
                                                 {item}
@@ -79,4 +79,4 @@ const Team: React.FC = () => {
         </IonPage>
     )
 }
-export default Team
+export default User
