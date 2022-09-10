@@ -84,14 +84,8 @@ const userController = new UserController(userService);
 const teamService = new TeamService(knex);
 const teamController = new TeamController(teamService);
 
-<<<<<<< HEAD
-const teamService = new TeamService(knex);
-const teamController = new TeamController(teamService)
-
-=======
 const jobService = new JobService(knex);
 const jobController = new JobController(jobService);
->>>>>>> 77de962f4a0ff5c19db16df67b5f7c2fdb979524
 
 const eventService = new EventService(knex);
 const eventController = new EventController(eventService);
