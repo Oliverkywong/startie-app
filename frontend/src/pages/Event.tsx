@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
-import { IonPage, IonHeader, IonContent, IonList, IonItem, IonLabel, IonBackButton, IonSearchbar, IonButton, IonCard, IonCardContent, IonImg, useIonViewWillEnter, IonInfiniteScroll, IonInfiniteScrollContent, useIonRouter } from '@ionic/react'
+import { IonPage, IonHeader, IonContent, IonList, IonItem, IonLabel, IonSearchbar, IonCard, IonCardContent, IonImg, useIonViewWillEnter, IonInfiniteScroll, IonInfiniteScrollContent } from '@ionic/react'
 
 import team1 from '../img/team1.png'
-import team2 from '../img/team2.png'
 import './css/Event.css'
 
 const Event: React.FC = () => {
   const [data, setData] = useState<string[]>([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
-  const router = useIonRouter();
 
   const pushData = () => {
     const max = data.length + 30;
@@ -49,7 +47,7 @@ const Event: React.FC = () => {
               <a href='/eventdetail'>
                 <IonCard key={index}>
                   <IonItem>
-                    <IonImg src={team1} style={{ width: '100%' }} />
+                    <IonImg src={team1}/>
                   </IonItem>
                   <IonCardContent>
                     {item}
@@ -60,7 +58,6 @@ const Event: React.FC = () => {
                       <IonLabel>Name</IonLabel>
                       <IonLabel>Date</IonLabel>
                     </div>
-                    <IonButton onClick={() => router.push('/eventdetail')}>Go</IonButton>
                   </div>
                 </IonCard>
               </a>

@@ -1,4 +1,4 @@
-import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonInput, IonLabel, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBackButton, IonButtons, IonContent, IonHeader, IonInput, IonLabel, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 
@@ -11,7 +11,7 @@ const BuildTeam: React.FC = () => {
     name: string;
   }
 
-  const [tag, setTag] = useState<tag[]>([]);
+  const [teamTag, setTeamTag] = useState<tag[]>([]);
   useEffect(() => {
     (async function () {
       const localtoken = localStorage.getItem('token')
@@ -21,7 +21,7 @@ const BuildTeam: React.FC = () => {
         }
       })
       const teamtag = await res.json()
-      setTag(teamtag)
+      setTeamTag(teamtag)
     })()
   }, [])
 
@@ -66,7 +66,7 @@ const BuildTeam: React.FC = () => {
           <IonLabel>Team Category:</IonLabel><br />
 
           {
-            tag.map(tag => (
+            teamTag.map(tag => (
               <IonLabel><input type="checkbox" value={tag.id} {...register('teamTag')} />{tag.name} </IonLabel>
             ))
           }
