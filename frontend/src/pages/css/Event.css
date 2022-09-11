@@ -1,0 +1,12 @@
+.event{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    padding: 10px;
+}
+
+.eventinfo{
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+}

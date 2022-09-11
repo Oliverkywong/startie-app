@@ -10,7 +10,7 @@ import UserTeams from './UserTeams';
 import UserFollows from './UserFollows';
 import UserSettings from './UserSettings';
 import { RootState, useAppDispatch, useAppSelector } from '../store';
-import { loggedIn, logOut} from '../redux/auth/action';
+import { loggedIn} from '../redux/auth/action';
 
 const Profile: React.FC = () => {
     const userdetails = useAppSelector((state: RootState) => state.auth.info); 

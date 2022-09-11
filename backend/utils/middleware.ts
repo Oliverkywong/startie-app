@@ -28,6 +28,7 @@ export const isLogin = async (
     const publicKey = await josePublicKey();
     const { payload } = await jose.jwtVerify(jwt, publicKey); //use the public key to verify the token
 
+
     if (payload["userId"]) {
       req.user = {
         userId: payload["userId"] as number,
@@ -38,7 +39,7 @@ export const isLogin = async (
       res.status(401).json({ result: false, msg: "Unauthorized" });
     }
   } catch (e) {
-    console.log(e);
+    // console.log(e);
     if (e.code === "ERR_JWT_EXPIRED") {
       res.status(401).json({ result: false, msg: "Token expired" });
     } else {
