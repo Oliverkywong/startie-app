@@ -1,54 +1,61 @@
-.background{
-    background-image: url('../../img/bgimage.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+.background {
+  background-image: url("../../img/bgimage.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
-.logo{
-    width: 50vw;
-    height: 25vh;
+.logo {
+  width: 50vw;
+  height: 25vh;
 }
 
-.email,.password,.username{
-    display: flex;
-    flex-direction: row;
-    display: block;
-    color: #000;
+.email,
+.password,
+.username {
+  display: flex;
+  flex-direction: row;
+  display: block;
+  color: #000;
 }
-input{
-    border: none;
-}
-
-h1{
-    color: #000;
+input {
+  border: none;
 }
 
-a{
-    text-decoration: none;
-    color: #999;
+h1 {
+  color: #000;
 }
 
-.signup{
-    color: #000;
+a {
+  text-decoration: none;
+  color: #999;
 }
 
-.signup > p > a{
-    color: #4fc564;
+.signup {
+  color: #000;
 }
 
-span{
-    color: #000;
+.signup > p > a {
+  color: #4fc564;
 }
 
-button{
-    background: linear-gradient(43.6deg, #7F398D 15.02%, #DA2F69 67.96%, #EA5729 100.39%);
-    padding: 15px;
-    margin: 10px;
-    border-radius: 10px;
-    font-size: larger;
-    font-weight: bold;
+span {
+  color: #000;
+}
+
+button {
+  background: linear-gradient(
+    43.6deg,
+    #7f398d 15.02%,
+    #da2f69 67.96%,
+    #ea5729 100.39%
+  );
+  padding: 15px;
+  margin: 10px;
+  border-radius: 10px;
+  font-size: larger;
+  font-weight: bold;
 }
