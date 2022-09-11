@@ -1,4 +1,4 @@
-import { IonPage, IonHeader, IonContent, IonList, IonItem, IonLabel, IonBackButton, IonButton, IonToolbar, IonTitle, IonButtons } from '@ionic/react'
+import { IonPage, IonHeader, IonContent, IonList, IonItem, IonLabel, IonBackButton, IonButton, IonToolbar, IonTitle, IonButtons, IonToggle } from '@ionic/react'
 import React from 'react'
 import { logOut } from '../redux/auth/action';
 import { useAppDispatch } from '../store';
@@ -19,9 +19,32 @@ const UserSettings: React.FC = () => {
                 </IonHeader>
                 <IonList>
                     <IonItem>
-                        <IonLabel>Username</IonLabel>
+                        <IonToggle checked={true} onIonChange={e => false} />
+                        <IonLabel>New Post</IonLabel>
+                    </IonItem>
+                    <IonItem>
+                        <IonToggle checked={true} onIonChange={e => false} />
+                        <IonLabel>New Call</IonLabel>
+                    </IonItem>
+                    <IonItem>
+                        <IonToggle checked={true} onIonChange={e => false} />
+                        <IonLabel>New Hired</IonLabel>
+                    </IonItem>
+                    <IonItem>
+                        <IonToggle checked={true} onIonChange={e => false} />
+                        <IonLabel>Reject</IonLabel>
+                    </IonItem>
+                    <IonItem>
+                        <IonToggle checked={true} onIonChange={e => false} />
+                        <IonLabel>New Post</IonLabel>
+                    </IonItem>
+                    <IonItem>
+                        <IonToggle checked={true} onIonChange={e => false} />
+                        <IonLabel>New Post</IonLabel>
                     </IonItem>
                 </IonList>
+                <IonButton color="danger" onClick={() => {
+                }}>Delect Account</IonButton>
                 <IonButton color="danger" onClick={() => {
                     dispatch(logOut());
                     window.location.replace('/login');

@@ -149,7 +149,7 @@ export class UserController {
         let oldProfilepic = userInfos[0].profilepic;
         let oldPhoneNumber = userInfos[0].phonenumber;
         let oldDescription = userInfos[0].description;
-        console.log(userInfos);
+        // console.log(userInfos);
 
         const newProfilepic =
           files.profilepic != null && !Array.isArray(files.profilepic)

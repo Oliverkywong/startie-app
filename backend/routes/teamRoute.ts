@@ -3,11 +3,12 @@ import { TeamController } from "../controllers/teamController";
 import { isBoard, isLogin } from "../utils/middleware";
 
 export function teamRoutes(teamController: TeamController) {
-  const routes = express.Router();
-  routes.get("/team", teamController.getAllTeams);
-  routes.get("/team/:id", teamController.getTeam);
-  routes.post("/team", isLogin, teamController.createTeam);
-  routes.put("/team/:id", isLogin, isBoard, teamController.updateTeam);
-  routes.delete("/team/:id", isLogin, isBoard, teamController.deleteTeam);
-  return routes;
+  const router = express.Router();
+  router.get("/team", teamController.getAllTeams);
+  router.get("/team/:id", teamController.getTeam);
+  router.post("/team", isLogin, teamController.createTeam);
+  router.put("/team/:id", isBoard, teamController.updateTeam);
+  router.delete("/team/:id", isBoard, teamController.deleteTeam);
+  router.get("/teamtag", teamController.teamTag);
+  return router;
 }

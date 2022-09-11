@@ -65,4 +65,8 @@ export class TeamService {
   async deleteTeam(id: number) {
     return await this.knex<Team>("team").where({ id: id }).del();
   }
+
+  async teamTag() {
+    return await this.knex("searchcategory").select("*");
+  }
 }

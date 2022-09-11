@@ -102,6 +102,7 @@ app.use(teamRoutes(teamController));
 app.use(jobRoutes(jobController));
 app.use(eventRoutes(eventController));
 app.use(sectorskillRoutes(sectorskillController));
+app.use(teamRoutes(teamController));
 
 // --------------------------------------------------------------------------------------------------------------------
 // Error 404
@@ -118,3 +119,4 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   logger.info(`listening on port ${PORT}`);
 });
+

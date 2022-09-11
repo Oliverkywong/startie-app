@@ -39,8 +39,13 @@ const Login: React.FC = () => {
             if (res.status === 200) {
               const userRecord = await res.json();
               // console.log(userRecord)
+<<<<<<< HEAD
               dispatch(loggedIn(userRecord["user"], userRecord["token"]));
               localStorage.setItem("token", userRecord["token"]);
+=======
+              dispatch(loggedIn(userRecord['user'], userRecord['jwt']))
+              localStorage.setItem('token', userRecord['jwt'])
+>>>>>>> 2b4db447a78782fb5e92803367feea721244ff93
               router.push("/tab/home");
             }
           })}
