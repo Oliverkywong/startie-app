@@ -16,6 +16,7 @@ import TeamDetail from './pages/TeamDetail'
 import SearchPage from './pages/SearchPage'
 import User from './pages/User'
 import Notification from './pages/Notification'
+import Recommend from './pages/Recommend'
 
 export default function Routes() {
 
@@ -29,6 +30,7 @@ export default function Routes() {
             <Route path="/teamdetail" component={TeamDetail} />
             <Route path="/search" component={SearchPage} />
             <Route path="/notification" component={Notification} />
+            <Route path="/recommend" component={Recommend} />
 
             <Route path="/tab">
                 <IonTabs>

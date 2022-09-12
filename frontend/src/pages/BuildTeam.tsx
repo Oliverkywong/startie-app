@@ -1,8 +1,9 @@
-import { IonBackButton, IonButtons, IonContent, IonHeader, IonInput, IonLabel, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBackButton, IonButtons, IonContent, IonHeader, IonImg, IonInput, IonLabel, IonPage, IonTitle, IonToolbar, useIonRouter } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 
 import "./css/BuildTeam.css"
+import team1 from '../img/team1.png'
 
 const BuildTeam: React.FC = () => {
 
@@ -11,6 +12,7 @@ const BuildTeam: React.FC = () => {
     name: string;
   }
 
+  const router = useIonRouter();
   const [teamTag, setTeamTag] = useState<tag[]>([]);
   useEffect(() => {
     (async function () {
@@ -26,6 +28,7 @@ const BuildTeam: React.FC = () => {
   }, [])
 
   const { register, handleSubmit } = useForm();
+
   return (
     <IonPage>
       <IonHeader>
@@ -37,7 +40,22 @@ const BuildTeam: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <form onSubmit={handleSubmit(async(data) => {
+
+        <IonImg src={team1} />
+        <form onSubmit={handleSubmit((data) => {
+          const formData = new FormData();
+          formData.append("teamImage", data.teamImage[0])
+          console.log(data)
+        }
+        )}>
+
+          <IonLabel>Team Pure:</IonLabel>
+          <input type="file" {...register('teamImage')} />
+          <input type="submit" />
+        </form>
+
+
+        <form onSubmit={handleSubmit(async (data) => {
           const formData = new FormData();
           formData.append("teamName", data.teamName);
           formData.append("teamDescription", data.teamDescription);
@@ -52,7 +70,8 @@ const BuildTeam: React.FC = () => {
           //   body: formData,
           // })
           console.log(data);
-          
+          router.push("/recommend");
+
         })}>
           <IonLabel>Team Picture:</IonLabel>
           <input type="file" {...register('teamImage')} /><br />

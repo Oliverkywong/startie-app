@@ -38,7 +38,7 @@ const Profile: React.FC = () => {
       
             if (res.status === 200) {
               const userRecord = await res.json()
-              // console.log(userRecord)
+            //   console.log(userRecord)
               dispatch(loggedIn(userRecord['userInfo'], localtoken!))
             //   router.push("/tab/home");
             }
