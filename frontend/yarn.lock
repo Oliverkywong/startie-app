@@ -31,6 +31,13 @@
   dependencies:
     "@types/cordova" "latest"
 
+"@awesome-cordova-plugins/google-plus@^5.45.0":
+  "integrity" "sha512-qfFRyELlUn2tjgsWOQcEkDK8pnFf+e5ftRuAJXMU7ksRyn1TkXJD31nozoVlvvZcY5JFpLGOl0ErJyWC9tXnRg=="
+  "resolved" "https://registry.npmjs.org/@awesome-cordova-plugins/google-plus/-/google-plus-5.45.0.tgz"
+  "version" "5.45.0"
+  dependencies:
+    "@types/cordova" "latest"
+
 "@awesome-cordova-plugins/sign-in-with-apple@^5.45.0":
   "integrity" "sha512-WaE0jdTLSq6vAxP7Fj2yAOc9H/s4PWy3qD5JmdLbCRaBFlXqUw3UH50O949LB8gnMuwdT3NippX3Xgy/iwYRLg=="
   "resolved" "https://registry.npmjs.org/@awesome-cordova-plugins/sign-in-with-apple/-/sign-in-with-apple-5.45.0.tgz"
@@ -3857,6 +3864,13 @@ caniuse-api@^3.0.0:
   "integrity" "sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw=="
   "resolved" "https://registry.npmjs.org/cookie/-/cookie-0.5.0.tgz"
   "version" "0.5.0"
+
+"cordova-plugin-googleplus@^8.5.2":
+  "integrity" "sha512-I4G1zQcQrrtvdNZbwiDFfWZoIAHmwF4y8dZtnssjYkf1L10hoXF8b/ry+qlW1VK5TLhDgRgEnE45MkaaxBWpXg=="
+  "resolved" "https://registry.npmjs.org/cordova-plugin-googleplus/-/cordova-plugin-googleplus-8.5.2.tgz"
+  "version" "8.5.2"
+  dependencies:
+    "q" "*"
 
 "cordova-plugin-sign-in-with-apple@^0.1.2":
   "integrity" "sha512-SOVa2fwqT5aRGCclgjQIZAA0RsylX9vWtVwNK9sx6kTV65FjZ2CcOygyY//EIo9YNSGzHR+OExhu9EDagyZIpg=="
@@ -8323,7 +8337,7 @@ postcss-value-parser@^4.0.0, postcss-value-parser@^4.0.2, postcss-value-parser@^
   "resolved" "https://registry.npmjs.org/punycode/-/punycode-2.1.1.tgz"
   "version" "2.1.1"
 
-"q@^1.1.2":
+"q@*", "q@^1.1.2":
   "integrity" "sha512-kV/CThkXo6xyFEZUugw/+pIOywXcDbFYgSct5cT3gqlbkBE1SJdwy6UQoZvodiWF/ckQLZyDE/Bu1M6gVu5lVw=="
   "resolved" "https://registry.npmjs.org/q/-/q-1.5.1.tgz"
   "version" "1.5.1"
