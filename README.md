@@ -9,25 +9,25 @@ todolist
   - [ ] google login
   - [ ] apple login
 
-- [ ] Register
+- [x] Register
 
   - [x] team register
   - [x] user register
-  - [ ] jobs register
+  - [x] jobs register
 
-- [ ] Info
+- [x] Info
 
   - [x] team info
-  - [ ] user info
-  - [ ] events info
-  - [ ] jobs info
+  - [x] user info
+  - [x] events info
+  - [x] jobs info
 
-- [ ] Update
+- [x] Update
 
-  - [ ] team update
-  - [ ] user update
-  - [ ] events update
-  - [ ] jobs update
+  - [x] team update
+  - [x] user update
+  - [x] events update
+  - [x] jobs update
 
 - [ ] Search
 
@@ -66,4 +66,3 @@ required / tools we need
 - zxcvbn
 - cors
 - formiddable
-

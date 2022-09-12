@@ -1,12 +1,22 @@
-import React, { useState } from 'react'
-import { IonButton, IonIcon, IonImg, IonPage, useIonRouter } from '@ionic/react'
-import logo from '../img/StartieLogo.png'
-import { eyeOffOutline, eyeOutline, lockClosedOutline, logoApple, personOutline } from 'ionicons/icons'
+import React, { useState } from "react";
+import { IonIcon, IonImg, IonPage, useIonRouter } from "@ionic/react";
+import logo from "../img/StartieLogo.png";
+import {
+  eyeOffOutline,
+  eyeOutline,
+  lockClosedOutline,
+  personOutline,
+} from "ionicons/icons";
 import { useForm } from "react-hook-form";
 import './css/Login.css'
 import { useDispatch } from 'react-redux';
 import { loggedIn } from '../redux/auth/action';
-// import { SignInWithApple, AppleSignInResponse, AppleSignInErrorResponse, ASAuthorizationAppleIDRequest } from '@awesome-cordova-plugins/sign-in-with-apple/ngx';
+import { SignInWithApple, AppleSignInResponse, AppleSignInErrorResponse, ASAuthorizationAppleIDRequest } from '@awesome-cordova-plugins/sign-in-with-apple/ngx';
+import { isPlatform } from '@ionic/react';
+import { Plugins } from '@capacitor/core'
+
+const IOS = isPlatform('ios');
+
 
 const Login: React.FC = () => {
 
@@ -39,62 +49,75 @@ const Login: React.FC = () => {
   const dispatch = useDispatch();
   const router = useIonRouter();
 
-
   return (
-    <IonPage>
-      <div className='background' >
+    <IonPage className="background">
+      <div className="pageContent">
         <IonImg src={logo} className="logo" />
         <h1>Hey, Welcome Back!</h1>
-        <form onSubmit={
-          handleSubmit(async data => {
-            const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/login`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(data)
-            })
+        <form
+          onSubmit={handleSubmit(async (data) => {
+            const res = await fetch(
+              `${process.env.REACT_APP_BACKEND_URL}/login`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+              }
+            );
 
             if (res.status === 200) {
-              const userRecord = await res.json()
+              const userRecord = await res.json();
               // console.log(userRecord)
-              dispatch(loggedIn(userRecord['user'], userRecord['jwt']))
-              localStorage.setItem('token', userRecord['jwt'])
+              dispatch(loggedIn(userRecord["user"], userRecord["jwt"]));
+              localStorage.setItem("token", userRecord["jwt"]);
               router.push("/tab/home");
             }
-          })}>
-          <div className='username'>
+          })}
+        >
+          <div className="username">
             <IonIcon icon={personOutline} />
             <input
-              {...register('username')}
+              className="usernameInput"
+              {...register("username")}
               type="text"
-              placeholder='User Name'
+              placeholder="Username"
             />
           </div>
-          <div className='password'>
+          <div className="password">
             <IonIcon icon={lockClosedOutline} />
             <input
-              {...register('password')}
-              placeholder='Password'
+              className="passwordInput"
+              {...register("password")}
+              placeholder="Password"
               type={passwordShown ? "text" : "password"}
             />
             <IonIcon
               icon={passwordShown ? eyeOutline : eyeOffOutline}
               onClick={() => setPasswordShown(passwordShown ? false : true)}
-            /><br />
+            />
+            <br />
           </div>
           <button type="submit">Continue</button>
         </form>
-        <a href='#'>Forgot Password?</a>
-        <div className='signup'>
-          <p>New to Startie?<a href='/signup'>Sign Up</a></p>
+        <a href="#">Forgot Password?</a>
+        <div className="signup">
+          <p>
+            New to Startie?<a href="/signup">Sign Up</a>
+          </p>
         </div>
         {/* <IonButton color="dark" onClick={appleLogin}>
           <IonIcon icon={logoApple} />
+<<<<<<< HEAD
           Sign in with Apple</IonButton> */}
+=======
+          Sign in with Apple
+        </IonButton> */}
+>>>>>>> 494a98cac35fffb93c46f081170afbbcaeb068c1
       </div>
-    </IonPage >
-  )
-}
+    </IonPage>
+  );
+};
 
 export default Login;
