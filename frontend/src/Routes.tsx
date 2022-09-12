@@ -17,12 +17,14 @@ import SearchPage from './pages/SearchPage'
 import User from './pages/User'
 import Notification from './pages/Notification'
 import Recommend from './pages/Recommend'
+import { useSelector } from 'react-redux'
+import { RootState } from './store'
+
 
 export default function Routes() {
-
     return (
         <IonRouterOutlet>
-
+            <Route path="/" component={Login}/>
             <Route path="/login" component={Login} />
             <Route path="/signup" component={SignUp} />
             <Route path="/buildteam" component={BuildTeam} />

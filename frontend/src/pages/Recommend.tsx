@@ -1,5 +1,5 @@
-import { IonButton, IonCard, IonCardContent, IonContent, IonHeader, IonImg, IonItem, IonLabel, IonList, IonPage } from '@ionic/react'
 import React from 'react'
+import { IonButton, IonCard, IonCardContent, IonContent, IonHeader, IonImg, IonLabel, IonList, IonPage } from '@ionic/react'
 import icon from '../img/tonystarkicon.png'
 
 export default function Recommend() {

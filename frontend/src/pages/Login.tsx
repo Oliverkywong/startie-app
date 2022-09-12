@@ -6,24 +6,33 @@ import { useForm } from "react-hook-form";
 import './css/Login.css'
 import { useDispatch } from 'react-redux';
 import { loggedIn } from '../redux/auth/action';
-import { SignInWithApple, AppleSignInResponse, AppleSignInErrorResponse, ASAuthorizationAppleIDRequest } from '@awesome-cordova-plugins/sign-in-with-apple/ngx';
-import { isPlatform } from '@ionic/react';
-import { Plugins } from '@capacitor/core'
-
-const IOS = isPlatform('ios');
-
+// import { SignInWithApple, AppleSignInResponse, AppleSignInErrorResponse, ASAuthorizationAppleIDRequest } from '@awesome-cordova-plugins/sign-in-with-apple/ngx';
 
 const Login: React.FC = () => {
 
-  async function appleLogin() {
-    const { SignInWithApple } = Plugins
-
-    SignInWithApple.Authorize().then((res:any) => {
-      console.log(res)
-    }).catch((res:any) => {
-      console.error(res)
-    })
-  }
+  // async function appleLogin() {
+  //  //@ts-ignore
+  //   SignInWithApple.signin({
+  //     requestedScopes: [
+  //       ASAuthorizationAppleIDRequest.ASAuthorizationScopeFullName,
+  //       ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail
+  //     ]
+  //   }).then((res:AppleSignInResponse) => {
+  //     fetch(`http://192.168.59.189:8000/login/apple`, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify(res)
+  //     })
+  //     console.log("hi")
+  //     console.log(res)
+  //   }).catch((error:AppleSignInErrorResponse) => {
+  //     alert(error.code + ' ' + error.localizedDescription);
+  //     console.error(error);
+  
+  //   })
+  // }
 
   const { register, handleSubmit } = useForm();
   const [passwordShown, setPasswordShown] = useState(false);
@@ -80,9 +89,9 @@ const Login: React.FC = () => {
         <div className='signup'>
           <p>New to Startie?<a href='/signup'>Sign Up</a></p>
         </div>
-        <IonButton color="dark" onClick={appleLogin}>
+        {/* <IonButton color="dark" onClick={appleLogin}>
           <IonIcon icon={logoApple} />
-          Sign in with Apple</IonButton>
+          Sign in with Apple</IonButton> */}
       </div>
     </IonPage >
   )
