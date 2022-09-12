@@ -11,12 +11,12 @@ import { useForm } from "react-hook-form";
 import "./css/Login.css";
 import { useDispatch } from "react-redux";
 import { loggedIn } from "../redux/auth/action";
-import {
-  SignInWithApple,
-  AppleSignInResponse,
-  AppleSignInErrorResponse,
-  ASAuthorizationAppleIDRequest,
-} from "@awesome-cordova-plugins/sign-in-with-apple/ngx";
+// import {
+//   SignInWithApple,
+//   AppleSignInResponse,
+//   AppleSignInErrorResponse,
+//   ASAuthorizationAppleIDRequest,
+// } from "@awesome-cordova-plugins/sign-in-with-apple/ngx";
 import { isPlatform } from "@ionic/react";
 import { Plugins } from "@capacitor/core";
 
@@ -41,8 +41,8 @@ const Login: React.FC = () => {
   const router = useIonRouter();
 
   return (
-    <IonPage>
-      <div className="background">
+    <IonPage className="background">
+      <div className="pageContent">
         <IonImg src={logo} className="logo" />
         <h1>Hey, Welcome Back!</h1>
         <form
@@ -70,14 +70,16 @@ const Login: React.FC = () => {
           <div className="username">
             <IonIcon icon={personOutline} />
             <input
+              className="usernameInput"
               {...register("username")}
               type="text"
-              placeholder="User Name"
+              placeholder="Username"
             />
           </div>
           <div className="password">
             <IonIcon icon={lockClosedOutline} />
             <input
+              className="passwordInput"
               {...register("password")}
               placeholder="Password"
               type={passwordShown ? "text" : "password"}
@@ -96,10 +98,10 @@ const Login: React.FC = () => {
             New to Startie?<a href="/signup">Sign Up</a>
           </p>
         </div>
-        <IonButton color="dark" onClick={appleLogin}>
+        {/* <IonButton color="dark" onClick={appleLogin}>
           <IonIcon icon={logoApple} />
           Sign in with Apple
-        </IonButton>
+        </IonButton> */}
       </div>
     </IonPage>
   );
