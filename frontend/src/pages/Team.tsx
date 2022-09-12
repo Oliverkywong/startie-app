@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { IonPage, IonHeader, IonContent, IonSearchbar, IonCard, IonCardContent, IonImg, useIonViewWillEnter, IonInfiniteScroll, IonInfiniteScrollContent, IonGrid, IonCol, IonRow } from '@ionic/react'
+import { IonPage, IonHeader, IonContent, IonSearchbar, IonCard, IonCardContent, IonImg, useIonViewWillEnter, IonInfiniteScroll, IonInfiniteScrollContent, IonGrid, IonCol, IonRow, IonButtons, IonButton, useIonRouter } from '@ionic/react'
 
 import team1 from '../img/team1.png'
 import './css/Team.css'
@@ -7,6 +7,7 @@ import './css/Team.css'
 const Team: React.FC = () => {
     const [data, setData] = useState<string[]>([]);
     const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
+    const router = useIonRouter();
 
     const pushData = () => {
         const max = data.length + 30;
@@ -38,7 +39,7 @@ const Team: React.FC = () => {
     return (
         <IonPage>
             <IonHeader>
-                <IonSearchbar placeholder="Search" />
+                <IonSearchbar placeholder="Search" onClick={() => { router.push("/search") }} />
             </IonHeader>
             <IonContent>
                 <IonGrid>
