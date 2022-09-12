@@ -8,11 +8,33 @@ import {
   personOutline,
 } from "ionicons/icons";
 import { useForm } from "react-hook-form";
+import "./css/Login.css";
 import { useDispatch } from "react-redux";
 import { loggedIn } from "../redux/auth/action";
-import { render } from "react-dom";
+import {
+  SignInWithApple,
+  AppleSignInResponse,
+  AppleSignInErrorResponse,
+  ASAuthorizationAppleIDRequest,
+} from "@awesome-cordova-plugins/sign-in-with-apple/ngx";
+import { isPlatform } from "@ionic/react";
+import { Plugins } from "@capacitor/core";
+
+const IOS = isPlatform("ios");
 
 const Login: React.FC = () => {
+  async function appleLogin() {
+    const { SignInWithApple } = Plugins;
+
+    SignInWithApple.Authorize()
+      .then((res: any) => {
+        console.log(res);
+      })
+      .catch((res: any) => {
+        console.error(res);
+      });
+  }
+
   const { register, handleSubmit } = useForm();
   const [passwordShown, setPasswordShown] = useState(false);
   const dispatch = useDispatch();
@@ -74,6 +96,10 @@ const Login: React.FC = () => {
             New to Startie?<a href="/signup">Sign Up</a>
           </p>
         </div>
+        <IonButton color="dark" onClick={appleLogin}>
+          <IonIcon icon={logoApple} />
+          Sign in with Apple
+        </IonButton>
       </div>
     </IonPage>
   );

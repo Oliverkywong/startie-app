@@ -21,7 +21,7 @@ export default function SearchPage() {
                 <IonToolbar>
                     <IonSearchbar placeholder="Search" />
                     <IonButtons slot="end">
-                        <IonButton onClick={() => { router.push("/home") }}>Cancel</IonButton>
+                        <IonButton onClick={() => { router.push("/tab/home") }}>Cancel</IonButton>
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>

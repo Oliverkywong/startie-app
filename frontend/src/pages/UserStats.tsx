@@ -86,7 +86,7 @@ export default function UserStats() {
         {sectorName.map((sectorName, index) => {
           return (
             <IonInfiniteScroll>
-              <Radar data={{
+              <Radar key={index} data={{
                 labels: [skillName[index * 5], skillName[index * 5 + 1], skillName[index * 5 + 2], skillName[index * 5 + 3], skillName[index * 5 + 4]],
                 datasets: [
                   {
