@@ -5,28 +5,56 @@
   height: 100vh;
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.pageContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
 }
 
 .logo {
-  width: 50vw;
-  height: 25vh;
+  width: 400px;
+  height: 200px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .email,
 .password,
 .username {
   display: flex;
-  flex-direction: row;
-  display: block;
-  color: #000;
+  justify-content: center;
+  align-items: baseline;
+  color: #3c3c43;
 }
+
 input {
   border: none;
+  border-radius: 20px;
+  padding: 20px;
+  background-color: #e8e8e8;
+}
+
+.usernameInput,
+.passwordInput {
+  margin-bottom: 20px;
 }
 
 h1 {
   color: #000;
+  margin: 0 0 20px 0;
+  font-weight: bold;
 }
 
 a {
@@ -54,8 +82,9 @@ button {
     #ea5729 100.39%
   );
   padding: 15px;
-  margin: 10px;
+  margin: 10px auto;
   border-radius: 10px;
   font-size: larger;
   font-weight: bold;
+  width: 100%;
 }
