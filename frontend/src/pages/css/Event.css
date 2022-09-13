@@ -1,12 +1,26 @@
-.event{
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    padding: 10px;
+.title {
+  font-size: 30px;
+  font-weight: bold;
+  margin: 10px;
+}
+.event {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  padding: 10px;
 }
 
-.eventinfo{
-    display: flex;
-    flex-direction: column;
-    padding-left: 20px;
+.eventinfo {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+}
+
+.eventName {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.eventDescription {
+  font-size: 16px;
 }
