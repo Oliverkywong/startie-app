@@ -6,9 +6,29 @@
 	<string>270392848203-rib5h4897grjike2km2v76igv1gs194m.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.270392848203-rib5h4897grjike2km2v76igv1gs194m</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCDY1pESJhoxGV1_dB954nB1vdpqtqULdg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>270392848203</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.oliverstrat.startie</string>
+	<key>PROJECT_ID</key>
+	<string>manifest-ocean-357204</string>
+	<key>STORAGE_BUCKET</key>
+	<string>manifest-ocean-357204.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:270392848203:ios:5b1f17d313bd272ec602ce</string>
 </dict>
 </plist>
