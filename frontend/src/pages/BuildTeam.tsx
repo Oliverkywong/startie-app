@@ -1,6 +1,7 @@
 import { IonBackButton, IonButtons, IonContent, IonHeader, IonImg, IonInput, IonLabel, IonPage, IonTitle, IonToolbar, useIonRouter } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
+import { PhotoViewer } from '@awesome-cordova-plugins/photo-viewer';
 
 import "./css/BuildTeam.css"
 import team1 from '../img/team1.png'
@@ -29,6 +30,19 @@ const BuildTeam: React.FC = () => {
 
   const { register, handleSubmit } = useForm();
 
+  const [state, setState]=useState<any>(team1)
+
+  const imghandle = (e:any) => {
+    const reader = new FileReader()
+    // console.log(reader)
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setState(reader.result)
+      }
+    }
+    reader.readAsDataURL(e.target.files[0])
+  }
+
   return (
     <IonPage>
       <IonHeader>
@@ -40,20 +54,7 @@ const BuildTeam: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-
-        <IonImg src={team1} />
-        <form onSubmit={handleSubmit((data) => {
-          const formData = new FormData();
-          formData.append("teamImage", data.teamImage[0])
-          console.log(data)
-        }
-        )}>
-
-          <IonLabel>Team Pure:</IonLabel>
-          <input type="file" {...register('teamImage')} />
-          <input type="submit" />
-        </form>
-
+        <IonImg src={state} />
 
         <form onSubmit={handleSubmit(async (data) => {
           const formData = new FormData();
@@ -73,8 +74,9 @@ const BuildTeam: React.FC = () => {
           router.push("/recommend");
 
         })}>
+          {/* <>{PhotoViewer.show('teamImage')}</> */}
           <IonLabel>Team Picture:</IonLabel>
-          <input type="file" {...register('teamImage')} /><br />
+          <input type="file" {...register('teamImage')} onChange={imghandle} /><br />
 
           <IonLabel>Team Name:</IonLabel>
           <IonInput
