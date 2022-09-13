@@ -24,26 +24,6 @@ ChartJS.register(
   Legend
 );
 
-// export const RadarOptions = {
-//   scale: {
-//     ticks: {
-//       min: 0,
-//       max: 20,
-//       stepSize: 2,
-//       showLabelBackdrop: false,
-//       backdropColor: "rgba(255, 255, 255, 1)"
-//     },
-//     angleLines: {
-//       color: "rgba(255, 255, 255, )",
-//       lineWidth: 10
-//     },
-//     gridLines: {
-//       color: "rgba(255, 255, 255, .3)",
-//       circular: true
-//     }
-//   }
-// }
-
 export default function UserStats() {
 
   const token = useSelector((state: RootState) => state.auth.token);

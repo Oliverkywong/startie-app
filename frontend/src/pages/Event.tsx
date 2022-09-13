@@ -1,30 +1,33 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IonPage, IonHeader, IonContent, IonList, IonItem, IonLabel, IonSearchbar, IonCard, IonCardContent, IonImg, useIonViewWillEnter, IonInfiniteScroll, IonInfiniteScrollContent, useIonRouter } from '@ionic/react'
 
-import team1 from '../img/team1.png'
 import './css/Event.css'
 
+interface Event {
+    id: number,
+    name: string,
+    description: string,
+    profilepic: string,
+    created_at: string,
+}
+
 const Event: React.FC = () => {
-  const [data, setData] = useState<string[]>([]);
+  const [data, setData] = useState<Event[]>([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
 
-  const pushData = () => {
-    const max = data.length + 30;
-    const min = max - 30;
-    const newData = [];
-    for (let i = min; i < max; i++) {
-      newData.push('ion-item in a card, icon left, button right' + i);
-    }
 
-    setData([
-      ...data,
-      ...newData
-    ]);
-  }
+  useEffect(() => {
+    (async function () {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/event`);
+        const result = await res.json();
+        console.log(result)
+        setData(result);
+    })()
+}, [])
+
   const loadData = (ev: any) => {
     setTimeout(() => {
-      pushData();
       console.log('Loaded data');
       ev.target.complete();
       if (data.length === 100) {
@@ -33,9 +36,6 @@ const Event: React.FC = () => {
     }, 500);
   }
 
-  useIonViewWillEnter(() => {
-    pushData();
-  });
   return (
     <IonPage>
       <IonHeader>
@@ -43,21 +43,21 @@ const Event: React.FC = () => {
       </IonHeader>
       <IonContent>
         <IonList>
-          {data.map((item, index) => {
+          {data.map((item) => {
             return (
               <a href='/eventdetail'>
-                <IonCard key={index}>
+                <IonCard key={item.id}>
                   <IonItem>
-                    <IonImg src={team1} />
+                    <IonImg src={item.profilepic} />
                   </IonItem>
                   <IonCardContent>
-                    {item}
+                    {item.description}
                   </IonCardContent>
                   <div className="event">
-                    <IonImg src={team1} style={{ width: '10%' }} />
+                    <IonImg src={item.profilepic} style={{ width: '10%' }} />
                     <div className="eventinfo">
-                      <IonLabel>Name</IonLabel>
-                      <IonLabel>Date</IonLabel>
+                      <IonLabel>{item.name}</IonLabel>
+                      <IonLabel>{item.created_at}</IonLabel>
                     </div>
                   </div>
                 </IonCard>
