@@ -76,7 +76,7 @@ const Team: React.FC = () => {
             {data.map((item) => {
               return (
                 <IonCol size="6">
-                  <a href="/teamdetail">
+                  <a href={`/teamdetail/${item.id}`}>
                     <IonCard key={item.id} className="card">
                       <IonImg src={item.profilepic} style={{ width: "100%" }} />
                       <IonCardContent
