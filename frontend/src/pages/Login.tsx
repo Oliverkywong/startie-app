@@ -8,18 +8,21 @@ import {
   personOutline,
 } from "ionicons/icons";
 import { useForm } from "react-hook-form";
-import './css/Login.css'
-import { useDispatch } from 'react-redux';
-import { loggedIn } from '../redux/auth/action';
-import { SignInWithApple, AppleSignInResponse, AppleSignInErrorResponse, ASAuthorizationAppleIDRequest } from '@awesome-cordova-plugins/sign-in-with-apple/ngx';
-import { isPlatform } from '@ionic/react';
-import { Plugins } from '@capacitor/core'
+import "./css/Login.css";
+import { useDispatch } from "react-redux";
+import { loggedIn } from "../redux/auth/action";
+// import {
+//   SignInWithApple,
+//   AppleSignInResponse,
+//   AppleSignInErrorResponse,
+//   ASAuthorizationAppleIDRequest,
+// } from "@awesome-cordova-plugins/sign-in-with-apple/ngx";
+import { isPlatform } from "@ionic/react";
+import { Plugins } from "@capacitor/core";
 
-const IOS = isPlatform('ios');
-
+const IOS = isPlatform("ios");
 
 const Login: React.FC = () => {
-
   // async function appleLogin() {
   //  //@ts-ignore
   //   SignInWithApple.signin({
@@ -40,7 +43,7 @@ const Login: React.FC = () => {
   //   }).catch((error:AppleSignInErrorResponse) => {
   //     alert(error.code + ' ' + error.localizedDescription);
   //     console.error(error);
-  
+
   //   })
   // }
 
@@ -99,7 +102,11 @@ const Login: React.FC = () => {
             />
             <br />
           </div>
-          <button type="submit">Continue</button>
+          <input
+            className="loginButton"
+            type="submit"
+            value={"Continue"}
+          ></input>
         </form>
         <a href="#">Forgot Password?</a>
         <div className="signup">
@@ -109,12 +116,8 @@ const Login: React.FC = () => {
         </div>
         {/* <IonButton color="dark" onClick={appleLogin}>
           <IonIcon icon={logoApple} />
-<<<<<<< HEAD
-          Sign in with Apple</IonButton> */}
-=======
           Sign in with Apple
         </IonButton> */}
->>>>>>> 494a98cac35fffb93c46f081170afbbcaeb068c1
       </div>
     </IonPage>
   );

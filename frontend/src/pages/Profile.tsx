@@ -66,28 +66,19 @@ const Profile: React.FC = () => {
           <div className="profilepicContainer">
             <IonImg
               className="profilepic"
-              //   src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails?.profilepic}`}
-              src={"https://www.w3schools.com/howto/img_avatar.png"}
+              src={
+                userdetails?.profilepic != null
+                  ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`
+                  : "https://www.w3schools.com/howto/img_avatar.png"
+              }
             />
           </div>
           <IonIcon className="proedit" icon={pencil} />
           <IonLabel className="uresname">
-            {userdetails?.username} Tony Stack
+            {userdetails?.username ? userdetails.username : "new user"}
           </IonLabel>
 
           <div className="profilebar">
-            <div
-              onClick={() => {
-                setInfo(true);
-                setStat(false);
-                setFollow(false);
-                setTeam(false);
-                setSetting(false);
-              }}
-            >
-              <IonIcon icon={documentTextOutline} />
-              <IonLabel>Details</IonLabel>
-            </div>
             <div
               onClick={() => {
                 setInfo(false);
@@ -100,6 +91,20 @@ const Profile: React.FC = () => {
               <IonIcon icon={statsChart} />
               <IonLabel>Stats</IonLabel>
             </div>
+
+            <div
+              onClick={() => {
+                setInfo(true);
+                setStat(false);
+                setFollow(false);
+                setTeam(false);
+                setSetting(false);
+              }}
+            >
+              <IonIcon icon={documentTextOutline} />
+              <IonLabel>Details</IonLabel>
+            </div>
+
             <div
               onClick={() => {
                 setInfo(false);
