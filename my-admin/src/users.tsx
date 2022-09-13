@@ -12,12 +12,19 @@ import {
   Create,
   FileInput,
   FileField,
+  Button,
+  useDataProvider,
 } from "react-admin";
+import { User } from '../../backend/utils/model'
+import ApproveButton from "./ApproveButton";
+import dataProvider from "./dataProvider";
+
 
 export const UserList = () => (
   <List>
     <Datagrid rowClick="edit">
       <TextField source="id" />
+      <ApproveButton />
       <TextField source="name" />
       <EmailField source="email" />
       <TextField source="phone" />
