@@ -137,9 +137,6 @@ const Homepage: React.FC = () => {
         </Swiper>
 
         <IonLabel className="labelTitle">Catergories</IonLabel>
-        <a className="alignRight" href="#">
-          More
-        </a>
         <Swiper className="mySwiper" slidesPerView={4} loop={true}>
           <SwiperSlide className="categoryElement">
             <IonImg className="categoryIcon" src={catergorys.cat1.src} />
@@ -171,9 +168,6 @@ const Homepage: React.FC = () => {
           <IonLabel className="labelTitle blackFontColor">
             Brownse Teams
           </IonLabel>
-          <a className="alignRight" href="/tab/team">
-            More
-          </a>
           <div className="teamList">
             <IonCard className="teamCaption">
               <IonItem>
