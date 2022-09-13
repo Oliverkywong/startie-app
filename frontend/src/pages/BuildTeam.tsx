@@ -1,7 +1,6 @@
 import {
   IonBackButton,
   IonButtons,
-  IonCheckbox,
   IonContent,
   IonHeader,
   IonImg,
@@ -80,22 +79,22 @@ const BuildTeam: React.FC = () => {
           <input type="file" {...register("teamImage")} />
           <br /> */}
 
-          <IonLabel>Team Name:</IonLabel>
+          <IonLabel>Project Name</IonLabel>
           <IonInput
             {...register("teamName")}
             type="text"
-            placeholder="Team Name"
+            placeholder="Type here"
           />
 
-          <IonLabel>Category:</IonLabel>
+          <IonLabel>Category</IonLabel>
           <br />
 
           <IonItem>
             {/* <IonCheckbox slot="start"></IonCheckbox>
               <IonLabel>{tag.name}</IonLabel> */}
-            <IonSelect>
+            <IonSelect placeholder="Dropdown">
               {teamTag.map((tag) => (
-                <IonSelectOption placeholder="Dropdown" value={`${tag.name}`}>
+                <IonSelectOption value={`${tag.name}`}>
                   {tag.name}
                 </IonSelectOption>
               ))}
@@ -107,7 +106,7 @@ const BuildTeam: React.FC = () => {
           <IonInput
             {...register("teamDescription")}
             type="text"
-            placeholder="Descrption"
+            placeholder="Type here"
           />
           <input type="submit" />
         </form>
