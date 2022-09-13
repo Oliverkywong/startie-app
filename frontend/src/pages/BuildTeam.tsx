@@ -1,7 +1,6 @@
 import {
   IonBackButton,
   IonButtons,
-  IonCheckbox,
   IonContent,
   IonHeader,
   IonImg,
@@ -44,9 +43,9 @@ const BuildTeam: React.FC = () => {
 
   const { register, handleSubmit } = useForm();
 
-  const [state, setState]=useState<any>(team1)
+  const [state, setState] = useState<any>(team1)
 
-  const imghandle = (e:any) => {
+  const imghandle = (e: any) => {
     const reader = new FileReader()
     reader.onload = () => {
       if (reader.readyState === 2) {
@@ -67,28 +66,6 @@ const BuildTeam: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-
-        {/* <form onSubmit={handleSubmit(async (data) => {
-          const formData = new FormData();
-          formData.append("teamName", data.teamName);
-          formData.append("teamDescription", data.teamDescription);
-          formData.append("teamImage", data.teamImage[0]);
-          formData.append("teamTag", data.teamTag);
-
-          // await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`, {
-          //   method: "POST",
-          //   headers: {
-          //     'Authorization': `Bearer ${localtoken}`
-          //   },
-          //   body: formData,
-          // })
-          console.log(data);
-          router.push("/recommend");
-
-        })}> */}
-          {/* <IonLabel>Team Picture:</IonLabel>
-          <input type="file" {...register('teamImage')} onChange={imghandle} /><br /> */}
-        {/* <IonImg src={team1} /> */}
 
         <form
           onSubmit={handleSubmit(async (data) => {
@@ -111,20 +88,20 @@ const BuildTeam: React.FC = () => {
         >
           <br />
 
-          <IonLabel>Team Name:</IonLabel>
+          <IonLabel>Project Name</IonLabel>
           <IonInput
-            {...register("teamName")}
+            {...register("teamName", { required: true })}
             type="text"
-            placeholder="Team Name"
+            placeholder="Type here"
           />
 
-          <IonLabel>Category:</IonLabel>
+          <IonLabel>Category</IonLabel>
           <br />
 
           <IonItem>
-            <IonSelect>
+            <IonSelect placeholder="Dropdown">
               {teamTag.map((tag) => (
-                <IonSelectOption placeholder="Dropdown" value={`${tag.name}`}>
+                <IonSelectOption {...register("teamTag", { required: true })} value={`${tag.name}`}>
                   {tag.name}
                 </IonSelectOption>
               ))}
@@ -136,25 +113,13 @@ const BuildTeam: React.FC = () => {
           <IonInput
             {...register("teamDescription")}
             type="text"
-            placeholder="Descrption"
+            placeholder="Type here"
           />
           <IonImg src={state} />
           <IonLabel>Team icon/image:</IonLabel>
-          <input type="file" {...register("teamImage")} onChange={imghandle}/>
+          <input type="file" {...register("teamImage")} onChange={imghandle} />
           <input type="submit" />
         </form>
-
-        {/* <form
-          onSubmit={handleSubmit((data) => {
-            const formData = new FormData();
-            formData.append("teamImage", data.teamImage[0]);
-            console.log(data);
-          })}
-        >
-          <IonLabel>Team icon/image:</IonLabel>
-          <input type="file" {...register("teamImage")} />
-          <input type="submit" />
-        </form> */}
       </IonContent>
     </IonPage>
   );
