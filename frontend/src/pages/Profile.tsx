@@ -89,6 +89,7 @@ const Profile: React.FC = () => {
               }}
             >
               <IonIcon icon={statsChart} />
+              {/* <ion-icon src="/path/to/external/file.svg"></ion-icon> */}
               <IonLabel>Stats</IonLabel>
             </div>
 
