@@ -28,6 +28,7 @@ form {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  width: 250px;
 }
 
 .email,
@@ -47,6 +48,7 @@ input {
 }
 
 .usernameInput,
+.emailInput,
 .passwordInput {
   margin-bottom: 20px;
 }
@@ -74,7 +76,8 @@ span {
   color: #000;
 }
 
-button {
+button,
+.loginButton {
   background: linear-gradient(
     43.6deg,
     #7f398d 15.02%,

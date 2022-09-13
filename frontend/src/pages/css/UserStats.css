@@ -1,4 +1,11 @@
-.char{
-    height: 400px;
-    width: 400px;
+.char {
+  width: 100%;
+  max-width: 1200px;
+  background-color: #fafafa;
+  padding: 20px;
+}
+
+.charDetail {
+  background-color: #fff;
+  border-radius: 20px;
 }

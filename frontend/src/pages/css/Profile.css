@@ -9,12 +9,16 @@
 
 .profilepicContainer {
   width: 200px;
-  height: 180px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 .profilepic {
   max-width: 200px;
-  max-height: 180px;
+  max-height: 200px;
 }
 
 .uresname {
@@ -38,18 +42,17 @@
 
 .profilebar {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  width: 70%;
+  justify-content: space-around;
+  width: 100%;
   height: auto;
-  background: #f2f2f2;
   border-radius: 0px 0px 10px 10px;
-  color: #000000;
+  color: #c4c4c4;
+  font-weight: bold;
 }
 
 .profilebar > div {
-  width: 33%;
+  width: 100%;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -61,7 +64,7 @@
   font-weight: bold;
   padding: 10px;
   border-radius: 10px;
-  background-color: #999999;
+  background-color: #fafafa;
 }
 
 .profilebar > div > :nth-child(2) {

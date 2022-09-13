@@ -9,41 +9,44 @@ import {
   personOutline,
 } from "ionicons/icons";
 import { useForm } from "react-hook-form";
-import './css/Login.css'
-import { useDispatch } from 'react-redux';
-import { loggedIn } from '../redux/auth/action';
-import { SignInWithApple, AppleSignInResponse, AppleSignInErrorResponse, ASAuthorizationAppleIDRequest } from '@awesome-cordova-plugins/sign-in-with-apple';
-// import { isPlatform } from '@ionic/react';
-// import { Plugins } from '@capacitor/core'
+import "./css/Login.css";
+import { useDispatch } from "react-redux";
+import { loggedIn } from "../redux/auth/action";
+// import {
+//   SignInWithApple,
+//   AppleSignInResponse,
+//   AppleSignInErrorResponse,
+//   ASAuthorizationAppleIDRequest,
+// } from "@awesome-cordova-plugins/sign-in-with-apple/ngx";
+import { isPlatform } from "@ionic/react";
+import { Plugins } from "@capacitor/core";
 
-// const IOS = isPlatform('ios');
-
+const IOS = isPlatform("ios");
 
 const Login: React.FC = () => {
+  // async function appleLogin() {
+  //  //@ts-ignore
+  //   SignInWithApple.signin({
+  //     requestedScopes: [
+  //       ASAuthorizationAppleIDRequest.ASAuthorizationScopeFullName,
+  //       ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail
+  //     ]
+  //   }).then((res:AppleSignInResponse) => {
+  //     fetch(`http://192.168.59.189:8000/login/apple`, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify(res)
+  //     })
+  //     console.log("hi")
+  //     console.log(res)
+  //   }).catch((error:AppleSignInErrorResponse) => {
+  //     alert(error.code + ' ' + error.localizedDescription);
+  //     console.error(error);
 
-  async function appleLogin() {
-   //@ts-ignore
-    SignInWithApple.signin({
-      requestedScopes: [
-        ASAuthorizationAppleIDRequest.ASAuthorizationScopeFullName,
-        ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail
-      ]
-    }).then((res:AppleSignInResponse) => {
-      fetch(`http://192.168.80.58:8000/login/apple`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(res)
-      })
-      console.log("hi")
-      console.log(res)
-    }).catch((error:AppleSignInErrorResponse) => {
-      alert(error.code + ' ' + error.localizedDescription);
-      console.error(error);
-  
-    })
-  }
+  //   })
+  // }
 
   const { register, handleSubmit } = useForm();
   const [passwordShown, setPasswordShown] = useState(false);
@@ -100,7 +103,11 @@ const Login: React.FC = () => {
             />
             <br />
           </div>
-          <button type="submit">Continue</button>
+          <input
+            className="loginButton"
+            type="submit"
+            value={"Continue"}
+          ></input>
         </form>
         <a href="#">Forgot Password?</a>
         <div className="signup">
@@ -108,9 +115,10 @@ const Login: React.FC = () => {
             New to Startie?<a href="/signup">Sign Up</a>
           </p>
         </div>
-        <IonButton color="dark" onClick={appleLogin}>
+        {/* <IonButton color="dark" onClick={appleLogin}>
           <IonIcon icon={logoApple} />
-          Sign in with Apple</IonButton>
+          Sign in with Apple
+        </IonButton>  */}
       </div>
     </IonPage>
   );
