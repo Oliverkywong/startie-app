@@ -49,7 +49,7 @@ const Team: React.FC = () => {
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`);
       const result = await res.json();
 
-      // console.log(result.team)
+      console.log(result.team);
       // const teamtag = []
       // for (let i = 0; i < result.teamTags.length; i++) {
       //     teamtag.push(result.teamTags[i].name)
