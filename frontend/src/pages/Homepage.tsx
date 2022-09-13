@@ -24,9 +24,10 @@ import com2 from "../img/com2.png";
 import com3 from "../img/com3.png";
 import com4 from "../img/com4.png";
 import com5 from "../img/com5.png";
-import cat1 from "../img/cat1.png";
-import cat2 from "../img/cat2.png";
-import cat3 from "../img/cat3.png";
+import cat1 from "../img/all.png";
+import cat2 from "../img/startup.png";
+import cat3 from "../img/business.png";
+import cat4 from "../img/hackathon.png";
 import team1 from "../img/team1.png";
 import team2 from "../img/team2.png";
 import "./css/Homepage.css";
@@ -38,9 +39,10 @@ import { loggedIn, logOut } from "../redux/auth/action";
 import { EffectCards } from "swiper";
 
 const catergorys = {
-  cat1: { src: cat1, title: "NFT比賽" },
-  cat2: { src: cat2, title: "創業比賽" },
-  cat3: { src: cat3, title: "投資比賽" },
+  cat1: { src: cat1, title: "All" },
+  cat2: { src: cat2, title: "Startup" },
+  cat3: { src: cat3, title: "Business" },
+  cat4: { src: cat4, title: "Hackathon" },
 };
 
 const Homepage: React.FC = () => {
@@ -138,23 +140,29 @@ const Homepage: React.FC = () => {
         <a className="alignRight" href="#">
           More
         </a>
-        <Swiper className="mySwiper" slidesPerView={1}>
-          <SwiperSlide className="catelement">
+        <Swiper className="mySwiper" slidesPerView={4} loop={true}>
+          <SwiperSlide className="categoryElement">
             <IonImg className="categoryIcon" src={catergorys.cat1.src} />
             <IonLabel className="categoryLable">
               {catergorys.cat1.title}
             </IonLabel>
           </SwiperSlide>
-          <SwiperSlide className="catelement">
+          <SwiperSlide className="categoryElement">
             <IonImg className="categoryIcon" src={catergorys.cat2.src} />
             <IonLabel className="categoryLable">
               {catergorys.cat2.title}
             </IonLabel>
           </SwiperSlide>
-          <SwiperSlide className="catelement">
+          <SwiperSlide className="categoryElement">
             <IonImg className="categoryIcon" src={catergorys.cat3.src} />
             <IonLabel className="categoryLable">
               {catergorys.cat3.title}
+            </IonLabel>
+          </SwiperSlide>
+          <SwiperSlide className="categoryElement">
+            <IonImg className="categoryIcon" src={catergorys.cat4.src} />
+            <IonLabel className="categoryLable">
+              {catergorys.cat4.title}
             </IonLabel>
           </SwiperSlide>
         </Swiper>
