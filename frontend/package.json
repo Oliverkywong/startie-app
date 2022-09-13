@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@awesome-cordova-plugins/google-plus": "^5.45.0",
+    "@awesome-cordova-plugins/photo-viewer": "^5.45.0",
     "@awesome-cordova-plugins/sign-in-with-apple": "^5.45.0",
     "@capacitor/app": "4.0.1",
     "@capacitor/core": "4.1.0",
