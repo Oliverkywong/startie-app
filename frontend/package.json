@@ -43,6 +43,7 @@
     "firebase": "^9.9.4",
     "formidable": "^2.0.1",
     "gen-env": "^1.0.1",
+    "ionic": "^5.4.16",
     "ionicons": "^5.4.0",
     "jwt-decode": "^3.1.2",
     "jwt-simple": "^0.5.6",
