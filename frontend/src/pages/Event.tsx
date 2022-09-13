@@ -1,14 +1,30 @@
-import React, { useEffect, useState } from 'react'
-import { IonPage, IonHeader, IonContent, IonList, IonItem, IonLabel, IonSearchbar, IonCard, IonCardContent, IonImg, useIonViewWillEnter, IonInfiniteScroll, IonInfiniteScrollContent, useIonRouter } from '@ionic/react'
+import React, { useEffect, useState } from "react";
+import {
+  IonPage,
+  IonHeader,
+  IonTitle,
+  IonContent,
+  IonList,
+  IonItem,
+  IonLabel,
+  IonSearchbar,
+  IonCard,
+  IonCardContent,
+  IonImg,
+  useIonViewWillEnter,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  useIonRouter,
+} from "@ionic/react";
 
-import './css/Event.css'
+import "./css/Event.css";
 
 interface Event {
-    id: number,
-    name: string,
-    description: string,
-    profilepic: string,
-    created_at: string,
+  id: number;
+  name: string;
+  description: string;
+  profilepic: string;
+  starttime: string;
 }
 
 const Event: React.FC = () => {
@@ -16,53 +32,66 @@ const Event: React.FC = () => {
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
 
-
   useEffect(() => {
     (async function () {
-        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/event`);
-        const result = await res.json();
-        console.log(result)
-        setData(result);
-    })()
-}, [])
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/event`);
+      const result = await res.json();
+      console.log(result);
+      setData(result);
+    })();
+  }, []);
 
   const loadData = (ev: any) => {
     setTimeout(() => {
-      console.log('Loaded data');
+      console.log("Loaded data");
       ev.target.complete();
       if (data.length === 100) {
         setInfiniteDisabled(true);
       }
     }, 500);
-  }
+  };
 
   return (
     <IonPage>
       <IonHeader>
-        <IonSearchbar placeholder="Search" onClick={() => { router.push("/search") }} />
+        <IonTitle className="title">商業比賽</IonTitle>
+        <IonSearchbar
+          placeholder="Search"
+          onClick={() => {
+            router.push("/search");
+          }}
+        />
       </IonHeader>
       <IonContent>
         <IonList>
           {data.map((item) => {
             return (
-              <a href='/eventdetail'>
+              <a href={`/eventdetail/${item.id}`}>
                 <IonCard key={item.id}>
                   <IonItem>
-                    <IonImg src={item.profilepic} />
+                    <IonImg
+                      src={
+                        item.profilepic === null
+                          ? item.profilepic
+                          : "../img/StartieLogo.png"
+                      }
+                    />
                   </IonItem>
-                  <IonCardContent>
-                    {item.description}
+                  <IonCardContent className="eventName">
+                    {item.name}
                   </IonCardContent>
                   <div className="event">
-                    <IonImg src={item.profilepic} style={{ width: '10%' }} />
+                    <IonImg src={item.profilepic} style={{ width: "10%" }} />
                     <div className="eventinfo">
-                      <IonLabel>{item.name}</IonLabel>
-                      <IonLabel>{item.created_at}</IonLabel>
+                      <IonLabel className="eventDescription">
+                        {item.description}
+                      </IonLabel>
+                      <IonLabel>{item.starttime}</IonLabel>
                     </div>
                   </div>
                 </IonCard>
               </a>
-            )
+            );
           })}
         </IonList>
         <IonInfiniteScroll
@@ -77,6 +106,6 @@ const Event: React.FC = () => {
         </IonInfiniteScroll>
       </IonContent>
     </IonPage>
-  )
-}
-export default Event
+  );
+};
+export default Event;
