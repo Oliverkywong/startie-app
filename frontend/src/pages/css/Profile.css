@@ -9,12 +9,16 @@
 
 .profilepicContainer {
   width: 200px;
-  height: 180px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 .profilepic {
   max-width: 200px;
-  max-height: 180px;
+  max-height: 200px;
 }
 
 .uresname {

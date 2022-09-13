@@ -35,6 +35,7 @@ import "./css/Homepage.css";
 import "swiper/css";
 import { RootState, useAppDispatch, useAppSelector } from "../store";
 import { loggedIn, logOut } from "../redux/auth/action";
+import { EffectCards } from "swiper";
 
 const catergorys = {
   cat1: { src: cat1, title: "NFT比賽" },
@@ -109,7 +110,13 @@ const Homepage: React.FC = () => {
         <IonLabel className="labelTitle">Hot Events</IonLabel>
         {/* <a href="#">See More</a> */}
 
-        <Swiper className="mySwiper" slidesPerView={3} loop={true}>
+        <Swiper
+          loop={true}
+          effect={"cards"}
+          grabCursor={true}
+          modules={[EffectCards]}
+          className="mySwiper swiper-container"
+        >
           <SwiperSlide className="imgelement">
             <IonImg src={com1} />
           </SwiperSlide>
