@@ -19,7 +19,7 @@ export async function seed(knex: Knex): Promise<void> {
             email: "oliverwong@gmail.com",
             phonenumber: "95804970",
             status_id: 1,
-            profilepic: "oliver.jpg",
+            profilepic: "tonystarkicon.png",
             description: "testing",
             clickrate: 0,
         },

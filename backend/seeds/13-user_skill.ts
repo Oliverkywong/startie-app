@@ -83,6 +83,106 @@ export async function seed(knex: Knex): Promise<void> {
                 skill_id: 15,
                 point: 6
             },
+            {
+                user_id: 2,
+                skill_id: 6,
+                point: 6
+            },
+            {
+                user_id: 2,
+                skill_id: 7,
+                point: 6
+            },
+            {
+                user_id: 2,
+                skill_id: 8,
+                point: 6
+            },
+            {
+                user_id: 2,
+                skill_id: 9,
+                point: 6
+            },
+            {
+                user_id: 2,
+                skill_id: 10,
+                point: 6
+            },
+            {
+                user_id: 3,
+                skill_id: 11,
+                point: 5
+            },
+            {
+                user_id: 3,
+                skill_id: 12,
+                point: 8
+            },
+            {
+                user_id: 3,
+                skill_id: 13,
+                point: 6
+            },
+            {
+                user_id: 3,
+                skill_id: 14,
+                point: 8
+            },
+            {
+                user_id: 3,
+                skill_id: 15,
+                point: 6
+            },
+            {
+                user_id: 4,
+                skill_id: 6,
+                point: 6
+            },
+            {
+                user_id: 4,
+                skill_id: 7,
+                point: 6
+            },
+            {
+                user_id: 4,
+                skill_id: 8,
+                point: 6
+            },
+            {
+                user_id: 4,
+                skill_id: 9,
+                point: 6
+            },
+            {
+                user_id: 4,
+                skill_id: 10,
+                point: 6
+            },
+            {
+                user_id: 4,
+                skill_id: 11,
+                point: 5
+            },
+            {
+                user_id: 4,
+                skill_id: 12,
+                point: 8
+            },
+            {
+                user_id: 4,
+                skill_id: 13,
+                point: 6
+            },
+            {
+                user_id: 4,
+                skill_id: 14,
+                point: 8
+            },
+            {
+                user_id: 4,
+                skill_id: 15,
+                point: 6
+            }
     ])
     .into("user_skill");
 

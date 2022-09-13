@@ -31,8 +31,7 @@ export class EventService {
 
   async getAllEvents() {
     return await this.knex<Event>("event")
-      .select("id", "name", "description")
-      .returning("*");
+      .select("*")
   }
 
   async getEvent(eventName: string) {

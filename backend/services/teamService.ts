@@ -24,8 +24,12 @@ export class TeamService {
 
   async getAllTeams() {
     return await this.knex<Team>("team")
-      .select("name", "description", "profilepic")
-      .returning("*");
+      .select("*")
+  }
+
+  async getAllTeamTags(){
+    const teamTags = await this.knex.raw(`select * from team_tag join tag on tag.id=tag_id`)
+    return teamTags.rows
   }
 
   async getTeam(name: string) {
