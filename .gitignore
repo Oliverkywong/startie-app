@@ -15,7 +15,7 @@ node_modules
 /coverage
 
 # production
-/build
+build
 
 # misc
 .DS_Store
@@ -33,12 +33,5 @@ yarn-error.log*
 # Optional eslint cache
 .eslintcache
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 # jose
-jose.js
-=======
->>>>>>> c89d248272c4cea7dd76624e2f006f99db363e89
-=======
 jose.ts
->>>>>>> 2b4db447a78782fb5e92803367feea721244ff93

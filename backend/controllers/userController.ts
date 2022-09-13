@@ -12,9 +12,11 @@ import {
 } from "../services/userService";
 import { joseKey } from "../jose";
 import * as jose from "jose";
+import appleSignin from 'apple-signin-auth';
+import crypto from 'crypto';
 
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
   // -------------------------------------------------------------------------------------------------------------------
   // Google Login
   // -------------------------------------------------------------------------------------------------------------------
@@ -186,6 +188,35 @@ export class UserController {
       }
     });
   };
+
+  getAllUsers = async (req: express.Request, res: express.Response) => {
+    try {
+      const users = await this.userService.getAllUsers();
+      return res.json(users);
+    } catch (err) {
+      logger.error(err);
+      return res.json({ result: false, msg: "Get all users fail" });
+    }
+  };
+
+  // -------------------------------------------------------------------------------------------------------------------
+  // Apple Login
+  // -------------------------------------------------------------------------------------------------------------------
+  loginApple = async (req: express.Request, res: express.Response) => {
+    try {
+      const { sub: userAppleId } = await appleSignin.verifyIdToken(req.body.id_token, {
+        audience: 'com.oliverstrat.startie',
+        nonce: req.body.nonce ? crypto.createHash('sha256').update(req.body.nonce).digest('hex') : undefined,
+        ignoreExpiration: true,
+      });
+      console.log(userAppleId);
+      res.status(200).json({ result: true, msg: "apple login success" });
+    } catch (err) {
+      // Token is not verified
+      logger.error(err);
+      res.status(400).json({ result: false, msg: "apple login error" });
+    }
+  }
   // -------------------------------------------------------------------------------------------------------------------
   // Log out
   // -------------------------------------------------------------------------------------------------------------------

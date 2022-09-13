@@ -25,19 +25,24 @@ export async function seed(knex: Knex): Promise<void> {
         },
         {
             user_id: 2,
-            sector_id: 1,
+            sector_id: 2,
             point: 3
         },
         {
-            user_id: 2,
-            sector_id: 2,
+            user_id: 3,
+            sector_id: 3,
             point: 1
         },
         {
-            user_id: 2,
-            sector_id: 3,
+            user_id: 4,
+            sector_id: 2,
             point: 7
         },
+        {
+            user_id: 4,
+            sector_id: 3,
+            point: 7
+        }
     ])
     .into("user_sector");
 

@@ -1,5 +1,6 @@
 import { TeamService } from "../services/teamService";
 import { Request, Response } from "express";
+import { logger } from "../utils/logger";
 
 export class TeamController {
   constructor(private teamService: TeamService) { }
@@ -10,7 +11,7 @@ export class TeamController {
       const team = await this.teamService.createTeam(teamName, description, profilepic);
       res.status(200).json(team);
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   };
@@ -18,9 +19,10 @@ export class TeamController {
   getAllTeams = async (req: Request, res: Response) => {
     try {
       const team = await this.teamService.getAllTeams();
-      res.status(200).json(team);
+      const teamTags= await this.teamService.getAllTeamTags();
+      res.status(200).json({team, teamTags});
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   };
@@ -31,7 +33,7 @@ export class TeamController {
       const team = await this.teamService.getTeam(teamName);
       res.status(200).json(team);
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   };
@@ -48,7 +50,7 @@ export class TeamController {
       );
       res.status(200).json(team);
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   };
@@ -59,7 +61,7 @@ export class TeamController {
       const team = await this.teamService.deleteTeam(parseInt(id));
       res.status(200).json(`team: ${team} has been deleted`);
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   };
@@ -69,7 +71,7 @@ export class TeamController {
       const teamtag = await this.teamService.teamTag();
       res.status(200).json(teamtag);
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   };
