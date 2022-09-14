@@ -175,7 +175,7 @@ export class UserService {
 			return userRecord
 	}
 // -------------------------------------------------------------------------------------------------------------------
-// get User Info by ID ✅
+// get self UserInfo by ID
 // -------------------------------------------------------------------------------------------------------------------
 	async userInfo(userId: number) {
 			const userRecord = await this.knex<User>('user')
@@ -185,19 +185,29 @@ export class UserService {
 			return userRecord
 	}
 // -------------------------------------------------------------------------------------------------------------------
+// get all UserInfo
+// -------------------------------------------------------------------------------------------------------------------
+	async getAllUser() {
+		const userRecord = await this.knex<User>('user')
+			.select('*')
+
+		return userRecord
+}
+// -------------------------------------------------------------------------------------------------------------------
 // edit User Info
 // -------------------------------------------------------------------------------------------------------------------
 	async editUser(
 		userId: number,
 		newProfilepic: string,
+		// newStatusId?: number,
 		newPhoneNumber: string,
 		newDescription: string
 	) {
-		try {
 			const userRecord = await this.knex<User>('user')
 				.update({
 					profilepic: newProfilepic,
 					phonenumber: newPhoneNumber,
+					// status_id: newStatusId,
 					description: newDescription
 				})
 				.where('id', userId)

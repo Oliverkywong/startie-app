@@ -45,6 +45,8 @@ app.use(
   cors({
     origin: [process.env.REACT_DOMAIN!],
     credentials: true,
+    exposedHeaders: ["x-total-count", "content-length","server" ], //for react-admin
+   
   })
 );
 
