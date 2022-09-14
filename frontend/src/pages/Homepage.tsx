@@ -15,6 +15,7 @@ import {
   IonToolbar,
   useIonRouter,
   IonList,
+  IonHeader,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { notificationsOutline } from "ionicons/icons";
@@ -75,6 +76,7 @@ const Homepage: React.FC = () => {
   return (
     <IonPage>
       <IonContent>
+      <IonHeader>
         <IonToolbar className="searchBar">
           <IonButtons slot="end">
             <IonButton
@@ -108,6 +110,7 @@ const Homepage: React.FC = () => {
             </IonButton>
           </IonButtons>
         </IonToolbar>
+      </IonHeader>
 
         <IonLabel className="labelTitle">Hot Events</IonLabel>
         {/* <a href="#">See More</a> */}

@@ -45,7 +45,7 @@ export default function UserEdit() {
             //   },
             //   body: formData,
             // })
-            console.log(data);
+            // console.log(data);
             router.push("/recommend");
           })}
         >

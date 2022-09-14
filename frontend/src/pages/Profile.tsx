@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import {
   IonContent,
+  IonHeader,
   IonIcon,
   IonImg,
   IonLabel,
   IonPage,
+  IonToolbar,
   useIonRouter,
 } from "@ionic/react";
 
@@ -62,6 +64,10 @@ const Profile: React.FC = () => {
   return (
     <IonPage>
       <IonContent>
+        <IonHeader>
+          <IonToolbar>
+          </IonToolbar>
+        </IonHeader>
         <div className="profile">
           <div className="profilepicContainer">
             <IonImg

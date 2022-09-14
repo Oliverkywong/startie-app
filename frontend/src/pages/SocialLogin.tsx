@@ -45,7 +45,7 @@ export default function SocialLogin() {
                 },
                 body: JSON.stringify(res)
             })
-            console.log(res)
+            // console.log(res)
         }).catch((err) => {
             console.error(err);
         })
