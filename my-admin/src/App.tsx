@@ -13,7 +13,7 @@ import { MyLayout } from './Darktheme';
 import { EventCreate, EventEdit, EventList } from './event';
 import simpleRestProvider from 'ra-data-simple-rest';
 import fakeRestProvider from 'ra-data-fakerest';
-import { data } from './data';
+// import { data } from './data';
 // import dataProvider from './dataProvider';
 import jsonServerProvider from 'ra-data-json-server';
 
@@ -25,16 +25,8 @@ const httpClient = (url:string, options :any= {}) => {
   // add your own headers here
   options.headers.set('X-Custom-Header', 'foobar');
   
-  // options.headers.set('Access-Control-Expose-Headers','Content-Range')
-
-
   return fetchUtils.fetchJson(url, options);
-
-
  };
-// const js = fetch(`http://localhost:8000/team`).then(res=>res.json())
-
-// const oliver = Promise.all([js]).then(e=>console.log(e))
 
 
 
@@ -44,7 +36,7 @@ const dataProvider =  jsonServerProvider(`http://localhost:8000`, httpClient);
 
 const App = () => (
   <Admin dashboard={Dashboard} authProvider={authProvider} dataProvider={dataProvider} layout={MyLayout}>
-      <Resource name="users" list={UserList} edit={UserEdit} icon={UserIcon} recordRepresentation="name" />
+      <Resource name="user" list={UserList} edit={UserEdit} icon={UserIcon} recordRepresentation="name" />
       <Resource name="team" list={TeamList} edit={TeamEdit} create={TeamCreate} icon={TeamIcon}  />
       <Resource name="albums" list={EventList} edit={EventEdit} create={EventCreate} icon={EventIcon} />
       {/* <Resource name="users" list={JobList} icon={JobIcon} /> */}

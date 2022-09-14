@@ -24,8 +24,7 @@ export const UserList = () => (
   <List>
     <Datagrid rowClick="edit">
       <TextField source="id" />
-      <ApproveButton />
-      <TextField source="name" />
+      <TextField source="username" />
       <EmailField source="email" />
       <TextField source="phone" />
       <TextField source="status" />
@@ -36,8 +35,8 @@ export const UserList = () => (
   </List>
 );
 
-export const UserEdit = () => (
-  <Edit>
+export const UserEdit = (props:any) => (
+  <Edit title={<UserTitle />} {...props}>
     <SimpleForm>
       <TextInput disabled source="id" />
       <TextInput source="username" resettable />
@@ -55,3 +54,25 @@ export const UserEdit = () => (
     </SimpleForm>
   </Edit>
 );
+
+export const UserCreate = (props: any) => (
+  <Create {...props}>
+    <SimpleForm>
+      <ReferenceInput source="userId" reference="users" />
+      {props.map((user: any) => {
+        return <TextInput source="name">{user}</TextInput>;
+      })}
+      <TextInput multiline source="description" />
+    </SimpleForm>
+  </Create>
+);
+
+const UserTitle = ({ record}:any) => {
+  // const record = useRecordContext();
+  return <span>User {record ? `"${record.title}"` : ""}</span>;
+};
+
+const postFilters = [
+  <TextInput source="q" label="Search" alwaysOn />,
+  <ReferenceInput source="userId" label="Team" reference="team" />,
+];
