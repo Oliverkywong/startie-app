@@ -42,7 +42,7 @@ import {
 
 export const TeamList = (props: any) => (
   
-  <List filters={postFilters} {...props}>
+  <List filters={teamFilters} {...props}>
     <Datagrid>
       <TextField source="id" />
       <TextField source="name" />
@@ -60,9 +60,8 @@ export const TeamEdit = (props: any) => (
   <Edit title={<TeamTitle />} {...props}>
     <SimpleForm>
       <TextInput disabled source="id" />
-      <ReferenceInput source="userId" reference="users" />
-      <TextInput source="title" />
-      <TextInput multiline source="body" />
+      <TextInput source="name" />
+      <TextInput source="Description" />
     </SimpleForm>
   </Edit>
 );
@@ -84,7 +83,7 @@ const TeamTitle = ({ record}:any) => {
   return <span>Team {record ? `"${record.title}"` : ""}</span>;
 };
 
-const postFilters = [
+const teamFilters = [
   <TextInput source="q" label="Search" alwaysOn />,
   <ReferenceInput source="userId" label="Team" reference="team" />,
 ];
