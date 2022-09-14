@@ -14,6 +14,7 @@ import { joseKey } from "../jose";
 import * as jose from "jose";
 import appleSignin from 'apple-signin-auth';
 import crypto from 'crypto';
+import { OAuth2Client } from 'google-auth-library';
 
 export class UserController {
   constructor(private userService: UserService) { }
@@ -21,19 +22,22 @@ export class UserController {
   // Google Login
   // -------------------------------------------------------------------------------------------------------------------
 
-  // loginGoogle = async (req: express.Request, res: express.Response) => {
-  // 	const accessToken = req.session?.['grant'].response.access_token
-  // 	const [user, username] = await this.userService.loginGoogle(accessToken)
-
-  // 	if (req.session) {
-  // 		req.session['isLogin'] = true
-  // 		req.session['user'] = user
-  // 		res.json({ result: true, msg: 'google login success' })
-  // 		logger.info(`${username} logged in`)
-  // 		return
-  // 	}
-  // 	return res.json({ result: false, msg: 'google login error' })
-  // }
+  loginGoogle = async (req: express.Request, res: express.Response) => {
+    try {
+      const client = new OAuth2Client(process.env.GOOGLE_IOS_CLIENT_ID);
+      const ticket = await client.verifyIdToken({
+        idToken: req.body.id_token,
+        audience: process.env.GOOGLE_IOS_CLIENT_ID,
+      });
+      const payload = ticket.getPayload();
+      const email = payload?.['email'];
+      const googleId = payload?.['sub'];
+      console.log(email, googleId);
+      return res.json({ result: false, msg: 'google login error' })
+    } catch (err) {
+      return res.json({ result: false, msg: 'google login error' })
+    }
+  }
   // -------------------------------------------------------------------------------------------------------------------
   // Register ✅
   // -------------------------------------------------------------------------------------------------------------------
@@ -234,13 +238,38 @@ getAlluser = async (req: express.Request, res: express.Response) => {
   // -------------------------------------------------------------------------------------------------------------------
   loginApple = async (req: express.Request, res: express.Response) => {
     try {
-      const { sub: userAppleId } = await appleSignin.verifyIdToken(req.body.id_token, {
+      const appleuserinfo = await appleSignin.verifyIdToken(req.body.identityToken, {
         audience: 'com.oliverstrat.startie',
         nonce: req.body.nonce ? crypto.createHash('sha256').update(req.body.nonce).digest('hex') : undefined,
         ignoreExpiration: true,
       });
-      console.log(userAppleId);
-      res.status(200).json({ result: true, msg: "apple login success" });
+
+      await this.userService.appleLogin(req.body.fullName.nickname, appleuserinfo.email);
+
+      const user = {
+        id: req.body.user,
+        username: req.body.fullName.nickname,
+        email: appleuserinfo.email,
+        profilepic: "tonystarkicon.png",
+        phonenumber: "0000000000",
+        description: "apple user"
+      }
+      const ecPrivateKey = await joseKey();
+      const jwt = await new jose.SignJWT({
+        "urn:example:claim": true,
+        userId: req.body.user,
+        username: req.body.fullName.nickname,
+      }) // use private key to sign
+        .setProtectedHeader({ alg: "ES256" })
+        .setIssuedAt()
+        .setExpirationTime("24h")
+        .sign(ecPrivateKey);
+
+      res.status(200).json({
+        result: true, msg: "apple login success",
+        user: user,
+        jwt: jwt,
+      });
     } catch (err) {
       // Token is not verified
       logger.error(err);
