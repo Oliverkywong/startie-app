@@ -14,7 +14,7 @@ import {
   chatbubbleEllipsesOutline,
   personOutline,
 } from "ionicons/icons";
-import { Route } from "react-router";
+import { Redirect, Route } from "react-router";
 import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -41,24 +41,34 @@ export default function Routes() {
       <Route path="/" component={Login} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={SignUp} />
-      <Route path="/buildteam" component={BuildTeam} />
-      <Route path="/eventdetail" component={EventDetail} />
-      <Route path="/teamdetail" component={TeamDetail} />
       <Route path="/search" component={SearchPage} />
       <Route path="/notification" component={Notification} />
       <Route path="/recommend" component={Recommend} />
+<<<<<<< HEAD
       <Route path="/useredit" component={UserEdit} />
       <Route path="/sociallogin" component={SocialLogin} />
+=======
+>>>>>>> c04dbf02c5df0be75c91df3a1528b2c18f3015ff
 
       <Route path="/tab">
         <IonTabs>
           <IonRouterOutlet>
+            <Route exact path="/" render={() => <Redirect to="/tab/home" />} />
+
             <Route path="/tab/home" component={Homepage} />
-            <Route path="/tab/team" component={Team} />
-            <Route path="/tab/event" component={Event} />
-            <Route path="/tab/profile" component={Profile} />
+
+            <Route exact path="/tab/team" component={Team} />
+            <Route exact path="/tab/buildteam" component={BuildTeam} />
+            <Route exact path="/tab/team/:id" component={TeamDetail} />
+
+            <Route exact path="/tab/event" component={Event} />
+            <Route exact path="/tab/event/:id" component={EventDetail} />
+
+            <Route exact path="/tab/profile" component={Profile} />
+            <Route exact path="/tab/profile/edit" component={UserEdit} />
+            <Route exact path="/tab/user/:id" component={User} />
+
             <Route path="/tab/settings" component={UserSettings} />
-            <Route path="/tab/user" component={User} />
           </IonRouterOutlet>
 
           <IonTabBar slot="bottom">
@@ -66,19 +76,19 @@ export default function Routes() {
               <IonIcon icon={homeOutline} />
               <IonLabel>Home</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="tab2" href="/tab/team">
+            <IonTabButton tab="team" href="/tab/team">
               <IonIcon icon={planetOutline} />
               <IonLabel>Team</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="tab3" href="/buildteam">
+            <IonTabButton tab="buildteam" href="/buildteam">
               <IonIcon icon={addCircleOutline} />
               <IonLabel>Build New Team</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="tab4" href="/tab/event">
+            <IonTabButton tab="event" href="/tab/event">
               <IonIcon icon={chatbubbleEllipsesOutline} />
               <IonLabel>Event</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="tab5" href="/tab/profile">
+            <IonTabButton tab="profile" href="/tab/profile">
               <IonIcon icon={personOutline} />
               <IonLabel>Profile</IonLabel>
             </IonTabButton>

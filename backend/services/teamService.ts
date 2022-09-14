@@ -23,19 +23,20 @@ export class TeamService {
   }
 
   async getAllTeams() {
-    return await this.knex<Team>("team")
-      .select("*")
+    return await this.knex<Team>("team").select("*");
   }
 
-  async getAllTeamTags(){
-    const teamTags = await this.knex.raw(`select * from team_tag join tag on tag.id=tag_id`)
-    return teamTags.rows
+  async getAllTeamTags() {
+    const teamTags = await this.knex.raw(
+      `select * from team_tag join tag on tag.id=tag_id`
+    );
+    return teamTags.rows;
   }
 
-  async getTeam(name: string) {
+  async getTeam(id: string) {
     return await this.knex<Team>("team")
       .select("id", "name")
-      .where("name", name)
+      .where("id", id)
       .returning("*");
   }
 

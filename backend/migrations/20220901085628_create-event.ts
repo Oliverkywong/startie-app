@@ -6,6 +6,7 @@ export async function up(knex: Knex): Promise<void> {
       table.increments();
       table.string("name").unique().notNullable();
       table.text("description");
+      table.integer("maxteammember").unsigned();
       table.integer("status_id").unsigned().notNullable();
       table.foreign("status_id").references("status.id");
       table.timestamp("starttime");
