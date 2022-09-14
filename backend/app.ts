@@ -41,9 +41,19 @@ const knex = Knex(knexConfig);
 const app = express();
 const PORT = process.env.PORT || 8000;
 
+// const allowedOrigins = [
+//   'capacitor://localhost',
+//   'ionic://localhost',
+//   'http://localhost',
+//   'http://localhost:8080',
+//   'http://localhost:8100',
+//   'http://localhost:8000',
+//   'http://localhost:3000',
+// ];
+
 app.use(
   cors({
-    origin: [process.env.REACT_DOMAIN!],
+    origin: [process.env.REACT_DOMAIN!,'capacitor://localhost'],
     credentials: true,
   })
 );
