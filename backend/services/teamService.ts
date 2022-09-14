@@ -34,10 +34,7 @@ export class TeamService {
   }
 
   async getTeam(id: string) {
-    return await this.knex<Team>("team")
-      .select("id", "name")
-      .where("id", id)
-      .returning("*");
+    return await this.knex<Team>("team").select("*").where("id", id);
   }
 
   async updateTeam(
