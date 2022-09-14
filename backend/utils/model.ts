@@ -30,6 +30,7 @@ export interface Event {
   id: number;
   name: string;
   description?: string;
+  maxteammember: number;
   profilepic?: string;
   starttime: Date;
   status_id: number;
