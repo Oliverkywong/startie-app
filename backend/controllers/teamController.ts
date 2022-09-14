@@ -35,9 +35,9 @@ export class TeamController {
 // -------------------------------------------------------------------------------------------------------------------
   getTeam = async (req: Request, res: Response) => {
     try {
-      const teamId = req.params.id;
+      const id = req.params.id;
       
-      const team = await this.teamService.getTeam(teamId);
+      const team = await this.teamService.getTeam(id);
       res.status(200).json(team);
     } catch (err) {
       console.error(err);
@@ -68,8 +68,8 @@ export class TeamController {
 // -------------------------------------------------------------------------------------------------------------------
   deleteTeam = async (req: Request, res: Response) => {
     try {
-      const teamId = req.params.id;
-      const team = await this.teamService.deleteTeam(parseInt(teamId));
+      
+      const team = await this.teamService.deleteTeam(parseInt(req.params.id), 2);
       res.status(200).json(`team: ${team} has been deleted`);
     } catch (err) {
       console.error(err);
