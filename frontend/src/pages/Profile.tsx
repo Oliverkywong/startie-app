@@ -73,7 +73,7 @@ const Profile: React.FC = () => {
               }
             />
           </div>
-          <a href="/useredit">
+          <a href="/tab/profile/edit">
             <IonIcon className="proedit" icon={pencil} />
           </a>
           <IonLabel className="uresname">
