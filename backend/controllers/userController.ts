@@ -122,22 +122,36 @@ export class UserController {
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
-  // get User Info
+  // get self userInfo
   // -------------------------------------------------------------------------------------------------------------------
   userInfo = async (req: express.Request, res: express.Response) => {
     try {
-      const userId = req.user!.userId; // get userId from JWT
+      const userId = req.user?.userId !=undefined? Number(req.user.userId) : parseInt(req.params.id); // get userId from JWT
+      console.log(userId);
+      
       const userInfo = await this.userService.userInfo(userId);
-      return res.json({
-        result: true,
-        msg: "Get user profile success",
-        userInfo: userInfo[0],
-      });
+      return res.json(userInfo[0]);
+      
     } catch (err) {
       logger.error(err);
       return res.json({ result: false, msg: "Get user profile fail" });
     }
   };
+// -------------------------------------------------------------------------------------------------------------------
+// get self userInfo
+// -------------------------------------------------------------------------------------------------------------------
+getAlluser = async (req: express.Request, res: express.Response) => {
+    try {
+      const allUserInfo = await this.userService.getAllUser();
+      res.set("x-total-count", String(allUserInfo.length));
+       res.status(200).json(allUserInfo);
+
+    } catch (err) {
+      logger.error(err);
+      res.json({ result: false, msg: "Get user profile fail" });
+    }
+  };
+
   // -------------------------------------------------------------------------------------------------------------------
   // edit User Info
   // -------------------------------------------------------------------------------------------------------------------
@@ -145,13 +159,26 @@ export class UserController {
   editUser = async (req: express.Request, res: express.Response) => {
     form.parse(req, async (err, fields, files) => {
       try {
-        const userId = req.user!.userId; // get userId from JWT
+        
+        //Reminder to create the auth and give the isAdmin = true if the userId is an admin
+
+        const userId = req.user?.userId !=undefined? Number(req.user.userId) : parseInt(req.params.id); // get userId from JWT
+        console.log(userId);
 
         const userInfos = await this.userService.userInfo(userId);
         let oldProfilepic = userInfos[0].profilepic;
         let oldPhoneNumber = userInfos[0].phonenumber;
         let oldDescription = userInfos[0].description;
         // console.log(userInfos);
+
+        // if (isAdmin) {
+        //   const oldStatusId = userInfos[0].status_id;
+
+        //   const newStatusId =
+        //   fields.status_id != null && !Array.isArray(fields.status_id)
+        //     ? fields.status_id.trim()
+        //     : oldStatusId;
+        // }
 
         const newProfilepic =
           files.profilepic != null && !Array.isArray(files.profilepic)
@@ -171,6 +198,7 @@ export class UserController {
         const userInfo = await this.userService.editUser(
           userId,
           newProfilepic,
+          // newStatusId,
           newPhoneNumber,
           newDescription
         );

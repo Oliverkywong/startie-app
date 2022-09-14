@@ -3,7 +3,9 @@ import { Team } from "../utils/model";
 
 export class TeamService {
   constructor(private knex: Knex) {}
-
+// -------------------------------------------------------------------------------------------------------------------
+// create team
+// -------------------------------------------------------------------------------------------------------------------
   async createTeam(name: string, description?: string, profilepic?: string) {
     try {
       const teaminfo = await this.knex<Team>("team")
@@ -21,20 +23,22 @@ export class TeamService {
       throw err;
     }
   }
-
+// -------------------------------------------------------------------------------------------------------------------
+// get all teams  
+// -------------------------------------------------------------------------------------------------------------------
   async getAllTeams() {
     return await this.knex<Team>("team")
-      .select("name", "description", "profilepic")
-      .returning("*");
+      .select("name", "description", "profilepic","id")
   }
 
-  async getTeam(name: string) {
+  async getTeam(teamId: string) { //試一試，改一改sor
     return await this.knex<Team>("team")
-      .select("id", "name")
-      .where("name", name)
-      .returning("*");
+      .select("*")
+      .where("id", teamId)
   }
-
+// -------------------------------------------------------------------------------------------------------------------
+// edit team
+// -------------------------------------------------------------------------------------------------------------------
   async updateTeam(
     id: number,
     name?: string,
@@ -61,11 +65,16 @@ export class TeamService {
       return;
     }
   }
-
+// -------------------------------------------------------------------------------------------------------------------
+// delete team
+// -------------------------------------------------------------------------------------------------------------------
   async deleteTeam(id: number) {
     return await this.knex<Team>("team").where({ id: id }).del();
   }
 
+// -------------------------------------------------------------------------------------------------------------------
+// get all categories
+// -------------------------------------------------------------------------------------------------------------------
   async teamTag() {
     return await this.knex("searchcategory").select("*");
   }
