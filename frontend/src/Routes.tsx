@@ -14,7 +14,7 @@ import {
   chatbubbleEllipsesOutline,
   personOutline,
 } from "ionicons/icons";
-import { Route } from "react-router";
+import { Redirect, Route } from "react-router";
 import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -47,18 +47,20 @@ export default function Routes() {
       <Route path="/tab">
         <IonTabs>
           <IonRouterOutlet>
+            <Route exact path="/" render={() => <Redirect to="/tab/home" />} />
+
             <Route path="/tab/home" component={Homepage} />
 
             <Route exact path="/tab/team" component={Team} />
-            <Route path="/tab/buildteam" component={BuildTeam} />
-            <Route path="/tab/team/:id" component={TeamDetail} />
+            <Route exact path="/tab/buildteam" component={BuildTeam} />
+            <Route exact path="/tab/team/:id" component={TeamDetail} />
 
             <Route exact path="/tab/event" component={Event} />
-            <Route path="/tab/event/:id" component={EventDetail} />
+            <Route exact path="/tab/event/:id" component={EventDetail} />
 
             <Route exact path="/tab/profile" component={Profile} />
-            <Route path="/tab/profile/edit" component={UserEdit} />
-            <Route path="/tab/user/:id" component={User} />
+            <Route exact path="/tab/profile/edit" component={UserEdit} />
+            <Route exact path="/tab/user/:id" component={User} />
 
             <Route path="/tab/settings" component={UserSettings} />
           </IonRouterOutlet>
