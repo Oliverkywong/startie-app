@@ -15,6 +15,7 @@ import {
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   useIonRouter,
+  IonNavLink,
 } from "@ionic/react";
 
 import "./css/Event.css";
@@ -66,7 +67,7 @@ const Event: React.FC = () => {
         <IonList>
           {data.map((item) => {
             return (
-              <a href={`/eventdetail/${item.id}`}>
+              <IonItem routerLink={`event/${item.id}`}>
                 <IonCard key={item.id}>
                   <IonItem>
                     <IonImg
@@ -90,7 +91,7 @@ const Event: React.FC = () => {
                     </div>
                   </div>
                 </IonCard>
-              </a>
+              </IonItem>
             );
           })}
         </IonList>

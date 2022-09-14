@@ -16,6 +16,7 @@ import {
   IonButtons,
   IonButton,
   useIonRouter,
+  IonItem,
 } from "@ionic/react";
 
 import team1 from "../img/team1.png";
@@ -76,7 +77,7 @@ const Team: React.FC = () => {
             {data.map((item) => {
               return (
                 <IonCol size="6">
-                  <a href={`/teamdetail/${item.id}`}>
+                  <IonItem routerLink={`team/${item.id}`}>
                     <IonCard key={item.id} className="card">
                       <IonImg src={item.profilepic} style={{ width: "100%" }} />
                       <IonCardContent
@@ -96,7 +97,7 @@ const Team: React.FC = () => {
                         </div>
                       </IonCardContent>
                     </IonCard>
-                  </a>
+                  </IonItem>
                 </IonCol>
               );
             })}
