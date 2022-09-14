@@ -6,11 +6,49 @@ import {
   IonBackButton,
   IonButtons,
   IonToolbar,
+  useIonRouter,
 } from "@ionic/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation, useRouteMatch } from "react-router-dom";
 import eventimg from "../img/com1.png";
 
-export default function EventDetail() {
+interface EventDetail {
+  id: number;
+  name: string;
+  description: string;
+  profilepic: string;
+  starttime: string;
+}
+
+const EventDetail: React.FC = () => {
+  const [data, setData] = useState<Event[]>([]);
+  const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
+  const router = useIonRouter();
+
+  let match = useRouteMatch<{ id: string }>("/tab/event/:id");
+  console.log(match);
+
+  useEffect(() => {
+    (async function () {
+      const res = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/event/${match?.params.id}`
+      );
+      const result = await res.json();
+      console.log(result);
+      setData(result);
+    })();
+  }, []);
+
+  const loadData = (ev: any) => {
+    setTimeout(() => {
+      console.log("Loaded data");
+      ev.target.complete();
+      if (data.length === 100) {
+        setInfiniteDisabled(true);
+      }
+    }, 500);
+  };
+
   return (
     <IonPage>
       <IonHeader>
@@ -40,4 +78,6 @@ export default function EventDetail() {
       <IonButton>Join</IonButton>
     </IonPage>
   );
-}
+};
+
+export default EventDetail;
