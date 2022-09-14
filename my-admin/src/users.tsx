@@ -17,7 +17,7 @@ import {
 } from "react-admin";
 import { User } from '../../backend/utils/model'
 import ApproveButton from "./ApproveButton";
-import dataProvider from "./dataProvider";
+// import dataProvider from "./dataProvider";
 
 
 export const UserList = () => (

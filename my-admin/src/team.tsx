@@ -13,31 +13,31 @@ import {
   TextInput,
   useRecordContext,
 } from "react-admin";
-import dataProvider from "./dataProvider";
+// import dataProvider from "./dataProvider";
 
-export const TeamProfile = ({ userId }: any) => {
-    // const dataProvider = useDataProvider();
-    const [team, setTeam] = React.useState();
-    const [loading, setLoading] = React.useState(true);
-    const [error, setError] = React.useState();
+// export const TeamProfile = ({ userId }: any) => {
+//     // const dataProvider = useDataProvider();
+//     const [team, setTeam] = React.useState();
+//     const [loading, setLoading] = React.useState(true);
+//     const [error, setError] = React.useState();
 
-    React.useEffect(() => {
-       console.log("useEffect");
+//     React.useEffect(() => {
+//        console.log("useEffect");
        
-        const fetchTeam = async () => {
-       let data:any= await dataProvider.getOne('team')
-       if(data){
-        setTeam(data);
-        setLoading(false);
-        console.log('data:',data)
-       } else{
-        setError(error);
-        setLoading(false);
-       }
-    }
+//         const fetchTeam = async () => {
+//        let data:any= await dataProvider.getOne('team')
+//        if(data){
+//         setTeam(data);
+//         setLoading(false);
+//         console.log('data:',data)
+//        } else{
+//         setError(error);
+//         setLoading(false);
+//        }
+//     }
 
          
-    }, []);}
+//     }, []);}
 
 
 export const TeamList = (props: any) => (
@@ -56,8 +56,8 @@ export const TeamList = (props: any) => (
   </List>
 );
 
-export const TeamEdit = () => (
-  <Edit title={<TeamTitle />}>
+export const TeamEdit = (props: any) => (
+  <Edit title={<TeamTitle />} {...props}>
     <SimpleForm>
       <TextInput disabled source="id" />
       <ReferenceInput source="userId" reference="users" />
@@ -79,8 +79,8 @@ export const TeamCreate = (props: any) => (
   </Create>
 );
 
-const TeamTitle = () => {
-  const record = useRecordContext();
+const TeamTitle = ({ record}:any) => {
+  // const record = useRecordContext();
   return <span>Team {record ? `"${record.title}"` : ""}</span>;
 };
 
