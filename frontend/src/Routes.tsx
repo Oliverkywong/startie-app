@@ -44,11 +44,7 @@ export default function Routes() {
       <Route path="/search" component={SearchPage} />
       <Route path="/notification" component={Notification} />
       <Route path="/recommend" component={Recommend} />
-<<<<<<< HEAD
-      <Route path="/useredit" component={UserEdit} />
       <Route path="/sociallogin" component={SocialLogin} />
-=======
->>>>>>> c04dbf02c5df0be75c91df3a1528b2c18f3015ff
 
       <Route path="/tab">
         <IonTabs>
