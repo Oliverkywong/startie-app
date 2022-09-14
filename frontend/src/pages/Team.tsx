@@ -17,6 +17,7 @@ import {
   IonButton,
   useIonRouter,
   IonItem,
+  IonToolbar,
 } from "@ionic/react";
 
 import team1 from "../img/team1.png";
@@ -50,7 +51,7 @@ const Team: React.FC = () => {
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`);
       const result = await res.json();
 
-      console.log(result);
+      // console.log(result);
       // const teamtag = []
       // for (let i = 0; i < result.teamTags.length; i++) {
       //     teamtag.push(result.teamTags[i].name)
@@ -64,12 +65,14 @@ const Team: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonSearchbar
-          placeholder="Search"
-          onClick={() => {
-            router.push("/search");
-          }}
-        />
+        <IonToolbar>
+          <IonSearchbar
+            placeholder="Search"
+            onClick={() => {
+              router.push("/search");
+            }}
+          />
+        </IonToolbar>
       </IonHeader>
       <IonContent>
         <IonGrid>

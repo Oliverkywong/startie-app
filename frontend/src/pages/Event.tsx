@@ -16,6 +16,7 @@ import {
   IonInfiniteScrollContent,
   useIonRouter,
   IonNavLink,
+  IonToolbar,
 } from "@ionic/react";
 
 import "./css/Event.css";
@@ -37,7 +38,7 @@ const Event: React.FC = () => {
     (async function () {
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/event`);
       const result = await res.json();
-      console.log(result);
+      // console.log(result);
       setData(result);
     })();
   }, []);
@@ -55,13 +56,15 @@ const Event: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonTitle className="title">商業比賽</IonTitle>
-        <IonSearchbar
-          placeholder="Search"
-          onClick={() => {
-            router.push("/search");
-          }}
-        />
+        <IonToolbar>
+          <IonTitle className="title">商業比賽</IonTitle>
+          <IonSearchbar
+            placeholder="Search"
+            onClick={() => {
+              router.push("/search");
+            }}
+          />
+        </IonToolbar>
       </IonHeader>
       <IonContent>
         <IonList>
