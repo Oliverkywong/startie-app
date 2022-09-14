@@ -33,6 +33,7 @@ import Recommend from "./pages/Recommend";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
 import UserEdit from "./pages/UserEdit";
+import SocialLogin from "./pages/SocialLogin";
 
 export default function Routes() {
   return (
@@ -43,6 +44,11 @@ export default function Routes() {
       <Route path="/search" component={SearchPage} />
       <Route path="/notification" component={Notification} />
       <Route path="/recommend" component={Recommend} />
+<<<<<<< HEAD
+      <Route path="/useredit" component={UserEdit} />
+      <Route path="/sociallogin" component={SocialLogin} />
+=======
+>>>>>>> c04dbf02c5df0be75c91df3a1528b2c18f3015ff
 
       <Route path="/tab">
         <IonTabs>
