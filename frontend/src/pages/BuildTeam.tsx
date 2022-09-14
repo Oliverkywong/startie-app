@@ -28,6 +28,7 @@ const BuildTeam: React.FC = () => {
 
   const router = useIonRouter();
   const [teamTag, setTeamTag] = useState<tag[]>([]);
+
   useEffect(() => {
     (async function () {
       const localtoken = localStorage.getItem("token");
@@ -43,17 +44,17 @@ const BuildTeam: React.FC = () => {
 
   const { register, handleSubmit } = useForm();
 
-  const [state, setState] = useState<any>(team1)
+  const [state, setState] = useState<any>(team1);
 
   const imghandle = (e: any) => {
-    const reader = new FileReader()
+    const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
-        setState(reader.result)
+        setState(reader.result);
       }
-    }
-    reader.readAsDataURL(e.target.files[0])
-  }
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  };
 
   return (
     <IonPage>
@@ -66,8 +67,9 @@ const BuildTeam: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-
         <form
+          action="/team"
+          method="post"
           onSubmit={handleSubmit(async (data) => {
             const formData = new FormData();
             formData.append("teamName", data.teamName);
@@ -101,7 +103,10 @@ const BuildTeam: React.FC = () => {
           <IonItem>
             <IonSelect placeholder="Dropdown">
               {teamTag.map((tag) => (
-                <IonSelectOption {...register("teamTag", { required: true })} value={`${tag.name}`}>
+                <IonSelectOption
+                  {...register("teamTag", { required: true })}
+                  value={`${tag.name}`}
+                >
                   {tag.name}
                 </IonSelectOption>
               ))}
