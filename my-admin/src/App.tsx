@@ -15,23 +15,30 @@ import simpleRestProvider from 'ra-data-simple-rest';
 import fakeRestProvider from 'ra-data-fakerest';
 import { data } from './data';
 // import dataProvider from './dataProvider';
+import jsonServerProvider from 'ra-data-json-server';
 
-// const dataProvider = jsonServerProvider('http://localhost:8000');
-// const httpClient = (url:string, options :any= {}) => {
-//   if (!options.headers) {
-//       options.headers = new Headers({ Accept: 'application/json' });
-//   }
-//   // add your own headers here
-//   options.headers.set('X-Custom-Header', 'foobar');
-//   return fetchUtils.fetchJson(url, options);
+// const dataProvider = jsonServerProvider('https://oliverproject.oliverstrat.me');
+const httpClient = (url:string, options :any= {}) => {
+  if (!options.headers) {
+      options.headers = new Headers({ Accept: 'application/json' });
+  }
+  // add your own headers here
+  options.headers.set('X-Custom-Header', 'foobar');
+  
+  // options.headers.set('Access-Control-Expose-Headers','Content-Range')
 
 
-// };
-const js = fetch(`http://localhost:8000/team`).then(res=>res.json())
+  return fetchUtils.fetchJson(url, options);
 
-const oliver = Promise.all([js]).then(e=>console.log(e))
 
-const dataProvider = fakeRestProvider(oliver, true);
+ };
+// const js = fetch(`http://localhost:8000/team`).then(res=>res.json())
+
+// const oliver = Promise.all([js]).then(e=>console.log(e))
+
+
+
+const dataProvider =  jsonServerProvider(`http://localhost:8000`, httpClient);
 
 
 
