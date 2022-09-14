@@ -74,7 +74,7 @@ export default function Routes() {
               <IonIcon icon={planetOutline} />
               <IonLabel>Team</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="buildteam" href="/buildteam">
+            <IonTabButton tab="buildteam" href="/tab/buildteam">
               <IonIcon icon={addCircleOutline} />
               <IonLabel>Build New Team</IonLabel>
             </IonTabButton>

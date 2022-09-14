@@ -26,7 +26,6 @@ const EventDetail: React.FC = () => {
   const router = useIonRouter();
 
   let match = useRouteMatch<{ id: string }>("/tab/event/:id");
-  console.log(match);
 
   useEffect(() => {
     (async function () {
@@ -34,7 +33,6 @@ const EventDetail: React.FC = () => {
         `${process.env.REACT_APP_BACKEND_URL}/event/${match?.params.id}`
       );
       const result = await res.json();
-      console.log(result);
       setData(result);
     })();
   }, []);
