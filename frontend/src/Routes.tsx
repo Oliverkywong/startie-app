@@ -44,6 +44,7 @@ export default function Routes() {
       <Route path="/search" component={SearchPage} />
       <Route path="/notification" component={Notification} />
       <Route path="/recommend" component={Recommend} />
+      <Route path="/sociallogin" component={SocialLogin} />
 
       <Route path="/tab">
         <IonTabs>
@@ -75,7 +76,7 @@ export default function Routes() {
               <IonIcon icon={planetOutline} />
               <IonLabel>Team</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="buildteam" href="/buildteam">
+            <IonTabButton tab="buildteam" href="/tab/buildteam">
               <IonIcon icon={addCircleOutline} />
               <IonLabel>Build New Team</IonLabel>
             </IonTabButton>
