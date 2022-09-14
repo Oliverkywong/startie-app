@@ -68,8 +68,8 @@ export class TeamService {
 // -------------------------------------------------------------------------------------------------------------------
 // delete team
 // -------------------------------------------------------------------------------------------------------------------
-  async deleteTeam(id: number) {
-    return await this.knex<Team>("team").where({ id: id }).del();
+  async deleteTeam(id: number, status_id: number) {
+    return await this.knex<Team>("team").update("status_id", status_id).where({ id: id });
   }
 
 // -------------------------------------------------------------------------------------------------------------------
