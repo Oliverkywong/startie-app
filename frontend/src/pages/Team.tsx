@@ -50,14 +50,14 @@ const Team: React.FC = () => {
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`);
       const result = await res.json();
 
-      console.log(result.team);
+      console.log(result);
       // const teamtag = []
       // for (let i = 0; i < result.teamTags.length; i++) {
       //     teamtag.push(result.teamTags[i].name)
       // }
       // console.log(teamtag)
       // setTag(teamtag)
-      setData(result.team);
+      setData(result);
     })();
   }, []);
 
@@ -77,7 +77,7 @@ const Team: React.FC = () => {
             {data.map((item) => {
               return (
                 <IonCol size="6">
-                  <IonItem routerLink={`team/${item.id}`}>
+                  <IonItem routerLink={`/tab/team/${item.id}`}>
                     <IonCard key={item.id} className="card">
                       <IonImg src={item.profilepic} style={{ width: "100%" }} />
                       <IonCardContent

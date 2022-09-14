@@ -40,7 +40,7 @@ export class TeamService {
   async getTeam(id: string) {
     return await this.knex<Team>("team")
       .select("*")
-      .where("id", teamId)
+      .where("id", id)
   }
 // -------------------------------------------------------------------------------------------------------------------
 // edit team
