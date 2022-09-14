@@ -7,6 +7,11 @@ import {
   IonButtons,
   IonToolbar,
   useIonRouter,
+  IonCard,
+  IonCardContent,
+  IonItem,
+  IonLabel,
+  IonContent,
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { useLocation, useRouteMatch } from "react-router-dom";
@@ -21,7 +26,7 @@ interface EventDetail {
 }
 
 const EventDetail: React.FC = () => {
-  const [data, setData] = useState<Event[]>([]);
+  const [data, setData] = useState<EventDetail[]>([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
 
@@ -32,8 +37,8 @@ const EventDetail: React.FC = () => {
       const res = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/event/${match?.params.id}`
       );
-      const result = await res.json();
-      setData(result);
+      const item = await res.json();
+      setData(item);
     })();
   }, []);
 
@@ -55,9 +60,8 @@ const EventDetail: React.FC = () => {
             <IonBackButton defaultHref="/tab/event" />
           </IonButtons>
         </IonToolbar>
-        <IonImg src={eventimg} style={{ width: "100%" }} />
       </IonHeader>
-      <div className="tag">
+      {/* <div className="tag">
         Event Tag
         <span>View</span>
         <span>View</span>
@@ -72,8 +76,35 @@ const EventDetail: React.FC = () => {
           解決疫情下的營商問題，為推動社會經濟出一分
           力，並藉此向大眾推廣香港創科業及可持續發展目 標。
         </p>
-      </div>
-      <IonButton>Join</IonButton>
+      </div> */}
+      <IonContent>
+        {data.map((item) => {
+          return (
+            <IonCard key={item.id}>
+              <IonItem>
+                <IonImg
+                  src={
+                    item.profilepic === null
+                      ? item.profilepic
+                      : "../img/StartieLogo.png"
+                  }
+                />
+              </IonItem>
+              <IonCardContent className="eventName">{item.name}</IonCardContent>
+              <div className="event">
+                <IonImg src={item.profilepic} style={{ width: "10%" }} />
+                <div className="eventinfo">
+                  <IonLabel className="eventDescription">
+                    {item.description}
+                  </IonLabel>
+                  <IonLabel>{item.starttime}</IonLabel>
+                </div>
+              </div>
+            </IonCard>
+          );
+        })}
+        <IonButton>Join</IonButton>
+      </IonContent>
     </IonPage>
   );
 };
