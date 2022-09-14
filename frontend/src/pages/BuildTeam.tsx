@@ -82,7 +82,7 @@ const BuildTeam: React.FC = () => {
             //   },
             //   body: formData,
             // })
-            console.log(data);
+            // console.log(data);
             router.push("/recommend");
           })}
         >

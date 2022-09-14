@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { IonPage, IonHeader, IonContent, IonSearchbar, IonCard, IonCardContent, IonImg, useIonViewWillEnter, IonInfiniteScroll, IonInfiniteScrollContent, IonGrid, IonCol, IonRow, useIonRouter } from '@ionic/react'
+import { IonPage, IonHeader, IonContent, IonSearchbar, IonCard, IonCardContent, IonImg, useIonViewWillEnter, IonInfiniteScroll, IonInfiniteScrollContent, IonGrid, IonCol, IonRow, useIonRouter, IonToolbar } from '@ionic/react'
 
 import icon from '../img/tonystarkicon.png'
 import './css/Team.css'
@@ -20,7 +20,7 @@ const User: React.FC = () => {
         (async function () {
             const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user`);
             const result = await res.json();
-            console.log(result)
+            // console.log(result)
             setData(result);
         })()
     }, [])
@@ -55,7 +55,9 @@ const User: React.FC = () => {
     return (
         <IonPage>
             <IonHeader>
-                <IonSearchbar placeholder="Search" onClick={() => { router.push("/search") }} />
+                <IonToolbar>
+                    <IonSearchbar placeholder="Search" onClick={() => { router.push("/search") }} />
+                </IonToolbar>
             </IonHeader>
             <IonContent>
                 <IonGrid>
