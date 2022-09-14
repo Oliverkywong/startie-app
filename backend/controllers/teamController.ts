@@ -4,6 +4,9 @@ import { Request, Response } from "express";
 export class TeamController {
   constructor(private teamService: TeamService) { }
 
+// -------------------------------------------------------------------------------------------------------------------
+// create team
+// -------------------------------------------------------------------------------------------------------------------
   createTeam = async (req: Request, res: Response) => {
     try {
       const { teamName, description, profilepic } = req.body;
@@ -14,28 +17,36 @@ export class TeamController {
       res.status(500).json({ message: "Internal server error" });
     }
   };
-
+// -------------------------------------------------------------------------------------------------------------------
+// get all teams
+// -------------------------------------------------------------------------------------------------------------------
   getAllTeams = async (req: Request, res: Response) => {
     try {
       const team = await this.teamService.getAllTeams();
+      res.set("x-total-count", String(team.length));
       res.status(200).json(team);
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   };
-
+// -------------------------------------------------------------------------------------------------------------------
+// get one team
+// -------------------------------------------------------------------------------------------------------------------
   getTeam = async (req: Request, res: Response) => {
     try {
-      const { teamName } = req.params;
-      const team = await this.teamService.getTeam(teamName);
+      const teamId = req.params.id;
+      
+      const team = await this.teamService.getTeam(teamId);
       res.status(200).json(team);
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   };
-
+// -------------------------------------------------------------------------------------------------------------------
+// edit team
+// -------------------------------------------------------------------------------------------------------------------
   updateTeam = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
@@ -52,18 +63,22 @@ export class TeamController {
       res.status(500).json({ message: "Internal server error" });
     }
   };
-
+// -------------------------------------------------------------------------------------------------------------------
+// delete team
+// -------------------------------------------------------------------------------------------------------------------
   deleteTeam = async (req: Request, res: Response) => {
     try {
-      const { id } = req.params;
-      const team = await this.teamService.deleteTeam(parseInt(id));
+      const teamId = req.params.id;
+      const team = await this.teamService.deleteTeam(parseInt(teamId));
       res.status(200).json(`team: ${team} has been deleted`);
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   };
-
+// -------------------------------------------------------------------------------------------------------------------
+// get all categories
+// -------------------------------------------------------------------------------------------------------------------
   teamTag = async (req: Request, res: Response) => {
     try {
       const teamtag = await this.teamService.teamTag();
