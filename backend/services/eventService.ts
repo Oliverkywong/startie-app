@@ -4,9 +4,13 @@ import { Event } from "../utils/model";
 export class EventService {
   constructor(private knex: Knex) {}
 
+// -------------------------------------------------------------------------------------------------------------------
+// create event ✅
+// -------------------------------------------------------------------------------------------------------------------
   async createEvent(
     EventName: string,
     description: string,
+    maxteammember: number,
     profilepic: string,
     starttime: Date
   ) {
@@ -15,6 +19,7 @@ export class EventService {
         .insert({
           name: EventName,
           description: description,
+          maxteammember: maxteammember,
           profilepic: profilepic,
           starttime: starttime,
           status_id: 1,
@@ -28,12 +33,17 @@ export class EventService {
       throw err;
     }
   }
-
+// -------------------------------------------------------------------------------------------------------------------
+// get All Events ✅
+// -------------------------------------------------------------------------------------------------------------------
   async getAllEvents() {
     return await this.knex<Event>("event")
       .select("*")
   }
 
+// -------------------------------------------------------------------------------------------------------------------
+// get one event ✅
+// -------------------------------------------------------------------------------------------------------------------
   async getEvent(eventName: string) {
     return await this.knex<Event>("event")
       .select("id", "name", "description")
@@ -41,16 +51,21 @@ export class EventService {
       .returning("*");
   }
 
+// -------------------------------------------------------------------------------------------------------------------
+// update event ✅
+// -------------------------------------------------------------------------------------------------------------------
   async updateEvent(
     eventId: number,
     eventName: string,
     description: string,
+    maxteammember: number,
     profilepic: string,
     starttime: Date
   ) {
     if (
       eventName !== null ||
       description !== null ||
+      maxteammember !== null ||
       profilepic !== null ||
       starttime !== null
     ) {
@@ -59,6 +74,7 @@ export class EventService {
           .update({
             name: eventName,
             description: description,
+            maxteammember: maxteammember,
             profilepic: profilepic,
             starttime: starttime,
           })
