@@ -12,37 +12,8 @@ import { useForm } from "react-hook-form";
 import "./css/Login.css";
 import { useDispatch } from "react-redux";
 import { loggedIn } from "../redux/auth/action";
-import {
-  SignInWithApple,
-  AppleSignInResponse,
-  AppleSignInErrorResponse,
-  ASAuthorizationAppleIDRequest,
-} from "@awesome-cordova-plugins/sign-in-with-apple";
 
 const Login: React.FC = () => {
-  async function appleLogin() {
-   //@ts-ignore
-    SignInWithApple.signin({
-      requestedScopes: [
-        ASAuthorizationAppleIDRequest.ASAuthorizationScopeFullName,
-        ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail
-      ]
-    }).then((res:AppleSignInResponse) => {
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/login/apple`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(res)
-      })
-      console.log("hi")
-      console.log(res)
-    }).catch((error:AppleSignInErrorResponse) => {
-      alert(error.code + ' ' + error.localizedDescription);
-      console.error(error);
-
-    })
-  }
 
   const { register, handleSubmit } = useForm();
   const [passwordShown, setPasswordShown] = useState(false);
@@ -111,10 +82,9 @@ const Login: React.FC = () => {
             New to Startie?<a href="/signup">Sign Up</a>
           </p>
         </div>
-        <IonButton color="dark" onClick={appleLogin}>
-          <IonIcon icon={logoApple} />
-          Sign in with Apple
-        </IonButton> 
+        {/* <IonButton onClick={()=>router.push('/sociallogin')}> */}
+        <a href='/sociallogin'>Social Login</a>
+        {/* </IonButton> */}
       </div>
     </IonPage>
   );
