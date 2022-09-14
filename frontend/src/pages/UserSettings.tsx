@@ -51,8 +51,6 @@ const UserSettings: React.FC = () => {
                 }}>Log Out</IonButton>
             </IonContent>
         </IonPage>
-
-
     )
 }
 

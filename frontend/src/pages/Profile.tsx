@@ -73,7 +73,9 @@ const Profile: React.FC = () => {
               }
             />
           </div>
-          <IonIcon className="proedit" icon={pencil} />
+          <a href="/useredit">
+            <IonIcon className="proedit" icon={pencil} />
+          </a>
           <IonLabel className="uresname">
             {userdetails?.username ? userdetails.username : "new user"}
           </IonLabel>
