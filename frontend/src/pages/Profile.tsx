@@ -46,27 +46,20 @@ const Profile: React.FC = () => {
       if (localtoken === null) {
         return;
       }
-<<<<<<< HEAD
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/:id`, {
-=======
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/${userdetails?.id}`, {
->>>>>>> a52064823ae122ebf4e90fde5e7985dea74ee9e8
-        headers: {
-          Authorization: `Bearer ${localtoken}`,
-        },
-      });
+      const res = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/user/${userdetails?.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localtoken}`,
+          },
+        }
+      );
 
       if (res.status === 200) {
         const userRecord = await res.json();
-<<<<<<< HEAD
-        console.log(userRecord);
-        dispatch(loggedIn(userRecord["userInfo"], localtoken!));
-        //   router.push("/tab/home");
-=======
-          // console.log(userRecord)
+        // console.log(userRecord)
         dispatch(loggedIn(userRecord, localtoken!));
-          // router.push("/tab/home");
->>>>>>> a52064823ae122ebf4e90fde5e7985dea74ee9e8
+        // router.push("/tab/home");
       }
     })();
   }, []);
