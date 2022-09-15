@@ -9,7 +9,7 @@ const initialState: userInfoState = {
     userinfo: {
         id: 0,
         username: 'dummy',
-        profilepic: '../../img/tonystarkicon.png',
+        profilepic: 'tonystarkicon.png',
         description: 'testing'
     }
 }
@@ -17,6 +17,7 @@ const initialState: userInfoState = {
 export function userInforeducer(state: userInfoState = initialState, action: UserActions): userInfoState {
     switch (action.type) {
         case '@@userInfo/LOAD_USER_INFO':
+        // console.log(action.payload)
             return {
                 ...state,
                 userinfo: action.payload

@@ -1,17 +1,19 @@
 import React, { useState } from "react";
-import { IonButton, IonIcon, IonImg, IonPage, useIonRouter } from "@ionic/react";
+import { IonButton, IonIcon, IonImg, IonNavLink, IonPage, useIonRouter } from "@ionic/react";
 import logo from "../img/StartieLogo.png";
 import {
   eyeOffOutline,
   eyeOutline,
   lockClosedOutline,
-  logoApple,
   personOutline,
 } from "ionicons/icons";
 import { useForm } from "react-hook-form";
 import "./css/Login.css";
 import { useDispatch } from "react-redux";
 import { loggedIn } from "../redux/auth/action";
+import SocialLogin from "./SocialLogin";
+import Homepage from "./Homepage";
+import SignUp from "./SignUp";
 
 const Login: React.FC = () => {
 
@@ -37,14 +39,15 @@ const Login: React.FC = () => {
                 body: JSON.stringify(data),
               }
             );
-             
+
             if (res.status === 200) {
               const userRecord = await res.json();
               // console.log(userRecord)
               dispatch(loggedIn(userRecord["user"], userRecord["jwt"]));
               localStorage.setItem("token", userRecord["jwt"]);
               // router.push("/tab/home");
-              window.location.replace('/tab/home');
+              // window.location.replace('/tab/home');
+              // <IonNavLink component={() => <SignUp />} ></IonNavLink>
             }
           })}
         >
@@ -71,21 +74,26 @@ const Login: React.FC = () => {
             />
             <br />
           </div>
-          <input
-            className="loginButton"
-            type="submit"
-            value={"Continue"}
-          ></input>
+          {/* <IonNavLink className="nav" routerDirection="forward" component={() => <Homepage />} > */}
+            <input
+              className="loginButton"
+              type="submit"
+              value={"Continue"}
+            />
+          {/* </IonNavLink> */}
         </form>
         <a href="#">Forgot Password?</a>
         <div className="signup">
           <p>
-            New to Startie?<a href="/signup">Sign Up</a>
+            New to Startie? <span />
+            <IonNavLink style={{ color: '#4fc564' }} routerDirection="forward" component={() => <SignUp />}>
+              Sign Up
+            </IonNavLink>
           </p>
         </div>
-        {/* <IonButton onClick={()=>router.push('/sociallogin')}> */}
-        <a href='/sociallogin'>Social Login</a>
-        {/* </IonButton> */}
+        <IonNavLink routerDirection="forward" component={() => <SocialLogin />}>
+          <IonButton>Social Login</IonButton>
+        </IonNavLink>
       </div>
     </IonPage>
   );

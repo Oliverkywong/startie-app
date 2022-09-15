@@ -46,7 +46,7 @@ const Profile: React.FC = () => {
       if (localtoken === null) {
         return;
       }
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/userInfo`, {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/${userdetails?.id}`, {
         headers: {
           Authorization: `Bearer ${localtoken}`,
         },
@@ -54,9 +54,9 @@ const Profile: React.FC = () => {
 
       if (res.status === 200) {
         const userRecord = await res.json();
-        //   console.log(userRecord)
-        dispatch(loggedIn(userRecord["userInfo"], localtoken!));
-        //   router.push("/tab/home");
+          // console.log(userRecord)
+        dispatch(loggedIn(userRecord, localtoken!));
+          // router.push("/tab/home");
       }
     })();
   }, []);
