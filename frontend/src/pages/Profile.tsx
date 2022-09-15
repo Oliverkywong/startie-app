@@ -36,7 +36,7 @@ const Profile: React.FC = () => {
   const userBelongsTeam = useAppSelector(
     (state: RootState) => state.userInfo.team
   );
-  console.log(userBelongsTeam);
+  // console.log(userBelongsTeam);
 
   const [info, setInfo] = React.useState(true);
   const [stat, setStat] = React.useState(false);
@@ -88,7 +88,7 @@ const Profile: React.FC = () => {
 
       if (res.status === 200) {
         const userTeam = await res.json();
-        console.log(userTeam);
+        // console.log(userTeam);
         dispatch(loadUserTeam(userTeam));
         // router.push("/tab/home");
       }

@@ -44,7 +44,7 @@ const Login: React.FC = () => {
 
             if (res.status === 200) {
               const userRecord = await res.json();
-              console.log(userRecord)
+              // console.log(userRecord)
               dispatch(loggedIn(userRecord["user"], userRecord["jwt"]));
               // localStorage.setItem("token", userRecord["jwt"]);
               // router.push("/tab/home");
