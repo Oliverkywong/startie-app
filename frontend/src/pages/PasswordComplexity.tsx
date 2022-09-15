@@ -76,16 +76,16 @@ export default function PasswordComplexity(props: { password: string }) {
     })
 
     return (
-        <div style={{ backgroundColor: "#fff" }}>
+        <div>
             <span style={{ color: barcolor() }}>{barlable()}</span>
             <IonProgressBar style={chagecolor()} />
-            <div>Password must have:</div>
+            <span>Password must have:</span>
             <ul>
-                <Condition valid={passwordvalid?.minLength} text={'Have 8 characters'} />
-                <Condition valid={passwordvalid?.minLowercase} text={'Have at least 1 english character'} />
-                <Condition valid={passwordvalid?.minUppercase} text={'Have at least 1 uppercase character'} />
-                <Condition valid={passwordvalid?.minNumbers} text={'Have at least 1 number'} />
-                <Condition valid={passwordvalid?.minSymbols} text={'Have at least 1 symbol'} />
+                <Condition valid={passwordvalid?.minLength} text={'8 characters'} />
+                <Condition valid={passwordvalid?.minLowercase} text={'At least 1 english character'} />
+                <Condition valid={passwordvalid?.minUppercase} text={'At least 1 uppercase character'} />
+                <Condition valid={passwordvalid?.minNumbers} text={'At least 1 number'} />
+                <Condition valid={passwordvalid?.minSymbols} text={'At least 1 symbol'} />
             </ul>
         </div>
     )

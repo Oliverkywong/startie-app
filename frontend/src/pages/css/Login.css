@@ -40,11 +40,25 @@ form {
   color: #3c3c43;
 }
 
+.email > :first-child,
+.password > :first-child,
+.username > :first-child{
+  margin-right: 10px;
+}
+
 input {
   border: none;
   border-radius: 20px;
   padding: 20px;
   background-color: #e8e8e8;
+}
+
+.nav{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 250px;
 }
 
 .usernameInput,
@@ -65,14 +79,6 @@ a {
 }
 
 .signup {
-  color: #000;
-}
-
-.signup > p > a {
-  color: #4fc564;
-}
-
-span {
   color: #000;
 }
 
