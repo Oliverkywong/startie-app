@@ -16,6 +16,7 @@ import {
   useIonRouter,
   IonList,
   IonHeader,
+  IonNavLink,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { notificationsOutline } from "ionicons/icons";
@@ -38,6 +39,8 @@ import "swiper/css";
 import { RootState, useAppDispatch, useAppSelector } from "../store";
 import { loggedIn, logOut } from "../redux/auth/action";
 import { EffectCards } from "swiper";
+import Profile from "./Profile";
+import { loadUserInfo } from "../redux/userInfo/action";
 
 const catergorys = {
   cat1: { src: cat1, title: "All" },
@@ -47,7 +50,7 @@ const catergorys = {
 };
 
 const Homepage: React.FC = () => {
-  const userdetails = useAppSelector((state: RootState) => state.auth.info);
+  const userdetails = useAppSelector((state: RootState) => state.userInfo.userinfo);
   const router = useIonRouter();
   const dispatch = useAppDispatch();
 
@@ -58,7 +61,8 @@ const Homepage: React.FC = () => {
       if (localtoken === null) {
         dispatch(logOut());
       }
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/userInfo`, {
+
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/:id`, {
         headers: {
           Authorization: `Bearer ${localtoken}`,
         },
@@ -67,7 +71,7 @@ const Homepage: React.FC = () => {
       if (res.status === 200) {
         const userRecord = await res.json();
         // console.log(userRecord)
-        dispatch(loggedIn(userRecord["userInfo"], localtoken!));
+        dispatch(loadUserInfo(userRecord));
         router.push("/tab/home");
       }
     })();
@@ -76,41 +80,43 @@ const Homepage: React.FC = () => {
   return (
     <IonPage>
       <IonContent>
-      <IonHeader>
-        <IonToolbar className="searchBar">
-          <IonButtons slot="end">
-            <IonButton
-              onClick={() => {
-                router.push("/notification");
-              }}
-            >
-              <IonIcon icon={notificationsOutline} />
-            </IonButton>
-          </IonButtons>
-          <IonButtons slot="start">
-            <IonButton
-              onClick={() => {
-                router.push("/tab/profile", "forward", "push");
-              }}
-            >
-              <IonImg
-                className="icon"
-                src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails?.profilepic}`}
-              />
-            </IonButton>
-          </IonButtons>
-          <IonButtons style={{ width: "100%" }} slot="primary">
-            <IonButton
-              style={{ width: "100%" }}
-              onClick={() => {
-                router.push("/search");
-              }}
-            >
-              <IonSearchbar placeholder="Search" />
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
+        <IonHeader>
+          <IonToolbar className="searchBar">
+            <IonButtons slot="end">
+              <IonButton
+                onClick={() => {
+                  router.push("/notification");
+                }}
+              >
+                <IonIcon icon={notificationsOutline} />
+              </IonButton>
+            </IonButtons>
+            <IonButtons slot="start">
+              <IonButton
+                onClick={() => {
+                  router.push("/tab/profile", "forward", "push");
+                }}
+              >
+                {/* <IonNavLink className="nav" routerDirection="forward" component={() => <Profile />} > */}
+                  <IonImg
+                    className="icon"
+                    src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`}
+                  />
+                {/* </IonNavLink> */}
+              </IonButton>
+            </IonButtons>
+            <IonButtons style={{ width: "100%" }} slot="primary">
+              <IonButton
+                style={{ width: "100%" }}
+                onClick={() => {
+                  router.push("/search");
+                }}
+              >
+                <IonSearchbar placeholder="Search" />
+              </IonButton>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
 
         <IonLabel className="labelTitle">Hot Events</IonLabel>
         {/* <a href="#">See More</a> */}

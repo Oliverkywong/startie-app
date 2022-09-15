@@ -24,16 +24,41 @@ export class UserController {
 
   loginGoogle = async (req: express.Request, res: express.Response) => {
     try {
+      // console.log(req.body)
       const client = new OAuth2Client(process.env.GOOGLE_IOS_CLIENT_ID);
       const ticket = await client.verifyIdToken({
-        idToken: req.body.id_token,
+        idToken: req.body.idToken,
         audience: process.env.GOOGLE_IOS_CLIENT_ID,
       });
+      
       const payload = ticket.getPayload();
-      const email = payload?.['email'];
-      const googleId = payload?.['sub'];
-      console.log(email, googleId);
-      return res.json({ result: false, msg: 'google login error' })
+
+      // await this.userService.appleLogin(req.body.displayName, req.body.email);
+      await this.userService.register(req.body.displayName, 'google', req.body.email, 1);
+      
+      const user = {
+        username: payload?.['name'],
+        email: payload?.['email'],
+        profilepic: "tonystarkicon.png",
+        phonenumber: "0000000000",
+        description: "google user"
+      }
+      const ecPrivateKey = await joseKey();
+      const jwt = await new jose.SignJWT({
+        "urn:example:claim": true,
+        userId: req.body.user,
+        username: req.body.fullName.nickname,
+      }) // use private key to sign
+        .setProtectedHeader({ alg: "ES256" })
+        .setIssuedAt()
+        .setExpirationTime("24h")
+        .sign(ecPrivateKey);
+
+        return res.status(200).json({
+        result: true, msg: "google login success",
+        user: user,
+        jwt: jwt,
+      });
     } catch (err) {
       return res.json({ result: false, msg: 'google login error' })
     }
@@ -43,8 +68,8 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   register = async (req: express.Request, res: express.Response) => {
     try {
-      console.log(req.body);
-      
+      // console.log(req.body);
+
       let username: string = req.body.username.trim();
       let password: string = req.body.password.trim();
       let email: string = req.body.email.trim();
@@ -132,25 +157,24 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   userInfo = async (req: express.Request, res: express.Response) => {
     try {
-      const userId = req.user?.userId !=undefined? Number(req.user.userId) : parseInt(req.params.id); // get userId from JWT
-      console.log(userId);
-      
+      const userId = req.user?.userId != undefined ? Number(req.user.userId) : parseInt(req.params.id); // get userId from JWT
+
       const userInfo = await this.userService.userInfo(userId);
       return res.json(userInfo[0]);
-      
+
     } catch (err) {
       logger.error(err);
       return res.json({ result: false, msg: "Get user profile fail" });
     }
   };
-// -------------------------------------------------------------------------------------------------------------------
-// get self userInfo
-// -------------------------------------------------------------------------------------------------------------------
-getAlluser = async (req: express.Request, res: express.Response) => {
+  // -------------------------------------------------------------------------------------------------------------------
+  // get self userInfo
+  // -------------------------------------------------------------------------------------------------------------------
+  getAlluser = async (req: express.Request, res: express.Response) => {
     try {
       const allUserInfo = await this.userService.getAllUser();
       res.set("x-total-count", String(allUserInfo.length));
-       res.status(200).json(allUserInfo);
+      res.status(200).json(allUserInfo);
 
     } catch (err) {
       logger.error(err);
@@ -165,11 +189,11 @@ getAlluser = async (req: express.Request, res: express.Response) => {
   editUser = async (req: express.Request, res: express.Response) => {
     form.parse(req, async (err, fields, files) => {
       try {
-        
+
         //Reminder to create the auth and give the isAdmin = true if the userId is an admin
 
-        const userId = req.user?.userId !=undefined? Number(req.user.userId) : parseInt(req.params.id); // get userId from JWT
-        console.log(userId);
+        const userId = req.user?.userId != undefined ? Number(req.user.userId) : parseInt(req.params.id); // get userId from JWT
+        // console.log(userId);
 
         const userInfos = await this.userService.userInfo(userId);
         let oldProfilepic = userInfos[0].profilepic;
@@ -244,10 +268,12 @@ getAlluser = async (req: express.Request, res: express.Response) => {
         ignoreExpiration: true,
       });
 
-      await this.userService.appleLogin(req.body.fullName.nickname, appleuserinfo.email);
+      const appleUser = req.body.fullName.nickname === '' ? 'Apple User' : req.body.fullName.nickname;
+
+      // await this.userService.appleLogin(req.body.fullName.nickname, appleuserinfo.email);
+      await this.userService.register(appleUser, 'apple', appleuserinfo.email, 1);
 
       const user = {
-        id: req.body.user,
         username: req.body.fullName.nickname,
         email: appleuserinfo.email,
         profilepic: "tonystarkicon.png",
@@ -265,7 +291,7 @@ getAlluser = async (req: express.Request, res: express.Response) => {
         .setExpirationTime("24h")
         .sign(ecPrivateKey);
 
-      res.status(200).json({
+      return res.status(200).json({
         result: true, msg: "apple login success",
         user: user,
         jwt: jwt,
@@ -273,7 +299,7 @@ getAlluser = async (req: express.Request, res: express.Response) => {
     } catch (err) {
       // Token is not verified
       logger.error(err);
-      res.status(400).json({ result: false, msg: "apple login error" });
+      return res.status(400).json({ result: false, msg: "apple login error" });
     }
   }
   // -------------------------------------------------------------------------------------------------------------------

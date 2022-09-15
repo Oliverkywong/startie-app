@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IonIcon, IonImg, IonPage } from "@ionic/react";
+import { IonIcon, IonImg, IonNavLink, IonPage } from "@ionic/react";
 import logo from "../img/StartieLogo.png";
 import {
   eyeOffOutline,
@@ -9,8 +9,9 @@ import {
   personOutline,
 } from "ionicons/icons";
 import { useForm } from "react-hook-form";
-import "./css/Login.css";
+import "./css/SignUp.css";
 import PasswordComplexity from "./PasswordComplexity";
+import Login from "./Login";
 
 const SignUp: React.FC = () => {
   const { register, handleSubmit, watch } = useForm();
@@ -65,9 +66,9 @@ const SignUp: React.FC = () => {
                 icon={passwordShown ? eyeOutline : eyeOffOutline}
                 onClick={() => setPasswordShown(passwordShown ? false : true)}
               />
-              <br />
-              <PasswordComplexity password={password?.toString() ?? ""} />
             </div>
+            <PasswordComplexity password={password?.toString() ?? ""} />
+            <br />
             <input type="checkbox" onChange={() => setCheckbox(!checkbox)} />
             <span>
               By Creating an account you accept the Terms & Condition of the
@@ -78,7 +79,10 @@ const SignUp: React.FC = () => {
           </form>
           <div className="signup">
             <p>
-              Already a member?<a href="/">Log In</a>
+              Already a member?<span />
+              <IonNavLink style={{ color: '#4fc564' }} routerDirection="forward" component={() => <Login />}>
+                Log In
+              </IonNavLink>
             </p>
           </div>
         </div>
