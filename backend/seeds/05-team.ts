@@ -13,7 +13,7 @@ export async function seed(knex: Knex): Promise<void> {
             room_id: 2,
             description: "Test",
             status_id: 1,
-            profilepic: "13.jpg",
+            profilepic: "team1.png",
             clickrate: 0,
         },
         {
@@ -21,7 +21,7 @@ export async function seed(knex: Knex): Promise<void> {
             room_id: 3,
             description: "Leo only",
             status_id: 1,
-            profilepic: "14.jpg",
+            profilepic: "team2.png",
             clickrate: 0,
         },
         {
@@ -29,7 +29,7 @@ export async function seed(knex: Knex): Promise<void> {
             room_id: 4,
             description: "Yeung only",
             status_id: 1,
-            profilepic: "15.jpg",
+            profilepic: "com5.png",
             clickrate: 0,
         },
         {
@@ -37,7 +37,7 @@ export async function seed(knex: Knex): Promise<void> {
             room_id: 5,
             description: "Leo again",
             status_id: 1,
-            profilepic: "15.jpg",
+            profilepic: "com4.png",
             clickrate: 0,
         }
     ])

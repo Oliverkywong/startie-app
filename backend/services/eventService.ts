@@ -1,4 +1,5 @@
 import { Knex } from "knex";
+import { logger } from "../utils/logger";
 import { Event } from "../utils/model";
 
 export class EventService {
@@ -29,7 +30,7 @@ export class EventService {
 
       return eventInfo;
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       throw err;
     }
   }
@@ -45,9 +46,8 @@ export class EventService {
   // -------------------------------------------------------------------------------------------------------------------
   async getEvent(id: string) {
     return await this.knex<Event>("event")
-      .select("id", "name", "description")
+      .select("*")
       .where("id", id)
-      .returning("*");
   }
 
   // -------------------------------------------------------------------------------------------------------------------
@@ -82,7 +82,7 @@ export class EventService {
 
         return eventInfo;
       } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw err;
       }
     } else {

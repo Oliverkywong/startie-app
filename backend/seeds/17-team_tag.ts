@@ -31,6 +31,10 @@ export async function seed(knex: Knex): Promise<void> {
         {
             team_id: 3,
             tag_id: 2,
+        },
+        {
+            team_id: 4,
+            tag_id: 4,
         }
     ])
     .into("team_tag");
