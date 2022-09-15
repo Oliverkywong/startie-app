@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import {
+  IonBackButton,
+  IonButtons,
   IonContent,
   IonHeader,
   IonIcon,
@@ -8,6 +10,7 @@ import {
   IonLabel,
   IonNavLink,
   IonPage,
+  IonTitle,
   IonToolbar,
   useIonRouter,
 } from "@ionic/react";
@@ -21,6 +24,7 @@ import {
   statsChart,
 } from "ionicons/icons";
 
+import "./css/Common.css";
 import "./css/Profile.css";
 import UserInfo from "./UserInfo";
 import UserStats from "./UserStats";
@@ -99,7 +103,12 @@ const Profile: React.FC = () => {
     <>
       <IonPage>
         <IonHeader>
-          <IonToolbar></IonToolbar>
+          <IonToolbar>
+            <IonButtons slot="start">
+              <IonBackButton defaultHref="/tab/home" />
+              <IonTitle className="title">Profile</IonTitle>
+            </IonButtons>
+          </IonToolbar>
         </IonHeader>
         <IonContent>
           <div className="profile">

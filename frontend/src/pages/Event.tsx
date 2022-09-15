@@ -17,6 +17,8 @@ import {
   useIonRouter,
   IonNavLink,
   IonToolbar,
+  IonBackButton,
+  IonButtons,
 } from "@ionic/react";
 
 import "./css/Common.css";
@@ -58,7 +60,12 @@ const Event: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/tab/home" />
+          </IonButtons>
           <IonTitle className="title">商業比賽</IonTitle>
+        </IonToolbar>
+        <IonToolbar>
           <IonSearchbar
             placeholder="Search"
             onClick={() => {
