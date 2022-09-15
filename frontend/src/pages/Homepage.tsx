@@ -41,8 +41,6 @@ import { loggedIn, logOut } from "../redux/auth/action";
 import { EffectCards } from "swiper";
 import Profile from "./Profile";
 import { loadUserInfo } from "../redux/userInfo/action";
-import SearchPage from "./SearchPage";
-import Notification from "./Notification";
 
 const catergorys = {
   cat1: { src: cat1, title: "All" },
@@ -81,8 +79,44 @@ const Homepage: React.FC = () => {
 
   return (
     <IonPage>
-      <IonContent>
+      
         <IonHeader>
+          <IonToolbar className="searchBar">
+            <IonButtons slot="end">
+              <IonButton
+                onClick={() => {
+                  router.push("/notification");
+                }}
+              >
+                <IonIcon icon={notificationsOutline} />
+              </IonButton>
+            </IonButtons>
+            <IonButtons slot="start">
+              <IonButton
+                onClick={() => {
+                  router.push("/tab/profile", "forward", "push");
+                }}
+              >
+                  <IonImg
+                    className="icon"
+                    src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`}
+                  />
+              </IonButton>
+            </IonButtons>
+            <IonButtons style={{ width: "100%" }} slot="primary">
+              <IonButton
+                style={{ width: "100%" }}
+                onClick={() => {
+                  router.push("/search");
+                }}
+              >
+                <IonSearchbar placeholder="Search" />
+              </IonButton>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+        {/* <IonHeader>
           <IonToolbar className="searchBar">
             <IonButtons slot="start">
               <IonNavLink routerDirection="forward" component={() => <Profile />} >
@@ -97,15 +131,15 @@ const Homepage: React.FC = () => {
                 <IonIcon icon={notificationsOutline} />
               </IonNavLink>
             </IonButtons>
-            {/* <IonButtons slot="primary"> */}
               <IonNavLink routerDirection="forward" component={() => <SearchPage />} >
                 <IonSearchbar placeholder="Search" />
               </IonNavLink>
-            {/* </IonButtons> */}
           </IonToolbar>
-        </IonHeader>
+        </IonHeader> */}
 
         <IonLabel className="labelTitle">Hot Events</IonLabel>
+        {/* <a href="#">See More</a> */}
+
         <Swiper
           loop={true}
           effect={"cards"}

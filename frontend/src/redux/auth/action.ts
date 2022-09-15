@@ -3,7 +3,9 @@ import { AppDispatch } from "../../store";
 
 export function loggedIn(info: UserInfo ,token: string) {
         // console.log(info)
+        localStorage.setItem("token", token);
     return {
+        
         type: '@@auth/LOGGED_IN' as const,
         userinfo: info,
         token: token

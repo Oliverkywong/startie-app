@@ -62,6 +62,7 @@ const TeamDetail: React.FC = () => {
           </IonButtons>
         </IonToolbar>
       </IonHeader>
+      <IonContent>
       {data.map((item) => {
         return (
           <IonCard key={item.id}>
@@ -87,7 +88,7 @@ const TeamDetail: React.FC = () => {
         );
       })}
       <IonButton>Join</IonButton>
-      <IonContent>
+    
         <IonList>
           <div className="event">
             <IonImg src={icon} style={{ width: "10%" }} />

@@ -4,6 +4,7 @@ import {
   IonHeader,
   IonIcon,
   IonImg,
+  IonItem,
   IonLabel,
   IonNavLink,
   IonPage,
@@ -47,17 +48,20 @@ const Profile: React.FC = () => {
       if (localtoken === null) {
         return;
       }
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/${userdetails?.id}`, {
-        headers: {
-          Authorization: `Bearer ${localtoken}`,
-        },
-      });
+      const res = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/user/${userdetails?.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localtoken}`,
+          },
+        }
+      );
 
       if (res.status === 200) {
         const userRecord = await res.json();
-          // console.log(userRecord)
+        // console.log(userRecord)
         dispatch(loggedIn(userRecord, localtoken!));
-          // router.push("/tab/home");
+        // router.push("/tab/home");
       }
     })();
   }, []);
@@ -66,8 +70,7 @@ const Profile: React.FC = () => {
     <IonPage>
       <IonContent>
         <IonHeader>
-          <IonToolbar>
-          </IonToolbar>
+          <IonToolbar></IonToolbar>
         </IonHeader>
         <div className="profile">
           <div className="profilepicContainer">
@@ -80,9 +83,9 @@ const Profile: React.FC = () => {
               }
             />
           </div>
-          <a href="/tab/profile/edit">
+          <IonItem routerLink="/tab/profile/edit">
             <IonIcon className="proedit" icon={pencil} />
-          </a>
+          </IonItem>
           <IonLabel className="uresname">
             {userdetails?.username ? userdetails.username : "new user"}
           </IonLabel>
