@@ -5,9 +5,10 @@ import {
     AppleSignInErrorResponse,
     ASAuthorizationAppleIDRequest,
 } from "@awesome-cordova-plugins/sign-in-with-apple";
-import { IonPage, IonButton, IonIcon } from '@ionic/react';
+import { IonPage, IonButton, IonIcon, IonNavLink } from '@ionic/react';
 import { logoApple, logoGoogle } from 'ionicons/icons';
 import { GooglePlus } from '@awesome-cordova-plugins/google-plus';
+import Login from './Login';
 
 export default function SocialLogin() {
     async function appleLogin() {
@@ -60,6 +61,10 @@ export default function SocialLogin() {
                 <IonIcon icon={logoGoogle} />
                 Sign in with Google
             </IonButton>
+
+            <IonNavLink routerDirection="forward" component={() => <Login />}>
+          <IonButton>Login</IonButton>
+        </IonNavLink>
         </IonPage>
 
     )
