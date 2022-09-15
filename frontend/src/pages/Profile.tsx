@@ -46,7 +46,7 @@ const Profile: React.FC = () => {
       if (localtoken === null) {
         return;
       }
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/userInfo`, {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/:id`, {
         headers: {
           Authorization: `Bearer ${localtoken}`,
         },
@@ -54,7 +54,7 @@ const Profile: React.FC = () => {
 
       if (res.status === 200) {
         const userRecord = await res.json();
-        //   console.log(userRecord)
+        console.log(userRecord);
         dispatch(loggedIn(userRecord["userInfo"], localtoken!));
         //   router.push("/tab/home");
       }
@@ -65,8 +65,7 @@ const Profile: React.FC = () => {
     <IonPage>
       <IonContent>
         <IonHeader>
-          <IonToolbar>
-          </IonToolbar>
+          <IonToolbar></IonToolbar>
         </IonHeader>
         <div className="profile">
           <div className="profilepicContainer">
