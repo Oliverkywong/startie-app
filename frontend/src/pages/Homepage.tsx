@@ -1,5 +1,5 @@
 // Import Swiper React components
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   IonContent,
   IonImg,
@@ -17,6 +17,11 @@ import {
   IonList,
   IonHeader,
   IonNavLink,
+  IonCol,
+  IonGrid,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  IonRow,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { notificationsOutline } from "ionicons/icons";
@@ -41,6 +46,7 @@ import { loggedIn, logOut } from "../redux/auth/action";
 import { EffectCards } from "swiper";
 import Profile from "./Profile";
 import { loadUserInfo } from "../redux/userInfo/action";
+import { Team } from "../model";
 
 const catergorys = {
   cat1: { src: cat1, title: "All" },
@@ -53,8 +59,20 @@ const Homepage: React.FC = () => {
   const userdetails = useAppSelector(
     (state: RootState) => state.userInfo.userinfo
   );
+  const [data, setData] = useState<Team[]>([]);
+  const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
   const dispatch = useAppDispatch();
+
+  const loadData = (ev: any) => {
+    setTimeout(() => {
+      console.log("Loaded data");
+      ev.target.complete();
+      if (data.length === 100) {
+        setInfiniteDisabled(true);
+      }
+    }, 500);
+  };
 
   useEffect(() => {
     (async function () {
@@ -76,6 +94,14 @@ const Homepage: React.FC = () => {
         dispatch(loadUserInfo(userRecord));
         router.push("/tab/home");
       }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async function () {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`);
+      const result = await res.json();
+      setData(result);
     })();
   }, []);
 
@@ -177,34 +203,49 @@ const Homepage: React.FC = () => {
           <IonLabel className="labelTitle blackFontColor">
             Brownse Teams
           </IonLabel>
-          <div className="teamList">
-            <IonCard className="teamCaption">
-              <IonItem>
-                <IonImg className="teamIcon" src={team1} />
-                {/* <IonLabel>ion-item in a card, icon left, button right</IonLabel>
-                <IonButton fill="outline" slot="end">
-                  View
-                </IonButton> */}
-              </IonItem>
-              <IonCardContent>
-                This is content, without any paragraph or header tags, within an
-                ion-cardContent element.
-              </IonCardContent>
-            </IonCard>
-            <IonCard className="teamCaption">
-              <IonItem>
-                <IonImg className="teamIcon" src={team2} />
-                {/* <IonLabel>ion-item in a card, icon left, button right</IonLabel>
-                <IonButton fill="outline" slot="end">
-                  View
-                </IonButton> */}
-              </IonItem>
-              <IonCardContent>
-                This is content, without any paragraph or header tags, within an
-                ion-cardContent element.
-              </IonCardContent>
-            </IonCard>
-          </div>
+          <IonGrid>
+            <IonRow>
+              {data.map((item) => {
+                return (
+                  <IonItem routerLink={`/tab/team/${item.id}`}>
+                    <IonCard key={item.id} className="card">
+                      <IonImg src={
+                        item?.profilepic != null
+                          ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                          : "https://www.w3schools.com/howto/img_avatar.png"
+                      } style={{ width: "100%" }} />
+                      <IonCardContent
+                        className="content"
+                        style={{ fontSize: "10px" }}
+                      >
+                        <p style={{ fontSize: "14px", color: "white" }}>
+                          {item.name}
+                        </p>
+                        <br />
+                        <p style={{ fontSize: "10px", color: "white" }}>
+                          {item.description}
+                        </p>
+                        <div className="tag">
+                          <span>View</span>
+                          <span>View</span>
+                        </div>
+                      </IonCardContent>
+                    </IonCard>
+                  </IonItem>
+                );
+              })}
+            </IonRow>
+          </IonGrid>
+          <IonInfiniteScroll
+            onIonInfinite={loadData}
+            threshold="100px"
+            disabled={isInfiniteDisabled}
+          >
+            <IonInfiniteScrollContent
+              loadingSpinner="bubbles"
+              loadingText="Loading more data..."
+            ></IonInfiniteScrollContent>
+          </IonInfiniteScroll>
         </IonList>
       </IonContent>
     </IonPage>
