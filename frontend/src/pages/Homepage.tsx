@@ -22,6 +22,8 @@ import {
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   IonRow,
+  IonCardHeader,
+  IonCardTitle,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { notificationsOutline } from "ionicons/icons";
@@ -223,45 +225,47 @@ const Homepage: React.FC = () => {
           <IonLabel className="labelTitle blackFontColor">
             Brownse Teams
           </IonLabel>
-          <IonGrid>
-            <IonRow>
-              {data.map((item) => {
-                return (
-                  <IonItem routerLink={`/tab/team/${item.id}`}>
-                    <IonCard key={item.id} className="card">
-                      <IonImg src={item.profilepic} style={{ width: "100%" }} />
-                      <IonCardContent
-                        className="content"
-                        style={{ fontSize: "10px" }}
-                      >
-                        <p style={{ fontSize: "14px", color: "white" }}>
-                          {item.name}
-                        </p>
-                        <br />
-                        <p style={{ fontSize: "10px", color: "white" }}>
-                          {item.description}
-                        </p>
-                        <div className="tag">
-                          <span>View</span>
-                          <span>View</span>
-                        </div>
-                      </IonCardContent>
-                    </IonCard>
-                  </IonItem>
-                );
-              })}
-            </IonRow>
-          </IonGrid>
-          <IonInfiniteScroll
-            onIonInfinite={loadData}
-            threshold="100px"
-            disabled={isInfiniteDisabled}
-          >
-            <IonInfiniteScrollContent
-              loadingSpinner="bubbles"
-              loadingText="Loading more data..."
-            ></IonInfiniteScrollContent>
-          </IonInfiniteScroll>
+
+          <div className="teamList">
+            {data.map((item) => {
+              return (
+                <IonCol>
+                  <IonCard
+                    key={item.id}
+                    className="card"
+                    routerLink={`/tab/team/${item.id}`}
+                  >
+                    <IonImg src={item.profilepic} style={{ width: "100%" }} />
+                    <IonCardHeader>
+                      <IonCardTitle>{item.name}</IonCardTitle>
+                    </IonCardHeader>
+                    <IonCardContent
+                      className="content"
+                      style={{ fontSize: "10px" }}
+                    >
+                      <p style={{ fontSize: "10px", color: "white" }}>
+                        {item.description}
+                      </p>
+                      <div className="tag">
+                        <span>View</span>
+                        <span>View</span>
+                      </div>
+                    </IonCardContent>
+                  </IonCard>
+                </IonCol>
+              );
+            })}
+            <IonInfiniteScroll
+              onIonInfinite={loadData}
+              threshold="100px"
+              disabled={isInfiniteDisabled}
+            >
+              <IonInfiniteScrollContent
+                loadingSpinner="bubbles"
+                loadingText="Loading more data..."
+              ></IonInfiniteScrollContent>
+            </IonInfiniteScroll>
+          </div>
         </IonList>
       </IonContent>
     </IonPage>
