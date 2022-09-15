@@ -64,7 +64,8 @@ export default function Routes() {
 
             <Route exact path="/tab/profile" component={Profile} />
             <Route exact path="/tab/profile/edit" component={UserEdit} />
-            <Route exact path="/tab/user/:id" component={User} />
+            {/* <Route exact path="/tab/user/:id" component={User} /> */}
+            <Route exact path="/tab/user" component={User} />
 
             <Route path="/tab/settings" component={UserSettings} />
           </IonRouterOutlet>

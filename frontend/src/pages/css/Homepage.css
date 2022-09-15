@@ -30,10 +30,11 @@
   overflow: hidden;
 }
 
-.searchBar {
+.searchBar{
   display: flex;
-  flex-direction: row;
-  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
 }
 
 .labelTitle {

@@ -6,6 +6,7 @@ import {
   IonImg,
   IonItem,
   IonLabel,
+  IonNavLink,
   IonPage,
   IonToolbar,
   useIonRouter,

@@ -61,6 +61,9 @@ const BuildTeam: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/tab/home" />
+          </IonButtons>
           <IonTitle className="title">Build Your Team</IonTitle>
         </IonToolbar>
       </IonHeader>
