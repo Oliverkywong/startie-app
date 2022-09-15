@@ -145,26 +145,6 @@ const Homepage: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {/* <IonHeader>
-          <IonToolbar className="searchBar">
-            <IonButtons slot="start">
-              <IonNavLink routerDirection="forward" component={() => <Profile />} >
-                <IonImg
-                  className="icon"
-                  src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`}
-                />
-              </IonNavLink>
-            </IonButtons>
-            <IonButtons slot="end">
-              <IonNavLink routerDirection="forward" component={() => <Notification />} >
-                <IonIcon icon={notificationsOutline} />
-              </IonNavLink>
-            </IonButtons>
-              <IonNavLink routerDirection="forward" component={() => <SearchPage />} >
-                <IonSearchbar placeholder="Search" />
-              </IonNavLink>
-          </IonToolbar>
-        </IonHeader> */}
 
         <IonLabel className="labelTitle">Hot Events</IonLabel>
         {/* <a href="#">See More</a> */}
@@ -225,47 +205,49 @@ const Homepage: React.FC = () => {
           <IonLabel className="labelTitle blackFontColor">
             Brownse Teams
           </IonLabel>
-
-          <div className="teamList">
-            {data.map((item) => {
-              return (
-                <IonCol>
-                  <IonCard
-                    key={item.id}
-                    className="card"
-                    routerLink={`/tab/team/${item.id}`}
-                  >
-                    <IonImg src={item.profilepic} style={{ width: "100%" }} />
-                    <IonCardHeader>
-                      <IonCardTitle>{item.name}</IonCardTitle>
-                    </IonCardHeader>
-                    <IonCardContent
-                      className="content"
-                      style={{ fontSize: "10px" }}
-                    >
-                      <p style={{ fontSize: "10px", color: "white" }}>
-                        {item.description}
-                      </p>
-                      <div className="tag">
-                        <span>View</span>
-                        <span>View</span>
-                      </div>
-                    </IonCardContent>
-                  </IonCard>
-                </IonCol>
-              );
-            })}
-            <IonInfiniteScroll
-              onIonInfinite={loadData}
-              threshold="100px"
-              disabled={isInfiniteDisabled}
-            >
-              <IonInfiniteScrollContent
-                loadingSpinner="bubbles"
-                loadingText="Loading more data..."
-              ></IonInfiniteScrollContent>
-            </IonInfiniteScroll>
-          </div>
+          <IonGrid>
+            <IonRow>
+              {data.map((item) => {
+                return (
+                  <IonItem routerLink={`/tab/team/${item.id}`}>
+                    <IonCard key={item.id} className="card">
+                      <IonImg src={
+                        item?.profilepic != null
+                          ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                          : "https://www.w3schools.com/howto/img_avatar.png"
+                      } style={{ width: "100%" }} />
+                      <IonCardContent
+                        className="content"
+                        style={{ fontSize: "10px" }}
+                      >
+                        <p style={{ fontSize: "14px", color: "white" }}>
+                          {item.name}
+                        </p>
+                        <br />
+                        <p style={{ fontSize: "10px", color: "white" }}>
+                          {item.description}
+                        </p>
+                        <div className="tag">
+                          <span>View</span>
+                          <span>View</span>
+                        </div>
+                      </IonCardContent>
+                    </IonCard>
+                  </IonItem>
+                );
+              })}
+            </IonRow>
+          </IonGrid>
+          <IonInfiniteScroll
+            onIonInfinite={loadData}
+            threshold="100px"
+            disabled={isInfiniteDisabled}
+          >
+            <IonInfiniteScrollContent
+              loadingSpinner="bubbles"
+              loadingText="Loading more data..."
+            ></IonInfiniteScrollContent>
+          </IonInfiniteScroll>
         </IonList>
       </IonContent>
     </IonPage>

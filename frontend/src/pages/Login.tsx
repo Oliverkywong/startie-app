@@ -54,8 +54,8 @@ const Login: React.FC = () => {
                 console.log(userRecord);
                 dispatch(loggedIn(userRecord["user"], userRecord["jwt"]));
                 // localStorage.setItem("token", userRecord["jwt"]);
-                router.push("/tab/home");
-                // window.location.replace("/tab/home");
+                // router.push("/tab/home");
+                window.location.replace("/tab/home");
                 // <IonNavLink component={() => <Homepage />} ></IonNavLink>
               }
             })}
