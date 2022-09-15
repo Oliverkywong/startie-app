@@ -12,12 +12,12 @@ import {
 } from "../services/userService";
 import { joseKey } from "../jose";
 import * as jose from "jose";
-import appleSignin from 'apple-signin-auth';
-import crypto from 'crypto';
-import { OAuth2Client } from 'google-auth-library';
+import appleSignin from "apple-signin-auth";
+import crypto from "crypto";
+import { OAuth2Client } from "google-auth-library";
 
 export class UserController {
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {}
   // -------------------------------------------------------------------------------------------------------------------
   // Google Login
   // -------------------------------------------------------------------------------------------------------------------
@@ -30,19 +30,24 @@ export class UserController {
         idToken: req.body.idToken,
         audience: process.env.GOOGLE_IOS_CLIENT_ID,
       });
-      
+
       const payload = ticket.getPayload();
 
       // await this.userService.appleLogin(req.body.displayName, req.body.email);
-      await this.userService.register(req.body.displayName, 'google', req.body.email, 1);
-      
+      await this.userService.register(
+        req.body.displayName,
+        "google",
+        req.body.email,
+        1
+      );
+
       const user = {
-        username: payload?.['name'],
-        email: payload?.['email'],
+        username: payload?.["name"],
+        email: payload?.["email"],
         profilepic: "tonystarkicon.png",
         phonenumber: "0000000000",
-        description: "google user"
-      }
+        description: "google user",
+      };
       const ecPrivateKey = await joseKey();
       const jwt = await new jose.SignJWT({
         "urn:example:claim": true,
@@ -54,15 +59,16 @@ export class UserController {
         .setExpirationTime("24h")
         .sign(ecPrivateKey);
 
-        return res.status(200).json({
-        result: true, msg: "google login success",
+      return res.status(200).json({
+        result: true,
+        msg: "google login success",
         user: user,
         jwt: jwt,
       });
     } catch (err) {
-      return res.json({ result: false, msg: 'google login error' })
+      return res.json({ result: false, msg: "google login error" });
     }
-  }
+  };
   // -------------------------------------------------------------------------------------------------------------------
   // Register ✅
   // -------------------------------------------------------------------------------------------------------------------
@@ -157,11 +163,13 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   userInfo = async (req: express.Request, res: express.Response) => {
     try {
-      const userId = req.user?.userId != undefined ? Number(req.user.userId) : parseInt(req.params.id); // get userId from JWT
+      const userId =
+        req.user?.userId != undefined
+          ? Number(req.user.userId)
+          : parseInt(req.params.id); // get userId from JWT
 
       const userInfo = await this.userService.userInfo(userId);
       return res.json(userInfo[0]);
-
     } catch (err) {
       logger.error(err);
       return res.json({ result: false, msg: "Get user profile fail" });
@@ -175,7 +183,6 @@ export class UserController {
       const allUserInfo = await this.userService.getAllUser();
       res.set("x-total-count", String(allUserInfo.length));
       res.status(200).json(allUserInfo);
-
     } catch (err) {
       logger.error(err);
       res.json({ result: false, msg: "Get user profile fail" });
@@ -189,10 +196,12 @@ export class UserController {
   editUser = async (req: express.Request, res: express.Response) => {
     form.parse(req, async (err, fields, files) => {
       try {
-
         //Reminder to create the auth and give the isAdmin = true if the userId is an admin
 
-        const userId = req.user?.userId != undefined ? Number(req.user.userId) : parseInt(req.params.id); // get userId from JWT
+        const userId =
+          req.user?.userId != undefined
+            ? Number(req.user.userId)
+            : parseInt(req.params.id); // get userId from JWT
         // console.log(userId);
 
         const userInfos = await this.userService.userInfo(userId);
@@ -210,7 +219,7 @@ export class UserController {
         //     : oldStatusId;
         // }
 
-        const newProfilepic =
+        const newProfilepic: any =
           files.profilepic != null && !Array.isArray(files.profilepic)
             ? files.profilepic.newFilename
             : oldProfilepic;
@@ -262,24 +271,37 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   loginApple = async (req: express.Request, res: express.Response) => {
     try {
-      const appleuserinfo = await appleSignin.verifyIdToken(req.body.identityToken, {
-        audience: 'com.oliverstrat.startie',
-        nonce: req.body.nonce ? crypto.createHash('sha256').update(req.body.nonce).digest('hex') : undefined,
-        ignoreExpiration: true,
-      });
+      const appleuserinfo = await appleSignin.verifyIdToken(
+        req.body.identityToken,
+        {
+          audience: "com.oliverstrat.startie",
+          nonce: req.body.nonce
+            ? crypto.createHash("sha256").update(req.body.nonce).digest("hex")
+            : undefined,
+          ignoreExpiration: true,
+        }
+      );
 
-      const appleUser = req.body.fullName.nickname === '' ? 'Apple User' : req.body.fullName.nickname;
+      const appleUser =
+        req.body.fullName.nickname === ""
+          ? "Apple User"
+          : req.body.fullName.nickname;
 
       // await this.userService.appleLogin(req.body.fullName.nickname, appleuserinfo.email);
-      await this.userService.register(appleUser, 'apple', appleuserinfo.email, 1);
+      await this.userService.register(
+        appleUser,
+        "apple",
+        appleuserinfo.email,
+        1
+      );
 
       const user = {
         username: req.body.fullName.nickname,
         email: appleuserinfo.email,
         profilepic: "tonystarkicon.png",
         phonenumber: "0000000000",
-        description: "apple user"
-      }
+        description: "apple user",
+      };
       const ecPrivateKey = await joseKey();
       const jwt = await new jose.SignJWT({
         "urn:example:claim": true,
@@ -292,7 +314,8 @@ export class UserController {
         .sign(ecPrivateKey);
 
       return res.status(200).json({
-        result: true, msg: "apple login success",
+        result: true,
+        msg: "apple login success",
         user: user,
         jwt: jwt,
       });
@@ -301,7 +324,7 @@ export class UserController {
       logger.error(err);
       return res.status(400).json({ result: false, msg: "apple login error" });
     }
-  }
+  };
   // -------------------------------------------------------------------------------------------------------------------
   // Log out
   // -------------------------------------------------------------------------------------------------------------------
@@ -316,4 +339,21 @@ export class UserController {
   // 			return res.status(500).json({ result: false, msg: 'logout Error' })
   // 		}
   // 	}
+
+  // -------------------------------------------------------------------------------------------------------------------
+  // check team
+  // -------------------------------------------------------------------------------------------------------------------
+  checkTeam = async (req: express.Request, res: express.Response) => {
+    try {
+      const userId =
+        req.user?.userId != undefined
+          ? Number(req.user.userId)
+          : parseInt(req.params.id);
+      const team = await this.userService.checkTeam(userId);
+      return res.json(team);
+    } catch (err) {
+      logger.error(err);
+      return res.json({ result: false, msg: "Get team fail" });
+    }
+  };
 }
