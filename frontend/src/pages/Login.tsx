@@ -47,7 +47,7 @@ const Login: React.FC = () => {
               localStorage.setItem("token", userRecord["jwt"]);
               // router.push("/tab/home");
               // window.location.replace('/tab/home');
-              // <IonNavLink component={() => <SignUp />} ></IonNavLink>
+              <IonNavLink component={() => <Homepage />} ></IonNavLink>
             }
           })}
         >
@@ -74,13 +74,13 @@ const Login: React.FC = () => {
             />
             <br />
           </div>
-          {/* <IonNavLink className="nav" routerDirection="forward" component={() => <Homepage />} > */}
+          <IonNavLink className="nav" routerDirection="forward" component={() => <Homepage />} >
             <input
               className="loginButton"
               type="submit"
               value={"Continue"}
             />
-          {/* </IonNavLink> */}
+          </IonNavLink>
         </form>
         <a href="#">Forgot Password?</a>
         <div className="signup">
