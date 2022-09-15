@@ -86,15 +86,19 @@ const TeamDetail: React.FC = () => {
               </IonItem>
               <IonCardContent className="eventName">{item.name}</IonCardContent>
               <IonLabel>Looking for: </IonLabel>
-{tag.map((item) => {
-  return (<IonLabel>{item}</IonLabel>)})
-  }
+              {tag.map((item) => {
+                return (
+                  <div className="tag">
+                    <span>{item}</span>
+                  </div>)
+              })
+              }
               <div className="event">
                 <IonImg src={
-                        item?.profilepic != null
-                          ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
-                          : "StartieLogo.png"
-                      } style={{ width: "10%" }} />
+                  item?.profilepic != null
+                    ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                    : "StartieLogo.png"
+                } style={{ width: "10%" }} />
                 <div className="eventinfo">
                   <IonLabel className="eventDescription">
                     {item.description}
