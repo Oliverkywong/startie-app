@@ -145,7 +145,6 @@ const Homepage: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-
         <IonLabel className="labelTitle">Hot Events</IonLabel>
         {/* <a href="#">See More</a> */}
 
@@ -205,25 +204,25 @@ const Homepage: React.FC = () => {
           <IonLabel className="labelTitle blackFontColor">
             Brownse Teams
           </IonLabel>
-          <IonGrid>
-            <IonRow>
-              {data.map((item) => {
-                return (
+          <div className="teamList">
+            {data.map((item) => {
+              return (
+                <IonCol>
                   <IonItem routerLink={`/tab/team/${item.id}`}>
                     <IonCard key={item.id} className="card">
-                      <IonImg src={
-                        item?.profilepic != null
-                          ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
-                          : "https://www.w3schools.com/howto/img_avatar.png"
-                      } style={{ width: "100%" }} />
+                      <IonImg
+                        src={
+                          item?.profilepic != null
+                            ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                            : "https://www.w3schools.com/howto/img_avatar.png"
+                        }
+                        style={{ width: "100%" }}
+                      />
+                      <IonCardTitle>{item.name}</IonCardTitle>
                       <IonCardContent
                         className="content"
                         style={{ fontSize: "10px" }}
                       >
-                        <p style={{ fontSize: "14px", color: "white" }}>
-                          {item.name}
-                        </p>
-                        <br />
                         <p style={{ fontSize: "10px", color: "white" }}>
                           {item.description}
                         </p>
@@ -234,10 +233,10 @@ const Homepage: React.FC = () => {
                       </IonCardContent>
                     </IonCard>
                   </IonItem>
-                );
-              })}
-            </IonRow>
-          </IonGrid>
+                </IonCol>
+              );
+            })}
+          </div>
           <IonInfiniteScroll
             onIonInfinite={loadData}
             threshold="100px"
