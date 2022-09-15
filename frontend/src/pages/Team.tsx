@@ -90,11 +90,14 @@ const Team: React.FC = () => {
                 <IonCol size="6">
                   <IonItem routerLink={`/tab/team/${item.id}`}>
                     <IonCard key={item.id} className="card">
-                      <IonImg src={
-                        item?.profilepic != null
-                          ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
-                          : "https://www.w3schools.com/howto/img_avatar.png"
-                      } style={{ width: "100%" }} />
+                      <IonImg
+                        src={
+                          item?.profilepic != null
+                            ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                            : "https://www.w3schools.com/howto/img_avatar.png"
+                        }
+                        style={{ width: "100%" }}
+                      />
                       <IonCardContent
                         className="content"
                         style={{ fontSize: "10px" }}
