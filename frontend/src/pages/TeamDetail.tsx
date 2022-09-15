@@ -43,7 +43,12 @@ const TeamDetail: React.FC = () => {
       const item = await res.json();
       console.log(item);
       setData(item.team);
-      setTag(item.teamTag);
+
+      const tagArray: string[] = [];
+      for (let i = 0; i < item.teamTag.length; i++) {
+        tagArray.push(item.teamTag[i].name);
+      }
+      setTag(tagArray);
     })();
   }, []);
 
@@ -81,9 +86,9 @@ const TeamDetail: React.FC = () => {
               </IonItem>
               <IonCardContent className="eventName">{item.name}</IonCardContent>
               <IonLabel>Looking for: </IonLabel>
-{/* {tag.map((item) => {
+{tag.map((item) => {
   return (<IonLabel>{item}</IonLabel>)})
-  } */}
+  }
               <div className="event">
                 <IonImg src={
                         item?.profilepic != null
