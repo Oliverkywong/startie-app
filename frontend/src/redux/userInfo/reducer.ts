@@ -28,7 +28,7 @@ export function userInforeducer(
         userinfo: action.payload,
       };
     case "@@userInfo/LOAD_USER_TEAM":
-      console.log(action.payload);
+      // console.log(action.payload);
       return {
         ...state,
         team: action.payload,
