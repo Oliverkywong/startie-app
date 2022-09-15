@@ -102,45 +102,45 @@ const Homepage: React.FC = () => {
 
   return (
     <IonPage>
-      <IonContent>
-        <IonHeader>
-          <IonToolbar className="searchBar">
-            <IonButtons slot="end">
-              <IonButton
-                onClick={() => {
-                  router.push("/notification");
-                }}
-              >
-                <IonIcon icon={notificationsOutline} />
-              </IonButton>
-            </IonButtons>
-            <IonButtons slot="start">
-              <IonButton
-                onClick={() => {
-                  router.push("/tab/profile", "forward", "push");
-                }}
-              >
-                {/* <IonNavLink className="nav" routerDirection="forward" component={() => <Profile />} > */}
-                <IonImg
-                  className="icon"
-                  src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`}
-                />
-                {/* </IonNavLink> */}
-              </IonButton>
-            </IonButtons>
-            <IonButtons style={{ width: "100%" }} slot="primary">
-              <IonButton
-                style={{ width: "100%" }}
-                onClick={() => {
-                  router.push("/search");
-                }}
-              >
-                <IonSearchbar placeholder="Search" />
-              </IonButton>
-            </IonButtons>
-          </IonToolbar>
-        </IonHeader>
+      <IonHeader>
+        <IonToolbar className="searchBar">
+          <IonButtons slot="end">
+            <IonButton
+              onClick={() => {
+                router.push("/notification");
+              }}
+            >
+              <IonIcon icon={notificationsOutline} />
+            </IonButton>
+          </IonButtons>
+          <IonButtons slot="start">
+            <IonButton
+              onClick={() => {
+                router.push("/tab/profile", "forward", "push");
+              }}
+            >
+              {/* <IonNavLink className="nav" routerDirection="forward" component={() => <Profile />} > */}
+              <IonImg
+                className="icon"
+                src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`}
+              />
+              {/* </IonNavLink> */}
+            </IonButton>
+          </IonButtons>
+          <IonButtons style={{ width: "100%" }} slot="primary">
+            <IonButton
+              style={{ width: "100%" }}
+              onClick={() => {
+                router.push("/search");
+              }}
+            >
+              <IonSearchbar placeholder="Search" />
+            </IonButton>
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
 
+      <IonContent>
         <IonLabel className="labelTitle">Hot Events</IonLabel>
         {/* <a href="#">See More</a> */}
 
