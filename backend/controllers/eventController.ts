@@ -1,5 +1,6 @@
 import { EventService } from "../services/eventService";
 import { Request, Response } from "express";
+import { logger } from "../utils/logger";
 
 export class EventController {
   constructor(private eventService: EventService) {}
@@ -20,7 +21,7 @@ export class EventController {
       );
       res.status(200).json(event);
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   };
@@ -33,7 +34,7 @@ export class EventController {
       const event = await this.eventService.getAllEvents();
       res.status(200).json(event);
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   };
@@ -47,7 +48,7 @@ export class EventController {
       const event = await this.eventService.getEvent(id);
       res.status(200).json(event);
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   };
@@ -69,7 +70,7 @@ export class EventController {
       );
       res.status(200).json(event);
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   };
