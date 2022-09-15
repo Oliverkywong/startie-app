@@ -37,15 +37,15 @@ export default function UserEdit() {
 
   return (
     <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/tab/profile" />
+          </IonButtons>
+          <IonTitle className="title">User Edit</IonTitle>
+        </IonToolbar>
+      </IonHeader>
       <IonContent>
-        <IonHeader>
-          <IonToolbar>
-            <IonButtons slot="start">
-              <IonBackButton defaultHref="/tab/profile" />
-            </IonButtons>
-            <IonTitle className="title">User Edit</IonTitle>
-          </IonToolbar>
-        </IonHeader>
         <form
           onSubmit={handleSubmit(async (data) => {
             const formData = new FormData();
