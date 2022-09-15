@@ -1,5 +1,5 @@
 // Import Swiper React components
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   IonContent,
   IonImg,
@@ -17,7 +17,6 @@ import {
   IonList,
   IonHeader,
   IonNavLink,
-  IonCol,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { notificationsOutline } from "ionicons/icons";
@@ -42,7 +41,6 @@ import { loggedIn, logOut } from "../redux/auth/action";
 import { EffectCards } from "swiper";
 import Profile from "./Profile";
 import { loadUserInfo } from "../redux/userInfo/action";
-import { Team } from "../model";
 
 const catergorys = {
   cat1: { src: cat1, title: "All" },
@@ -52,13 +50,11 @@ const catergorys = {
 };
 
 const Homepage: React.FC = () => {
-  const [data, setData] = useState<Team[]>([]);
   const userdetails = useAppSelector(
     (state: RootState) => state.userInfo.userinfo
   );
   const router = useIonRouter();
   const dispatch = useAppDispatch();
-  const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
 
   useEffect(() => {
     (async function () {
@@ -81,24 +77,7 @@ const Homepage: React.FC = () => {
         router.push("/tab/home");
       }
     })();
-
-    (async function () {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`);
-      const result = await res.json();
-      // console.log(result);
-      setData(result);
-    })();
   }, []);
-
-  const loadData = (ev: any) => {
-    setTimeout(() => {
-      console.log("Loaded data");
-      ev.target.complete();
-      if (data.length === 100) {
-        setInfiniteDisabled(true);
-      }
-    }, 500);
-  };
 
   return (
     <IonPage>
@@ -119,12 +98,10 @@ const Homepage: React.FC = () => {
                 router.push("/tab/profile", "forward", "push");
               }}
             >
-              {/* <IonNavLink className="nav" routerDirection="forward" component={() => <Profile />} > */}
               <IonImg
                 className="icon"
                 src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`}
               />
-              {/* </IonNavLink> */}
             </IonButton>
           </IonButtons>
           <IonButtons style={{ width: "100%" }} slot="primary">
@@ -139,8 +116,28 @@ const Homepage: React.FC = () => {
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-
       <IonContent>
+        {/* <IonHeader>
+          <IonToolbar className="searchBar">
+            <IonButtons slot="start">
+              <IonNavLink routerDirection="forward" component={() => <Profile />} >
+                <IonImg
+                  className="icon"
+                  src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`}
+                />
+              </IonNavLink>
+            </IonButtons>
+            <IonButtons slot="end">
+              <IonNavLink routerDirection="forward" component={() => <Notification />} >
+                <IonIcon icon={notificationsOutline} />
+              </IonNavLink>
+            </IonButtons>
+              <IonNavLink routerDirection="forward" component={() => <SearchPage />} >
+                <IonSearchbar placeholder="Search" />
+              </IonNavLink>
+          </IonToolbar>
+        </IonHeader> */}
+
         <IonLabel className="labelTitle">Hot Events</IonLabel>
         {/* <a href="#">See More</a> */}
 
@@ -201,37 +198,32 @@ const Homepage: React.FC = () => {
             Brownse Teams
           </IonLabel>
           <div className="teamList">
-            {data.map((item) => {
-              return (
-                <IonCard className="teamCaption">
-                  <IonItem routerLink={`/tab/team/${item.id}`}>
-                    <IonCard key={item.id} className="card">
-                      <IonImg
-                        className="teamIcon"
-                        src={item.profilepic}
-                        style={{ width: "100%" }}
-                      />
-                      <IonCardContent
-                        className="content"
-                        style={{ fontSize: "10px" }}
-                      >
-                        <p style={{ fontSize: "14px", color: "white" }}>
-                          {item.name}
-                        </p>
-                        <br />
-                        <p style={{ fontSize: "10px", color: "white" }}>
-                          {item.description}
-                        </p>
-                        <div className="tag">
-                          <span>View</span>
-                          <span>View</span>
-                        </div>
-                      </IonCardContent>
-                    </IonCard>
-                  </IonItem>
-                </IonCard>
-              );
-            })}
+            <IonCard className="teamCaption">
+              <IonItem>
+                <IonImg className="teamIcon" src={team1} />
+                {/* <IonLabel>ion-item in a card, icon left, button right</IonLabel>
+                <IonButton fill="outline" slot="end">
+                  View
+                </IonButton> */}
+              </IonItem>
+              <IonCardContent>
+                This is content, without any paragraph or header tags, within an
+                ion-cardContent element.
+              </IonCardContent>
+            </IonCard>
+            <IonCard className="teamCaption">
+              <IonItem>
+                <IonImg className="teamIcon" src={team2} />
+                {/* <IonLabel>ion-item in a card, icon left, button right</IonLabel>
+                <IonButton fill="outline" slot="end">
+                  View
+                </IonButton> */}
+              </IonItem>
+              <IonCardContent>
+                This is content, without any paragraph or header tags, within an
+                ion-cardContent element.
+              </IonCardContent>
+            </IonCard>
           </div>
         </IonList>
       </IonContent>
