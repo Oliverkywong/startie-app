@@ -4,6 +4,7 @@ import {
   IonHeader,
   IonIcon,
   IonImg,
+  IonItem,
   IonLabel,
   IonPage,
   IonToolbar,
@@ -81,9 +82,9 @@ const Profile: React.FC = () => {
               }
             />
           </div>
-          <a href="/tab/profile/edit">
+          <IonItem routerLink="/tab/profile/edit">
             <IonIcon className="proedit" icon={pencil} />
-          </a>
+          </IonItem>
           <IonLabel className="uresname">
             {userdetails?.username ? userdetails.username : "new user"}
           </IonLabel>

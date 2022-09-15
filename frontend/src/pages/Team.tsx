@@ -18,9 +18,10 @@ import {
   useIonRouter,
   IonItem,
   IonToolbar,
+  IonTitle,
 } from "@ionic/react";
 
-import team1 from "../img/team1.png";
+import "./css/Common.css";
 import "./css/Team.css";
 
 interface Team {
@@ -65,6 +66,9 @@ const Team: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
+        <IonToolbar>
+          <IonTitle className="title">Team List</IonTitle>
+        </IonToolbar>
         <IonToolbar>
           <IonSearchbar
             placeholder="Search"
