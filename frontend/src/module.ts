@@ -1,6 +1,6 @@
 export interface UserInfo {
-    id:number
-    username:string
-    profilepic:string
-    description:string
+  id: number;
+  username: string;
+  profilepic: string;
+  description: string;
 }
