@@ -63,32 +63,32 @@ const TeamDetail: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-      {data.map((item) => {
-        return (
-          <IonCard key={item.id}>
-            <IonItem>
-              <IonImg
-                src={
-                  item.profilepic === null
-                    ? item.profilepic
-                    : "../img/StartieLogo.png"
-                }
-              />
-            </IonItem>
-            <IonCardContent className="eventName">{item.name}</IonCardContent>
-            <div className="event">
-              <IonImg src={item.profilepic} style={{ width: "10%" }} />
-              <div className="eventinfo">
-                <IonLabel className="eventDescription">
-                  {item.description}
-                </IonLabel>
+        {data.map((item) => {
+          return (
+            <IonCard key={item.id}>
+              <IonItem>
+                <IonImg
+                  src={
+                    item.profilepic === null
+                      ? item.profilepic
+                      : "../img/StartieLogo.png"
+                  }
+                />
+              </IonItem>
+              <IonCardContent className="eventName">{item.name}</IonCardContent>
+              <div className="event">
+                <IonImg src={item.profilepic} style={{ width: "10%" }} />
+                <div className="eventinfo">
+                  <IonLabel className="eventDescription">
+                    {item.description}
+                  </IonLabel>
+                </div>
               </div>
-            </div>
-          </IonCard>
-        );
-      })}
-      <IonButton>Join</IonButton>
-    
+            </IonCard>
+          );
+        })}
+        <IonButton>Join</IonButton>
+
         <IonList>
           <div className="event">
             <IonImg src={icon} style={{ width: "10%" }} />

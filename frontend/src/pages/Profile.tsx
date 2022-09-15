@@ -98,10 +98,10 @@ const Profile: React.FC = () => {
   return (
     <>
       <IonPage>
+        <IonHeader>
+          <IonToolbar></IonToolbar>
+        </IonHeader>
         <IonContent>
-          <IonHeader>
-            <IonToolbar></IonToolbar>
-          </IonHeader>
           <div className="profile">
             <div className="profilepicContainer">
               <IonImg
