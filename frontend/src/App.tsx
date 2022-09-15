@@ -29,8 +29,9 @@ const App: React.FC = () => {
   return (
     <IonApp>
       <IonReactRouter>
-        <Routes />
-        <IonNav root={() => <SocialLogin />} />
+        {Routes()}
+        {/* <Routes /> */}
+        {/* <IonNav root={() => <SocialLogin />} /> */}
       </IonReactRouter>
     </IonApp>
   )

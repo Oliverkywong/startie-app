@@ -19,6 +19,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 
+import "./css/Common.css";
 import "./css/Event.css";
 
 interface Event {
