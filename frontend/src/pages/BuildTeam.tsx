@@ -17,6 +17,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
+import "./css/Common.css";
 import "./css/BuildTeam.css";
 import team1 from "../img/team1.png";
 
@@ -60,10 +61,7 @@ const BuildTeam: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton defaultHref="/tab/home" />
-          </IonButtons>
-          <IonTitle>Build Your Team</IonTitle>
+          <IonTitle className="title">Build Your Team</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
