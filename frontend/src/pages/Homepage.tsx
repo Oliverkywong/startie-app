@@ -22,6 +22,8 @@ import {
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   IonRow,
+  IonCardHeader,
+  IonCardTitle,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { notificationsOutline } from "ionicons/icons";
