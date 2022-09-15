@@ -117,26 +117,6 @@ const Homepage: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {/* <IonHeader>
-          <IonToolbar className="searchBar">
-            <IonButtons slot="start">
-              <IonNavLink routerDirection="forward" component={() => <Profile />} >
-                <IonImg
-                  className="icon"
-                  src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`}
-                />
-              </IonNavLink>
-            </IonButtons>
-            <IonButtons slot="end">
-              <IonNavLink routerDirection="forward" component={() => <Notification />} >
-                <IonIcon icon={notificationsOutline} />
-              </IonNavLink>
-            </IonButtons>
-              <IonNavLink routerDirection="forward" component={() => <SearchPage />} >
-                <IonSearchbar placeholder="Search" />
-              </IonNavLink>
-          </IonToolbar>
-        </IonHeader> */}
 
         <IonLabel className="labelTitle">Hot Events</IonLabel>
         {/* <a href="#">See More</a> */}

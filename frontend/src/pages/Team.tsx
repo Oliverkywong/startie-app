@@ -35,7 +35,7 @@ const Team: React.FC = () => {
   const [data, setData] = useState<Team[]>([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
-  // const [tag, setTag] = useState<string[]>([]);
+  const [tag, setTag] = useState<string[]>([]);
 
   const loadData = (ev: any) => {
     setTimeout(() => {
