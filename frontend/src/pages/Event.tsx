@@ -76,9 +76,9 @@ const Event: React.FC = () => {
                   <IonItem>
                     <IonImg
                       src={
-                        item.profilepic === null
-                          ? item.profilepic
-                          : "../img/StartieLogo.png"
+                        item?.profilepic != null
+                          ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                          : "StartieLogo.png"
                       }
                     />
                   </IonItem>
@@ -86,7 +86,11 @@ const Event: React.FC = () => {
                     {item.name}
                   </IonCardContent>
                   <div className="event">
-                    <IonImg src={item.profilepic} style={{ width: "10%" }} />
+                    <IonImg src={
+                        item?.profilepic != null
+                          ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                          : "StartieLogo.png"
+                      } style={{ width: "10%" }} />
                     <div className="eventinfo">
                       <IonLabel className="eventDescription">
                         {item.description}
