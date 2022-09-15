@@ -223,29 +223,29 @@ export class UserService {
 		return await this.knex('user').select('*')
 	}
 
-	async appleLogin(username: string, email: string) {
-		const userEmailRecord = await this.knex<User>('user')
-			.select('*')
-			.where('email', email)
+	// async appleLogin(username: string, email: string) {
+	// 	const userEmailRecord = await this.knex<User>('user')
+	// 		.select('*')
+	// 		.where('email', email)
 
-		const userRecord = await this.knex<User>('user')
-			.select('*')
-			.where('username', username)
+	// 	const userRecord = await this.knex<User>('user')
+	// 		.select('*')
+	// 		.where('username', username)
 
-		if (userRecord.length > 0) {
-			throw new UserDuplicateUsernameError()
-		}
+	// 	if (userRecord.length > 0) {
+	// 		throw new UserDuplicateUsernameError()
+	// 	}
 
-		if (userEmailRecord.length > 0) {
-			throw new UserDuplicateEmailError()
-		}
-		await this.knex<User>('user').insert({
-			username: username,
-			password: 'apple',
-			email: email,
-			status_id: 1
-		})
+	// 	if (userEmailRecord.length > 0) {
+	// 		throw new UserDuplicateEmailError()
+	// 	}
+	// 	await this.knex<User>('user').insert({
+	// 		username: username,
+	// 		password: 'apple',
+	// 		email: email,
+	// 		status_id: 1
+	// 	})
 
-		return true
-	}
+	// 	return true
+	// }
 }
