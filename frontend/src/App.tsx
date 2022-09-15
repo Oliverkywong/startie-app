@@ -30,7 +30,7 @@ const App: React.FC = () => {
     <IonApp>
       <IonReactRouter>
         <Routes />
-        {/* <IonNav root={() => <SocialLogin />} /> */}
+        <IonNav root={() => <SocialLogin />} />
       </IonReactRouter>
     </IonApp>
   )

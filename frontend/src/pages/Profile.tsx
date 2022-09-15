@@ -5,6 +5,7 @@ import {
   IonIcon,
   IonImg,
   IonLabel,
+  IonNavLink,
   IonPage,
   IonToolbar,
   useIonRouter,
