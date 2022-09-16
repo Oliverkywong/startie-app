@@ -39,6 +39,7 @@ import cat3 from "../img/business.png";
 import cat4 from "../img/hackathon.png";
 import team1 from "../img/team1.png";
 import team2 from "../img/team2.png";
+import "./css/Common.css";
 import "./css/Homepage.css";
 
 // Import Swiper styles
@@ -78,7 +79,6 @@ const Homepage: React.FC = () => {
 
   useEffect(() => {
     (async function () {
-      // console.log(userdetails)
       const localtoken = localStorage.getItem("token");
       if (localtoken === null) {
         dispatch(logOut());
@@ -92,7 +92,6 @@ const Homepage: React.FC = () => {
 
       if (res.status === 200) {
         const userRecord = await res.json();
-        // console.log(userRecord)
         dispatch(loadUserInfo(userRecord));
         router.push("/tab/home");
       }
@@ -208,31 +207,33 @@ const Homepage: React.FC = () => {
             {data.map((item) => {
               return (
                 <IonCol key={item.id}>
-                  <IonItem routerLink={`/tab/team/${item.id}`}>
-                    <IonCard className="card">
+                  <div className="teamInfo">
+                    <IonCard
+                      className="teamCard"
+                      routerLink={`/tab/team/${item.id}`}
+                    >
                       <IonImg
+                        className="teamIcon"
                         src={
                           item?.profilepic != null
                             ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
                             : "https://www.w3schools.com/howto/img_avatar.png"
                         }
-                        style={{ width: "100%" }}
                       />
-                      <IonCardTitle>{item.name}</IonCardTitle>
-                      <IonCardContent
-                        className="content"
-                        style={{ fontSize: "10px" }}
-                      >
-                        <p style={{ fontSize: "10px", color: "white" }}>
-                          {item.description}
-                        </p>
-                        <div className="tag">
-                          <span>View</span>
-                          <span>View</span>
-                        </div>
+
+                      <IonCardTitle className="teamTitle">
+                        {item.name}
+                      </IonCardTitle>
+
+                      <IonCardContent className="teamContent">
+                        {item.description}
                       </IonCardContent>
+                      <div className="tag">
+                        <span>View</span>
+                        <span>View</span>
+                      </div>
                     </IonCard>
-                  </IonItem>
+                  </div>
                 </IonCol>
               );
             })}
