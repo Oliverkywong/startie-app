@@ -61,31 +61,8 @@
   color: #bebebe;
 }
 
-.teamListBackgound {
-  background-color: #fff;
-}
-
 .blackFontColor {
   color: #000;
-}
-
-.teamList {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.teamCaption {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #fff;
-  border-radius: 20px 20px 12px 12px;
-  box-shadow: #999999 2px 2px 20px;
-}
-
-.teamIcon {
-  width: 200px;
 }
 
 .swiper-container {
