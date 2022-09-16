@@ -41,7 +41,9 @@ export class TeamService {
   async getTeam(id: string) {
     const team = await this.knex<Team>("team").select("*").where("id", id);
     const teamTag = await this.knex.raw(`select * from team_tag join tag on tag.id=tag_id where team_id = ?`, [id]);
-    return { team: team, teamTag: teamTag.rows };
+    const teammember = await this.knex.raw(`select * from user_team ut inner join "user" u on u.id = ut.user_id where team_id = ?`, [id]);
+    
+    return { team: team, teamTag: teamTag.rows, teamMember: teammember.rows };
   }
 // -------------------------------------------------------------------------------------------------------------------
 // edit team
