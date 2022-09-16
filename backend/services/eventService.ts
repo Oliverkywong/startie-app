@@ -45,9 +45,8 @@ export class EventService {
   // -------------------------------------------------------------------------------------------------------------------
   async getEvent(id: string) {
     return await this.knex<Event>("event")
-      .select("id", "name", "description")
+      .select("*")
       .where("id", id)
-      .returning("*");
   }
 
   // -------------------------------------------------------------------------------------------------------------------
@@ -59,7 +58,8 @@ export class EventService {
     description: string,
     maxteammember: number,
     profilepic: string,
-    starttime: Date
+    starttime: Date,
+    newStatusId: number
   ) {
     if (
       eventName !== null ||
@@ -76,6 +76,7 @@ export class EventService {
             maxteammember: maxteammember,
             profilepic: profilepic,
             starttime: starttime,
+            status_id: newStatusId
           })
           .where("id", eventId)
           .returning("*");
