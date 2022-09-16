@@ -14,21 +14,34 @@ import {
   FileField,
   Button,
   useDataProvider,
+  SelectInput,
+  SearchInput,
+  usePermissions,
 } from "react-admin";
-import { User } from '../../backend/utils/model'
-import ApproveButton from "./ApproveButton";
-// import dataProvider from "./dataProvider";
 
+// const getUserFilters = (permissions:any) =>
+//     [
+//         <SearchInput source="q" alwaysOn />,
+//         <TextInput source="name" />,
+//         permissions === 'admin' ? <TextInput source="role" /> : null,
+//     ].filter(filter => filter !== null);
+
+//     const { permissions } = usePermissions();
 
 export const UserList = () => (
-  <List>
+  
+  
+  <List filters={postFilters}
+  // {getUserFilters(permissions)}
+  >
     <Datagrid rowClick="edit">
       <TextField source="id" />
       <TextField source="username" />
       <EmailField source="email" />
-      <TextField source="phone" />
-      <TextField source="status" />
+      <TextField source="phonenumber" />
+      <TextField source="status_id" />
       <TextField source="description" />
+      <TextField source="created_at" />
       <TextField source="profilepic" />
       <EditButton />
     </Datagrid>
@@ -41,8 +54,13 @@ export const UserEdit = (props:any) => (
       <TextInput disabled source="id" />
       <TextInput source="username" resettable />
       <TextInput source="email" resettable />
-      <TextInput source="phone" resettable />
-      <TextInput source="status" resettable />
+      <TextInput source="phonenumber" resettable />
+      <SelectInput source="status_id" emptyValue={null} resettable choices={[
+        {id:1, name: 'active'},
+        {id:2, name: 'inactive'},
+        {id:3, name: 'pending'}
+      ]}
+       />
       <TextInput multiline source="description" resettable />
       <FileInput
         source="profilepic"
@@ -58,10 +76,13 @@ export const UserEdit = (props:any) => (
 export const UserCreate = (props: any) => (
   <Create {...props}>
     <SimpleForm>
-      <ReferenceInput source="userId" reference="users" />
+      {/* <ReferenceInput source="userId" reference="users" />
       {props.map((user: any) => {
         return <TextInput source="name">{user}</TextInput>;
-      })}
+      })} */}
+      <TextInput source="username" />
+      <TextInput source="password" />
+      <TextInput source="email" />
       <TextInput multiline source="description" />
     </SimpleForm>
   </Create>
@@ -73,6 +94,8 @@ const UserTitle = ({ record}:any) => {
 };
 
 const postFilters = [
-  <TextInput source="q" label="Search" alwaysOn />,
-  <ReferenceInput source="userId" label="Team" reference="team" />,
+  <TextInput source="username" label="Search" alwaysOn />,
+  <TextInput source="name" />,
+  // <ReferenceInput source="id" reference="id" />,
 ];
+

@@ -5,8 +5,7 @@ import ApproveButton from "./ApproveButton";
 const Dashboard = () => (
     <Card>
         <CardHeader title="Welcome to the administration" />
-        <CardContent>Oliver AI85...</CardContent>
-        <ApproveButton />
+        <CardContent>Startie</CardContent>
     </Card>
 );
 

@@ -43,7 +43,7 @@ import {
 export const TeamList = (props: any) => (
   
   <List filters={teamFilters} {...props}>
-    <Datagrid>
+    <Datagrid rowClick="edit">
       <TextField source="id" />
       <TextField source="name" />
       {/* <TextField source="board" /> */}
