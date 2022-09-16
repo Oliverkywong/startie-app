@@ -6,6 +6,7 @@ import {
   IonTabButton,
   IonIcon,
   IonLabel,
+  IonNav,
 } from "@ionic/react";
 import {
   homeOutline,
@@ -38,6 +39,7 @@ import SocialLogin from "./pages/SocialLogin";
 export default function Routes() {
   return (
     <IonRouterOutlet>
+      
       <Route path="/" component={Login} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={SignUp} />
@@ -49,9 +51,9 @@ export default function Routes() {
       <Route path="/tab">
         <IonTabs>
           <IonRouterOutlet>
-            <Route exact path="/" render={() => <Redirect to="/tab/home" />} />
+            {/* <Route exact path="/" render={() => <Redirect to="/tab/home" />} /> */}
 
-            <Route path="/tab/home" component={Homepage} />
+            <Route exact path="/tab/home" component={Homepage} />
 
             <Route exact path="/tab/team" component={Team} />
             <Route exact path="/tab/buildteam" component={BuildTeam} />
@@ -62,7 +64,8 @@ export default function Routes() {
 
             <Route exact path="/tab/profile" component={Profile} />
             <Route exact path="/tab/profile/edit" component={UserEdit} />
-            <Route exact path="/tab/user/:id" component={User} />
+            {/* <Route exact path="/tab/user/:id" component={User} /> */}
+            <Route exact path="/tab/user" component={User} />
 
             <Route path="/tab/settings" component={UserSettings} />
           </IonRouterOutlet>

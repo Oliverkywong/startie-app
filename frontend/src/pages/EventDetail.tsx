@@ -38,6 +38,7 @@ const EventDetail: React.FC = () => {
         `${process.env.REACT_APP_BACKEND_URL}/event/${match?.params.id}`
       );
       const item = await res.json();
+      console.log(item);
       setData(item);
     })();
   }, []);
@@ -61,22 +62,6 @@ const EventDetail: React.FC = () => {
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      {/* <div className="tag">
-        Event Tag
-        <span>View</span>
-        <span>View</span>
-      </div>
-      <div>
-        <p>「智創商機 Make IT HappenJ Hackathon大賽</p>
-        <p>2019.10.10</p>
-        <p>
-          本計劃目標對象為對創科有熱誠、有志投身於創新
-          科技業或初創青年，以提供培訓工作坊及透過
-          HACKATHON極客大賽，推動他們積極思考及協助
-          解決疫情下的營商問題，為推動社會經濟出一分
-          力，並藉此向大眾推廣香港創科業及可持續發展目 標。
-        </p>
-      </div> */}
       <IonContent>
         {data.map((item) => {
           return (
@@ -84,15 +69,19 @@ const EventDetail: React.FC = () => {
               <IonItem>
                 <IonImg
                   src={
-                    item.profilepic === null
-                      ? item.profilepic
-                      : "../img/StartieLogo.png"
+                    item?.profilepic != null
+                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                      : "StartieLogo.png"
                   }
                 />
               </IonItem>
               <IonCardContent className="eventName">{item.name}</IonCardContent>
               <div className="event">
-                <IonImg src={item.profilepic} style={{ width: "10%" }} />
+                <IonImg src={
+                        item?.profilepic != null
+                          ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                          : "StartieLogo.png"
+                      } style={{ width: "10%" }} />
                 <div className="eventinfo">
                   <IonLabel className="eventDescription">
                     {item.description}

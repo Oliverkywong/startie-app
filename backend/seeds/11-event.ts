@@ -14,7 +14,7 @@ export async function seed(knex: Knex): Promise<void> {
             status_id: 1,
             starttime: new Date(),
             maxteammember: 3,
-            profilepic: "event.jpg",
+            profilepic: "com1.png",
             clickrate: 0,
         },
         {
@@ -23,7 +23,7 @@ export async function seed(knex: Knex): Promise<void> {
             status_id: 1,
             starttime: new Date(),
             maxteammember: 5,
-            profilepic: "event.jpg",
+            profilepic: "com2.png",
             clickrate: 0,
         },
         {
@@ -32,7 +32,7 @@ export async function seed(knex: Knex): Promise<void> {
             status_id: 1,
             starttime: new Date(),
             maxteammember: 7,
-            profilepic: "event.jpg",
+            profilepic: "com3.png",
             clickrate: 0,
         },
     ])

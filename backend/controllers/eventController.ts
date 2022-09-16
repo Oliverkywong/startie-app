@@ -1,5 +1,6 @@
 import { EventService } from "../services/eventService";
 import { Request, Response } from "express";
+import { logger } from "../utils/logger";
 
 export class EventController {
   constructor(private eventService: EventService) {}
@@ -20,7 +21,7 @@ export class EventController {
       );
       res.status(200).json(event);
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   };
@@ -34,7 +35,7 @@ export class EventController {
       res.set("x-total-count", String(event.length));
       res.status(200).json(event);
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   };
@@ -49,7 +50,7 @@ export class EventController {
       res.status(200).json(event[0]); //加咗[0] for react admin
 
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   };
@@ -76,7 +77,7 @@ export class EventController {
       );
       res.status(200).json(event);
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   };

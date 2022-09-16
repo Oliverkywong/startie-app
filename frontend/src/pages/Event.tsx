@@ -17,8 +17,11 @@ import {
   useIonRouter,
   IonNavLink,
   IonToolbar,
+  IonBackButton,
+  IonButtons,
 } from "@ionic/react";
 
+import "./css/Common.css";
 import "./css/Event.css";
 
 interface Event {
@@ -57,7 +60,12 @@ const Event: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/tab/home" />
+          </IonButtons>
           <IonTitle className="title">商業比賽</IonTitle>
+        </IonToolbar>
+        <IonToolbar>
           <IonSearchbar
             placeholder="Search"
             onClick={() => {
@@ -75,9 +83,9 @@ const Event: React.FC = () => {
                   <IonItem>
                     <IonImg
                       src={
-                        item.profilepic === null
-                          ? item.profilepic
-                          : "../img/StartieLogo.png"
+                        item?.profilepic != null
+                          ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                          : "StartieLogo.png"
                       }
                     />
                   </IonItem>
@@ -85,7 +93,11 @@ const Event: React.FC = () => {
                     {item.name}
                   </IonCardContent>
                   <div className="event">
-                    <IonImg src={item.profilepic} style={{ width: "10%" }} />
+                    <IonImg src={
+                        item?.profilepic != null
+                          ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                          : "StartieLogo.png"
+                      } style={{ width: "10%" }} />
                     <div className="eventinfo">
                       <IonLabel className="eventDescription">
                         {item.description}

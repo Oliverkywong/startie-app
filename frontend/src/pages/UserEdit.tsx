@@ -1,36 +1,51 @@
-import { IonPage, IonContent, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonImg, IonInput, IonItem, IonLabel, IonSelect, IonSelectOption, useIonRouter } from '@ionic/react'
-import React, { useState } from 'react'
+import {
+  IonPage,
+  IonContent,
+  IonHeader,
+  IonToolbar,
+  IonButtons,
+  IonBackButton,
+  IonTitle,
+  IonImg,
+  IonInput,
+  IonItem,
+  IonLabel,
+  IonSelect,
+  IonSelectOption,
+  useIonRouter,
+} from "@ionic/react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import icon from '../img/tonystarkicon.png'
+import icon from "../img/tonystarkicon.png";
+import "./css/Common.css";
 
 export default function UserEdit() {
-
   const router = useIonRouter();
   const { register, handleSubmit } = useForm();
 
-  const [state, setState] = useState<any>(icon)
+  const [state, setState] = useState<any>(icon);
 
   const imghandle = (e: any) => {
-    const reader = new FileReader()
+    const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
-        setState(reader.result)
+        setState(reader.result);
       }
-    }
-    reader.readAsDataURL(e.target.files[0])
-  }
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  };
 
   return (
     <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/tab/profile" />
+          </IonButtons>
+          <IonTitle className="title">User Edit</IonTitle>
+        </IonToolbar>
+      </IonHeader>
       <IonContent>
-        <IonHeader>
-          <IonToolbar>
-            <IonButtons slot="start">
-              <IonBackButton defaultHref="/tab/profile" />
-            </IonButtons>
-            <IonTitle>User Edit</IonTitle>
-          </IonToolbar>
-        </IonHeader>
         <form
           onSubmit={handleSubmit(async (data) => {
             const formData = new FormData();
@@ -72,5 +87,5 @@ export default function UserEdit() {
         </form>
       </IonContent>
     </IonPage>
-  )
+  );
 }

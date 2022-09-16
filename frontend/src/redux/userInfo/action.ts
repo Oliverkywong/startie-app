@@ -1,12 +1,22 @@
-import { UserInfo } from "../../module"
+import { UserInfo, Team } from "../../model";
 
-export function loadUserInfo(userInfo:UserInfo) {
-    return {
-        type: '@@userInfo/LOAD_USER_INFO' as const,
-        payload: userInfo
-    }
+export function loadUserInfo(userInfo: UserInfo) {
+  // console.log(userInfo)
+  return {
+    type: "@@userInfo/LOAD_USER_INFO" as const,
+    payload: userInfo,
+  };
 }
 
-export type LoadUserInfoAction = ReturnType<typeof loadUserInfo>
+export function loadUserTeam(team: Team[]) {
+  return {
+    type: "@@userInfo/LOAD_USER_TEAM" as const,
+    payload: team,
+  };
+}
 
-export type UserActions = LoadUserInfoAction
+export type LoadUserInfoAction = ReturnType<typeof loadUserInfo>;
+
+export type LoadUserTeamAction = ReturnType<typeof loadUserTeam>;
+
+export type UserActions = LoadUserInfoAction | LoadUserTeamAction;
