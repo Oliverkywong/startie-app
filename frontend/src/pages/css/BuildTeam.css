@@ -1,0 +1,39 @@
+.buildTeamForm {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formTitle {
+  margin-right: auto;
+  padding: 10px;
+}
+
+.formInput {
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 1px solid #00000066;
+  border-radius: 10px;
+}
+
+.formDropdownSelect {
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 10px;
+}
+
+.DescribionFormInput {
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 1px solid #00000066;
+  border-radius: 10px;
+  height: 300px;
+}
+
+.formSubmitButton {
+  width: 90%;
+  position: fixed;
+  bottom: 20px;
+}
