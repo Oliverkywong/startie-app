@@ -30,13 +30,13 @@ interface Team {
   name: string;
   description: string;
   profilepic: string;
+  tags: string[];
 }
 
 const Team: React.FC = () => {
   const [data, setData] = useState<Team[]>([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
-  // const [tag, setTag] = useState<string[]>([]);
 
   const loadData = (ev: any) => {
     setTimeout(() => {
@@ -52,14 +52,7 @@ const Team: React.FC = () => {
     (async function () {
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`);
       const result = await res.json();
-
       // console.log(result);
-      // const teamtag = []
-      // for (let i = 0; i < result.teamTags.length; i++) {
-      //     teamtag.push(result.teamTags[i].name)
-      // }
-      // console.log(teamtag)
-      // setTag(teamtag)
       setData(result);
     })();
   }, []);
@@ -110,8 +103,12 @@ const Team: React.FC = () => {
                           {item.description}
                         </p>
                         <div className="tag">
-                          <span>View</span>
-                          <span>View</span>
+                          {item.tags.map((tag) => {
+                            return (
+                              <span key={tag}>{tag}</span>
+                            );
+                          })
+                          }
                         </div>
                       </IonCardContent>
                     </IonCard>

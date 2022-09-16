@@ -27,13 +27,18 @@ export class TeamService {
   // get all teams
   // -------------------------------------------------------------------------------------------------------------------
   async getAllTeams() {
-    return await this.knex<Team>("team").select("*");
+    // return await this.knex<Team>("team").select("*");
+    const teamTags = await this.knex.raw(`
+    select t.profilepic, s.name, t.status_id, t.description,t.name,team_id, array_agg(tag.name) as tags from ((team_tag inner join team t on t.id= team_tag.team_id) inner join tag on tag.id=team_tag.tag_id) join status s on s.id=t.status_id group by team_id,t.name,t.description, t.status_id, s.name, t.profilepic`)
+    return teamTags.rows;
   }
 
   async getAllTeamTags() {
-    const teamTags = await this.knex.raw(
-      `select * from team_tag join tag on tag.id=tag_id`
-    );
+    // const teamTags = await this.knex.raw(
+    //   `select * from team_tag join tag on tag.id=tag_id`
+    // );
+    const teamTags = await this.knex.raw(`
+    select t.profilepic, s.name, t.status_id, t.description,t.name,team_id, array_agg(tag.name) as tags from ((team_tag inner join team t on t.id= team_tag.team_id) inner join tag on tag.id=team_tag.tag_id) join status s on s.id=t.status_id group by team_id,t.name,t.description, t.status_id, s.name, t.profilepic`)
     return teamTags.rows;
   }
 
@@ -83,9 +88,12 @@ export class TeamService {
   }
 
   // -------------------------------------------------------------------------------------------------------------------
-  // get all categories
+  // get all teamtag
   // -------------------------------------------------------------------------------------------------------------------
   async teamTag() {
-    return await this.knex("searchcategory").select("*");
+    // return await this.knex("team_tag").select("*");
+    const teamTags = await this.knex.raw(`select team_id, array_agg(tag.name) as tags from (team_tag inner join team t on t.id= team_tag.team_id) inner join tag on tag.id=team_tag.tag_id group by team_id,t.name`);
+    return teamTags.rows;
+
   }
 }
