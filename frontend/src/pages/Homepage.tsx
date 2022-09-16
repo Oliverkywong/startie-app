@@ -1,4 +1,3 @@
-// Import Swiper React components
 import React, { useEffect, useState } from "react";
 import {
   IonContent,
@@ -9,20 +8,15 @@ import {
   IonCard,
   IonCardContent,
   IonIcon,
-  IonItem,
   IonButtons,
   IonSearchbar,
   IonToolbar,
   useIonRouter,
   IonList,
   IonHeader,
-  IonNavLink,
   IonCol,
-  IonGrid,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
-  IonRow,
-  IonCardHeader,
   IonCardTitle,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -37,8 +31,6 @@ import cat1 from "../img/all.png";
 import cat2 from "../img/startup.png";
 import cat3 from "../img/business.png";
 import cat4 from "../img/hackathon.png";
-import team1 from "../img/team1.png";
-import team2 from "../img/team2.png";
 import "./css/Common.css";
 import "./css/Homepage.css";
 

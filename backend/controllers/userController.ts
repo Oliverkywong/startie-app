@@ -260,20 +260,6 @@ export class UserController {
     });
   };
 
-// -------------------------------------------------------------------------------------------------------------------
-// get all user
-// -------------------------------------------------------------------------------------------------------------------
-
-  getAllUsers = async (req: express.Request, res: express.Response) => {
-    try {
-      const users = await this.userService.getAllUsers();
-      return res.json(users);
-    } catch (err) {
-      logger.error(err);
-      return res.json({ result: false, msg: "Get all users fail" });
-    }
-  };
-
   // -------------------------------------------------------------------------------------------------------------------
   // Apple Login
   // -------------------------------------------------------------------------------------------------------------------
@@ -333,21 +319,6 @@ export class UserController {
       return res.status(400).json({ result: false, msg: "apple login error" });
     }
   };
-  // -------------------------------------------------------------------------------------------------------------------
-  // Log out
-  // -------------------------------------------------------------------------------------------------------------------
-  // 	logout = async (req: express.Request, res: express.Response) => {
-  // 		try {
-  // 			req.session['isLogin'] = false
-  // 			res.json({ result: true, msg: 'logout success' })
-  // 			logger.info(`${req.session['user'].username} logged out`)
-  // 		}
-  // 		catch (err) {
-  // 			logger.error(err)
-  // 			return res.status(500).json({ result: false, msg: 'logout Error' })
-  // 		}
-  // 	}
-
   // -------------------------------------------------------------------------------------------------------------------
   // check team
   // -------------------------------------------------------------------------------------------------------------------

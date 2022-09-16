@@ -95,4 +95,18 @@ export class TeamController {
       res.status(500).json({ message: "Internal server error" });
     }
   };
+
+  // -------------------------------------------------------------------------------------------------------------------
+  // get all categories
+  // -------------------------------------------------------------------------------------------------------------------
+  getCategory = async (req: Request, res: Response) => {
+    try {
+      const category = await this.teamService.getCategory();
+      res.status(200).json(category);
+    } catch (err) {
+      logger.error(err);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+
 }
