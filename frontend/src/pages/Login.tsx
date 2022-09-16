@@ -27,8 +27,6 @@ const Login: React.FC = () => {
   const { register, handleSubmit } = useForm();
   const [passwordShown, setPasswordShown] = useState(false);
   const dispatch = useDispatch();
-  const router = useIonRouter();
-  const token = useAppSelector((state: RootState) => state.auth.token);
 
   return (
     <IonPage className="background">
@@ -52,7 +50,6 @@ const Login: React.FC = () => {
               if (res.status === 200) {
                 const userRecord = await res.json();
                 dispatch(loggedIn(userRecord["user"], userRecord["jwt"]));
-                // localStorage.setItem("token", userRecord["jwt"]);
                 // router.push("/tab/home");
                 window.location.replace("/tab/home");
                 // <IonNavLink component={() => <Homepage />} ></IonNavLink>

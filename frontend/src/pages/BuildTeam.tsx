@@ -20,15 +20,12 @@ import { useForm } from "react-hook-form";
 import "./css/Common.css";
 import "./css/BuildTeam.css";
 import team1 from "../img/team1.png";
+import { Tag } from "../model";
 
 const BuildTeam: React.FC = () => {
-  interface tag {
-    id: number;
-    name: string;
-  }
 
   const router = useIonRouter();
-  const [teamTag, setTeamTag] = useState<tag[]>([]);
+  const [teamTag, setTeamTag] = useState<Tag[]>([]);
 
   useEffect(() => {
     (async function () {

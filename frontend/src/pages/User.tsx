@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { IonPage, IonHeader, IonContent, IonSearchbar, IonCard, IonCardContent, IonImg, useIonViewWillEnter, IonInfiniteScroll, IonInfiniteScrollContent, IonGrid, IonCol, IonRow, useIonRouter, IonToolbar } from '@ionic/react'
+import { IonPage, IonHeader, IonContent, IonSearchbar, IonCard, IonCardContent, IonImg, IonInfiniteScroll, IonInfiniteScrollContent, IonGrid, IonCol, IonRow, useIonRouter, IonToolbar } from '@ionic/react'
 
-import icon from '../img/tonystarkicon.png'
 import './css/Team.css'
 
 interface User {
@@ -25,22 +24,8 @@ const User: React.FC = () => {
         })()
     }, [])
 
-    // const pushData = () => {
-    //     const max = data.length + 30;
-    //     const min = max - 30;
-    //     const newData = [];
-    //     for (let i = min; i < max; i++) {
-    //         newData.push('ion-item in a card, icon left, button right' + i);
-    //     }
-
-    //     setData([
-    //         ...data,
-    //         ...newData
-    //     ]);
-    // }
     const loadData = (ev: any) => {
         setTimeout(() => {
-            // pushData();
             console.log('Loaded data');
             ev.target.complete();
             if (data.length === 100) {
@@ -49,9 +34,6 @@ const User: React.FC = () => {
         }, 500);
     }
 
-    // useIonViewWillEnter(() => {
-    //     pushData();
-    // });
     return (
         <IonPage>
             <IonHeader>

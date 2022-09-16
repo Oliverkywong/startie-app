@@ -11,11 +11,9 @@ import {
   IonCard,
   IonCardContent,
   IonImg,
-  useIonViewWillEnter,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   useIonRouter,
-  IonNavLink,
   IonToolbar,
   IonBackButton,
   IonButtons,
@@ -23,16 +21,11 @@ import {
 
 import "./css/Common.css";
 import "./css/Event.css";
+import { Event } from "../model";
 
-interface Event {
-  id: number;
-  name: string;
-  description: string;
-  profilepic: string;
-  starttime: string;
-}
 
-const Event: React.FC = () => {
+
+const EventList: React.FC = () => {
   const [data, setData] = useState<Event[]>([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
@@ -127,4 +120,4 @@ const Event: React.FC = () => {
     </IonPage>
   );
 };
-export default Event;
+export default EventList;

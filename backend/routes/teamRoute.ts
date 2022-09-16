@@ -9,6 +9,6 @@ export function teamRoutes(teamController: TeamController) {
   router.post("/team", teamController.createTeam); // need to add isLogin
   router.put("/team/:id", teamController.updateTeam); // need to add isBoard
   // router.delete("/team/:id", isBoard, teamController.deleteTeam);
-  router.get("/teamtag", teamController.teamTag);
+  router.get("/teamtag", teamController.teamTag);//show team on profile
   return router;
 }
