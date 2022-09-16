@@ -11,11 +11,9 @@ import {
   IonCard,
   IonCardContent,
   IonImg,
-  useIonViewWillEnter,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   useIonRouter,
-  IonNavLink,
   IonToolbar,
   IonBackButton,
   IonButtons,
@@ -23,16 +21,11 @@ import {
 
 import "./css/Common.css";
 import "./css/Event.css";
+import { Event } from "../model";
 
-interface Event {
-  id: number;
-  name: string;
-  description: string;
-  profilepic: string;
-  starttime: string;
-}
 
-const Event: React.FC = () => {
+
+const EventList: React.FC = () => {
   const [data, setData] = useState<Event[]>([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
@@ -78,8 +71,8 @@ const Event: React.FC = () => {
         <IonList>
           {data.map((item) => {
             return (
-              <IonItem routerLink={`event/${item.id}`}>
-                <IonCard key={item.id}>
+              <IonItem key={item.id} routerLink={`event/${item.id}`}>
+                <IonCard>
                   <IonItem>
                     <IonImg
                       src={
@@ -93,11 +86,14 @@ const Event: React.FC = () => {
                     {item.name}
                   </IonCardContent>
                   <div className="event">
-                    <IonImg src={
+                    <IonImg
+                      src={
                         item?.profilepic != null
                           ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
                           : "StartieLogo.png"
-                      } style={{ width: "10%" }} />
+                      }
+                      style={{ width: "10%" }}
+                    />
                     <div className="eventinfo">
                       <IonLabel className="eventDescription">
                         {item.description}
@@ -124,4 +120,4 @@ const Event: React.FC = () => {
     </IonPage>
   );
 };
-export default Event;
+export default EventList;

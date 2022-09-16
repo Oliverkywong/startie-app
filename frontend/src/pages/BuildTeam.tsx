@@ -20,26 +20,22 @@ import { useForm } from "react-hook-form";
 import "./css/Common.css";
 import "./css/BuildTeam.css";
 import team1 from "../img/team1.png";
+import { Tag } from "../model";
 
 const BuildTeam: React.FC = () => {
-  interface tag {
-    id: number;
-    name: string;
-  }
-
   const router = useIonRouter();
-  const [teamTag, setTeamTag] = useState<tag[]>([]);
+  const [teamcategory, setTeamcategory] = useState<Tag[]>([]);
 
   useEffect(() => {
     (async function () {
       const localtoken = localStorage.getItem("token");
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/teamtag`, {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/category`, {
         headers: {
           Authorization: `Bearer ${localtoken}`,
         },
       });
-      const teamtag = await res.json();
-      setTeamTag(teamtag);
+      const teamcategory = await res.json();
+      setTeamcategory(teamcategory);
     })();
   }, []);
 
@@ -69,6 +65,7 @@ const BuildTeam: React.FC = () => {
       </IonHeader>
       <IonContent>
         <form
+          className="buildTeamForm"
           action="/team"
           method="post"
           onSubmit={handleSubmit(async (data) => {
@@ -76,7 +73,7 @@ const BuildTeam: React.FC = () => {
             formData.append("teamName", data.teamName);
             formData.append("teamDescription", data.teamDescription);
             formData.append("teamImage", data.teamImage[0]);
-            formData.append("teamTag", data.teamTag);
+            formData.append("teamcategory", data.teamcategory);
 
             // await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`, {
             //   method: "POST",
@@ -89,42 +86,43 @@ const BuildTeam: React.FC = () => {
             router.push("/recommend");
           })}
         >
-          <br />
-
-          <IonLabel>Project Name</IonLabel>
+          <IonLabel className="formTitle">Project Name</IonLabel>
           <IonInput
+            className="formInput"
             {...register("teamName", { required: true })}
             type="text"
-            placeholder="Type here"
+            placeholder="Type here..."
           />
 
-          <IonLabel>Category</IonLabel>
-          <br />
+          <IonLabel className="formTitle">Category</IonLabel>
 
-          <IonItem>
+          <IonItem className="formDropdownSelect">
             <IonSelect placeholder="Dropdown">
-              {teamTag.map((tag) => (
+              {teamcategory.map((item) => (
                 <IonSelectOption
-                  {...register("teamTag", { required: true })}
-                  value={`${tag.name}`}
+                  key={item.id}
+                  {...register("teamcategory", { required: true })}
+                  value={`${item.name}`}
                 >
-                  {tag.name}
+                  {item.name}
                 </IonSelectOption>
               ))}
             </IonSelect>
           </IonItem>
 
-          <br />
-          <IonLabel>One sentence to describe your project:</IonLabel>
+          <IonLabel className="formTitle">
+            One sentence to describe your project:
+          </IonLabel>
           <IonInput
+            className="DescribionFormInput"
             {...register("teamDescription")}
             type="text"
-            placeholder="Type here"
+            placeholder="Type here..."
           />
           <IonImg src={state} />
-          <IonLabel>Team icon/image:</IonLabel>
+          <IonLabel className="formTitle">Team icon/image: </IonLabel>
           <input type="file" {...register("teamImage")} onChange={imghandle} />
-          <input type="submit" />
+          <input className="formSubmitButton" type="submit" />
         </form>
       </IonContent>
     </IonPage>
