@@ -17,29 +17,18 @@ import {
   SelectInput,
   SearchInput,
   usePermissions,
+  ImageField,
+  ImageInput,
 } from "react-admin";
 
-// const getUserFilters = (permissions:any) =>
-//     [
-//         <SearchInput source="q" alwaysOn />,
-//         <TextInput source="name" />,
-//         permissions === 'admin' ? <TextInput source="role" /> : null,
-//     ].filter(filter => filter !== null);
-
-//     const { permissions } = usePermissions();
-
 export const UserList = () => (
-  
-  
-  <List filters={postFilters}
-  // {getUserFilters(permissions)}
-  >
+  <List filters={getUserFilters()}>
     <Datagrid rowClick="edit">
       <TextField source="id" />
       <TextField source="username" />
       <EmailField source="email" />
       <TextField source="phonenumber" />
-      <TextField source="status_id" />
+      <TextField source="name" />
       <TextField source="description" />
       <TextField source="created_at" />
       <TextField source="profilepic" />
@@ -62,13 +51,16 @@ export const UserEdit = (props:any) => (
       ]}
        />
       <TextInput multiline source="description" resettable />
-      <FileInput
+      {/* <FileInput
         source="profilepic"
         label="Related files"
         accept="image/*,.pdf"
       >
         <FileField source="src" title="title" />
-      </FileInput>
+      </FileInput> */}
+      <ImageInput source="profilepic" label="Related pictures" accept="image/*">
+    <ImageField source="src" title="title" />
+</ImageInput>
     </SimpleForm>
   </Edit>
 );
@@ -94,8 +86,15 @@ const UserTitle = ({ record}:any) => {
 };
 
 const postFilters = [
-  <TextInput source="username" label="Search" alwaysOn />,
-  <TextInput source="name" />,
-  // <ReferenceInput source="id" reference="id" />,
+  <SearchInput source="q" label="Search" alwaysOn />
 ];
 
+const getUserFilters = () =>
+[
+  <SearchInput source="q" alwaysOn />,
+  <TextInput source="name" />,
+  <TextInput source="phonenumber" />,
+  <TextInput source="email" />,
+  <TextInput source="description" />,
+  <TextInput source="status" />,
+].filter(filter => filter !== null);
