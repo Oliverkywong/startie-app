@@ -5,8 +5,7 @@ import {
   IonTabBar,
   IonTabButton,
   IonIcon,
-  IonLabel,
-  IonNav,
+  IonLabel
 } from "@ionic/react";
 import {
   homeOutline,
@@ -15,14 +14,14 @@ import {
   chatbubbleEllipsesOutline,
   personOutline,
 } from "ionicons/icons";
-import { Redirect, Route } from "react-router";
+import { Route } from "react-router";
 import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import NotFoundPage from "./pages/NotFoundPage";
 import Profile from "./pages/Profile";
 import SignUp from "./pages/SignUp";
-import Team from "./pages/Team";
-import Event from "./pages/Event";
+import TeamList from "./pages/TeamList";
+import EventList from "./pages/EventList";
 import UserSettings from "./pages/UserSettings";
 import BuildTeam from "./pages/BuildTeam";
 import EventDetail from "./pages/EventDetail";
@@ -31,15 +30,12 @@ import SearchPage from "./pages/SearchPage";
 import User from "./pages/User";
 import Notification from "./pages/Notification";
 import Recommend from "./pages/Recommend";
-import { useSelector } from "react-redux";
-import { RootState } from "./store";
 import UserEdit from "./pages/UserEdit";
 import SocialLogin from "./pages/SocialLogin";
 
 export default function Routes() {
   return (
     <IonRouterOutlet>
-      
       <Route path="/" component={Login} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={SignUp} />
@@ -55,11 +51,11 @@ export default function Routes() {
 
             <Route exact path="/tab/home" component={Homepage} />
 
-            <Route exact path="/tab/team" component={Team} />
+            <Route exact path="/tab/team" component={TeamList} />
             <Route exact path="/tab/buildteam" component={BuildTeam} />
             <Route exact path="/tab/team/:id" component={TeamDetail} />
 
-            <Route exact path="/tab/event" component={Event} />
+            <Route exact path="/tab/event" component={EventList} />
             <Route exact path="/tab/event/:id" component={EventDetail} />
 
             <Route exact path="/tab/profile" component={Profile} />

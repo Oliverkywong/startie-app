@@ -16,21 +16,13 @@ import {
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { useRouteMatch } from "react-router";
-import team from "../img/team1.png";
-import icon from "../img/tonystarkicon.png";
-
-interface TeamDetail {
-  id: number;
-  name: string;
-  description: string;
-  profilepic: string;
-}
+import { TeamData, TeamMember } from "../model";
 
 const TeamDetail: React.FC = () => {
-  const [data, setData] = useState<TeamDetail[]>([]);
+  const [data, setData] = useState<TeamData[]>([]);
   const [tag, setTag] = useState<string[]>([]);
+  const [teamMember, setTeamMember] = useState<TeamMember[]>([]);
 
-  const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
 
   let match = useRouteMatch<{ id: string }>("/tab/team/:id");
@@ -41,26 +33,18 @@ const TeamDetail: React.FC = () => {
         `${process.env.REACT_APP_BACKEND_URL}/team/${match?.params.id}`
       );
       const item = await res.json();
-      console.log(item);
+
       setData(item.team);
+      setTeamMember(item.teamMember);
 
       const tagArray: string[] = [];
       for (let i = 0; i < item.teamTag.length; i++) {
         tagArray.push(item.teamTag[i].name);
       }
+
       setTag(tagArray);
     })();
   }, []);
-
-  const loadData = (ev: any) => {
-    setTimeout(() => {
-      console.log("Loaded data");
-      ev.target.complete();
-      if (data.length === 100) {
-        setInfiniteDisabled(true);
-      }
-    }, 500);
-  };
 
   return (
     <IonPage>
@@ -86,15 +70,20 @@ const TeamDetail: React.FC = () => {
               </IonItem>
               <IonCardContent className="eventName">{item.name}</IonCardContent>
               <IonLabel>Looking for: </IonLabel>
-{tag.map((item) => {
-  return (<IonLabel>{item}</IonLabel>)})
-  }
+              <div className="tag">
+                {tag.map((item) => {
+                  return <span key={item}>{item}</span>;
+                })}
+              </div>
               <div className="event">
-                <IonImg src={
-                        item?.profilepic != null
-                          ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
-                          : "StartieLogo.png"
-                      } style={{ width: "10%" }} />
+                <IonImg
+                  src={
+                    item?.profilepic != null
+                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                      : "StartieLogo.png"
+                  }
+                  style={{ width: "10%" }}
+                />
                 <div className="eventinfo">
                   <IonLabel className="eventDescription">
                     {item.description}
@@ -104,30 +93,27 @@ const TeamDetail: React.FC = () => {
             </IonCard>
           );
         })}
-        <IonButton>Join</IonButton>
+        <IonButton>Join Team</IonButton>
 
         <IonList>
-          <div className="event">
-            <IonImg src={icon} style={{ width: "10%" }} />
-            <div className="eventinfo">
-              <IonLabel>Name</IonLabel>
-              <IonLabel>Descrption</IonLabel>
-            </div>
-          </div>
-          <div className="event">
-            <IonImg src={icon} style={{ width: "10%" }} />
-            <div className="eventinfo">
-              <IonLabel>Name</IonLabel>
-              <IonLabel>Descrption</IonLabel>
-            </div>
-          </div>
-          <div className="event">
-            <IonImg src={icon} style={{ width: "10%" }} />
-            <div className="eventinfo">
-              <IonLabel>Name</IonLabel>
-              <IonLabel>Descrption</IonLabel>
-            </div>
-          </div>
+          {teamMember.map((item) => {
+            return (
+              <div className="event" key={item.id}>
+                <IonImg
+                  src={
+                    item?.profilepic != null
+                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                      : "StartieLogo.png"
+                  }
+                  style={{ width: "10%" }}
+                />
+                <div className="eventinfo">
+                  <IonLabel>{item.username}</IonLabel>
+                  <IonLabel>{item.description}</IonLabel>
+                </div>
+              </div>
+            );
+          })}
         </IonList>
       </IonContent>
     </IonPage>

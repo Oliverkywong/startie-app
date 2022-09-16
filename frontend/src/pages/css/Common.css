@@ -3,3 +3,31 @@
   font-weight: bold;
   margin: 10px;
 }
+
+.tag {
+  display: flex;
+  justify-content: flex-start;
+  column-gap: 15px;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.tag > span {
+  background: linear-gradient(
+    43.6deg,
+    #7f398d 15.02%,
+    #da2f69 67.96%,
+    #ea5729 100.39%
+  );
+  font-size: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  color: #fff;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  max-width: 100px;
+  height: 25px;
+  overflow: hidden;
+}

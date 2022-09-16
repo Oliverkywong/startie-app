@@ -1,4 +1,4 @@
-import { UserInfo } from "../../module";
+import { UserInfo } from "../../model";
 import { AppDispatch } from "../../store";
 
 export function loggedIn(info: UserInfo ,token: string) {

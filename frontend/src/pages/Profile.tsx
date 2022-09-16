@@ -8,7 +8,6 @@ import {
   IonImg,
   IonItem,
   IonLabel,
-  IonNavLink,
   IonPage,
   IonTitle,
   IonToolbar,
@@ -29,7 +28,6 @@ import "./css/Profile.css";
 import UserInfo from "./UserInfo";
 import UserStats from "./UserStats";
 import UserTeams from "./UserTeams";
-import UserFollows from "./UserFollows";
 import UserSettings from "./UserSettings";
 import { RootState, useAppDispatch, useAppSelector } from "../store";
 import { loggedIn } from "../redux/auth/action";
@@ -44,7 +42,6 @@ const Profile: React.FC = () => {
 
   const [info, setInfo] = React.useState(true);
   const [stat, setStat] = React.useState(false);
-  const [follow, setFollow] = React.useState(false);
   const [team, setTeam] = React.useState(false);
   const [setting, setSetting] = React.useState(false);
 
@@ -65,23 +62,7 @@ const Profile: React.FC = () => {
           },
         }
       );
-
-      if (res.status === 200) {
-        const userRecord = await res.json();
-        // console.log(userRecord)
-        dispatch(loggedIn(userRecord, localtoken!));
-        // router.push("/tab/home");
-      }
-    })();
-  }, []);
-
-  useEffect(() => {
-    (async function () {
-      const localtoken = localStorage.getItem("token");
-      if (localtoken === null) {
-        return;
-      }
-      const res = await fetch(
+      const selfteam = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/user/me/team`,
         {
           headers: {
@@ -91,10 +72,11 @@ const Profile: React.FC = () => {
       );
 
       if (res.status === 200) {
-        const userTeam = await res.json();
-        // console.log(userTeam);
+        const userRecord = await res.json();
+        // console.log(userRecord)
+        dispatch(loggedIn(userRecord, localtoken!));
+        const userTeam = await selfteam.json();
         dispatch(loadUserTeam(userTeam));
-        // router.push("/tab/home");
       }
     })();
   }, []);
@@ -134,7 +116,6 @@ const Profile: React.FC = () => {
                 onClick={() => {
                   setInfo(false);
                   setStat(true);
-                  setFollow(false);
                   setTeam(false);
                   setSetting(false);
                 }}
@@ -147,7 +128,6 @@ const Profile: React.FC = () => {
                 onClick={() => {
                   setInfo(true);
                   setStat(false);
-                  setFollow(false);
                   setTeam(false);
                   setSetting(false);
                 }}
@@ -160,19 +140,6 @@ const Profile: React.FC = () => {
                 onClick={() => {
                   setInfo(false);
                   setStat(false);
-                  setFollow(true);
-                  setTeam(false);
-                  setSetting(false);
-                }}
-              >
-                <IonIcon icon={bookmarkOutline} />
-                <IonLabel>My Follows</IonLabel>
-              </div>
-              <div
-                onClick={() => {
-                  setInfo(false);
-                  setStat(false);
-                  setFollow(false);
                   setTeam(true);
                   setSetting(false);
                 }}
@@ -191,7 +158,6 @@ const Profile: React.FC = () => {
             </div>
             {info && <UserInfo description={userdetails?.description} />}
             {stat && <UserStats />}
-            {follow && <UserFollows />}
             {team && <UserTeams team={userBelongsTeam} />}
             {setting && <UserSettings />}
           </div>

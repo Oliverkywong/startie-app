@@ -1,4 +1,3 @@
-// Import Swiper React components
 import React, { useEffect, useState } from "react";
 import {
   IonContent,
@@ -9,20 +8,15 @@ import {
   IonCard,
   IonCardContent,
   IonIcon,
-  IonItem,
   IonButtons,
   IonSearchbar,
   IonToolbar,
   useIonRouter,
   IonList,
   IonHeader,
-  IonNavLink,
   IonCol,
-  IonGrid,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
-  IonRow,
-  IonCardHeader,
   IonCardTitle,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -37,8 +31,7 @@ import cat1 from "../img/all.png";
 import cat2 from "../img/startup.png";
 import cat3 from "../img/business.png";
 import cat4 from "../img/hackathon.png";
-import team1 from "../img/team1.png";
-import team2 from "../img/team2.png";
+import "./css/Common.css";
 import "./css/Homepage.css";
 
 // Import Swiper styles
@@ -62,6 +55,7 @@ const Homepage: React.FC = () => {
     (state: RootState) => state.userInfo.userinfo
   );
   const [data, setData] = useState<Team[]>([]);
+  const [tag, setTag] = useState<string[]>([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
   const dispatch = useAppDispatch();
@@ -78,7 +72,6 @@ const Homepage: React.FC = () => {
 
   useEffect(() => {
     (async function () {
-      // console.log(userdetails)
       const localtoken = localStorage.getItem("token");
       if (localtoken === null) {
         dispatch(logOut());
@@ -92,7 +85,6 @@ const Homepage: React.FC = () => {
 
       if (res.status === 200) {
         const userRecord = await res.json();
-        // console.log(userRecord)
         dispatch(loadUserInfo(userRecord));
         router.push("/tab/home");
       }
@@ -104,6 +96,19 @@ const Homepage: React.FC = () => {
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`);
       const result = await res.json();
       setData(result);
+
+      for (let i = 0; i < result.length; i++) {
+        const tagres = await fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/team/${result[i].id}`
+        );
+
+        const item = await tagres.json();
+        const tagArray: string[] = [];
+        for (let i = 0; i < item.teamTag.length; i++) {
+          tagArray.push(item.teamTag[i].name);
+        }
+        setTag(tagArray);
+      }
     })();
   }, []);
 
@@ -207,32 +212,36 @@ const Homepage: React.FC = () => {
           <div className="teamList">
             {data.map((item) => {
               return (
-                <IonCol>
-                  <IonItem routerLink={`/tab/team/${item.id}`}>
-                    <IonCard key={item.id} className="card">
+                <IonCol key={item.id}>
+                  <div className="teamInfo">
+                    <IonCard
+                      className="teamCard"
+                      routerLink={`/tab/team/${item.id}`}
+                    >
                       <IonImg
+                        className="teamIcon"
                         src={
                           item?.profilepic != null
                             ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
                             : "https://www.w3schools.com/howto/img_avatar.png"
                         }
-                        style={{ width: "100%" }}
                       />
-                      <IonCardTitle>{item.name}</IonCardTitle>
-                      <IonCardContent
-                        className="content"
-                        style={{ fontSize: "10px" }}
-                      >
-                        <p style={{ fontSize: "10px", color: "white" }}>
-                          {item.description}
-                        </p>
-                        <div className="tag">
-                          <span>View</span>
-                          <span>View</span>
-                        </div>
+
+                      <IonCardTitle className="teamTitle">
+                        {item.name}
+                      </IonCardTitle>
+
+                      <IonCardContent className="teamContent">
+                        {item.description}
                       </IonCardContent>
+
+                      <div className="tag">
+                        {item.tags.map((tag) => {
+                          return <span key={tag}>{tag}</span>;
+                        })}
+                      </div>
                     </IonCard>
-                  </IonItem>
+                  </div>
                 </IonCol>
               );
             })}

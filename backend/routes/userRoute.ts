@@ -14,7 +14,6 @@ export function userRoutes(userController: UserController) {
   userRoutes.get("/user/me", userController.userInfo);
   userRoutes.get("/user", userController.getAllUser);
   userRoutes.put("/editUser", userController.editUser); //need to add isLogin
-  // userRoutes.post('/logout', userController.logout)
   userRoutes.get("/user/me/team", isLogin, userController.checkTeam);
 
   return userRoutes;
