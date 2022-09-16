@@ -20,6 +20,7 @@ import {
   IonToolbar,
   IonTitle,
   IonBackButton,
+  IonCardTitle,
 } from "@ionic/react";
 
 import { Team } from "../model";
@@ -69,44 +70,42 @@ const TeamList: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonGrid>
-          <IonRow>
-            {data.map((item) => {
-              return (
-                <IonCol size="6" key={item.id}>
-                  <IonItem routerLink={`/tab/team/${item.id}`}>
-                    <IonCard className="card">
-                      <IonImg
-                        src={
-                          item?.profilepic != null
-                            ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
-                            : "https://www.w3schools.com/howto/img_avatar.png"
-                        }
-                        style={{ width: "100%" }}
-                      />
-                      <IonCardContent
-                        className="content"
-                        style={{ fontSize: "10px" }}
-                      >
-                        <p style={{ fontSize: "14px", color: "white" }}>
-                          {item.name}
-                        </p>
-                        <br />
-                        <p style={{ fontSize: "10px", color: "white" }}>
-                          {item.description}
-                        </p>
-                        <div className="tag">
-                          {item.tags.map((tag) => {
-                            return <span key={tag}>{tag}</span>;
-                          })}
-                        </div>
-                      </IonCardContent>
-                    </IonCard>
-                  </IonItem>
-                </IonCol>
-              );
-            })}
-          </IonRow>
+        <div className="teamList">
+          {data.map((item) => {
+            return (
+              <IonCol key={item.id}>
+                <div className="teamInfo">
+                  <IonCard
+                    className="teamCard"
+                    routerLink={`/tab/team/${item.id}`}
+                  >
+                    <IonImg
+                      className="teamIcon"
+                      src={
+                        item?.profilepic != null
+                          ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                          : "https://www.w3schools.com/howto/img_avatar.png"
+                      }
+                    />
+                    <IonCardTitle className="teamTitle">
+                      {item.name}
+                    </IonCardTitle>
+
+                    <IonCardContent className="teamContent">
+                      <p>{item.description}</p>
+                    </IonCardContent>
+
+                    <div className="tag">
+                      {item.tags.map((tag) => {
+                        return <span key={tag}>{tag}</span>;
+                      })}
+                    </div>
+                  </IonCard>
+                </div>
+              </IonCol>
+            );
+          })}
+
           <IonInfiniteScroll
             onIonInfinite={loadData}
             threshold="100px"
@@ -117,7 +116,7 @@ const TeamList: React.FC = () => {
               loadingText="Loading more data..."
             ></IonInfiniteScrollContent>
           </IonInfiniteScroll>
-        </IonGrid>
+        </div>
       </IonContent>
     </IonPage>
   );
