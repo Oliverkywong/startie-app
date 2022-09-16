@@ -10,34 +10,37 @@ import {
     SimpleForm,
     ReferenceInput,
     TextInput,
-    useRecordContext
+    useRecordContext,
+    SelectInput,
+    SearchInput
 } from 'react-admin';
 
 export const EventList = (props:any)=> (
-    <List filters={postFilters}>
+    <List filters={getUserFilters()}>
         
-     <Datagrid>
+     <Datagrid rowClick="edit">
            <TextField source="id" />
            <TextField source="name" />
-            <TextField source="board" />
-           <TextField source="event" />
-           <TextField source="job" />
+           <TextField source="status_id" />
            <TextField source="description" />
-            <ReferenceField source="userId" reference="users" />
-            <TextField source="title" />
-            <TextField source="completed" />
+            <TextField source="maxteammember" />
                 <EditButton />
         </Datagrid>
     </List>
 );
 
-export const EventEdit = () => (
-    <Edit title={<EventTitle />}>
+export const EventEdit = (props:any) => (
+    <Edit title={<EventTitle />} {...props}>
         <SimpleForm>
         <TextInput disabled source="id" />
-            <ReferenceInput source="userId" reference="users" />
-            <TextInput source="title" />
-            <TextInput multiline source="body" />
+            <TextInput source="name" />
+            <TextInput source="maxteammember" />
+            <SelectInput source="status_id" emptyValue={null} resettable choices={[
+                {id:1, name: 'active'},
+                {id:2, name: 'inactive'},
+                {id:3, name: 'pending'}
+            ]} />
+            <TextInput multiline source="description" resettable />
         </SimpleForm>
     </Edit>
 );
@@ -45,8 +48,8 @@ export const EventEdit = () => (
 export const EventCreate = (props : any) => (
         <Create {...props}>
             <SimpleForm>
-                <ReferenceInput source="userId" reference="users" />
-                {props.map((user:any) => {return (<TextInput source="name">{user}</TextInput>)})}
+                <TextInput source="name" />
+                <TextInput source="maxteammember" />
                 <TextInput multiline source="description" />
             </SimpleForm>
         </Create>
@@ -58,6 +61,11 @@ const EventTitle = () => {
     };
 
 const postFilters = [
-        <TextInput source="q" label="Search" alwaysOn />,
-        <ReferenceInput source="userId" label="Event" reference="Event" />
+        <SearchInput source="q" label="Search" alwaysOn />
     ];
+
+    const getUserFilters = () =>
+    [
+        <SearchInput source="q" alwaysOn />,
+        <TextInput source="name" />,
+    ].filter(filter => filter !== null);
