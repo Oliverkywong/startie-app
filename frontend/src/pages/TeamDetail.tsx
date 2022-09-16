@@ -47,7 +47,7 @@ const TeamDetail: React.FC = () => {
         `${process.env.REACT_APP_BACKEND_URL}/team/${match?.params.id}`
       );
       const item = await res.json();
-      console.log(item.teamMember);
+
       setData(item.team);
       setTeamMember(item.teamMember);
 
@@ -55,7 +55,7 @@ const TeamDetail: React.FC = () => {
       for (let i = 0; i < item.teamTag.length; i++) {
         tagArray.push(item.teamTag[i].name);
       }
-      console.log(tagArray);
+
       setTag(tagArray);
     })();
   }, []);
@@ -86,11 +86,9 @@ const TeamDetail: React.FC = () => {
               <IonLabel>Looking for: </IonLabel>
               <div className="tag">
                 {tag.map((item) => {
-                  return (
-                    <span>{item}</span>
-                  )
-                })
-                }</div>
+                  return <span key={item}>{item}</span>;
+                })}
+              </div>
               <div className="event">
                 <IonImg
                   src={
@@ -112,23 +110,24 @@ const TeamDetail: React.FC = () => {
         <IonButton>Join Team</IonButton>
 
         <IonList>
-          {
-            teamMember.map((item) => {
-              return (
-                <div className="event" key={item.id}>
-                  <IonImg src={
-                      item?.profilepic != null
-                        ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
-                        : "StartieLogo.png"
-                    } style={{ width: "10%" }} />
-                  <div className="eventinfo">
-                    <IonLabel>{item.username}</IonLabel>
-                    <IonLabel>{item.description}</IonLabel>
-                  </div>
+          {teamMember.map((item) => {
+            return (
+              <div className="event" key={item.id}>
+                <IonImg
+                  src={
+                    item?.profilepic != null
+                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                      : "StartieLogo.png"
+                  }
+                  style={{ width: "10%" }}
+                />
+                <div className="eventinfo">
+                  <IonLabel>{item.username}</IonLabel>
+                  <IonLabel>{item.description}</IonLabel>
                 </div>
-              )
-            })
-          }
+              </div>
+            );
+          })}
         </IonList>
       </IonContent>
     </IonPage>
