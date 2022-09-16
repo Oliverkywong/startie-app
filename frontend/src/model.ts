@@ -10,6 +10,7 @@ export interface Team {
   name: string;
   description: string;
   profilepic: string;
+  tags: string[];
 }
 
 export interface Event {

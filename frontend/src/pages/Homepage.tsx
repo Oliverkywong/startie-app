@@ -63,6 +63,7 @@ const Homepage: React.FC = () => {
     (state: RootState) => state.userInfo.userinfo
   );
   const [data, setData] = useState<Team[]>([]);
+  const [tag, setTag] = useState<string[]>([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
   const dispatch = useAppDispatch();
@@ -103,6 +104,19 @@ const Homepage: React.FC = () => {
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`);
       const result = await res.json();
       setData(result);
+
+      for (let i = 0; i < result.length; i++) {
+        const tagres = await fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/team/${result[i].id}`
+        );
+
+        const item = await tagres.json();
+        const tagArray: string[] = [];
+        for (let i = 0; i < item.teamTag.length; i++) {
+          tagArray.push(item.teamTag[i].name);
+        }
+        setTag(tagArray);
+      }
     })();
   }, []);
 
@@ -229,8 +243,9 @@ const Homepage: React.FC = () => {
                         {item.description}
                       </IonCardContent>
                       <div className="tag">
-                        <span>View</span>
-                        <span>View</span>
+                        {item.tags.map((tag) => {
+                          return <span key={tag}>{tag}</span>;
+                        })}
                       </div>
                     </IonCard>
                   </div>

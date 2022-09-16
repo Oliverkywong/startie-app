@@ -22,18 +22,11 @@ import {
   IonBackButton,
 } from "@ionic/react";
 
+import { Team } from "../model";
 import "./css/Common.css";
 import "./css/Team.css";
 
-interface Team {
-  id: number;
-  name: string;
-  description: string;
-  profilepic: string;
-  tags: string[];
-}
-
-const Team: React.FC = () => {
+const TeamList: React.FC = () => {
   const [data, setData] = useState<Team[]>([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
@@ -104,11 +97,8 @@ const Team: React.FC = () => {
                         </p>
                         <div className="tag">
                           {item.tags.map((tag) => {
-                            return (
-                              <span key={tag}>{tag}</span>
-                            );
-                          })
-                          }
+                            return <span key={tag}>{tag}</span>;
+                          })}
                         </div>
                       </IonCardContent>
                     </IonCard>
@@ -132,4 +122,4 @@ const Team: React.FC = () => {
     </IonPage>
   );
 };
-export default Team;
+export default TeamList;

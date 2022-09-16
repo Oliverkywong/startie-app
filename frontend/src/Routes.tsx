@@ -21,7 +21,7 @@ import Login from "./pages/Login";
 import NotFoundPage from "./pages/NotFoundPage";
 import Profile from "./pages/Profile";
 import SignUp from "./pages/SignUp";
-import Team from "./pages/Team";
+import TeamList from "./pages/TeamList";
 import Event from "./pages/Event";
 import UserSettings from "./pages/UserSettings";
 import BuildTeam from "./pages/BuildTeam";
@@ -39,7 +39,6 @@ import SocialLogin from "./pages/SocialLogin";
 export default function Routes() {
   return (
     <IonRouterOutlet>
-      
       <Route path="/" component={Login} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={SignUp} />
@@ -55,7 +54,7 @@ export default function Routes() {
 
             <Route exact path="/tab/home" component={Homepage} />
 
-            <Route exact path="/tab/team" component={Team} />
+            <Route exact path="/tab/team" component={TeamList} />
             <Route exact path="/tab/buildteam" component={BuildTeam} />
             <Route exact path="/tab/team/:id" component={TeamDetail} />
 
