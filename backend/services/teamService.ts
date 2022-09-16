@@ -99,7 +99,7 @@ export class TeamService {
   async teamTag() {
     // return await this.knex("team_tag").select("*");
     const teamTags = await this.knex.raw(
-      `select team_id, array_agg(tag.name) as tags from (team_tag inner join team t on t.id= team_tag.team_id) inner join tag on tag.id=team_tag.tag_id group by team_id,t.name`
+      `select team_id as id, array_agg(tag.name) as tags from (team_tag inner join team t on t.id= team_tag.team_id) inner join tag on tag.id=team_tag.tag_id group by team_id,t.name`
     );
     return teamTags.rows;
   }
