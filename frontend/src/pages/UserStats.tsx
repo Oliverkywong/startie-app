@@ -62,7 +62,7 @@ export default function UserStats() {
     <IonContent>
       {sectorName.map((sectorName, index) => {
         return (
-          <div className="char">
+          <div className="char" key={sectorName}>
             <IonInfiniteScroll>
               <div className="charDetail">
                 <Radar

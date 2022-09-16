@@ -129,7 +129,7 @@ export class UserController {
         .sign(ecPrivateKey);
 
       logger.info(`${username} logged in`);
-      return res.json({
+      return res.status(200).json({
         result: true,
         msg: "login success",
         user: user[0],
@@ -159,7 +159,7 @@ export class UserController {
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
-  // get self userInfo
+  // get one userInfo
   // -------------------------------------------------------------------------------------------------------------------
   userInfo = async (req: express.Request, res: express.Response) => {
     try {
@@ -175,10 +175,10 @@ export class UserController {
       return res.json({ result: false, msg: "Get user profile fail" });
     }
   };
-  // -------------------------------------------------------------------------------------------------------------------
-  // get self userInfo
-  // -------------------------------------------------------------------------------------------------------------------
-  getAlluser = async (req: express.Request, res: express.Response) => {
+// -------------------------------------------------------------------------------------------------------------------
+// get all userInfo
+// -------------------------------------------------------------------------------------------------------------------
+  getAllUser = async (req: express.Request, res: express.Response) => {
     try {
       const allUserInfo = await this.userService.getAllUser();
       res.set("x-total-count", String(allUserInfo.length));
@@ -194,29 +194,30 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
 
   editUser = async (req: express.Request, res: express.Response) => {
+ 
     form.parse(req, async (err, fields, files) => {
       try {
-        //Reminder to create the auth and give the isAdmin = true if the userId is an admin
+        
 
-        const userId =
-          req.user?.userId != undefined
-            ? Number(req.user.userId)
-            : parseInt(req.params.id); // get userId from JWT
-        // console.log(userId);
+        const userId = req.user?.userId !=undefined? Number(req.user.userId) : parseInt(req.params.id); // get userId from JWT
+        console.log("edit User id", userId);
+        
 
         const userInfos = await this.userService.userInfo(userId);
         let oldProfilepic = userInfos[0].profilepic;
         let oldPhoneNumber = userInfos[0].phonenumber;
         let oldDescription = userInfos[0].description;
-        // console.log(userInfos);
+        console.log("Old user Info", userInfos);
+
+        const newStatusId = req.body.status_id != null? req.body.status_id : 1;
 
         // if (isAdmin) {
-        //   const oldStatusId = userInfos[0].status_id;
+          // const oldStatusId = userInfos[0].status_id;
 
-        //   const newStatusId =
-        //   fields.status_id != null && !Array.isArray(fields.status_id)
-        //     ? fields.status_id.trim()
-        //     : oldStatusId;
+          // const newStatusId =
+          // fields.status_id != null && !Array.isArray(fields.status_id)
+          //   ? parseInt(fields.status_id.trim())
+          //   : oldStatusId;
         // }
 
         const newProfilepic: any =
@@ -237,10 +238,13 @@ export class UserController {
         const userInfo = await this.userService.editUser(
           userId,
           newProfilepic,
-          // newStatusId,
+          newStatusId,
           newPhoneNumber,
           newDescription
         );
+
+        console.log("New userInfo", userInfo);
+        
         return res.json({
           result: true,
           msg: "Edit user profile success",
@@ -255,6 +259,10 @@ export class UserController {
       }
     });
   };
+
+// -------------------------------------------------------------------------------------------------------------------
+// get all user
+// -------------------------------------------------------------------------------------------------------------------
 
   getAllUsers = async (req: express.Request, res: express.Response) => {
     try {

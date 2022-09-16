@@ -59,7 +59,8 @@ export class EventService {
     description: string,
     maxteammember: number,
     profilepic: string,
-    starttime: Date
+    starttime: Date,
+    newStatusId: number
   ) {
     if (
       eventName !== null ||
@@ -76,6 +77,7 @@ export class EventService {
             maxteammember: maxteammember,
             profilepic: profilepic,
             starttime: starttime,
+            status_id: newStatusId
           })
           .where("id", eventId)
           .returning("*");

@@ -207,9 +207,9 @@ const Homepage: React.FC = () => {
           <div className="teamList">
             {data.map((item) => {
               return (
-                <IonCol>
+                <IonCol key={item.id}>
                   <IonItem routerLink={`/tab/team/${item.id}`}>
-                    <IonCard key={item.id} className="card">
+                    <IonCard className="card">
                       <IonImg
                         src={
                           item?.profilepic != null

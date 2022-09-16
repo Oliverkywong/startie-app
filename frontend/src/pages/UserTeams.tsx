@@ -5,9 +5,9 @@ import { Team } from "../model";
 export default function UserTeams(props: { team: Team[] }) {
   return (
     <div style={{ color: "#000" }}>
-      {props.team.map((team): any => {
+      {props.team.map((team) => {
         return (
-          <IonItem>
+          <IonItem key={team.id}>
             <IonLabel>{team.name}</IonLabel>
             <IonLabel>{team.description}</IonLabel>
             <IonImg src={team.profilepic}></IonImg>

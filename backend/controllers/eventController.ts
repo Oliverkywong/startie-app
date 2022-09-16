@@ -10,10 +10,10 @@ export class EventController {
   // -------------------------------------------------------------------------------------------------------------------
   createEvent = async (req: Request, res: Response) => {
     try {
-      const { eventName, description, maxteammember, profilepic, starttime } =
+      const { name, description, maxteammember, profilepic, starttime } =
         req.body;
       const event = await this.eventService.createEvent(
-        eventName,
+        name,
         description,
         maxteammember,
         profilepic,
@@ -32,6 +32,7 @@ export class EventController {
   getAllEvents = async (req: Request, res: Response) => {
     try {
       const event = await this.eventService.getAllEvents();
+      res.set("x-total-count", String(event.length));
       res.status(200).json(event);
     } catch (err) {
       logger.error(err);
@@ -44,9 +45,10 @@ export class EventController {
 
   getEvent = async (req: Request, res: Response) => {
     try {
-      const { id } = req.params;
+      const id = req.params.id;
       const event = await this.eventService.getEvent(id);
-      res.status(200).json(event);
+      res.status(200).json(event[0]); //加咗[0] for react admin
+
     } catch (err) {
       logger.error(err);
       res.status(500).json({ message: "Internal server error" });
@@ -58,15 +60,20 @@ export class EventController {
   updateEvent = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const { eventName, description, maxteammember, profilepic, starttime } =
+      const { name, description, maxteammember, profilepic, starttime } =
         req.body;
+
+      const newStatusId = req.body.status_id != null? req.body.status_id : 1;
+
+
       const event = await this.eventService.updateEvent(
         parseInt(id),
-        eventName,
+        name,
         description,
         maxteammember,
         profilepic,
-        starttime
+        starttime,
+        newStatusId
       );
       res.status(200).json(event);
     } catch (err) {
