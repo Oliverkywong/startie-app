@@ -1,4 +1,4 @@
-import { IonImg, IonItem, IonLabel, IonTitle } from "@ionic/react";
+import { IonContent, IonImg, IonItem, IonLabel, IonTitle } from "@ionic/react";
 import React from "react";
 import { Team } from "../model";
 
@@ -7,23 +7,31 @@ import "./css/UserTeam.css";
 
 export default function UserTeams(props: { team: Team[] }) {
   return (
-    <div style={{ color: "#000" }}>
-      {props.team.map((team) => {
-        return (
-          <IonItem className="userTeam" key={team.id}>
-            <div>
-              <IonImg src={team.profilepic}></IonImg>
-            </div>
-            <div>
-              <IonTitle>{team.name}</IonTitle>
-            </div>
+    <IonContent>
+      <div style={{ color: "#000" }}>
+        {props.team.map((team) => {
+          return (
+            <div className="userTeam" key={team.id}>
+              <div className="userTeam" key={team.id}>
+                <IonImg
+                  src={
+                    team?.profilepic != null
+                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${team.profilepic}`
+                      : "https://www.w3schools.com/howto/img_avatar.png"
+                  }
+                ></IonImg>
+              </div>
+              <div>
+                <IonTitle>{team.name}</IonTitle>
+              </div>
 
-            <div>
-              <IonLabel>{team.description}</IonLabel>
+              <div>
+                <IonLabel>{team.description}</IonLabel>
+              </div>
             </div>
-          </IonItem>
-        );
-      })}
-    </div>
+          );
+        })}
+      </div>
+    </IonContent>
   );
 }
