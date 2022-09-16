@@ -47,7 +47,7 @@ const TeamDetail: React.FC = () => {
         `${process.env.REACT_APP_BACKEND_URL}/team/${match?.params.id}`
       );
       const item = await res.json();
-      console.log(item.teamMember);
+
       setData(item.team);
       setTeamMember(item.teamMember);
 
@@ -55,7 +55,7 @@ const TeamDetail: React.FC = () => {
       for (let i = 0; i < item.teamTag.length; i++) {
         tagArray.push(item.teamTag[i].name);
       }
-      console.log(tagArray);
+
       setTag(tagArray);
     })();
   }, []);
