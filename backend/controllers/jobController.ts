@@ -1,5 +1,6 @@
 import { JobService } from "../services/jobService";
 import { Request, Response } from "express";
+import { logger } from "../utils/logger";
 
 export class JobController {
   constructor(private jobService: JobService) {}
@@ -10,7 +11,7 @@ export class JobController {
       const job = await this.jobService.createJob(jobName, description);
       res.status(200).json(job);
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   };
@@ -21,7 +22,7 @@ export class JobController {
       const job = await this.jobService.getJob(jobName);
       res.json(job);
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   };
@@ -31,7 +32,7 @@ export class JobController {
       const job = await this.jobService.getAllJobs();
       res.json(job);
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   };
@@ -47,7 +48,7 @@ export class JobController {
       );
       res.json(job);
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   };
@@ -58,7 +59,7 @@ export class JobController {
       const job = await this.jobService.deleteJob(parseInt(jobId));
       res.json(`Job: ${job} has been deleted`);
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   };

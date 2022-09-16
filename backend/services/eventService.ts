@@ -1,4 +1,5 @@
 import { Knex } from "knex";
+import { logger } from "../utils/logger";
 import { Event } from "../utils/model";
 
 export class EventService {
@@ -29,7 +30,7 @@ export class EventService {
 
       return eventInfo;
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       throw err;
     }
   }
@@ -83,7 +84,7 @@ export class EventService {
 
         return eventInfo;
       } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw err;
       }
     } else {

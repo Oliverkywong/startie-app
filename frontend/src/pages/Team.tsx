@@ -18,9 +18,11 @@ import {
   useIonRouter,
   IonItem,
   IonToolbar,
+  IonTitle,
+  IonBackButton,
 } from "@ionic/react";
 
-import team1 from "../img/team1.png";
+import "./css/Common.css";
 import "./css/Team.css";
 
 interface Team {
@@ -66,6 +68,12 @@ const Team: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/tab/home" />
+          </IonButtons>
+          <IonTitle className="title">Team List</IonTitle>
+        </IonToolbar>
+        <IonToolbar>
           <IonSearchbar
             placeholder="Search"
             onClick={() => {
@@ -82,7 +90,14 @@ const Team: React.FC = () => {
                 <IonCol size="6">
                   <IonItem routerLink={`/tab/team/${item.id}`}>
                     <IonCard key={item.id} className="card">
-                      <IonImg src={item.profilepic} style={{ width: "100%" }} />
+                      <IonImg
+                        src={
+                          item?.profilepic != null
+                            ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                            : "https://www.w3schools.com/howto/img_avatar.png"
+                        }
+                        style={{ width: "100%" }}
+                      />
                       <IonCardContent
                         className="content"
                         style={{ fontSize: "10px" }}

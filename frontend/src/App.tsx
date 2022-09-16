@@ -1,4 +1,4 @@
-import { IonApp, setupIonicReact } from '@ionic/react';
+import { IonApp, IonNav, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 
 /* Core CSS required for Ionic components to work properly */
@@ -21,6 +21,7 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 
 import Routes from './Routes';
+import SocialLogin from './pages/SocialLogin';
 
 setupIonicReact();
 
@@ -28,7 +29,9 @@ const App: React.FC = () => {
   return (
     <IonApp>
       <IonReactRouter>
-        <Routes />
+        {Routes()}
+        {/* <Routes /> */}
+        {/* <IonNav root={() => <SocialLogin />} /> */}
       </IonReactRouter>
     </IonApp>
   )

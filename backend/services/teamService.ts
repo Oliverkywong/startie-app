@@ -1,4 +1,5 @@
 import { Knex } from "knex";
+import { logger } from "../utils/logger";
 import { Team } from "../utils/model";
 
 export class TeamService {
@@ -19,7 +20,7 @@ export class TeamService {
 
       return teaminfo;
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       throw err;
     }
   }
@@ -38,9 +39,9 @@ export class TeamService {
   }
 
   async getTeam(id: string) {
-    return await this.knex<Team>("team")
-      .select("*")
-      .where("id", id)
+    const team = await this.knex<Team>("team").select("*").where("id", id);
+    const teamTag = await this.knex.raw(`select * from team_tag join tag on tag.id=tag_id where team_id = ?`, [id]);
+    return { team: team, teamTag: teamTag.rows };
   }
 // -------------------------------------------------------------------------------------------------------------------
 // edit team
@@ -64,7 +65,7 @@ export class TeamService {
 
         return teamInfo;
       } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw err;
       }
     } else {

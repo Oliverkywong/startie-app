@@ -1,4 +1,5 @@
 import { Knex } from "knex";
+import { logger } from "../utils/logger";
 import { Job } from "../utils/model";
 
 export class JobService {
@@ -17,7 +18,7 @@ export class JobService {
 
       return jobInfo;
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       throw err;
     }
   }
@@ -45,7 +46,7 @@ export class JobService {
 
         return jobInfo;
       } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw err;
       }
     } else {
