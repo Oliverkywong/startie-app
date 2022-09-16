@@ -140,7 +140,7 @@ const Profile: React.FC = () => {
                 onClick={() => {
                   setInfo(false);
                   setStat(false);
-                  setTeam(false);
+                  setTeam(true);
                   setSetting(false);
                 }}
               >
