@@ -16,24 +16,10 @@ import {
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { useRouteMatch } from "react-router";
-import icon from "../img/tonystarkicon.png";
-
-interface TeamDetail {
-  id: number;
-  name: string;
-  description: string;
-  profilepic: string;
-}
-
-interface TeamMember {
-  id: number;
-  username: string;
-  profilepic: string;
-  description: string;
-}
+import { TeamData, TeamMember } from "../model";
 
 const TeamDetail: React.FC = () => {
-  const [data, setData] = useState<TeamDetail[]>([]);
+  const [data, setData] = useState<TeamData[]>([]);
   const [tag, setTag] = useState<string[]>([]);
   const [teamMember, setTeamMember] = useState<TeamMember[]>([]);
 

@@ -20,15 +20,11 @@ import { useForm } from "react-hook-form";
 import "./css/Common.css";
 import "./css/BuildTeam.css";
 import team1 from "../img/team1.png";
+import { Tag } from "../model";
 
 const BuildTeam: React.FC = () => {
-  interface tag {
-    id: number;
-    name: string;
-  }
-
   const router = useIonRouter();
-  const [teamTag, setTeamTag] = useState<tag[]>([]);
+  const [teamcategory, setTeamcategory] = useState<Tag[]>([]);
 
   useEffect(() => {
     (async function () {
@@ -38,9 +34,8 @@ const BuildTeam: React.FC = () => {
           Authorization: `Bearer ${localtoken}`,
         },
       });
-      const category = await res.json();
-      setTeamTag(category);
-      console.log(category);
+      const teamcategory = await res.json();
+      setTeamcategory(teamcategory);
     })();
   }, []);
 
@@ -78,7 +73,7 @@ const BuildTeam: React.FC = () => {
             formData.append("teamName", data.teamName);
             formData.append("teamDescription", data.teamDescription);
             formData.append("teamImage", data.teamImage[0]);
-            formData.append("teamTag", data.teamTag);
+            formData.append("teamcategory", data.teamcategory);
 
             // await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`, {
             //   method: "POST",
@@ -103,13 +98,13 @@ const BuildTeam: React.FC = () => {
 
           <IonItem className="formDropdownSelect">
             <IonSelect placeholder="Dropdown">
-              {teamTag.map((tag) => (
+              {teamcategory.map((item) => (
                 <IonSelectOption
-                  key={tag.id}
-                  {...register("teamTag", { required: true })}
-                  value={`${tag.name}`}
+                  key={item.id}
+                  {...register("teamcategory", { required: true })}
+                  value={`${item.name}`}
                 >
-                  {tag.name}
+                  {item.name}
                 </IonSelectOption>
               ))}
             </IonSelect>
@@ -125,7 +120,7 @@ const BuildTeam: React.FC = () => {
             placeholder="Type here..."
           />
           <IonImg src={state} />
-          <IonLabel className="formTitle">Team icon/image:</IonLabel>
+          <IonLabel className="formTitle">Team icon/image: </IonLabel>
           <input type="file" {...register("teamImage")} onChange={imghandle} />
           <input className="formSubmitButton" type="submit" />
         </form>

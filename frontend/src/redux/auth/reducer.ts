@@ -1,4 +1,4 @@
-import { UserInfo } from "../../module";
+import { UserInfo } from "../../model";
 import { AuthActions } from "./action";
 
 export interface AuthState{
