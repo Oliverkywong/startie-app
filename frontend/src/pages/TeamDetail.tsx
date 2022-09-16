@@ -55,6 +55,7 @@ const TeamDetail: React.FC = () => {
       for (let i = 0; i < item.teamTag.length; i++) {
         tagArray.push(item.teamTag[i].name);
       }
+      console.log(tagArray);
       setTag(tagArray);
     })();
   }, []);
@@ -91,11 +92,14 @@ const TeamDetail: React.FC = () => {
                 })
                 }</div>
               <div className="event">
-                <IonImg src={
-                  item?.profilepic != null
-                    ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
-                    : "StartieLogo.png"
-                } style={{ width: "10%" }} />
+                <IonImg
+                  src={
+                    item?.profilepic != null
+                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                      : "StartieLogo.png"
+                  }
+                  style={{ width: "10%" }}
+                />
                 <div className="eventinfo">
                   <IonLabel className="eventDescription">
                     {item.description}

@@ -47,9 +47,9 @@ export class UserStatusError extends Error {
 export class UserService {
   constructor(private knex: Knex) {}
 
-  // -------------------------------------------------------------------------------------------------------------------
-  // Register ✅
-  // -------------------------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------------
+// Register ✅
+// -------------------------------------------------------------------------------------------------------------------
 
   async register(
     username: string,
@@ -197,7 +197,7 @@ export class UserService {
   async editUser(
     userId: number,
     newProfilepic: string,
-    // newStatusId?: number,
+    newStatusId: number,
     newPhoneNumber: string,
     newDescription: string
   ) {
@@ -205,7 +205,7 @@ export class UserService {
       .update({
         profilepic: newProfilepic,
         phonenumber: newPhoneNumber,
-        // status_id: newStatusId,
+        status_id: newStatusId,
         description: newDescription,
       })
       .where("id", userId)

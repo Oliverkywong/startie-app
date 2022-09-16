@@ -38,8 +38,8 @@ const EventDetail: React.FC = () => {
         `${process.env.REACT_APP_BACKEND_URL}/event/${match?.params.id}`
       );
       const item = await res.json();
-      console.log(item);
-      setData(item);
+      // console.log(item);
+      setData([item]);
     })();
   }, []);
 
@@ -77,11 +77,14 @@ const EventDetail: React.FC = () => {
               </IonItem>
               <IonCardContent className="eventName">{item.name}</IonCardContent>
               <div className="event">
-                <IonImg src={
-                        item?.profilepic != null
-                          ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
-                          : "StartieLogo.png"
-                      } style={{ width: "10%" }} />
+                <IonImg
+                  src={
+                    item?.profilepic != null
+                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                      : "StartieLogo.png"
+                  }
+                  style={{ width: "10%" }}
+                />
                 <div className="eventinfo">
                   <IonLabel className="eventDescription">
                     {item.description}
