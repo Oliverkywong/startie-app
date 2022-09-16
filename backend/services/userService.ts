@@ -89,62 +89,6 @@ export class UserService {
 
     return true;
   }
-
-  // -------------------------------------------------------------------------------------------------------------------
-  // Login Google
-  // -------------------------------------------------------------------------------------------------------------------
-  // async loginGoogle(accessToken: string) {
-  // 	const fetchRes = await fetch(
-  // 		'https://www.googleapis.com/oauth2/v2/userinfo',
-  // 		{
-  // 			method: 'get',
-  // 			headers: {
-  // 				Authorization: `Bearer ${accessToken}`
-  // 			}
-  // 		}
-  // 	)
-
-  // 	const result = await fetchRes.json()
-
-  // 	// const users = (
-  // 	// 	await this.knex.query(
-  // 	// 		`SELECT * FROM users WHERE users.username = $1`,
-  // 	// 		[result.email]
-  // 	// 	)
-  // 	// ).rows
-
-  // 	let users = this.knex<User>('user')
-  // 		.select('*')
-  // 		.where('username', result.email)
-
-  // 	users = await // `SELECT * FROM users WHERE users.username = $1`,
-  // 	// [result.email]
-
-  // 	this.knex<User>('user').select('*').where('username', result.email)[0]
-  // 		.rows
-
-  // 	let user = users[0]
-
-  // 	let username = result.name || result.email
-
-  // 	if (!user) {
-  // 		return user
-  // 	} else {
-  // 		const userRecord = await this.knex<User>('user')
-
-  // 			.insert({
-  // 				username,
-  // 				password: await hashPassword(result.email),
-  // 				email: result.email,
-  // 				role_id: 1,
-  // 				status_id: 1
-  // 			})
-  // 			.returning('*')
-  // 		// `INSERT INTO users (username,password,created_at,updated_at) VALUES ($1,$2,NOW(),NOW()) RETURNING *`,
-  // 		// 			[username, await hashPassword(username)]
-  // 		return userRecord
-  // 	}
-  // }
   // -------------------------------------------------------------------------------------------------------------------
   // Login ✅
   // -------------------------------------------------------------------------------------------------------------------
@@ -213,39 +157,6 @@ export class UserService {
 
     return userRecord;
   }
-
-  // --------------------------------------------------------------------------------------------------------------------------------
-  //get all users
-  // --------------------------------------------------------------------------------------------------------------------------------
-  async getAllUsers() {
-    return await this.knex("user").select("*");
-  }
-
-  // async appleLogin(username: string, email: string) {
-  // 	const userEmailRecord = await this.knex<User>('user')
-  // 		.select('*')
-  // 		.where('email', email)
-
-  // 	const userRecord = await this.knex<User>('user')
-  // 		.select('*')
-  // 		.where('username', username)
-
-  // 	if (userRecord.length > 0) {
-  // 		throw new UserDuplicateUsernameError()
-  // 	}
-
-  // 	if (userEmailRecord.length > 0) {
-  // 		throw new UserDuplicateEmailError()
-  // 	}
-  // 	await this.knex<User>('user').insert({
-  // 		username: username,
-  // 		password: 'apple',
-  // 		email: email,
-  // 		status_id: 1
-  // 	})
-
-  // 	return true
-  // }
 
   // -------------------------------------------------------------------------------------------------------------------
   // check team

@@ -1,10 +1,5 @@
-import { UserInfo, Team } from "../../model";
+import { userInfoState } from "../../model";
 import { UserActions } from "./action";
-
-export interface userInfoState {
-  userinfo: UserInfo;
-  team: Team[];
-}
 
 const initialState: userInfoState = {
   userinfo: {
