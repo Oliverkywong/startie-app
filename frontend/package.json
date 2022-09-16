@@ -45,6 +45,7 @@
     "firebase": "^9.9.4",
     "formidable": "^2.0.1",
     "gen-env": "^1.0.1",
+    "google-auth-library": "^8.5.1",
     "ionic": "^5.4.16",
     "ionicons": "^5.4.0",
     "jwt-decode": "^3.1.2",

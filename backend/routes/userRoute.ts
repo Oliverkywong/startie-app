@@ -7,11 +7,11 @@ export function userRoutes(userController: UserController) {
 
 	userRoutes.get('/login/google', userController.loginGoogle)
 	userRoutes.post('/login/apple', userController.loginApple)
-	userRoutes.post('/register', userController.register)
+	userRoutes.post('/user', userController.register)
 	userRoutes.post('/login', userController.login)
 	userRoutes.get('/user/:id', userController.userInfo)  //need to add isLogin
-	userRoutes.get('/user', userController.getAlluser)
-	userRoutes.put('/editUser', userController.editUser) //need to add isLogin
+	userRoutes.get('/user', userController.getAllUser)
+	userRoutes.put('/user/:id', userController.editUser) //need to add isLogin
 	// userRoutes.post('/logout', userController.logout)
 
 	return userRoutes;
