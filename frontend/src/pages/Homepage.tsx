@@ -234,6 +234,7 @@ const Homepage: React.FC = () => {
                       <IonCardContent className="teamContent">
                         {item.description}
                       </IonCardContent>
+
                       <div className="tag">
                         {item.tags.map((tag) => {
                           return <span key={tag}>{tag}</span>;
