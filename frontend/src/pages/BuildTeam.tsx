@@ -105,6 +105,7 @@ const BuildTeam: React.FC = () => {
             <IonSelect placeholder="Dropdown">
               {teamTag.map((tag) => (
                 <IonSelectOption
+                  key={tag.id}
                   {...register("teamTag", { required: true })}
                   value={`${tag.name}`}
                 >
