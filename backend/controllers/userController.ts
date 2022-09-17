@@ -133,7 +133,7 @@ export class UserController {
       req.session['username'] = user[0].username
       req.session['userId'] = user[0].id
 
-      console.log(req.session);
+      console.log("login",req.session);
       
       
       logger.info(`${username} logged in`);
