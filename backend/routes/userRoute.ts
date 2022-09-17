@@ -11,10 +11,10 @@ export function userRoutes(userController: UserController) {
   userRoutes.post("/register", userController.register);
   userRoutes.post("/login", userController.login);
   userRoutes.get("/user/:id", userController.userInfo); //need to add isLogin
-  userRoutes.get("/user/me", userController.userInfo);
   userRoutes.get("/user", userController.getAllUser);
   userRoutes.put("/editUser", userController.editUser); //need to add isLogin
   userRoutes.get("/user/me/team", isLogin, userController.checkTeam);
+  userRoutes.get("/user/me/note", isLogin, userController.getNotification);
 
   return userRoutes;
 }

@@ -27,6 +27,7 @@ const Login: React.FC = () => {
   const { register, handleSubmit } = useForm();
   const [passwordShown, setPasswordShown] = useState(false);
   const dispatch = useDispatch();
+  // const router = useIonRouter();
 
   return (
     <IonPage className="background">
