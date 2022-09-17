@@ -199,14 +199,41 @@ export class UserService {
   }
 
   // -------------------------------------------------------------------------------------------------------------------
+  // user join team
+  // -------------------------------------------------------------------------------------------------------------------
+  async joinTeam(teamId: number, userId: number) {
+    return await this.knex("user_team")
+      .insert({
+        user_id: userId,
+        team_id: teamId,
+        isboard: false,
+        iswaiting: false,
+        isfollow: false,
+        applytime: new Date(),
+      })
+      .returning("*");
+  }
+
+  // -------------------------------------------------------------------------------------------------------------------
   // quit team
   // -------------------------------------------------------------------------------------------------------------------
   async quitTeam(userId: number, teamId: number) {
-    const userRecord = await this.knex<User>("user_team")
+    return await this.knex<User>("user_team")
       .where("user_id", userId)
       .andWhere("team_id", teamId)
       .del();
+  }
 
-    return userRecord;
+  // -------------------------------------------------------------------------------------------------------------------
+  // user join event
+  // -------------------------------------------------------------------------------------------------------------------
+  async joinEvent(userId: number, eventId: number) {
+    return await this.knex("user_event")
+      .insert({
+        user_id: userId,
+        event_id: eventId,
+        isfollow: false,
+      })
+      .returning("*");
   }
 }
