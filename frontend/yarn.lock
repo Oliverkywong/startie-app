@@ -8299,6 +8299,11 @@ one-time@^1.0.0:
   dependencies:
     fn.name "1.x.x"
 
+onesignal-cordova-plugin@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/onesignal-cordova-plugin/-/onesignal-cordova-plugin-3.1.1.tgz#5f3043125407a8f6d10ed4b4953d309d0af9e203"
+  integrity sha512-oKaKa+QhJ0OAnuiimXMLuhSxPRAOyABhpnpqFI1OW39Vdr0piEvvLv9hW1LegSIjpwffK7SeIdoOxXvJyMRnyw==
+
 onetime@^2.0.0:
   version "2.0.1"
   resolved "https://registry.npmjs.org/onetime/-/onetime-2.0.1.tgz"

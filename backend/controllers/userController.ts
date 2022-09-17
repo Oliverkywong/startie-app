@@ -180,7 +180,16 @@ export class UserController {
 // -------------------------------------------------------------------------------------------------------------------
   getAllUser = async (req: express.Request, res: express.Response) => {
     try {
-      const allUserInfo = await this.userService.getAllUser();
+
+      // const query = req.query.q as string;
+      const name = req.query.name as string != undefined ? req.query.name as string : req.query.q as string;
+      const email = req.query.email as string;
+      const status = req.query.status as string;
+      const phonenumber = parseInt(String(req.query.phonenumber)) as number;
+
+      let  allUserInfo = await this.userService.getAllUser(name, email, status, phonenumber)
+      
+      
       res.set("x-total-count", String(allUserInfo.length));
       res.status(200).json(allUserInfo);
     } catch (err) {
