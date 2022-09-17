@@ -22,7 +22,7 @@ export class EventController {
       res.status(200).json(event);
     } catch (err) {
       logger.error(err);
-      res.status(500).json({ message: "Internal server error" });
+      res.status(500).json({ result: false, msg: "creatEvent fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ export class EventController {
       res.status(200).json(event);
     } catch (err) {
       logger.error(err);
-      res.status(500).json({ message: "Internal server error" });
+      res.status(500).json({ result: false, msg: "getAllEvents fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ export class EventController {
       res.status(200).json(event[0]); //加咗[0] for react admin
     } catch (err) {
       logger.error(err);
-      res.status(500).json({ message: "Internal server error" });
+      res.status(500).json({ result: false, msg: "getEvent fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -76,7 +76,7 @@ export class EventController {
       res.status(200).json(event);
     } catch (err) {
       logger.error(err);
-      res.status(500).json({ message: "Internal server error" });
+      res.status(400).json({ result: false, msg: "updateEvent fail" });
     }
   };
 }
