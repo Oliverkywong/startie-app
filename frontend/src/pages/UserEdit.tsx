@@ -17,9 +17,11 @@ import {
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import icon from "../img/tonystarkicon.png";
+import { RootState, useAppSelector } from "../store";
 import "./css/Common.css";
 
 export default function UserEdit() {
+  const userdetails = useAppSelector((state: RootState) => state.auth.info);
   const router = useIonRouter();
   const { register, handleSubmit } = useForm();
 
@@ -35,6 +37,9 @@ export default function UserEdit() {
     reader.readAsDataURL(e.target.files[0]);
   };
 
+
+  console.log(userdetails);
+
   return (
     <IonPage>
       <IonHeader>
@@ -48,19 +53,21 @@ export default function UserEdit() {
       <IonContent>
         <form
           onSubmit={handleSubmit(async (data) => {
+            
             const formData = new FormData();
             formData.append("name", data.name);
             formData.append("Description", data.Description);
             formData.append("icon", data.icon[0]);
+            const localtoken = localStorage.getItem("token");
 
-            // await fetch(`${process.env.REACT_APP_BACKEND_URL}/useredit`, {
-            //   method: "PATCH",
-            //   headers: {
-            //     'Authorization': `Bearer ${localtoken}`
-            //   },
-            //   body: formData,
-            // })
-            // console.log(data);
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/${userdetails?.id}`, {
+              method: "PUT",
+              headers: {
+                'Authorization': `Bearer ${localtoken}`
+              },
+              body: formData,
+            })
+            console.log(data);
             router.push("/recommend");
           })}
         >

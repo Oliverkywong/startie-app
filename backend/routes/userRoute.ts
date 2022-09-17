@@ -10,11 +10,14 @@ export function userRoutes(userController: UserController) {
   userRoutes.post("/login/apple", userController.loginApple);
   userRoutes.post("/register", userController.register);
   userRoutes.post("/login", userController.login);
-  userRoutes.get("/user/:id", userController.userInfo); //need to add isLogin
+  userRoutes.get("/user/:id", isLogin, userController.userInfo); //need to add isLogin
   userRoutes.get("/user", userController.getAllUser);
-  userRoutes.put("/editUser", userController.editUser); //need to add isLogin
+  userRoutes.post("/logout", isLogin, userController.logout);
+  userRoutes.put("/user/:id", isLogin, userController.editUser); //need to add isLogin
   userRoutes.get("/user/me/team", isLogin, userController.checkTeam);
   userRoutes.get("/user/me/note", isLogin, userController.getNotification);
-
+  userRoutes.put("/user/me/team/:id", isLogin, userController.joinTeam); //user join team
+  userRoutes.delete("/user/me/team/:id", isLogin, userController.quitTeam); //user quit team
+  userRoutes.put("/user/me/event/:id", isLogin, userController.joinEvent); //user join event
   return userRoutes;
 }

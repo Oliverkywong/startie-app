@@ -2,16 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { IonPage, IonHeader, IonContent, IonSearchbar, IonCard, IonCardContent, IonImg, IonInfiniteScroll, IonInfiniteScrollContent, IonGrid, IonCol, IonRow, useIonRouter, IonToolbar } from '@ionic/react'
 
 import './css/Team.css'
+import { UserInfo } from '../model'
 
-interface User {
-    id: number,
-    username: string,
-    description: string,
-    profilepic: string
-}
-
-const User: React.FC = () => {
-    const [data, setData] = useState<User[]>([]);
+const UserList: React.FC = () => {
+    const [data, setData] = useState<UserInfo[]>([]);
     const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
     const router = useIonRouter();
 
@@ -80,4 +74,4 @@ const User: React.FC = () => {
         </IonPage>
     )
 }
-export default User
+export default UserList

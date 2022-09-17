@@ -8,6 +8,8 @@ export interface User {
   phonenumber: string;
   description: string;
   clickrate: number;
+  team_id: number;
+  event_id: number;
 }
 
 export interface Team {

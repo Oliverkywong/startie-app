@@ -23,7 +23,7 @@ import { EventController } from "./controllers/eventController";
 import { teamRoutes } from "./routes/teamRoute";
 import { eventRoutes } from "./routes/eventRoute";
 import { jobRoutes } from "./routes/jobRoute";
-// import { isLogin } from './utils/middleware'
+import expressSession from 'express-session';
 
 // -------------------------------------------------------------------------------------------------------------------
 // Knex
@@ -40,6 +40,15 @@ const knex = Knex(knexConfig);
 // -------------------------------------------------------------------------------------------------------------------
 const app = express();
 const PORT = process.env.PORT || 8000;
+
+// session
+app.use(
+	expressSession({
+		secret: 'Extremely secret secret',
+		resave: true,
+		saveUninitialized: true
+	})
+)
 
 // const allowedOrigins = [
 //   'capacitor://localhost',

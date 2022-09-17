@@ -47,9 +47,9 @@ export class UserStatusError extends Error {
 export class UserService {
   constructor(private knex: Knex) {}
 
-// -------------------------------------------------------------------------------------------------------------------
-// Register ✅
-// -------------------------------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------------------------------
+  // Register ✅
+  // -------------------------------------------------------------------------------------------------------------------
 
   async register(
     username: string,
@@ -130,16 +130,9 @@ export class UserService {
   // -------------------------------------------------------------------------------------------------------------------
   // get all UserInfo
   // -------------------------------------------------------------------------------------------------------------------
-  async getAllUser(name?:string, email?:string, status?:string, phonenumber?:number) {
-    
-    // const userRecord = name !==undefined || email !==undefined || status !==undefined || phonenumber !==undefined? 
-    // await this.knex.raw(`select *, name as status from "user" u inner join status on status.id = u.status_id WHERE name LIKE '%${name}%' AND email LIKE '%${email}%' AND phonenumber LIKE '%${phonenumber}%' AND status LIKE '%${status}%'`)
-    // ("user")
-    // .join("status", "status_id", "status.id")
-    // .select("*")
-    // .where("username", "ilike", `%${query}%`) 
+  async getAllUser(name?:string, email?:string, status?:string, phonenumber?:number, show?: boolean) {
 
-    let query = this.knex<User>("user").select("*", "name as status").join("status", "status_id", "status.id");
+    let query = this.knex<User>("user").select("user.id", "username", "email", "phonenumber", "profilepic", "description", "clickrate", "created_at", "status_id as sid", "name as status").join("status", "status_id", "status.id");
 
     if (name) {
       query = query.where("username", "ilike", `%${name}%`);
@@ -153,7 +146,7 @@ export class UserService {
     if (phonenumber) {
       query = query.where("phonenumber", "ilike", `%${phonenumber}%`);
     }
-    const userRecord = await query;
+    const userRecord = show == false? await query.orderBy('id', 'asc') : await query.orderBy('id', 'asc').where('status_id', 1);
 
     return userRecord;
   }
@@ -190,6 +183,45 @@ export class UserService {
       .where("user_id", userId);
 
     return userRecord;
+  }
+
+  // -------------------------------------------------------------------------------------------------------------------
+  // user join team
+  // -------------------------------------------------------------------------------------------------------------------
+  async joinTeam(teamId: number, userId: number) {
+    return await this.knex("user_team")
+      .insert({
+        user_id: userId,
+        team_id: teamId,
+        isboard: false,
+        iswaiting: false,
+        isfollow: false,
+        applytime: new Date(),
+      })
+      .returning("*");
+  }
+
+  // -------------------------------------------------------------------------------------------------------------------
+  // quit team
+  // -------------------------------------------------------------------------------------------------------------------
+  async quitTeam(userId: number, teamId: number) {
+    return await this.knex<User>("user_team")
+      .where("user_id", userId)
+      .andWhere("team_id", teamId)
+      .del();
+  }
+
+  // -------------------------------------------------------------------------------------------------------------------
+  // user join event
+  // -------------------------------------------------------------------------------------------------------------------
+  async joinEvent(userId: number, eventId: number) {
+    return await this.knex("user_event")
+      .insert({
+        user_id: userId,
+        event_id: eventId,
+        isfollow: false,
+      })
+      .returning("*");
   }
   // -------------------------------------------------------------------------------------------------------------------
   //get notification
