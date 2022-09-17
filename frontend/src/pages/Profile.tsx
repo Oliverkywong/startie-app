@@ -34,11 +34,14 @@ import { loggedIn } from "../redux/auth/action";
 import { loadUserTeam } from "../redux/userInfo/action";
 
 const Profile: React.FC = () => {
-  const userdetails = useAppSelector((state: RootState) => state.auth.info);
+  const userdetails = useAppSelector(
+    (state: RootState) => state.userInfo.userinfo
+  );
   const userBelongsTeam = useAppSelector(
     (state: RootState) => state.userInfo.team
   );
   // console.log(userBelongsTeam);
+  console.log(userdetails);
 
   const [info, setInfo] = React.useState(true);
   const [stat, setStat] = React.useState(false);

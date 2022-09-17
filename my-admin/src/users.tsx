@@ -28,6 +28,7 @@ export const UserList = () => (
       <TextField source="username" />
       <EmailField source="email" />
       <TextField source="phonenumber" />
+      <TextField source="status" />
       <TextField source="name" />
       <TextField source="description" />
       <TextField source="created_at" />
@@ -51,16 +52,16 @@ export const UserEdit = (props:any) => (
       ]}
        />
       <TextInput multiline source="description" resettable />
-      {/* <FileInput
+      <FileInput
         source="profilepic"
         label="Related files"
         accept="image/*,.pdf"
       >
         <FileField source="src" title="title" />
-      </FileInput> */}
-      <ImageInput source="profilepic" label="Related pictures" accept="image/*">
+      </FileInput>
+      {/* <ImageInput source="profilepic" label="Related pictures" accept="image/*">
     <ImageField source="src" title="title" />
-</ImageInput>
+</ImageInput> */}
     </SimpleForm>
   </Edit>
 );

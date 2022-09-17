@@ -23,11 +23,15 @@ export const isLogin = async (
   next: express.NextFunction
 ) => {
   try {
-    const jwt = permit.check(req); //receive token from redux
+    const jwt = permit.check(req) != undefined? permit.check(req): req.session['jwt'] //receive token from redux
+    // console.log('redux:',permit.check(req));
 
+    // console.log("session:",req.session['jwt']);
+    
+    // console.log("jwt:", jwt);
+    
     const publicKey = await josePublicKey();
     const { payload } = await jose.jwtVerify(jwt, publicKey); //use the public key to verify the token
-
 
     if (payload["userId"]) {
       req.user = {
@@ -73,10 +77,11 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 export const form = formidable({
+
   uploadDir: uploadDir,
   keepExtensions: true,
   multiples: true,
-  maxFiles: 1,
+  maxFiles: 10,
   maxFileSize: 20 * 1024 * 1024 ** 2, // 20MB
   filter: (part) => part.mimetype?.startsWith("image/") || false,
 });
