@@ -16,11 +16,12 @@ import {
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import Cropper from 'react-easy-crop'
 
 import "./css/Common.css";
 import "./css/BuildTeam.css";
-import team1 from "../img/team1.png";
 import { Tag } from "../model";
+import getCroppedImg from "./cropImage";
 
 const BuildTeam: React.FC = () => {
   const router = useIonRouter();
@@ -41,7 +42,7 @@ const BuildTeam: React.FC = () => {
 
   const { register, handleSubmit } = useForm();
 
-  const [state, setState] = useState<any>(team1);
+  const [state, setState] = useState<any>(null);
 
   const imghandle = (e: any) => {
     const reader = new FileReader();
@@ -52,6 +53,27 @@ const BuildTeam: React.FC = () => {
     };
     reader.readAsDataURL(e.target.files[0]);
   };
+
+
+  // const [crop, setCrop] = useState({ x: 0, y: 0 })
+  // const [zoom, setZoom] = useState(1)
+  // const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
+  // const [croppedImage, setCroppedImage] = useState(null)
+
+  // const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+  //   console.log(croppedArea, croppedAreaPixels)
+  //   setCroppedAreaPixels(croppedAreaPixels)
+  // }, [])
+  // const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
+  //   setCroppedAreaPixels(croppedAreaPixels)
+  // }
+  // const onCrop = async() => {
+  //   const croppedImg = await getCroppedImg(state, croppedAreaPixels)
+  //   //@ts-ignore
+  //   setCroppedImage(croppedImg)
+  // }
+
+   
 
   return (
     <IonPage>
@@ -119,11 +141,24 @@ const BuildTeam: React.FC = () => {
             type="text"
             placeholder="Type here..."
           />
-          <IonImg src={state} />
+          {state && <IonImg src={state} />}
           <IonLabel className="formTitle">Team icon/image: </IonLabel>
           <input type="file" {...register("teamImage")} onChange={imghandle} />
           <input className="formSubmitButton" type="submit" />
         </form>
+
+        {/* {state ? <ImageCropDialog imageUrl={state}  /> : null} */}
+        {/* {state && <Cropper
+          image={state}
+          crop={crop}
+          zoom={zoom}
+          aspect={16 / 9}
+          onCropChange={setCrop}
+          onCropComplete={onCropComplete}
+          onZoomChange={setZoom}
+        />}
+        {state &&<button onClick={onCrop}>Crop</button>} */}
+        
       </IonContent>
     </IonPage>
   );

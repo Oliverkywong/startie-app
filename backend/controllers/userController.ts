@@ -133,7 +133,7 @@ export class UserController {
       req.session['username'] = user[0].username
       req.session['userId'] = user[0].id
 
-      console.log(req.session);
+      console.log("login",req.session);
       
       
       logger.info(`${username} logged in`);
@@ -436,4 +436,22 @@ export class UserController {
       res.status(400).json({ result: false, msg: "join event fail" });
     }
   };
+// -------------------------------------------------------------------------------------------------------------------
+// get notification
+// -------------------------------------------------------------------------------------------------------------------
+  getNotification = async (req: express.Request, res: express.Response) => {
+    try {
+      const userId =
+        req.user?.userId != undefined
+          ? Number(req.user.userId)
+          : parseInt(req.params.id);
+          console.log("userId", userId);
+      const notification = await this.userService.getNotification(userId);
+      return res.json(notification);
+    } catch (err) {
+      logger.error(err);
+      return res.json({ result: false, msg: "Get notification fail" });
+    }
+  }
+
 }
