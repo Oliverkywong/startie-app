@@ -42,7 +42,7 @@ import {
 
 export const TeamList = (props: any) => (
   
-  <List filters={teamFilters} {...props}>
+  <List {...props}>
     <Datagrid rowClick="edit">
       <TextField source="id" />
       <TextField source="name" />
@@ -82,8 +82,3 @@ const TeamTitle = ({ record}:any) => {
   // const record = useRecordContext();
   return <span>Team {record ? `"${record.title}"` : ""}</span>;
 };
-
-const teamFilters = [
-  <TextInput source="q" label="Search" alwaysOn />,
-  <ReferenceInput source="userId" label="Team" reference="team" />,
-];

@@ -25,7 +25,6 @@ import { Tag } from "../model";
 import cropimg from "../img/team11.jpeg";
 
 const BuildTeam: React.FC = () => {
-
   const router = useIonRouter();
   const [teamcategory, setTeamcategory] = useState<Tag[]>([]);
 
@@ -76,6 +75,7 @@ const BuildTeam: React.FC = () => {
       </IonHeader>
       <IonContent>
         <form
+          className="buildTeamForm"
           action="/team"
           method="post"
           onSubmit={handleSubmit(async (data) => {
@@ -96,19 +96,17 @@ const BuildTeam: React.FC = () => {
             router.push("/recommend");
           })}
         >
-          <br />
-
-          <IonLabel>Project Name :</IonLabel>
+          <IonLabel className="formTitle">Project Name</IonLabel>
           <IonInput
+            className="formInput"
             {...register("teamName", { required: true })}
             type="text"
-            placeholder="Type here"
+            placeholder="Type here..."
           />
 
-          <IonLabel>Category :</IonLabel>
-          <br />
+          <IonLabel className="formTitle">Category</IonLabel>
 
-          <IonItem>
+          <IonItem className="formDropdownSelect">
             <IonSelect placeholder="Dropdown">
               {teamcategory.map((item) => (
                 <IonSelectOption
@@ -122,17 +120,19 @@ const BuildTeam: React.FC = () => {
             </IonSelect>
           </IonItem>
 
-          <br />
-          <IonLabel>One sentence to describe your Team :</IonLabel>
+          <IonLabel className="formTitle">
+            One sentence to describe your project:
+          </IonLabel>
           <IonInput
+            className="DescribionFormInput"
             {...register("teamDescription")}
             type="text"
-            placeholder="Type here"
+            placeholder="Type here..."
           />
           <IonImg src={state} />
-          <IonLabel>Team Icon/Image :</IonLabel>
+          <IonLabel className="formTitle">Team icon/image: </IonLabel>
           <input type="file" {...register("teamImage")} onChange={imghandle} />
-          <input type="submit" />
+          <input className="formSubmitButton" type="submit" />
         </form>
 
         <Cropper
