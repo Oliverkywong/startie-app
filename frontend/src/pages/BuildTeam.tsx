@@ -14,13 +14,15 @@ import {
   IonToolbar,
   useIonRouter,
 } from "@ionic/react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import Cropper from 'react-easy-crop'
 
 import "./css/Common.css";
 import "./css/BuildTeam.css";
 import team1 from "../img/team1.png";
 import { Tag } from "../model";
+import cropimg from "../img/team11.jpeg";
 
 const BuildTeam: React.FC = () => {
 
@@ -53,6 +55,14 @@ const BuildTeam: React.FC = () => {
     };
     reader.readAsDataURL(e.target.files[0]);
   };
+
+
+  const [crop, setCrop] = useState({ x: 0, y: 0 })
+  const [zoom, setZoom] = useState(1)
+
+  const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
+    console.log(croppedArea, croppedAreaPixels)
+  }, [])
 
   return (
     <IonPage>
@@ -124,6 +134,16 @@ const BuildTeam: React.FC = () => {
           <input type="file" {...register("teamImage")} onChange={imghandle} />
           <input type="submit" />
         </form>
+
+        <Cropper
+          image={state}
+          crop={crop}
+          zoom={zoom}
+          aspect={16 / 9}
+          onCropChange={setCrop}
+          onCropComplete={onCropComplete}
+          onZoomChange={setZoom}
+        />
       </IonContent>
     </IonPage>
   );
