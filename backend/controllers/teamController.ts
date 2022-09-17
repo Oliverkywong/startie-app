@@ -19,7 +19,7 @@ export class TeamController {
       res.status(200).json(team);
     } catch (err) {
       logger.error(err);
-      res.status(500).json({ message: "Internal server error" });
+      res.status(400).json({ result: false, msg: "crateTeam fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -32,7 +32,7 @@ export class TeamController {
       res.status(200).json(team);
     } catch (err) {
       logger.error(err);
-      res.status(500).json({ message: "Internal server error" });
+      res.status(400).json({ result: false, msg: "getAllTeams fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ export class TeamController {
       res.status(200).json(team);
     } catch (err) {
       logger.error(err);
-      res.status(500).json({ message: "Internal server error" });
+      res.status(400).json({ result: false, msg: "getTeam fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ export class TeamController {
       res.status(200).json(team);
     } catch (err) {
       logger.error(err);
-      res.status(500).json({ message: "Internal server error" });
+      res.status(400).json({ result: false, msg: "updateTeam fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -80,7 +80,7 @@ export class TeamController {
       res.status(200).json(`team: ${team} has been deleted`);
     } catch (err) {
       logger.error(err);
-      res.status(500).json({ message: "Internal server error" });
+      res.status(400).json({ result: false, msg: "deleteTeam fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -92,7 +92,7 @@ export class TeamController {
       res.status(200).json(teamtag);
     } catch (err) {
       logger.error(err);
-      res.status(500).json({ message: "Internal server error" });
+      res.status(400).json({ result: false, msg: "getTeamTag fail" });
     }
   };
 
@@ -105,8 +105,7 @@ export class TeamController {
       res.status(200).json(category);
     } catch (err) {
       logger.error(err);
-      res.status(500).json({ message: "Internal server error" });
+      res.status(400).json({ result: false, msg: "getCategory fail" });
     }
-  }
-
+  };
 }
