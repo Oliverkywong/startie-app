@@ -344,4 +344,21 @@ export class UserController {
       return res.json({ result: false, msg: "Get team fail" });
     }
   };
+// -------------------------------------------------------------------------------------------------------------------
+// get notification
+// -------------------------------------------------------------------------------------------------------------------
+  getNotification = async (req: express.Request, res: express.Response) => {
+    try {
+      const userId =
+        req.user?.userId != undefined
+          ? Number(req.user.userId)
+          : parseInt(req.params.id);
+      const notification = await this.userService.getNotification(userId);
+      return res.json(notification);
+    } catch (err) {
+      logger.error(err);
+      return res.json({ result: false, msg: "Get notification fail" });
+    }
+  }
+
 }
