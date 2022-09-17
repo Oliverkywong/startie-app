@@ -1,6 +1,6 @@
 import express from "express";
 import { TeamController } from "../controllers/teamController";
-// import { isBoard, isLogin } from "../utils/middleware";
+// import { isLogin } from "../utils/middleware";
 
 export function teamRoutes(teamController: TeamController) {
   const router = express.Router();
@@ -11,6 +11,5 @@ export function teamRoutes(teamController: TeamController) {
   // router.delete("/team/:id", isBoard, teamController.deleteTeam);
   router.get("/teamtag", teamController.teamTag); //show team on profile
   router.get("/category", teamController.getCategory); //show team on profile
-  router.put("/team/:id/user/:id", teamController.addMember); //add member to team
   return router;
 }
