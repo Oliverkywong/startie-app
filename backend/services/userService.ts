@@ -223,4 +223,14 @@ export class UserService {
       })
       .returning("*");
   }
+  // -------------------------------------------------------------------------------------------------------------------
+  //get notification
+  // -------------------------------------------------------------------------------------------------------------------
+  async getNotification(userId: number) {
+    const notification = await this.knex("notification")
+      .select("*")
+      .where("user_id", userId);
+
+    return notification;
+  }
 }
