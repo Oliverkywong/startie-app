@@ -130,16 +130,9 @@ export class UserService {
   // -------------------------------------------------------------------------------------------------------------------
   // get all UserInfo
   // -------------------------------------------------------------------------------------------------------------------
-  async getAllUser(name?:string, email?:string, status?:string, phonenumber?:number) {
-    
-    // const userRecord = name !==undefined || email !==undefined || status !==undefined || phonenumber !==undefined? 
-    // await this.knex.raw(`select *, name as status from "user" u inner join status on status.id = u.status_id WHERE name LIKE '%${name}%' AND email LIKE '%${email}%' AND phonenumber LIKE '%${phonenumber}%' AND status LIKE '%${status}%'`)
-    // ("user")
-    // .join("status", "status_id", "status.id")
-    // .select("*")
-    // .where("username", "ilike", `%${query}%`) 
+  async getAllUser(name?:string, email?:string, status?:string, phonenumber?:number, show?: boolean) {
 
-    let query = this.knex<User>("user").select("*", "name as status").join("status", "status_id", "status.id");
+    let query = this.knex<User>("user").select("user.id", "username", "email", "phonenumber", "profilepic", "description", "clickrate", "created_at", "status_id as sid", "name as status").join("status", "status_id", "status.id");
 
     if (name) {
       query = query.where("username", "ilike", `%${name}%`);
@@ -153,7 +146,7 @@ export class UserService {
     if (phonenumber) {
       query = query.where("phonenumber", "ilike", `%${phonenumber}%`);
     }
-    const userRecord = await query;
+    const userRecord = show == false? await query.orderBy('id', 'asc') : await query.orderBy('id', 'asc').where('status_id', 1);
 
     return userRecord;
   }

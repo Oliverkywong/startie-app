@@ -38,7 +38,7 @@ export class EventService {
   // get All Events ✅
   // -------------------------------------------------------------------------------------------------------------------
   async getAllEvents() {
-    return await this.knex<Event>("event").select("*");
+    return await this.knex<Event>("event").select("*").orderBy('id', 'asc');
   }
 
   // -------------------------------------------------------------------------------------------------------------------
