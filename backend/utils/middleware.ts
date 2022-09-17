@@ -26,7 +26,7 @@ export const isLogin = async (
     const jwt = permit.check(req) != undefined? permit.check(req): req.session['jwt'] //receive token from redux
     // console.log('redux:',permit.check(req));
 
-    // console.log("session:",req.session['jwt']);
+    // console.log("session:",req.session);
     
     // console.log("jwt:", jwt);
     

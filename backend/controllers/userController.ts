@@ -187,6 +187,7 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   userInfo = async (req: express.Request, res: express.Response) => {
     try {
+      
       const userId =
         req.user?.userId != undefined
           ? Number(req.user.userId)
@@ -211,7 +212,7 @@ export class UserController {
       const email = req.query.email as string;
       const status = req.query.status as string;
       const phonenumber = parseInt(String(req.query.phonenumber)) as number;
-      let allUserInfo;
+      let allUserInfo = [0];
 
       switch (domain) {
         case 'http://localhost:3000': // !!!!! remember to change to react admin domain when deploy
@@ -224,7 +225,7 @@ export class UserController {
           break;
       }
       
-      // res.set("x-total-count", String(allUserInfo.length));
+      res.set("x-total-count", String(allUserInfo.length));
       res.status(200).json(allUserInfo);
     } catch (err) {
       logger.error(err);
@@ -237,74 +238,75 @@ export class UserController {
 // -------------------------------------------------------------------------------------------------------------------
 
   editUser = async (req: express.Request, res: express.Response) => {
-//  if (req.get('origin')  == 'http://localhost:3000') {
+ if (req.get('origin')  == 'http://localhost:3001') {
     
-//  console.log("req.body",req.body)
-//  res.end()
-//   }
-  form.parse(req, async (err, fields, files) => {
-    try {
-      
-      const userId = req.user?.userId !=undefined? Number(req.user.userId) : parseInt(req.params.id); // get userId from JWT
-      console.log("edit User id", userId);
-      
-
-      const userInfos = await this.userService.userInfo(userId);
-      let oldProfilepic = userInfos[0].profilepic;
-      let oldPhoneNumber = userInfos[0].phonenumber;
-      let oldDescription = userInfos[0].description;
-      console.log("Old user Info", userInfos);
-
-      const newStatusId = req.body.status_id != null? req.body.status_id : 1;
-
-      // if (isAdmin) {
-        // const oldStatusId = userInfos[0].status_id;
-
-        // const newStatusId =
-        // fields.status_id != null && !Array.isArray(fields.status_id)
-        //   ? parseInt(fields.status_id.trim())
-        //   : oldStatusId;
-      // }
-
-      const newProfilepic: any =
-        files.profilepic != null && !Array.isArray(files.profilepic)
-          ? files.profilepic.newFilename
-          : oldProfilepic;
-
-      const newPhoneNumber =
-        fields.phonenumber != null && !Array.isArray(fields.phonenumber)
-          ? fields.phonenumber.trim()
-          : oldPhoneNumber;
-
-      const newDescription =
-        fields.description != null && !Array.isArray(fields.description)
-          ? fields.description
-          : oldDescription;
-
-      const userInfo = await this.userService.editUser(
-        userId,
-        newProfilepic,
-        newStatusId,
-        newPhoneNumber,
-        newDescription
-      );
-
-      console.log("New userInfo", userInfo);
-      
-      return res.json({
-        result: true,
-        msg: "Edit user profile success",
-        userInfo,
-      });
-    } catch (err) {
-      logger.error(err);
-      return res.json({
-        result: false,
-        msg: "Edit user profile fail",
-      });
-    }
-  });
-  };
+ console.log("req.body",req.body)
+ res.end()
+  } else if (req.get('origin')  == 'http://localhost:3000') {
+    form.parse(req, async (err, fields, files) => {
+      try {
+        
+        const userId = req.user?.userId !=undefined? Number(req.user.userId) : parseInt(req.params.id); // get userId from JWT
+        console.log("edit User id", userId);
+        
+  
+        const userInfos = await this.userService.userInfo(userId);
+        let oldProfilepic = userInfos[0].profilepic;
+        let oldPhoneNumber = userInfos[0].phonenumber;
+        let oldDescription = userInfos[0].description;
+        console.log("Old user Info", userInfos);
+  
+        const newStatusId = req.body.status_id != null? req.body.status_id : 1;
+  
+        // if (isAdmin) {
+          // const oldStatusId = userInfos[0].status_id;
+  
+          // const newStatusId =
+          // fields.status_id != null && !Array.isArray(fields.status_id)
+          //   ? parseInt(fields.status_id.trim())
+          //   : oldStatusId;
+        // }
+  
+        const newProfilepic: any =
+          files.profilepic != null && !Array.isArray(files.profilepic)
+            ? files.profilepic.newFilename
+            : oldProfilepic;
+  
+        const newPhoneNumber =
+          fields.phonenumber != null && !Array.isArray(fields.phonenumber)
+            ? fields.phonenumber.trim()
+            : oldPhoneNumber;
+  
+        const newDescription =
+          fields.description != null && !Array.isArray(fields.description)
+            ? fields.description
+            : oldDescription;
+  
+        const userInfo = await this.userService.editUser(
+          userId,
+          newProfilepic,
+          newStatusId,
+          newPhoneNumber,
+          newDescription
+        );
+  
+        console.log("New userInfo", userInfo);
+        
+        return res.json({
+          result: true,
+          msg: "Edit user profile success",
+          userInfo,
+        });
+      } catch (err) {
+        logger.error(err);
+        return res.json({
+          result: false,
+          msg: "Edit user profile fail",
+        });
+      }
+    });
+    };
+  }
 
   // -------------------------------------------------------------------------------------------------------------------
   // Apple Login
