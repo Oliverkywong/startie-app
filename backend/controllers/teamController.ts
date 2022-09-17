@@ -107,6 +107,19 @@ export class TeamController {
       logger.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
-  }
+  };
 
+  // -------------------------------------------------------------------------------------------------------------------
+  // add member to team
+  // -------------------------------------------------------------------------------------------------------------------
+  addMember = async (req: Request, res: Response) => {
+    try {
+      const { teamId, userId } = req.body;
+      const team = await this.teamService.addMember(teamId, userId);
+      res.status(200).json(team);
+    } catch (err) {
+      logger.error(err);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
 }

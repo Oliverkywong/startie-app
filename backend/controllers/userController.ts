@@ -175,21 +175,27 @@ export class UserController {
       return res.json({ result: false, msg: "Get user profile fail" });
     }
   };
-// -------------------------------------------------------------------------------------------------------------------
-// get all userInfo
-// -------------------------------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------------------------------
+  // get all userInfo
+  // -------------------------------------------------------------------------------------------------------------------
   getAllUser = async (req: express.Request, res: express.Response) => {
     try {
-
       // const query = req.query.q as string;
-      const name = req.query.name as string != undefined ? req.query.name as string : req.query.q as string;
+      const name =
+        (req.query.name as string) != undefined
+          ? (req.query.name as string)
+          : (req.query.q as string);
       const email = req.query.email as string;
       const status = req.query.status as string;
       const phonenumber = parseInt(String(req.query.phonenumber)) as number;
 
-      let  allUserInfo = await this.userService.getAllUser(name, email, status, phonenumber)
-      
-      
+      let allUserInfo = await this.userService.getAllUser(
+        name,
+        email,
+        status,
+        phonenumber
+      );
+
       res.set("x-total-count", String(allUserInfo.length));
       res.status(200).json(allUserInfo);
     } catch (err) {
@@ -203,14 +209,13 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
 
   editUser = async (req: express.Request, res: express.Response) => {
- 
     form.parse(req, async (err, fields, files) => {
       try {
-        
-
-        const userId = req.user?.userId !=undefined? Number(req.user.userId) : parseInt(req.params.id); // get userId from JWT
+        const userId =
+          req.user?.userId != undefined
+            ? Number(req.user.userId)
+            : parseInt(req.params.id); // get userId from JWT
         console.log("edit User id", userId);
-        
 
         const userInfos = await this.userService.userInfo(userId);
         let oldProfilepic = userInfos[0].profilepic;
@@ -218,15 +223,15 @@ export class UserController {
         let oldDescription = userInfos[0].description;
         console.log("Old user Info", userInfos);
 
-        const newStatusId = req.body.status_id != null? req.body.status_id : 1;
+        const newStatusId = req.body.status_id != null ? req.body.status_id : 1;
 
         // if (isAdmin) {
-          // const oldStatusId = userInfos[0].status_id;
+        // const oldStatusId = userInfos[0].status_id;
 
-          // const newStatusId =
-          // fields.status_id != null && !Array.isArray(fields.status_id)
-          //   ? parseInt(fields.status_id.trim())
-          //   : oldStatusId;
+        // const newStatusId =
+        // fields.status_id != null && !Array.isArray(fields.status_id)
+        //   ? parseInt(fields.status_id.trim())
+        //   : oldStatusId;
         // }
 
         const newProfilepic: any =
@@ -253,7 +258,7 @@ export class UserController {
         );
 
         console.log("New userInfo", userInfo);
-        
+
         return res.json({
           result: true,
           msg: "Edit user profile success",
@@ -341,7 +346,22 @@ export class UserController {
       return res.json(team);
     } catch (err) {
       logger.error(err);
-      return res.json({ result: false, msg: "Get team fail" });
+      return res.status(400).json({ result: false, msg: "get team fail" });
+    }
+  };
+
+  quitTeam = async (req: express.Request, res: express.Response) => {
+    try {
+      // const userId =
+      //   req.user?.userId != undefined
+      //     ? Number(req.user.userId)
+      //     : parseInt(req.params.id);
+      const { userId, teamId } = req.body;
+      const team = await this.userService.quitTeam(userId, teamId);
+      return res.json(team);
+    } catch (err) {
+      logger.error(err);
+      return res.status(400).json({ result: false, msg: "guit team fail" });
     }
   };
 }

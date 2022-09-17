@@ -47,9 +47,9 @@ export class UserStatusError extends Error {
 export class UserService {
   constructor(private knex: Knex) {}
 
-// -------------------------------------------------------------------------------------------------------------------
-// Register ✅
-// -------------------------------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------------------------------
+  // Register ✅
+  // -------------------------------------------------------------------------------------------------------------------
 
   async register(
     username: string,
@@ -130,16 +130,22 @@ export class UserService {
   // -------------------------------------------------------------------------------------------------------------------
   // get all UserInfo
   // -------------------------------------------------------------------------------------------------------------------
-  async getAllUser(name?:string, email?:string, status?:string, phonenumber?:number) {
-    
-    // const userRecord = name !==undefined || email !==undefined || status !==undefined || phonenumber !==undefined? 
+  async getAllUser(
+    name?: string,
+    email?: string,
+    status?: string,
+    phonenumber?: number
+  ) {
+    // const userRecord = name !==undefined || email !==undefined || status !==undefined || phonenumber !==undefined?
     // await this.knex.raw(`select *, name as status from "user" u inner join status on status.id = u.status_id WHERE name LIKE '%${name}%' AND email LIKE '%${email}%' AND phonenumber LIKE '%${phonenumber}%' AND status LIKE '%${status}%'`)
     // ("user")
     // .join("status", "status_id", "status.id")
     // .select("*")
-    // .where("username", "ilike", `%${query}%`) 
+    // .where("username", "ilike", `%${query}%`)
 
-    let query = this.knex<User>("user").select("*", "name as status").join("status", "status_id", "status.id");
+    let query = this.knex<User>("user")
+      .select("*", "name as status")
+      .join("status", "status_id", "status.id");
 
     if (name) {
       query = query.where("username", "ilike", `%${name}%`);
@@ -188,6 +194,18 @@ export class UserService {
       .join("team", "user_id", "team.id")
       .select("*")
       .where("user_id", userId);
+
+    return userRecord;
+  }
+
+  // -------------------------------------------------------------------------------------------------------------------
+  // quit team
+  // -------------------------------------------------------------------------------------------------------------------
+  async quitTeam(userId: number, teamId: number) {
+    const userRecord = await this.knex<User>("user_team")
+      .where("user_id", userId)
+      .andWhere("team_id", teamId)
+      .del();
 
     return userRecord;
   }

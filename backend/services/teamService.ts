@@ -103,4 +103,20 @@ export class TeamService {
   async getCategory() {
     return await this.knex("searchcategory").select("*");
   }
+
+  // -------------------------------------------------------------------------------------------------------------------
+  // add member to team
+  // -------------------------------------------------------------------------------------------------------------------
+  async addMember(teamId: number, userId: number) {
+    return await this.knex("user_team")
+      .insert({
+        user_id: userId,
+        team_id: teamId,
+        isboard: false,
+        iswaiting: false,
+        isfollow: false,
+        applytime: new Date(),
+      })
+      .returning("*");
+  }
 }
