@@ -47,9 +47,9 @@ export class UserStatusError extends Error {
 export class UserService {
   constructor(private knex: Knex) {}
 
-// -------------------------------------------------------------------------------------------------------------------
-// Register ✅
-// -------------------------------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------------------------------
+  // Register ✅
+  // -------------------------------------------------------------------------------------------------------------------
 
   async register(
     username: string,
@@ -183,5 +183,44 @@ export class UserService {
       .where("user_id", userId);
 
     return userRecord;
+  }
+
+  // -------------------------------------------------------------------------------------------------------------------
+  // user join team
+  // -------------------------------------------------------------------------------------------------------------------
+  async joinTeam(teamId: number, userId: number) {
+    return await this.knex("user_team")
+      .insert({
+        user_id: userId,
+        team_id: teamId,
+        isboard: false,
+        iswaiting: false,
+        isfollow: false,
+        applytime: new Date(),
+      })
+      .returning("*");
+  }
+
+  // -------------------------------------------------------------------------------------------------------------------
+  // quit team
+  // -------------------------------------------------------------------------------------------------------------------
+  async quitTeam(userId: number, teamId: number) {
+    return await this.knex<User>("user_team")
+      .where("user_id", userId)
+      .andWhere("team_id", teamId)
+      .del();
+  }
+
+  // -------------------------------------------------------------------------------------------------------------------
+  // user join event
+  // -------------------------------------------------------------------------------------------------------------------
+  async joinEvent(userId: number, eventId: number) {
+    return await this.knex("user_event")
+      .insert({
+        user_id: userId,
+        event_id: eventId,
+        isfollow: false,
+      })
+      .returning("*");
   }
 }

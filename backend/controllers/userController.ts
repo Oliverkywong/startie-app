@@ -199,9 +199,9 @@ export class UserController {
       return res.json({ result: false, msg: "Get user profile fail" });
     }
   };
-// -------------------------------------------------------------------------------------------------------------------
-// get all userInfo
-// -------------------------------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------------------------------
+  // get all userInfo
+  // -------------------------------------------------------------------------------------------------------------------
   getAllUser = async (req: express.Request, res: express.Response) => {
     try {
       const domain = req.get('origin')
@@ -378,7 +378,60 @@ export class UserController {
       return res.json(team);
     } catch (err) {
       logger.error(err);
-      return res.json({ result: false, msg: "Get team fail" });
+      return res.status(400).json({ result: false, msg: "get team fail" });
+    }
+  };
+
+  // -------------------------------------------------------------------------------------------------------------------
+  // user join team
+  // -------------------------------------------------------------------------------------------------------------------
+  joinTeam = async (req: express.Request, res: express.Response) => {
+    try {
+      const { teamId, userId } = req.params;
+      const NumberTeamId = parseInt(teamId);
+      const NumberUserId = parseInt(userId);
+      const team = await this.userService.joinTeam(NumberTeamId, NumberUserId);
+      res.status(200).json(team);
+    } catch (err) {
+      logger.error(err);
+      res.status(400).json({ result: false, msg: "join team fail" });
+    }
+  };
+
+  // -------------------------------------------------------------------------------------------------------------------
+  // user leave team
+  // -------------------------------------------------------------------------------------------------------------------
+  quitTeam = async (req: express.Request, res: express.Response) => {
+    try {
+      // const userId =
+      //   req.user?.userId != undefined
+      //     ? Number(req.user.userId)
+      //     : parseInt(req.params.id);
+      const { userId, teamId } = req.params;
+      const NumberUserId = parseInt(userId);
+      const NumberTeamId = parseInt(teamId);
+      const team = await this.userService.quitTeam(NumberUserId, NumberTeamId);
+      return res.json(team);
+    } catch (err) {
+      logger.error(err);
+      return res.status(400).json({ result: false, msg: "guit team fail" });
+    }
+  };
+
+  joinEvent = async (req: express.Request, res: express.Response) => {
+    try {
+      const { eventId, userId } = req.params;
+      const NumberEventId = parseInt(eventId);
+      const NumberUserId = parseInt(userId);
+      // const { NumberEventId, NumberUserId } = req.body;
+      const event = await this.userService.joinEvent(
+        NumberEventId,
+        NumberUserId
+      );
+      res.status(200).json(event);
+    } catch (err) {
+      logger.error(err);
+      res.status(400).json({ result: false, msg: "join event fail" });
     }
   };
 }
