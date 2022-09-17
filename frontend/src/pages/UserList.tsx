@@ -11,7 +11,10 @@ const UserList: React.FC = () => {
 
     useEffect(() => {
         (async function () {
-            const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user`);
+            const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }});
             const result = await res.json();
             // console.log(result)
             setData(result);

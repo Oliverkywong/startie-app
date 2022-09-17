@@ -15,17 +15,27 @@ import React, { useEffect, useState } from "react";
 import logo from "../img/logo.png";
 import "./css/Notification.css";
 
+interface Note {
+  id: number;
+  content: string;
+  created_at: string;
+}
+
 const Notification: React.FC = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Note[]>([]);
 
   useEffect(() => {
     (async function () {
-        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/me/note`);
-        const result = await res.json();
-        console.log(result)
-        setData(result);
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/me/note`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      const result = await res.json();
+      console.log(result)
+      setData(result);
     })()
-}, [])
+  }, [])
 
   return (
     <IonPage>
@@ -41,129 +51,18 @@ const Notification: React.FC = () => {
         <IonList>
           {data.map((item) => {
             return (
-              <IonItem>
-              <div className="note">
-                <div className="event">
-                <IonImg src={logo} style={{ width: "10%" }} />
-                <div className="eventinfo">
-                <IonLabel>{item}</IonLabel>
+              <IonItem key={item.id}>
+                <div className="note">
+                  <div className="event">
+                    <IonImg src={logo} style={{ width: "10%" }} />
+                    <div className="eventinfo">
+                      <IonLabel>{item.content}</IonLabel>
+                      <IonLabel>Send at: {item.created_at.slice(0, 10)}</IonLabel>
+                    </div>
+                  </div>
                 </div>
-                </div>
-                <IonLabel>time</IonLabel>
-              </div>
-              </IonItem>)}
-          )}
-
-          <IonItem>
-            <div className="note">
-              <div className="event">
-                <IonImg src={logo} style={{ width: "10%" }} />
-                <div className="eventinfo">
-                  <IonLabel>Name</IonLabel>
-                  <IonLabel>note</IonLabel>
-                </div>
-              </div>
-              <IonLabel>time</IonLabel>
-            </div>
-          </IonItem>
-        </IonList>
-        <IonList>
-          <IonItem>
-            <div className="note">
-              <div className="event">
-                <IonImg src={logo} style={{ width: "10%" }} />
-                <div className="eventinfo">
-                  <IonLabel>Name</IonLabel>
-                  <IonLabel>note</IonLabel>
-                </div>
-              </div>
-              <IonLabel>time</IonLabel>
-            </div>
-          </IonItem>
-        </IonList>
-        <IonList>
-          <IonItem>
-            <div className="note">
-              <div className="event">
-                <IonImg src={logo} style={{ width: "10%" }} />
-                <div className="eventinfo">
-                  <IonLabel>Name</IonLabel>
-                  <IonLabel>note</IonLabel>
-                </div>
-              </div>
-              <IonLabel>time</IonLabel>
-            </div>
-          </IonItem>
-        </IonList>
-        <IonList>
-          <IonItem>
-            <div className="note">
-              <div className="event">
-                <IonImg src={logo} style={{ width: "10%" }} />
-                <div className="eventinfo">
-                  <IonLabel>Name</IonLabel>
-                  <IonLabel>note</IonLabel>
-                </div>
-              </div>
-              <IonLabel>time</IonLabel>
-            </div>
-          </IonItem>
-        </IonList>
-        <IonList>
-          <IonItem>
-            <div className="note">
-              <div className="event">
-                <IonImg src={logo} style={{ width: "10%" }} />
-                <div className="eventinfo">
-                  <IonLabel>Name</IonLabel>
-                  <IonLabel>note</IonLabel>
-                </div>
-              </div>
-              <IonLabel>time</IonLabel>
-            </div>
-          </IonItem>
-        </IonList>
-        <IonList>
-          <IonItem>
-            <div className="note">
-              <div className="event">
-                <IonImg src={logo} style={{ width: "10%" }} />
-                <div className="eventinfo">
-                  <IonLabel>Name</IonLabel>
-                  <IonLabel>note</IonLabel>
-                </div>
-              </div>
-              <IonLabel>time</IonLabel>
-            </div>
-          </IonItem>
-        </IonList>
-        <IonList>
-          <IonItem>
-            <div className="note">
-              <div className="event">
-                <IonImg src={logo} style={{ width: "10%" }} />
-                <div className="eventinfo">
-                  <IonLabel>Name</IonLabel>
-                  <IonLabel>note</IonLabel>
-                </div>
-              </div>
-              <IonLabel>time</IonLabel>
-            </div>
-          </IonItem>
-        </IonList>
-        <IonList>
-          <IonItem>
-            <div className="note">
-              <div className="event">
-                <IonImg src={logo} style={{ width: "10%" }} />
-                <div className="eventinfo">
-                  <IonLabel>Name</IonLabel>
-                  <IonLabel>note</IonLabel>
-                </div>
-              </div>
-              <IonLabel>time</IonLabel>
-            </div>
-          </IonItem>
+              </IonItem>)
+          })}
         </IonList>
       </IonContent>
     </IonPage>
