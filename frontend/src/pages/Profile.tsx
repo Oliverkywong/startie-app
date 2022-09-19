@@ -41,7 +41,7 @@ const Profile: React.FC = () => {
     (state: RootState) => state.userInfo.team
   );
   // console.log(userBelongsTeam);
-  console.log(userdetails);
+  // console.log(userdetails);
 
   const [info, setInfo] = React.useState(true);
   const [stat, setStat] = React.useState(false);

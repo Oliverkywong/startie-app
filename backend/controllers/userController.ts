@@ -133,7 +133,7 @@ export class UserController {
       req.session['username'] = user[0].username
       req.session['userId'] = user[0].id
 
-      console.log("login",req.session);
+      // console.log("login",req.session);
       
       
       logger.info(`${username} logged in`);
@@ -246,14 +246,14 @@ export class UserController {
     try {
       
       const userId = req.user?.userId !=undefined? Number(req.user.userId) : parseInt(req.params.id); // get userId from JWT
-      console.log("edit User id", userId);
+      // console.log("edit User id", userId);
       
 
       const userInfos = await this.userService.userInfo(userId);
       let oldProfilepic = userInfos[0].profilepic;
       let oldPhoneNumber = userInfos[0].phonenumber;
       let oldDescription = userInfos[0].description;
-      console.log("Old user Info", userInfos);
+      // console.log("Old user Info", userInfos);
 
       const newStatusId = req.body.status_id != null? req.body.status_id : 1;
 
@@ -289,7 +289,7 @@ export class UserController {
         newDescription
       );
 
-      console.log("New userInfo", userInfo);
+      // console.log("New userInfo", userInfo);
       
       return res.json({
         result: true,
@@ -443,7 +443,7 @@ export class UserController {
         req.user?.userId != undefined
           ? Number(req.user.userId)
           : parseInt(req.params.id);
-          console.log("userId", userId);
+          // console.log("userId", userId);
       const notification = await this.userService.getNotification(userId);
       return res.json(notification);
     } catch (err) {
