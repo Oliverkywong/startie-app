@@ -55,6 +55,19 @@ const EventDetail: React.FC = () => {
     }, 500);
   };
 
+  async function joinEvent() {
+    const localtoken = localStorage.getItem("token");
+    await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/user/me/event/${match?.params.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localtoken}`,
+        },
+        method: "POST",
+      }
+    );
+  }
+
   return (
     <IonPage>
       <IonHeader>
@@ -99,7 +112,7 @@ const EventDetail: React.FC = () => {
           );
         })}
         <div className="detailButton">
-          <IonButton>Join Competition</IonButton>
+          <IonButton onClick={joinEvent}>Join Competition</IonButton>
         </div>
       </IonContent>
     </IonPage>

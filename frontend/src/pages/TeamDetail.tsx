@@ -19,6 +19,7 @@ import "./css/Common.css";
 import React, { useEffect, useState } from "react";
 import { useRouteMatch } from "react-router";
 import { TeamData, TeamMember } from "../model";
+import { join } from "path";
 
 const TeamDetail: React.FC = () => {
   const [data, setData] = useState<TeamData[]>([]);
@@ -47,6 +48,19 @@ const TeamDetail: React.FC = () => {
       setTag(tagArray);
     })();
   }, []);
+
+  async function joinTeam() {
+    const localtoken = localStorage.getItem("token");
+    await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/user/me/${match?.params.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localtoken}`,
+        },
+        method: "POST",
+      }
+    );
+  }
 
   return (
     <IonPage>
@@ -92,7 +106,10 @@ const TeamDetail: React.FC = () => {
         })}
         <div className="detailButton">
           <IonButton className="chatButton">Chat</IonButton>
-          <IonButton className="joinButton">Join</IonButton>
+
+          <IonButton className="joinButton" onClick={joinTeam}>
+            Join
+          </IonButton>
         </div>
 
         <IonList>
