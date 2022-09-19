@@ -21,9 +21,10 @@ export const EventList = (props:any)=> (
      <Datagrid rowClick="edit">
            <TextField source="id" />
            <TextField source="name" />
-           <TextField source="status_id" />
+           <TextField source="status" />
            <TextField source="description" />
             <TextField source="maxteammember" />
+            <TextField source="profilepic" sortable={false} />
                 <EditButton />
         </Datagrid>
     </List>
@@ -68,4 +69,7 @@ const postFilters = [
     [
         <SearchInput source="q" alwaysOn />,
         <TextInput source="name" />,
+        <TextInput source="status" />,
+        <TextInput source="maxteammember" />,
+        <TextInput source="description" />
     ].filter(filter => filter !== null);

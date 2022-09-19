@@ -37,8 +37,25 @@ export class EventService {
   // -------------------------------------------------------------------------------------------------------------------
   // get All Events ✅
   // -------------------------------------------------------------------------------------------------------------------
-  async getAllEvents() {
-    return await this.knex<Event>("event").select("*");
+    async getAllEvents(name?:string, description?:string, status?:string, maxTeammember?:number, show?: boolean) {
+
+      let query = this.knex<Event>("event").select("event.id", "event.name", "status.name as status", "description", "maxteammember", "starttime", "profilepic", "clickrate", "created_at").join("status", "status_id", "status.id");
+  
+      if (name) {
+        query = query.where("event.name", "ilike", `%${name}%`);
+      }
+      if (description) {
+        query = query.where("description", "ilike", `%${description}%`);
+      }
+      if (status) {
+        query = query.where("status.name", "ilike", `${status}`);
+      }
+      if (maxTeammember) {
+        query = query.where("maxteammember", "<=", `${maxTeammember}`);
+      }
+      const eventRecord = show == true? await query.orderBy('id', 'asc') : await query.orderBy('id', 'asc').where('status_id', 1);
+
+      return eventRecord;
   }
 
   // -------------------------------------------------------------------------------------------------------------------

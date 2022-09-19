@@ -19,8 +19,8 @@ import { useForm } from "react-hook-form";
 
 import "./css/Common.css";
 import "./css/BuildTeam.css";
-import team1 from "../img/team1.png";
 import { Tag } from "../model";
+import ImageCropDialog from "./ImageCropDialog";
 
 const BuildTeam: React.FC = () => {
   const router = useIonRouter();
@@ -41,17 +41,30 @@ const BuildTeam: React.FC = () => {
 
   const { register, handleSubmit } = useForm();
 
-  const [state, setState] = useState<any>(team1);
+  const [state, setState] = useState<any>(null);
 
   const imghandle = (e: any) => {
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
         setState(reader.result);
+        setCroppedImage(reader.result);
       }
     };
     reader.readAsDataURL(e.target.files[0]);
   };
+
+  const [croppedImage, setCroppedImage] = useState<any>(null)
+
+  const onCancel = () => {
+    setState(null);
+  };
+
+  const setCroppedImageFor = (croppedImageUrl:any) => {
+    setState(croppedImageUrl)
+    setCroppedImage(null);
+  };
+   
 
   return (
     <IonPage>
@@ -119,11 +132,18 @@ const BuildTeam: React.FC = () => {
             type="text"
             placeholder="Type here..."
           />
-          <IonImg src={state} />
+          {state && <IonImg src={state} />}
           <IonLabel className="formTitle">Team icon/image: </IonLabel>
           <input type="file" {...register("teamImage")} onChange={imghandle} />
           <input className="formSubmitButton" type="submit" />
         </form>
+
+        {croppedImage ? <ImageCropDialog
+          imageUrl={state}
+          onCancel={onCancel}
+          setCroppedImageFor={setCroppedImageFor}
+        />: null}
+        
       </IonContent>
     </IonPage>
   );

@@ -12,6 +12,8 @@ import {
   ReferenceInput,
   TextInput,
   useRecordContext,
+  SearchInput,
+  FunctionField,
 } from "react-admin";
 // import dataProvider from "./dataProvider";
 
@@ -42,16 +44,16 @@ import {
 
 export const TeamList = (props: any) => (
   
-  <List {...props}>
+  <List filters={getTeamFilters()} {...props}>
     <Datagrid rowClick="edit">
-      <TextField source="id" />
+      <TextField source="id" sortByOrder="DESC" />
       <TextField source="name" />
-      {/* <TextField source="board" /> */}
-      {/* <TextField source="event" />
-      <TextField source="job" /> */}
+      <TextField source="status" />
       <TextField source="description" />
+      <TextField source="users" />
+      <TextField source="tags" />
+      <TextField source="profilepic" sortable={false}/>
       {/* <ReferenceField source="userId" reference="team" /> */}
-      <EditButton />
     </Datagrid>
   </List>
 );
@@ -82,3 +84,12 @@ const TeamTitle = ({ record}:any) => {
   // const record = useRecordContext();
   return <span>Team {record ? `"${record.title}"` : ""}</span>;
 };
+
+const getTeamFilters = () =>
+[
+  <SearchInput source="q" alwaysOn />,
+  <TextInput source="name" />,
+  <TextInput source="tags" />,
+  <TextInput source="description" />,
+  <TextInput source="status" />,
+].filter(filter => filter !== null);

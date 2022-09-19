@@ -9,7 +9,7 @@ const config: { [key: string]: Knex.Config } = {
     debug: false,
     client: "postgresql",
     connection: {
-      host: process.env.DB_HOST || "localhost",
+      host: process.env.DB_HOST,
       database: process.env.DB_NAME,
       user: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
@@ -26,7 +26,7 @@ const config: { [key: string]: Knex.Config } = {
   test: {
     client: "postgresql",
     connection: {
-      host: process.env.DB_HOST || "localhost",
+      host: process.env.DB_HOST,
       database: process.env.TEST__DB_NAME,
       user: process.env.TEST_DB_USERNAME,
       password: process.env.TEST_DB_PASSWORD,
@@ -44,7 +44,7 @@ const config: { [key: string]: Knex.Config } = {
     debug: false,
     client: "postgresql",
     connection: {
-      host: process.env.DB_HOST || "localhost",
+      host: process.env.DB_HOST,
       database: process.env.DB_NAME,
       user: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
@@ -61,6 +61,7 @@ const config: { [key: string]: Knex.Config } = {
   production: {
     client: "postgresql",
     connection: {
+      host: process.env.DB_HOST,
       database: process.env.DB_NAME,
       user: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,

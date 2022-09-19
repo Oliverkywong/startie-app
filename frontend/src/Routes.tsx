@@ -27,7 +27,7 @@ import BuildTeam from "./pages/BuildTeam";
 import EventDetail from "./pages/EventDetail";
 import TeamDetail from "./pages/TeamDetail";
 import SearchPage from "./pages/SearchPage";
-import User from "./pages/User";
+import UserList from "./pages/UserList";
 import Notification from "./pages/Notification";
 import Recommend from "./pages/Recommend";
 import UserEdit from "./pages/UserEdit";
@@ -61,7 +61,7 @@ export default function Routes() {
             <Route exact path="/tab/profile" component={Profile} />
             <Route exact path="/tab/profile/edit" component={UserEdit} />
             {/* <Route exact path="/tab/user/:id" component={User} /> */}
-            <Route exact path="/tab/user" component={User} />
+            <Route exact path="/tab/user" component={UserList} />
 
             <Route path="/tab/settings" component={UserSettings} />
           </IonRouterOutlet>
