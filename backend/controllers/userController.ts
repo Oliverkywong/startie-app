@@ -127,6 +127,9 @@ export class UserController {
         .setIssuedAt()
         .setExpirationTime("24h")
         .sign(ecPrivateKey);
+
+        // console.log("jwt in login",jwt);
+
  
       req.session['isLogin'] = true
       req.session['jwt'] = jwt
@@ -206,23 +209,29 @@ export class UserController {
   getAllUser = async (req: express.Request, res: express.Response) => {
     try {
       const domain = req.get('origin')
-
+      console.log("domain", domain);
+      
       let show;
       const name = req.query.name as string != undefined ? req.query.name as string : req.query.q as string;
       const email = req.query.email as string;
       const status = req.query.status as string;
+      const description = req.query.description as string;
       const phonenumber = parseInt(String(req.query.phonenumber)) as number;
-      let allUserInfo = [0];
+      let allUserInfo:any;
 
       switch (domain) {
         case 'http://localhost:3000': // !!!!! remember to change to react admin domain when deploy
           show = false
-          allUserInfo = await this.userService.getAllUser(name, email, status, phonenumber, show)
+          allUserInfo = await this.userService.getAllUser(name, email, status, description, phonenumber, show)
           break; 
         case 'http://localhost:3001': // !!!!! remember to change to frontend domain when deploy
           show = true
-          allUserInfo = await this.userService.getAllUser(name, email, status, phonenumber, show)
+          allUserInfo = await this.userService.getAllUser(name, email, status, description, phonenumber, show)
           break;
+        default:
+            show = false
+            allUserInfo = await this.userService.getAllUser(name, email, status, description, phonenumber, show)
+            break;
       }
       
       res.set("x-total-count", String(allUserInfo.length));
