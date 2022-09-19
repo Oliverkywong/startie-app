@@ -4,6 +4,7 @@ http://ionicframework.com/docs/theming/ */
 /** Ionic CSS Variables **/
 :root {
   /** primary **/
+  background-image: url('../img/bgimage.png');
   --ion-color-primary: #3880ff;
   --ion-color-primary-rgb: 56, 128, 255;
   --ion-color-primary-contrast: #ffffff;
@@ -18,6 +19,7 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
   --ion-color-secondary-shade: #36abe0;
   --ion-color-secondary-tint: #50c8ff;
+
 
   /** tertiary **/
   --ion-color-tertiary: #5260ff;

@@ -47,7 +47,7 @@ export async function seed(knex: Knex): Promise<void> {
             description: faker.lorem.paragraph(),
             status_id: 1,
             starttime: faker.date.between('2022-10-01T00:00:00.000Z', '202-11-01T00:00:00.000Z'),
-            maxteammember: Math.floor(Math.random()* 4),
+            maxteammember: Math.floor(Math.random()* 4)+1,
             profilepic: `event${Math.floor(Math.random()* 10)+1}.jpeg`,
             clickrate: Math.floor(Math.random()* 500),
         });

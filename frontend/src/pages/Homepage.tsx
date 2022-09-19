@@ -114,8 +114,8 @@ const Homepage: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar className="searchBar">
+      <IonHeader className="searchBar">
+        <IonToolbar >
           <IonButtons slot="end">
             <IonButton
               onClick={() => {
@@ -149,7 +149,7 @@ const Homepage: React.FC = () => {
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
+      <IonContent className="homecontent">
         <IonLabel className="labelTitle">Hot Events</IonLabel>
         {/* <a href="#">See More</a> */}
 
