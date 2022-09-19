@@ -20,7 +20,7 @@ import { useForm } from "react-hook-form";
 import "./css/Common.css";
 import "./css/BuildTeam.css";
 import { Tag } from "../model";
-import ImageCropDialog from "./ImageCropDialog";
+import ImageCropDialogForTeam from "./ImageCropDialogForTeam";
 
 const BuildTeam: React.FC = () => {
   const router = useIonRouter();
@@ -54,17 +54,16 @@ const BuildTeam: React.FC = () => {
     reader.readAsDataURL(e.target.files[0]);
   };
 
-  const [croppedImage, setCroppedImage] = useState<any>(null)
+  const [croppedImage, setCroppedImage] = useState<any>(null);
 
   const onCancel = () => {
     setState(null);
   };
 
-  const setCroppedImageFor = (croppedImageUrl:any) => {
-    setState(croppedImageUrl)
+  const setCroppedImageFor = (croppedImageUrl: any) => {
+    setState(croppedImageUrl);
     setCroppedImage(null);
   };
-   
 
   return (
     <IonPage>
@@ -138,12 +137,13 @@ const BuildTeam: React.FC = () => {
           <input className="formSubmitButton" type="submit" />
         </form>
 
-        {croppedImage ? <ImageCropDialog
-          imageUrl={state}
-          onCancel={onCancel}
-          setCroppedImageFor={setCroppedImageFor}
-        />: null}
-        
+        {croppedImage ? (
+          <ImageCropDialogForTeam
+            imageUrl={state}
+            onCancel={onCancel}
+            setCroppedImageFor={setCroppedImageFor}
+          />
+        ) : null}
       </IonContent>
     </IonPage>
   );
