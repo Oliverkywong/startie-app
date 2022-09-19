@@ -57,6 +57,7 @@ const TeamList: React.FC = () => {
         </IonToolbar>
         <IonToolbar>
           <IonSearchbar
+            className="teamListSearchbar"
             placeholder="Search"
             onClick={() => {
               router.push("/search");

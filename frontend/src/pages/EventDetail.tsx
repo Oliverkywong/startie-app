@@ -12,7 +12,10 @@ import {
   IonItem,
   IonLabel,
   IonContent,
+  IonCardTitle,
 } from "@ionic/react";
+import "./css/Event.css";
+import "./css/Common.css";
 import React, { useEffect, useState } from "react";
 import { useLocation, useRouteMatch } from "react-router-dom";
 import eventimg from "../img/com1.png";
@@ -64,17 +67,18 @@ const EventDetail: React.FC = () => {
       <IonContent>
         {data.map((item) => {
           return (
-            <IonCard key={item.id}>
-              <IonItem>
-                <IonImg
-                  src={
-                    item?.profilepic != null
-                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
-                      : "StartieLogo.png"
-                  }
-                />
-              </IonItem>
-              <IonCardContent className="eventName">{item.name}</IonCardContent>
+            <IonCard key={item.id} className="eventDetail">
+              <IonImg
+                className="eventThumbnail"
+                src={
+                  item?.profilepic != null
+                    ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                    : "StartieLogo.png"
+                }
+              />
+              <IonCardTitle className="evenDetailTitle">
+                {item.name}
+              </IonCardTitle>
               <div className="event">
                 <IonImg
                   src={
@@ -94,7 +98,9 @@ const EventDetail: React.FC = () => {
             </IonCard>
           );
         })}
-        <IonButton>Join</IonButton>
+        <div className="detailButton">
+          <IonButton>Join Competition</IonButton>
+        </div>
       </IonContent>
     </IonPage>
   );

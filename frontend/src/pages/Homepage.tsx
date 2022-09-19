@@ -44,7 +44,7 @@ import { loadUserInfo } from "../redux/userInfo/action";
 import { Team, Event } from "../model";
 
 const catergorys = {
-  cat1: { src: cat1, title: "All" },
+  cat1: { src: cat1, title: "Investment" },
   cat2: { src: cat2, title: "Startup" },
   cat3: { src: cat3, title: "Business" },
   cat4: { src: cat4, title: "Hackathon" },
@@ -124,7 +124,7 @@ const Homepage: React.FC = () => {
   return (
     <IonPage>
       <IonHeader className="searchBar">
-        <IonToolbar >
+        <IonToolbar>
           <IonButtons slot="end">
             <IonButton
               onClick={() => {
@@ -170,17 +170,19 @@ const Homepage: React.FC = () => {
         >
           {eventData.map((event) => {
             return (
-              <IonCard key={event.id} routerLink={`/event/${event.id}`}>
-                <SwiperSlide className="imgelement">
-                  <IonImg
-                    src={
-                      event.profilepic != null
-                        ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${event.profilepic}`
-                        : "StartieLogo.png"
-                    }
-                  />
-                </SwiperSlide>
-              </IonCard>
+              <SwiperSlide
+                key={`event${event.id}`}
+                onClick={() => router.push(`event/${event.id}`)}
+                className="imgelement"
+              >
+                <IonImg
+                  src={
+                    event.profilepic != null
+                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${event.profilepic}`
+                      : "StartieLogo.png"
+                  }
+                />
+              </SwiperSlide>
             );
           })}
         </Swiper>
@@ -220,7 +222,7 @@ const Homepage: React.FC = () => {
           <div className="teamList">
             {data.map((item) => {
               return (
-                <IonCol key={item.id}>
+                <IonCol key={`Team${item.id}`}>
                   <div className="teamInfo">
                     <IonCard
                       className="teamCard"
@@ -245,7 +247,7 @@ const Homepage: React.FC = () => {
 
                       <div className="tag">
                         {item.tags.map((tag) => {
-                          return <span key={tag}>{tag}</span>;
+                          return <span key={`teamTags${tag}`}>{tag}</span>;
                         })}
                       </div>
                     </IonCard>
