@@ -38,7 +38,6 @@ const EventDetail: React.FC = () => {
         `${process.env.REACT_APP_BACKEND_URL}/event/${match?.params.id}`
       );
       const item = await res.json();
-      // console.log(item);
       setData([item]);
     })();
   }, []);
