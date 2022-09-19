@@ -14,6 +14,11 @@ import {
   useRecordContext,
   SearchInput,
   FunctionField,
+  SelectInput,
+  FileField,
+  FileInput,
+  ImageField,
+  ImageInput,
 } from "react-admin";
 // import dataProvider from "./dataProvider";
 
@@ -49,9 +54,10 @@ export const TeamList = (props: any) => (
       <TextField source="id" sortByOrder="DESC" />
       <TextField source="name" />
       <TextField source="status" />
+      <TextField source="category" />
       <TextField source="description" />
       <TextField source="users" />
-      <TextField source="tags" />
+      <TextField source="looking_for" />
       <TextField source="profilepic" sortable={false}/>
       {/* <ReferenceField source="userId" reference="team" /> */}
     </Datagrid>
@@ -71,11 +77,19 @@ export const TeamEdit = (props: any) => (
 export const TeamCreate = (props: any) => (
   <Create {...props}>
     <SimpleForm>
-      <ReferenceInput source="userId" reference="users" />
-      {props.map((user: any) => {
-        return <TextInput source="name">{user}</TextInput>;
-      })}
-      <TextInput multiline source="description" />
+    <TextInput source="name" />
+    <SelectInput source="category_id" emptyValue={null} resettable choices={[
+        {id:1, name: 'Business'},
+        {id:2, name: 'Startup'},
+        {id:3, name: 'Investment'},
+        {id:4, name: 'Hackathon'},
+        {id:5, name: 'Others'},
+      ]} />
+    <TextInput multiline source="description" />
+    <ImageInput source="profilepic" accept="image/*">
+    <ImageField source="src" title="title" />
+</ImageInput>
+    
     </SimpleForm>
   </Create>
 );
@@ -89,7 +103,7 @@ const getTeamFilters = () =>
 [
   <SearchInput source="q" alwaysOn />,
   <TextInput source="name" />,
-  <TextInput source="tags" />,
+  <TextInput source="looking_for" />,
   <TextInput source="description" />,
   <TextInput source="status" />,
 ].filter(filter => filter !== null);

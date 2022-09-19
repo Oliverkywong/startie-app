@@ -115,6 +115,7 @@ export class UserController {
       let username = req.body.username.trim();
       let password = req.body.password.trim();
       let user = await this.userService.login(username, password);
+console.log('user:',user);
 
       const ecPrivateKey = await joseKey();
 
@@ -129,18 +130,22 @@ export class UserController {
         .sign(ecPrivateKey);
 
         // console.log("jwt in login",jwt);
+// req.session={isLogin:true,
+//   jwt:jwt,
+//   userId:user[0].id,
+//   username:user[0].username,}
+      // req.session['isLogin'] = true
+      // req.session['jwt'] = jwt
+      // req.session['username'] = user[0].username
+      // req.session['userId'] = user[0].id
 
- 
-      req.session['isLogin'] = true
-      req.session['jwt'] = jwt
-      req.session['username'] = user[0].username
-      req.session['userId'] = user[0].id
-
-      console.log("login",req.session);
+      // console.log("login",req.session);
       
       
       logger.info(`${username} logged in`);
-      return res.status(200).json({
+      // res.header('token', jwt)
+    // res.headers.set("token", jwt); 
+      return res.status(200).header('token', jwt).json({
         result: true,
         msg: "login success",
         user: user[0],
@@ -176,9 +181,9 @@ export class UserController {
     try {
       logger.info(`${req.session['username']} logging out`)
 
-      req.session.destroy( () => {
-        res.status(500).json({ result: true, msg: "logout successful" });
-      })
+      // req.session.destroy( () => {
+      //   res.status(500).json({ result: true, msg: "logout successful" });
+      // })
 
     } catch (err) {
       logger.error(err);
@@ -209,7 +214,6 @@ export class UserController {
   getAllUser = async (req: express.Request, res: express.Response) => {
     try {
       const domain = req.get('origin')
-      console.log("domain", domain);
       
       let show;
       const name = req.query.name as string != undefined ? req.query.name as string : req.query.q as string;
@@ -249,12 +253,13 @@ export class UserController {
   editUser = async (req: express.Request, res: express.Response) => {
  if (req.get('origin')  == 'http://localhost:3001') {
     
- console.log("req.body",req.body)
+ console.log("req.origin",req.get('origin'))
  res.end()
-  } else if (req.get('origin')  == 'http://localhost:3000') {
+  } else {
     form.parse(req, async (err, fields, files) => {
       try {
         
+        console.log("req.origin",req.get('origin'))
         const userId = req.user?.userId !=undefined? Number(req.user.userId) : parseInt(req.params.id); // get userId from JWT
         console.log("edit User id", userId);
         
@@ -276,7 +281,7 @@ export class UserController {
           //   : oldStatusId;
         // }
   
-        const newProfilepic: any =
+        const newProfilepic =
           files.profilepic != null && !Array.isArray(files.profilepic)
             ? files.profilepic.newFilename
             : oldProfilepic;
