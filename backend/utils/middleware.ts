@@ -34,19 +34,18 @@ export const isLogin = async (
     // console.log('session:',req.session);
     // console.log("session jwt:",req.session['jwt']);
     
-    console.log("jwt:", jwt);
+    // console.log("jwt:", jwt);
     
     const publicKey = await josePublicKey();
-    console.log('publicKey :',publicKey );
     const {payload }= await jose.jwtVerify(jwt, publicKey); //use the public key to verify the token
 
-    console.log('payload:',payload);
+    // console.log('payload:',payload);
     
     if (payload["userId"]) {
       req.user = {
         userId: payload["userId"] as number,
         username: payload["username"] as string,
-      };
+      };      
       next();
     } else {
       res.status(401).json({ result: false, msg: "Unauthorized" });
