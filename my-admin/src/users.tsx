@@ -24,14 +24,14 @@ import {
 export const UserList = () => (
   <List filters={getUserFilters()}>
     <Datagrid rowClick="edit">
-      <TextField source="id" />
+      <TextField source="id" sortByOrder="DESC" />
       <TextField source="username" />
       <EmailField source="email" />
       <TextField source="phonenumber" />
-      <TextField source="name" />
+      <TextField source="status" />
       <TextField source="description" />
       <TextField source="created_at" />
-      <TextField source="profilepic" />
+      <TextField source="profilepic" sortable={false}/>
       <EditButton />
     </Datagrid>
   </List>
@@ -51,16 +51,16 @@ export const UserEdit = (props:any) => (
       ]}
        />
       <TextInput multiline source="description" resettable />
-      {/* <FileInput
+      <FileInput
         source="profilepic"
         label="Related files"
         accept="image/*,.pdf"
       >
         <FileField source="src" title="title" />
-      </FileInput> */}
-      <ImageInput source="profilepic" label="Related pictures" accept="image/*">
+      </FileInput>
+      {/* <ImageInput source="profilepic" label="Related pictures" accept="image/*">
     <ImageField source="src" title="title" />
-</ImageInput>
+</ImageInput> */}
     </SimpleForm>
   </Edit>
 );
