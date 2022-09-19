@@ -41,7 +41,7 @@ import { loggedIn, logOut } from "../redux/auth/action";
 import { EffectCards } from "swiper";
 import Profile from "./Profile";
 import { loadUserInfo } from "../redux/userInfo/action";
-import { Team } from "../model";
+import { Team, Event } from "../model";
 
 const catergorys = {
   cat1: { src: cat1, title: "All" },
@@ -56,6 +56,7 @@ const Homepage: React.FC = () => {
   );
   const [data, setData] = useState<Team[]>([]);
   const [tag, setTag] = useState<string[]>([]);
+  const [eventData, setEventData] = useState<Event[]>([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
   const dispatch = useAppDispatch();
@@ -112,6 +113,14 @@ const Homepage: React.FC = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    (async function () {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/event`);
+      const result = await res.json();
+      setEventData(result);
+    })();
+  }, []);
+
   return (
     <IonPage>
       <IonHeader>
@@ -151,7 +160,6 @@ const Homepage: React.FC = () => {
       </IonHeader>
       <IonContent>
         <IonLabel className="labelTitle">Hot Events</IonLabel>
-        {/* <a href="#">See More</a> */}
 
         <Swiper
           loop={true}
@@ -160,21 +168,21 @@ const Homepage: React.FC = () => {
           modules={[EffectCards]}
           className="mySwiper swiper-container"
         >
-          <SwiperSlide className="imgelement">
-            <IonImg src={com1} />
-          </SwiperSlide>
-          <SwiperSlide className="imgelement">
-            <IonImg src={com2} />
-          </SwiperSlide>
-          <SwiperSlide className="imgelement">
-            <IonImg src={com3} />
-          </SwiperSlide>
-          <SwiperSlide className="imgelement">
-            <IonImg src={com4} />
-          </SwiperSlide>
-          <SwiperSlide className="imgelement">
-            <IonImg src={com5} />
-          </SwiperSlide>
+          {eventData.map((event) => {
+            return (
+              <IonCard key={event.id} routerLink={`/event/${event.id}`}>
+                <SwiperSlide className="imgelement">
+                  <IonImg
+                    src={
+                      event.profilepic != null
+                        ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${event.profilepic}`
+                        : "StartieLogo.png"
+                    }
+                  />
+                </SwiperSlide>
+              </IonCard>
+            );
+          })}
         </Swiper>
 
         <IonLabel className="labelTitle">Catergories</IonLabel>
