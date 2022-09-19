@@ -1,12 +1,19 @@
 .background {
-  background-image: url("../../img/bgimage.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 100vh;
-  display: flex;
+  --background: #fff url('../../img/bgimage.png') no-repeat center center / cover;
+  display: flex; 
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.background > .sociallogin{
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: absolute;
+  top: 40%;
+  left: 25%;
 }
 
 .pageContent {
@@ -90,6 +97,7 @@ button,
     #da2f69 67.96%,
     #ea5729 100.39%
   );
+  color: #fff;
   padding: 15px;
   margin: 10px auto;
   border-radius: 10px;

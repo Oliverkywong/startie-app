@@ -4,7 +4,6 @@ import {
   IonContent,
   IonIcon,
   IonImg,
-  IonNavLink,
   IonPage,
   useIonRouter,
 } from "@ionic/react";
@@ -19,19 +18,16 @@ import { useForm } from "react-hook-form";
 import "./css/Login.css";
 import { useDispatch } from "react-redux";
 import { loggedIn } from "../redux/auth/action";
-import SocialLogin from "./SocialLogin";
-import SignUp from "./SignUp";
-import { RootState, useAppSelector } from "../store";
 
 const Login: React.FC = () => {
   const { register, handleSubmit } = useForm();
   const [passwordShown, setPasswordShown] = useState(false);
   const dispatch = useDispatch();
-  // const router = useIonRouter();
+  const router = useIonRouter();
 
   return (
-    <IonPage className="background">
-      <IonContent>
+    <IonPage>
+      <IonContent className="background">
         <div className="pageContent">
           <IonImg src={logo} className="logo" />
           <h1>Hey, Welcome Back!</h1>
@@ -51,8 +47,8 @@ const Login: React.FC = () => {
               if (res.status === 200) {
                 const userRecord = await res.json();
                 dispatch(loggedIn(userRecord["user"], userRecord["jwt"]));
-                // router.push("/tab/home");
-                window.location.replace("/tab/home");
+                router.push("/tab/home");
+                // window.location.replace("/tab/home");
                 // <IonNavLink component={() => <Homepage />} ></IonNavLink>
               }
             })}
@@ -86,21 +82,20 @@ const Login: React.FC = () => {
           <div className="signup">
             <p>
               New to Startie? <span />
-              <IonNavLink
+              <span
                 style={{ color: "#4fc564" }}
-                routerDirection="forward"
-                component={() => <SignUp />}
+                onClick={()=>{
+                  // window.location.replace('/signup')
+                  router.push("/signup");}}
               >
                 Sign Up
-              </IonNavLink>
+              </span>
             </p>
           </div>
-          <IonNavLink
-            routerDirection="forward"
-            component={() => <SocialLogin />}
-          >
-            <IonButton>Social Login</IonButton>
-          </IonNavLink>
+          <IonButton onClick={()=>{
+            // window.location.replace('/sociallogin')
+            router.push("/sociallogin")
+          }}>Social Login</IonButton>
         </div>
       </IonContent>
     </IonPage>

@@ -70,8 +70,6 @@ export default function PasswordComplexity(props: { password: string }) {
   });
 
   return (
-    <IonPage>
-      <IonContent>
         <div>
           <span style={{ color: barcolor() }}>{barlable()}</span>
           <IonProgressBar style={chagecolor()} />
@@ -96,7 +94,5 @@ export default function PasswordComplexity(props: { password: string }) {
             />
           </ul>
         </div>
-      </IonContent>
-    </IonPage>
   );
 }

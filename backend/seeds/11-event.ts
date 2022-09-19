@@ -1,7 +1,9 @@
 import { Knex } from "knex";
-
+import { faker } from "@faker-js/faker";
 
 export async function seed(knex: Knex): Promise<void> {
+
+    faker.seed(123);
     // Deletes ALL existing entries
     await knex("event").del();
 
@@ -37,5 +39,19 @@ export async function seed(knex: Knex): Promise<void> {
         },
     ])
     .into("event");
+
+
+    for(let i = 0; i < 20; i++) {
+        await knex("event").insert({
+            name: `${faker.name.jobArea()}${faker.company.bs()}`,
+            description: faker.lorem.paragraph(),
+            status_id: 1,
+            starttime: faker.date.between('2022-10-01T00:00:00.000Z', '2022-11-01T00:00:00.000Z'),
+            maxteammember: Math.floor(Math.random()* 4)+1,
+            profilepic: `event${Math.floor(Math.random()* 10)+1}.jpeg`,
+            clickrate: Math.floor(Math.random()* 500)+1,
+        });
+    }
+
 
 }

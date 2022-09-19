@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+    db:
+        image: "postgres:13"
+        environment:
+            POSTGRES_USER: oliver
+            POSTGRES_PASSWORD: oliver
+            POSTGRES_DB: startie
+        ports:
+            - "5432:5432"
+        volumes:
+            - ./pgdata:/var/lib/postgresql/data
+    startie-backend:
+        environment: 
+            DB_USERNAME: oliver
+            DB_PASSWORD: oliver
+            DB_NAME: startie
+            DB_HOST: db
+            REACT_DOMAIN: "https://startie.oliverstrat.me"
+            NODE_ENV: production
+            PORT: 8000
+        depends_on: 
+            - db
+        build:
+            context: ./
+            dockerfile: ./Dockerfile
+        image: "startie:latest"
+        ports:
+            - "8000:8000"

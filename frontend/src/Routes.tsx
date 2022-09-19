@@ -14,7 +14,7 @@ import {
   chatbubbleEllipsesOutline,
   personOutline,
 } from "ionicons/icons";
-import { Route } from "react-router";
+import { Redirect, Route } from "react-router";
 import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -36,7 +36,8 @@ import SocialLogin from "./pages/SocialLogin";
 export default function Routes() {
   return (
     <IonRouterOutlet>
-      <Route path="/" component={Login} />
+      {/* <Route path="/" component={Login} /> */}
+      <Redirect exact path="/" to="/login" />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={SignUp} />
       <Route path="/search" component={SearchPage} />

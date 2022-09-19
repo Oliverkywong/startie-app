@@ -175,11 +175,11 @@ console.log('user:',user);
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
-  // Logout 
+  // Logout
   // -------------------------------------------------------------------------------------------------------------------
   logout = async (req: express.Request, res: express.Response) => {
     try {
-      logger.info(`${req.session['username']} logging out`)
+      logger.info(`${req.session["username"]} logging out`);
 
       // req.session.destroy( () => {
       //   res.status(500).json({ result: true, msg: "logout successful" });
@@ -195,7 +195,6 @@ console.log('user:',user);
   // -------------------------------------------------------------------------------------------------------------------
   userInfo = async (req: express.Request, res: express.Response) => {
     try {
-      
       const userId =
         req.user?.userId != undefined
           ? Number(req.user.userId)
@@ -216,28 +215,52 @@ console.log('user:',user);
       const domain = req.get('origin')
       
       let show;
-      const name = req.query.name as string != undefined ? req.query.name as string : req.query.q as string;
+      const name =
+        (req.query.name as string) != undefined
+          ? (req.query.name as string)
+          : (req.query.q as string);
       const email = req.query.email as string;
       const status = req.query.status as string;
       const description = req.query.description as string;
       const phonenumber = parseInt(String(req.query.phonenumber)) as number;
-      let allUserInfo:any;
+      let allUserInfo: any;
 
       switch (domain) {
-        case 'http://localhost:3000': // !!!!! remember to change to react admin domain when deploy
-          show = false
-          allUserInfo = await this.userService.getAllUser(name, email, status, description, phonenumber, show)
-          break; 
-        case 'http://localhost:3001': // !!!!! remember to change to frontend domain when deploy
-          show = true
-          allUserInfo = await this.userService.getAllUser(name, email, status, description, phonenumber, show)
+        case "http://localhost:3000": // !!!!! remember to change to react admin domain when deploy
+          show = false;
+          allUserInfo = await this.userService.getAllUser(
+            name,
+            email,
+            status,
+            description,
+            phonenumber,
+            show
+          );
+          break;
+        case "http://localhost:3001": // !!!!! remember to change to frontend domain when deploy
+          show = true;
+          allUserInfo = await this.userService.getAllUser(
+            name,
+            email,
+            status,
+            description,
+            phonenumber,
+            show
+          );
           break;
         default:
-            show = false
-            allUserInfo = await this.userService.getAllUser(name, email, status, description, phonenumber, show)
-            break;
+          show = false;
+          allUserInfo = await this.userService.getAllUser(
+            name,
+            email,
+            status,
+            description,
+            phonenumber,
+            show
+          );
+          break;
       }
-      
+
       res.set("x-total-count", String(allUserInfo.length));
       res.status(200).json(allUserInfo);
     } catch (err) {
@@ -246,9 +269,9 @@ console.log('user:',user);
     }
   };
 
-// -------------------------------------------------------------------------------------------------------------------
-// edit User Info
-// -------------------------------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------------------------------
+  // edit User Info
+  // -------------------------------------------------------------------------------------------------------------------
 
   editUser = async (req: express.Request, res: express.Response) => {
  if (req.get('origin')  == 'http://localhost:3001') {
@@ -274,7 +297,7 @@ console.log('user:',user);
   
         // if (isAdmin) {
           // const oldStatusId = userInfos[0].status_id;
-  
+
           // const newStatusId =
           // fields.status_id != null && !Array.isArray(fields.status_id)
           //   ? parseInt(fields.status_id.trim())
@@ -403,10 +426,10 @@ console.log('user:',user);
   // -------------------------------------------------------------------------------------------------------------------
   joinTeam = async (req: express.Request, res: express.Response) => {
     try {
-      const { teamId, userId } = req.params;
+      const userId = req.user!.userId;
+      const teamId = req.params.teamid;
       const NumberTeamId = parseInt(teamId);
-      const NumberUserId = parseInt(userId);
-      const team = await this.userService.joinTeam(NumberTeamId, NumberUserId);
+      const team = await this.userService.joinTeam(NumberTeamId, userId);
       res.status(200).json(team);
     } catch (err) {
       logger.error(err);
@@ -436,36 +459,32 @@ console.log('user:',user);
 
   joinEvent = async (req: express.Request, res: express.Response) => {
     try {
-      const { eventId, userId } = req.params;
+      const userId = req.user!.userId;
+      const eventId = req.params.id;
       const NumberEventId = parseInt(eventId);
-      const NumberUserId = parseInt(userId);
-      // const { NumberEventId, NumberUserId } = req.body;
-      const event = await this.userService.joinEvent(
-        NumberEventId,
-        NumberUserId
-      );
+      const event = await this.userService.joinEvent(NumberEventId, userId);
       res.status(200).json(event);
+      console.log("joinEvent", event);
     } catch (err) {
       logger.error(err);
       res.status(400).json({ result: false, msg: "join event fail" });
     }
   };
-// -------------------------------------------------------------------------------------------------------------------
-// get notification
-// -------------------------------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------------------------------
+  // get notification
+  // -------------------------------------------------------------------------------------------------------------------
   getNotification = async (req: express.Request, res: express.Response) => {
     try {
       const userId =
         req.user?.userId != undefined
           ? Number(req.user.userId)
           : parseInt(req.params.id);
-          console.log("userId", userId);
+      // console.log("userId", userId);
       const notification = await this.userService.getNotification(userId);
       return res.json(notification);
     } catch (err) {
       logger.error(err);
       return res.json({ result: false, msg: "Get notification fail" });
     }
-  }
-
+  };
 }

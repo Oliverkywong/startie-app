@@ -12,7 +12,10 @@ import {
   IonItem,
   IonLabel,
   IonContent,
+  IonCardTitle,
 } from "@ionic/react";
+import "./css/Event.css";
+import "./css/Common.css";
 import React, { useEffect, useState } from "react";
 import { useLocation, useRouteMatch } from "react-router-dom";
 import eventimg from "../img/com1.png";
@@ -38,7 +41,6 @@ const EventDetail: React.FC = () => {
         `${process.env.REACT_APP_BACKEND_URL}/event/${match?.params.id}`
       );
       const item = await res.json();
-      // console.log(item);
       setData([item]);
     })();
   }, []);
@@ -53,6 +55,19 @@ const EventDetail: React.FC = () => {
     }, 500);
   };
 
+  async function joinEvent() {
+    const localtoken = localStorage.getItem("token");
+    await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/user/me/event/${match?.params.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localtoken}`,
+        },
+        method: "POST",
+      }
+    );
+  }
+
   return (
     <IonPage>
       <IonHeader>
@@ -65,17 +80,18 @@ const EventDetail: React.FC = () => {
       <IonContent>
         {data.map((item) => {
           return (
-            <IonCard key={item.id}>
-              <IonItem>
-                <IonImg
-                  src={
-                    item?.profilepic != null
-                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
-                      : "StartieLogo.png"
-                  }
-                />
-              </IonItem>
-              <IonCardContent className="eventName">{item.name}</IonCardContent>
+            <IonCard key={item.id} className="eventDetail">
+              <IonImg
+                className="eventThumbnail"
+                src={
+                  item?.profilepic != null
+                    ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                    : "StartieLogo.png"
+                }
+              />
+              <IonCardTitle className="evenDetailTitle">
+                {item.name}
+              </IonCardTitle>
               <div className="event">
                 <IonImg
                   src={
@@ -95,7 +111,9 @@ const EventDetail: React.FC = () => {
             </IonCard>
           );
         })}
-        <IonButton>Join</IonButton>
+        <div className="detailButton">
+          <IonButton onClick={joinEvent}>Join Competition</IonButton>
+        </div>
       </IonContent>
     </IonPage>
   );
