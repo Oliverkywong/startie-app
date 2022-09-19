@@ -24,15 +24,14 @@ import {
 export const UserList = () => (
   <List filters={getUserFilters()}>
     <Datagrid rowClick="edit">
-      <TextField source="id" />
+      <TextField source="id" sortByOrder="DESC" />
       <TextField source="username" />
       <EmailField source="email" />
       <TextField source="phonenumber" />
       <TextField source="status" />
-      <TextField source="name" />
       <TextField source="description" />
       <TextField source="created_at" />
-      <TextField source="profilepic" />
+      <TextField source="profilepic" sortable={false}/>
       <EditButton />
     </Datagrid>
   </List>

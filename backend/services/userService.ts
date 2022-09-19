@@ -96,7 +96,8 @@ export class UserService {
   async login(username: string, password: string) {
     let result = this.knex<User>("user")
       .select("*")
-      .where("username", username);
+      .where("username", username)
+      .where("status_id", 1);
 
     const userRecord = await result;
 
@@ -130,7 +131,7 @@ export class UserService {
   // -------------------------------------------------------------------------------------------------------------------
   // get all UserInfo
   // -------------------------------------------------------------------------------------------------------------------
-  async getAllUser(name?:string, email?:string, status?:string, phonenumber?:number, show?: boolean) {
+  async getAllUser(name?:string, email?:string, status?:string,description?:string, phonenumber?:number, show?: boolean) {
 
     let query = this.knex<User>("user").select("user.id", "username", "email", "phonenumber", "profilepic", "description", "clickrate", "created_at", "status_id as sid", "name as status").join("status", "status_id", "status.id");
 
@@ -141,10 +142,13 @@ export class UserService {
       query = query.where("email", "ilike", `%${email}%`);
     }
     if (status) {
-      query = query.where("name", "ilike", `%${status}%`);
+      query = query.where("name", "ilike", `${status}`);
+    }
+    if (description) {
+      query = query.where("description", "ilike", `${description}`);
     }
     if (phonenumber) {
-      query = query.where("phonenumber", "ilike", `%${phonenumber}%`);
+      query = query.where("phonenumber", "ilike", `${phonenumber}`);
     }
     const userRecord = show == false? await query.orderBy('id', 'asc') : await query.orderBy('id', 'asc').where('status_id', 1);
 
