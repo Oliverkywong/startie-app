@@ -62,7 +62,7 @@ export async function seed(knex: Knex): Promise<void> {
         await knex("user").insert({
             username: faker.name.fullName(),
             password: faker.internet.password(),
-            email: `${faker.name.lastName}@gmail.com`,
+            email: `${faker.name.lastName()}${i.toString()}@gmail.com`,
             phonenumber: faker.finance.account(),
             status_id: 1,
             profilepic: `icon${Math.floor(Math.random()* 30)+1}.jpeg`,
