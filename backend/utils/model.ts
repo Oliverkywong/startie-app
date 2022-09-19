@@ -20,6 +20,11 @@ export interface Team {
   clickrate: number;
 }
 
+export interface Team_Tags {
+  team_id: number;
+  tag_id: number;
+}
+
 export interface Job {
   id: number;
   name: string;

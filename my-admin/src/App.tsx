@@ -16,7 +16,7 @@ import jsonServerProvider from 'ra-data-json-server';
 // const dataProvider = jsonServerProvider('https://oliverproject.oliverstrat.me');
 const httpClient = (url:string, options :any= {}) => {
   if (!options.headers) {
-    options.headers = new Headers( {Accept: 'multipart/form-data'} );
+    options.headers = new Headers( {Accept: 'application/json'} );
   }
   const { token } = JSON.parse(localStorage.getItem('auth')!);
     
