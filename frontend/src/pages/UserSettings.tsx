@@ -11,6 +11,7 @@ import {
   IonTitle,
   IonButtons,
   IonToggle,
+  useIonRouter,
 } from "@ionic/react";
 import React from "react";
 import { logOut } from "../redux/auth/action";
@@ -18,6 +19,7 @@ import { useAppDispatch } from "../store";
 
 const UserSettings: React.FC = () => {
   const dispatch = useAppDispatch();
+  const router = useIonRouter();
   return (
     <IonPage>
       <IonHeader>
@@ -62,7 +64,8 @@ const UserSettings: React.FC = () => {
           color="danger"
           onClick={() => {
             dispatch(logOut());
-            window.location.replace("/login");
+            // window.location.replace("/login");
+            router.push("/login");
           }}
         >
           Log Out

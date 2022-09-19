@@ -14,15 +14,29 @@ import {
 import React, { useEffect, useState } from "react";
 import logo from "../img/logo.png";
 import "./css/Notification.css";
-
-interface Note {
-  id: number;
-  content: string;
-  created_at: string;
-}
+import { OneSignal } from '@awesome-cordova-plugins/onesignal';
+import { Note } from "../model";
 
 const Notification: React.FC = () => {
   const [data, setData] = useState<Note[]>([]);
+
+  useEffect(() => {
+    OneSignal.startInit('b2f7f966-d8cc-11e4-bed1-df8f05be55ba', '703322744261');
+
+    OneSignal.inFocusDisplaying(OneSignal.OSInFocusDisplayOption.InAppAlert);
+
+    OneSignal.handleNotificationReceived().subscribe(() => {
+      // do something when notification is received
+    });
+
+    OneSignal.handleNotificationOpened().subscribe(() => {
+      // do something when a notification is opened
+    });
+
+    OneSignal.endInit();
+  }, []);
+
+  
 
   useEffect(() => {
     (async function () {
@@ -32,7 +46,7 @@ const Notification: React.FC = () => {
         }
       });
       const result = await res.json();
-      console.log(result)
+      // console.log(result)
       setData(result);
     })()
   }, [])

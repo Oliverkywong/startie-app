@@ -9,14 +9,17 @@ import {
   IonPage,
   IonButton,
   IonIcon,
-  IonNavLink,
   IonContent,
+  useIonRouter,
 } from "@ionic/react";
 import { logoApple, logoGoogle } from "ionicons/icons";
 import { GooglePlus } from "@awesome-cordova-plugins/google-plus";
-import Login from "./Login";
+import "./css/Login.css";
 
 export default function SocialLogin() {
+
+  const router = useIonRouter();
+
   async function appleLogin() {
     //@ts-ignore
     SignInWithApple.signin({
@@ -62,8 +65,9 @@ export default function SocialLogin() {
       });
   }
   return (
-    <IonPage className="background">
-      <IonContent>
+    <IonPage>
+      <IonContent className="background">
+        <div className="sociallogin">
         <IonButton color="dark" onClick={appleLogin}>
           <IonIcon icon={logoApple} />
           Sign in with Apple
@@ -72,10 +76,8 @@ export default function SocialLogin() {
           <IonIcon icon={logoGoogle} />
           Sign in with Google
         </IonButton>
-
-        <IonNavLink routerDirection="forward" component={() => <Login />}>
-          <IonButton>Login</IonButton>
-        </IonNavLink>
+        <IonButton onClick={() => { router.push("/login") }}>Login</IonButton>
+        </div>
       </IonContent>
     </IonPage>
   );

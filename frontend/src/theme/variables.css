@@ -1,9 +1,14 @@
 /* Ionic Variables and Theming. For more info, please see:
 http://ionicframework.com/docs/theming/ */
 
+ion-image {
+  max-width: 100%;
+}
+
 /** Ionic CSS Variables **/
 :root {
   /** primary **/
+  background-image: url("../img/bgimage.png");
   --ion-color-primary: #3880ff;
   --ion-color-primary-rgb: 56, 128, 255;
   --ion-color-primary-contrast: #ffffff;

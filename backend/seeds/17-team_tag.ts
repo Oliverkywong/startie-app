@@ -39,4 +39,13 @@ export async function seed(knex: Knex): Promise<void> {
     ])
     .into("team_tag");
 
+    for(let i = 4; i <= 104; i++) {
+        await knex
+        .insert({
+            team_id: i,
+            tag_id: Math.floor(Math.random() * 12) + 1,
+        })
+        .into("team_tag");
+    }
+
 }
