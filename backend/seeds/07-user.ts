@@ -1,7 +1,9 @@
 import { Knex } from "knex";
-
+import { faker } from "@faker-js/faker";
 
 export async function seed(knex: Knex): Promise<void> {
+
+    faker.seed(123);
     // Deletes ALL existing entries
     await knex("user").del();
 
@@ -55,6 +57,19 @@ export async function seed(knex: Knex): Promise<void> {
         },
     ])
     .into("user");
+
+    for(let i = 0; i < 100; i++) {
+        await knex("user").insert({
+            username: faker.name.fullName(),
+            password: faker.internet.password(),
+            email: `${faker.name.lastName}@gmail.com`,
+            phonenumber: faker.finance.account(),
+            status_id: 1,
+            profilepic: `icon${Math.floor(Math.random()* 30)+1}.jpeg`,
+            description: faker.lorem.paragraph(),
+            clickrate: Math.floor(Math.random()* 500),
+        });
+    }
 
 }
 

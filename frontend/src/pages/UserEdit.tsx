@@ -38,7 +38,7 @@ export default function UserEdit() {
   };
 
 
-  console.log(userdetails);
+  // console.log(userdetails);
 
   return (
     <IonPage>
@@ -67,7 +67,7 @@ export default function UserEdit() {
               },
               body: formData,
             })
-            console.log(data);
+            // console.log(data);
             router.push("/recommend");
           })}
         >

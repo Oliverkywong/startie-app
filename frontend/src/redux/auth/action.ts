@@ -2,7 +2,7 @@ import { UserInfo } from "../../model";
 import { AppDispatch } from "../../store";
 
 export function loggedIn(info: UserInfo ,token: string) {
-        console.log(info)
+        // console.log(info)
         localStorage.setItem("token", token);
     return {
         

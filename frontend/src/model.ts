@@ -45,3 +45,9 @@ export interface userInfoState {
   userinfo: UserInfo;
   team: Team[];
 }
+
+export interface Note {
+  id: number;
+  content: string;
+  created_at: string;
+}
