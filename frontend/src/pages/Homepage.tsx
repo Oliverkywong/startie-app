@@ -22,11 +22,6 @@ import {
 import { Swiper, SwiperSlide } from "swiper/react";
 import { notificationsOutline } from "ionicons/icons";
 
-import com1 from "../img/com1.png";
-import com2 from "../img/com2.png";
-import com3 from "../img/com3.png";
-import com4 from "../img/com4.png";
-import com5 from "../img/com5.png";
 import cat1 from "../img/all.png";
 import cat2 from "../img/startup.png";
 import cat3 from "../img/business.png";
