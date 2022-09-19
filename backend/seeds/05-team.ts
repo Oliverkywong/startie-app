@@ -53,7 +53,7 @@ export async function seed(knex: Knex): Promise<void> {
             description: faker.lorem.paragraph(),
             status_id: 1,
             profilepic: `team${Math.floor(Math.random()* 50)+1}.jpeg`,
-            clickrate: Math.floor(Math.random()* 500),
+            clickrate: Math.floor(Math.random()* 500)+1,
         });
     }
 

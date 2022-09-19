@@ -9,12 +9,9 @@ import {
   IonImg,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
-  IonGrid,
   IonCol,
-  IonRow,
   IonButtons,
   useIonRouter,
-  IonItem,
   IonToolbar,
   IonTitle,
   IonBackButton,
@@ -44,7 +41,7 @@ const TeamList: React.FC = () => {
     (async function () {
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`);
       const result = await res.json();
-      // console.log(result);
+      console.log(result);
       setData(result);
     })();
   }, []);
