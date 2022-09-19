@@ -79,9 +79,8 @@ export class UserController {
       let username: string = req.body.username.trim();
       let password: string = req.body.password.trim();
       let email: string = req.body.email.trim();
-      const statusId = 1;
 
-      await this.userService.register(username, password, email, statusId);
+      await this.userService.register(username, password, email);
       return res.status(200).json({ result: true, msg: "register success" });
     } catch (err) {
       if (err instanceof UserDuplicateUsernameError) {
@@ -115,7 +114,7 @@ export class UserController {
       let username = req.body.username.trim();
       let password = req.body.password.trim();
       let user = await this.userService.login(username, password);
-console.log('user:',user);
+      console.log("user:", user);
 
       const ecPrivateKey = await joseKey();
 
@@ -129,23 +128,22 @@ console.log('user:',user);
         .setExpirationTime("24h")
         .sign(ecPrivateKey);
 
-        // console.log("jwt in login",jwt);
-// req.session={isLogin:true,
-//   jwt:jwt,
-//   userId:user[0].id,
-//   username:user[0].username,}
+      // console.log("jwt in login",jwt);
+      // req.session={isLogin:true,
+      //   jwt:jwt,
+      //   userId:user[0].id,
+      //   username:user[0].username,}
       // req.session['isLogin'] = true
       // req.session['jwt'] = jwt
       // req.session['username'] = user[0].username
       // req.session['userId'] = user[0].id
 
       // console.log("login",req.session);
-      
-      
+
       logger.info(`${username} logged in`);
       // res.header('token', jwt)
-    // res.headers.set("token", jwt); 
-      return res.status(200).header('token', jwt).json({
+      // res.headers.set("token", jwt);
+      return res.status(200).header("token", jwt).json({
         result: true,
         msg: "login success",
         user: user[0],
@@ -184,7 +182,6 @@ console.log('user:',user);
       // req.session.destroy( () => {
       //   res.status(500).json({ result: true, msg: "logout successful" });
       // })
-
     } catch (err) {
       logger.error(err);
       res.status(500).json({ result: false, msg: "logout error" });
@@ -195,10 +192,18 @@ console.log('user:',user);
   // -------------------------------------------------------------------------------------------------------------------
   userInfo = async (req: express.Request, res: express.Response) => {
     try {
-      const userId =
+      let userId
+      if (req.get("origin") === "http://localhost:3000"){ // react admin
+        userId = parseInt(req.params.id);
+      } else {
+        userId =
         req.user?.userId != undefined
           ? Number(req.user.userId)
           : parseInt(req.params.id); // get userId from JWT
+      }
+      
+      console.log(userId);
+      
 
       const userInfo = await this.userService.userInfo(userId);
       return res.json(userInfo[0]);
@@ -212,15 +217,15 @@ console.log('user:',user);
   // -------------------------------------------------------------------------------------------------------------------
   getAllUser = async (req: express.Request, res: express.Response) => {
     try {
-      const domain = req.get('origin')
-      
+      const domain = req.get("origin");
+
       let show;
       const name =
         (req.query.name as string) != undefined
           ? (req.query.name as string)
           : (req.query.q as string);
       const email = req.query.email as string;
-      const status = req.query.status as string;
+      const status:any = req.query.status_id;
       const description = req.query.description as string;
       const phonenumber = parseInt(String(req.query.phonenumber)) as number;
       let allUserInfo: any;
@@ -274,61 +279,38 @@ console.log('user:',user);
   // -------------------------------------------------------------------------------------------------------------------
 
   editUser = async (req: express.Request, res: express.Response) => {
- if (req.get('origin')  == 'http://localhost:3001') {
     
- console.log("req.origin",req.get('origin'))
- res.end()
-  } else {
-    form.parse(req, async (err, fields, files) => {
-      try {
-        
-        console.log("req.origin",req.get('origin'))
-        const userId = req.user?.userId !=undefined? Number(req.user.userId) : parseInt(req.params.id); // get userId from JWT
-        console.log("edit User id", userId);
-        
-  
-        const userInfos = await this.userService.userInfo(userId);
-        let oldProfilepic = userInfos[0].profilepic;
-        let oldPhoneNumber = userInfos[0].phonenumber;
-        let oldDescription = userInfos[0].description;
-        console.log("Old user Info", userInfos);
-  
-        const newStatusId = req.body.status_id != null? req.body.status_id : 1;
-  
-        // if (isAdmin) {
-          // const oldStatusId = userInfos[0].status_id;
+    if (req.get("origin") === "http://localhost:3000") { //react admin
+      console.log("req.origin", req.get("origin"));
 
-          // const newStatusId =
-          // fields.status_id != null && !Array.isArray(fields.status_id)
-          //   ? parseInt(fields.status_id.trim())
-          //   : oldStatusId;
-        // }
-  
-        const newProfilepic =
-          files.profilepic != null && !Array.isArray(files.profilepic)
-            ? files.profilepic.newFilename
-            : oldProfilepic;
-  
-        const newPhoneNumber =
-          fields.phonenumber != null && !Array.isArray(fields.phonenumber)
-            ? fields.phonenumber.trim()
-            : oldPhoneNumber;
-  
-        const newDescription =
-          fields.description != null && !Array.isArray(fields.description)
-            ? fields.description
-            : oldDescription;
-  
+      try {
+        let userId;
+        if (req.get("origin") === "http://localhost:3000"){ // react admin
+        userId = parseInt(req.params.id);
+      } else {
+        userId =
+        req.user?.userId != undefined
+          ? Number(req.user.userId)
+          : parseInt(req.params.id); // get userId from JWT
+      }   
+      console.log("edit User",userId);
+      
+
+        const { description, phonenumber, profilepic } = req.body;
+
+        console.log(req.body);
+        
+
+        const newStatusId = req.body.status_id
+
         const userInfo = await this.userService.editUser(
           userId,
-          newProfilepic,
+          profilepic,
           newStatusId,
-          newPhoneNumber,
-          newDescription
+          phonenumber,
+          description
         );
-  
-        console.log("New userInfo", userInfo);
-        
+
         return res.json({
           result: true,
           msg: "Edit user profile success",
@@ -336,15 +318,74 @@ console.log('user:',user);
         });
       } catch (err) {
         logger.error(err);
-        return res.json({
-          result: false,
-          msg: "Edit user profile fail",
-        });
+        res.status(400).json({ result: false, msg: "update User fail" });
       }
-    });
-    };
-  }
+    } 
+    else {
+      try{
+      form.parse(req, async (err, fields, files) => {
+        
+          console.log("req.origin", req.get("origin"));
+          const userId =
+            req.user?.userId != undefined
+              ? Number(req.user.userId)
+              : parseInt(req.params.id); // get userId from JWT
 
+          const userInfos = await this.userService.userInfo(userId);
+          let oldProfilepic = userInfos[0].profilepic;
+          let oldPhoneNumber = userInfos[0].phonenumber;
+          let oldDescription = userInfos[0].description;
+
+          const newStatusId =
+            req.body.status_id != null ? req.body.status_id : 1;
+
+          const newProfilepic =
+            files.profilepic != null && !Array.isArray(files.profilepic)
+              ? files.profilepic.newFilename
+              : oldProfilepic;
+
+          const newPhoneNumber =
+            fields.phonenumber != null && !Array.isArray(fields.phonenumber)
+              ? fields.phonenumber.trim()
+              : oldPhoneNumber;
+
+          const newDescription =
+            fields.description != null && !Array.isArray(fields.description)
+              ? fields.description
+              : oldDescription;
+
+          const userInfo:any = await this.userService.editUser(
+            userId,
+            newProfilepic,
+            newStatusId,
+            newPhoneNumber,
+            newDescription
+          );
+
+          return res.json({
+            result: true,
+            msg: "Edit user profile success",
+            userInfo,
+          });
+       
+      });
+    } catch (err) {
+      logger.error(err);
+      return res.json({
+        result: false,
+        msg: "Edit user profile fail",
+      });
+    }
+
+
+
+    }
+    return res.json({
+      result: false,
+      msg: "Edit user profile fail",
+    });
+  } 
+  
   // -------------------------------------------------------------------------------------------------------------------
   // Apple Login
   // -------------------------------------------------------------------------------------------------------------------

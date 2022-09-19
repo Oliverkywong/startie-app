@@ -19,6 +19,9 @@ import {
   usePermissions,
   ImageField,
   ImageInput,
+  required,
+  PasswordInput,
+  NumberInput,
 } from "react-admin";
 
 export const UserList = () => (
@@ -31,36 +34,35 @@ export const UserList = () => (
       <TextField source="status" />
       <TextField source="description" />
       <TextField source="created_at" />
-      <TextField source="profilepic" sortable={false}/>
+      <TextField source="profilepic" sortable={false} />
       <EditButton />
     </Datagrid>
   </List>
 );
 
-export const UserEdit = (props:any) => (
-  <Edit title={<UserTitle />} {...props}>
+export const UserEdit = (props: any) => (
+  <Edit {...props}>
     <SimpleForm>
       <TextInput disabled source="id" />
-      <TextInput source="username" resettable />
-      <TextInput source="email" resettable />
-      <TextInput source="phonenumber" resettable />
-      <SelectInput source="status_id" emptyValue={null} resettable choices={[
-        {id:1, name: 'active'},
-        {id:2, name: 'inactive'},
-        {id:3, name: 'pending'}
-      ]}
-       />
+      <TextInput disabled source="username" resettable />
+      <TextInput disabled source="email" resettable />
+      <TextInput source="phonenumber" />
+      <SelectInput
+        source="status_id"
+        validate={required()}
+        resettable
+        choices={[
+          { id: 1, name: "Active" },
+          { id: 2, name: "Inactive" },
+          { id: 3, name: "Pending" },
+        ]}
+      />
       <TextInput multiline source="description" resettable />
-      <FileInput
+      <SelectInput
         source="profilepic"
-        label="Related files"
-        accept="image/*,.pdf"
-      >
-        <FileField source="src" title="title" />
-      </FileInput>
-      {/* <ImageInput source="profilepic" label="Related pictures" accept="image/*">
-    <ImageField source="src" title="title" />
-</ImageInput> */}
+        resettable
+        choices={[{ id: "default.jpg", name: "default" }]}
+      />
     </SimpleForm>
   </Edit>
 );
@@ -72,29 +74,28 @@ export const UserCreate = (props: any) => (
       {props.map((user: any) => {
         return <TextInput source="name">{user}</TextInput>;
       })} */}
-      <TextInput source="username" />
-      <TextInput source="password" />
-      <TextInput source="email" />
-      <TextInput multiline source="description" />
+      <TextInput source="username" validate={[required()]} />
+      <PasswordInput source="password" validate={[required()]} />
+      <TextInput source="email" validate={[required()]} />
     </SimpleForm>
   </Create>
 );
 
-const UserTitle = ({ record}:any) => {
-  // const record = useRecordContext();
-  return <span>User {record ? `"${record.title}"` : ""}</span>;
-};
-
-const postFilters = [
-  <SearchInput source="q" label="Search" alwaysOn />
-];
+const postFilters = [<SearchInput source="q" label="Search" alwaysOn />];
 
 const getUserFilters = () =>
-[
-  <SearchInput source="q" alwaysOn />,
-  <TextInput source="name" />,
-  <TextInput source="phonenumber" />,
-  <TextInput source="email" />,
-  <TextInput source="description" />,
-  <TextInput source="status" />,
-].filter(filter => filter !== null);
+  [
+    <SearchInput source="q" alwaysOn />,
+    <TextInput source="name" />,
+    <TextInput source="phonenumber" />,
+    <TextInput source="email" />,
+    <TextInput source="description" />,
+    <SelectInput
+      source="status_id"
+      choices={[
+        { id: 1, name: "Active" },
+        { id: 2, name: "Inactive" },
+        { id: 3, name: "Pending" },
+      ]}
+    />,
+  ].filter((filter) => filter !== null);
