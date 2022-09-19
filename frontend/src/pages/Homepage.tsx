@@ -103,6 +103,7 @@ const Homepage: React.FC = () => {
         );
 
         const item = await tagres.json();
+        console.log(item.tag);
         const tagArray: string[] = [];
         for (let i = 0; i < item.teamTag.length; i++) {
           tagArray.push(item.teamTag[i].name);
@@ -111,6 +112,7 @@ const Homepage: React.FC = () => {
       }
     })();
   }, []);
+
 
   return (
     <IonPage>

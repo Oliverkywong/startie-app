@@ -6,18 +6,17 @@ export class TeamService {
   // -------------------------------------------------------------------------------------------------------------------
   // create team
   // -------------------------------------------------------------------------------------------------------------------
-  async createTeam(name: string, team_tag: string, description?: string, profilepic?: string) {
+  async createTeam(name: string, searchcategory_id: number, description: string, profilepic: string) {
     try {
       const teaminfo = await this.knex<Team>("team")
         .insert({
           name: name,
+          searchcategory_id: searchcategory_id,
           description: description,
           profilepic: profilepic,
+          status_id: 1
         })
         .returning("*");
-
-        console.log(team_tag);
-        
 
       // const teamTags = await this.knex<Team_Tags>("team_tag")
       //   .insert({
@@ -40,17 +39,20 @@ export class TeamService {
     `SELECT
     t.id,
     t.name, 
-    s.name AS status, 
+    s.name AS status,
+    s2.name AS category,
     array_agg(DISTINCT u.username) AS users,
     t.description, 
-    array_agg(DISTINCT tag.name) AS tags, 
+    array_agg(DISTINCT tag.name) AS looking_for,
+    t.clickrate,
     t.profilepic 
-    FROM ((((team_tag INNER JOIN team t on t.id= team_tag.team_id) 
+    FROM (((((team_tag INNER JOIN team t on t.id= team_tag.team_id) 
     INNER JOIN tag ON tag.id=team_tag.tag_id) 
     INNER JOIN status s ON s.id= t.status_id) 
     INNER JOIN user_team ut ON ut.team_id = t.id)
-    INNER JOIN "user" u ON u.id = ut.user_id 
-    GROUP BY t.id, s.id
+    INNER JOIN "user" u ON u.id = ut.user_id)
+    INNER JOIN searchcategory s2 on s2.id = t.searchcategory_id
+    GROUP BY t.id, s.id, s2.name
     HAVING `
 
     if (show) { // if show is false, only show active teams
@@ -71,14 +73,13 @@ export class TeamService {
 
     if (query.endsWith('AND ')) {
       query = query.slice(0, -4) // delete the "AND"
-      query += /*SQL*/ ` ORDER BY t.id ASC`
+      query += /*SQL*/ ` ORDER BY clickrate DESC, t.id ASC`
     } else if (query.endsWith('HAVING ')) {
       query = query.slice(0, -7) // delete the "HAVING"
-      query += /*SQL*/ ` ORDER BY t.id ASC`
+      query += /*SQL*/ ` ORDER BY clickrate DESC, t.id ASC`
     }
 
-    console.log(query);
-    
+    // console.log(query);
     
      const teamsRecord = await this.knex.raw(query)
 
@@ -90,7 +91,7 @@ export class TeamService {
   // get team
   // -------------------------------------------------------------------------------------------------------------------
 
-  async getTeam(id: string) {
+  async getTeam(id: number) {
     const team = await this.knex<Team>("team").select("*").where("id", id);
 
     const teamTag = await this.knex.raw(
@@ -109,15 +110,16 @@ export class TeamService {
   // -------------------------------------------------------------------------------------------------------------------
   async updateTeam(
     id: number,
-    name?: string,
-    description?: string,
-    profilepic?: string
+    searchcategory: number,
+    name: string,
+    description: string,
+    profilepic: string
   ) {
-    if (name !== null || description !== null || profilepic !== null) {
-      try {
+
         const teamInfo = await this.knex<Team>("team")
           .update({
             name: name,
+            searchcategory_id: searchcategory,
             description: description,
             profilepic: profilepic,
           })
@@ -125,13 +127,6 @@ export class TeamService {
           .returning("*");
 
         return teamInfo;
-      } catch (err) {
-        console.error(err);
-        throw err;
-      }
-    } else {
-      return;
-    }
   }
   // -------------------------------------------------------------------------------------------------------------------
   // delete team
