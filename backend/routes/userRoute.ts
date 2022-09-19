@@ -10,7 +10,7 @@ export function userRoutes(userController: UserController) {
   userRoutes.post("/login/apple", userController.loginApple);
   userRoutes.post("/user", userController.register); // I have changed the route name sorsor
   userRoutes.post("/login", userController.login);
-  userRoutes.get("/user/:id", userController.userInfo); //need to add isLogin
+  userRoutes.get("/user/:id", isLogin, userController.userInfo); //need to add isLogin
   userRoutes.get("/user", userController.getAllUser); //need to add isLogin
   userRoutes.post("/logout", isLogin, userController.logout);
   userRoutes.put("/user/:id", userController.editUser); //need to add isLogin
