@@ -40,11 +40,9 @@ const Profile: React.FC = () => {
   const userBelongsTeam = useAppSelector(
     (state: RootState) => state.userInfo.team
   );
-  // console.log(userBelongsTeam);
-  // console.log(userdetails);
 
-  const [info, setInfo] = React.useState(true);
-  const [stat, setStat] = React.useState(false);
+  const [stat, setStat] = React.useState(true);
+  const [info, setInfo] = React.useState(false);
   const [team, setTeam] = React.useState(false);
   const [setting, setSetting] = React.useState(false);
 
@@ -65,7 +63,7 @@ const Profile: React.FC = () => {
           },
         }
       );
-      const selfteam = await fetch(
+      const selfTeam = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/user/me/team`,
         {
           headers: {
@@ -76,9 +74,8 @@ const Profile: React.FC = () => {
 
       if (res.status === 200) {
         const userRecord = await res.json();
-        // console.log(userRecord)
         dispatch(loggedIn(userRecord, localtoken!));
-        const userTeam = await selfteam.json();
+        const userTeam = await selfTeam.json();
         dispatch(loadUserTeam(userTeam));
       }
     })();
@@ -159,8 +156,8 @@ const Profile: React.FC = () => {
                 <IonLabel>Settings</IonLabel>
               </div>
             </div>
-            {info && <UserInfo description={userdetails?.description} />}
             {stat && <UserStats />}
+            {info && <UserInfo description={userdetails?.description} />}
             {team && <UserTeams team={userBelongsTeam} />}
             {setting && <UserSettings />}
           </div>

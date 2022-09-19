@@ -17,13 +17,12 @@ import {
   IonToolbar,
   IonBackButton,
   IonButtons,
+  IonCardTitle,
 } from "@ionic/react";
 
 import "./css/Common.css";
 import "./css/Event.css";
 import { Event } from "../model";
-
-
 
 const EventList: React.FC = () => {
   const [data, setData] = useState<Event[]>([]);
@@ -71,38 +70,34 @@ const EventList: React.FC = () => {
         <IonList>
           {data.map((item) => {
             return (
-              <IonItem key={item.id} routerLink={`event/${item.id}`}>
-                <IonCard>
-                  <IonItem>
-                    <IonImg
-                      src={
-                        item?.profilepic != null
-                          ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
-                          : "StartieLogo.png"
-                      }
-                    />
-                  </IonItem>
-                  <IonCardContent className="eventName">
-                    {item.name}
-                  </IonCardContent>
-                  <div className="event">
-                    <IonImg
-                      src={
-                        item?.profilepic != null
-                          ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
-                          : "StartieLogo.png"
-                      }
-                      style={{ width: "10%" }}
-                    />
-                    <div className="eventinfo">
-                      <IonLabel className="eventDescription">
-                        {item.description}
-                      </IonLabel>
-                      <IonLabel>{item.starttime}</IonLabel>
-                    </div>
+              <IonCard key={item.id} routerLink={`event/${item.id}`}>
+                <IonImg
+                  className="eventThumbnail"
+                  src={
+                    item?.profilepic != null
+                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                      : "StartieLogo.png"
+                  }
+                />
+
+                <IonCardTitle className="eventTitle">{item.name}</IonCardTitle>
+                <div className="event">
+                  <IonImg
+                    src={
+                      item?.profilepic != null
+                        ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                        : "StartieLogo.png"
+                    }
+                    style={{ width: "10%" }}
+                  />
+                  <div className="eventinfo">
+                    <IonLabel className="eventDescription">
+                      {item.description}
+                    </IonLabel>
+                    <IonLabel>{item.starttime}</IonLabel>
                   </div>
-                </IonCard>
-              </IonItem>
+                </div>
+              </IonCard>
             );
           })}
         </IonList>

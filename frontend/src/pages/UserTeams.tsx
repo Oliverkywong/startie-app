@@ -12,15 +12,13 @@ export default function UserTeams(props: { team: Team[] }) {
         {props.team.map((team) => {
           return (
             <div className="userTeam" key={team.id}>
-              <div className="userTeam" key={team.id}>
-                <IonImg
-                  src={
-                    team?.profilepic != null
-                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${team.profilepic}`
-                      : "https://www.w3schools.com/howto/img_avatar.png"
-                  }
-                ></IonImg>
-              </div>
+              <IonImg
+                src={
+                  team?.profilepic != null
+                    ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${team.profilepic}`
+                    : "https://www.w3schools.com/howto/img_avatar.png"
+                }
+              ></IonImg>
               <div>
                 <IonTitle>{team.name}</IonTitle>
               </div>

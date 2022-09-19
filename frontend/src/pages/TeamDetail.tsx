@@ -4,6 +4,7 @@ import {
   IonButtons,
   IonCard,
   IonCardContent,
+  IonCardTitle,
   IonContent,
   IonHeader,
   IonImg,
@@ -14,6 +15,7 @@ import {
   IonToolbar,
   useIonRouter,
 } from "@ionic/react";
+import "./css/Common.css";
 import React, { useEffect, useState } from "react";
 import { useRouteMatch } from "react-router";
 import { TeamData, TeamMember } from "../model";
@@ -58,42 +60,40 @@ const TeamDetail: React.FC = () => {
       <IonContent>
         {data.map((item) => {
           return (
-            <IonCard key={item.id}>
-              <IonItem>
-                <IonImg
-                  src={
-                    item?.profilepic != null
-                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
-                      : "StartieLogo.png"
-                  }
-                />
-              </IonItem>
-              <IonCardContent className="eventName">{item.name}</IonCardContent>
-              <IonLabel>Looking for: </IonLabel>
-              <div className="tag">
+            <IonCard key={item.id} className="teamDetail">
+              <IonImg
+                className="teamThumbnail"
+                src={
+                  item?.profilepic != null
+                    ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                    : "StartieLogo.png"
+                }
+              />
+
+              <IonCardTitle className="teamDetailTitle">
+                {item.name}
+              </IonCardTitle>
+              <IonLabel className="teamDetailLookingFor">
+                Looking for:{" "}
+              </IonLabel>
+              <div className="lookingForTag">
                 {tag.map((item) => {
                   return <span key={item}>{item}</span>;
                 })}
               </div>
-              <div className="event">
-                <IonImg
-                  src={
-                    item?.profilepic != null
-                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
-                      : "StartieLogo.png"
-                  }
-                  style={{ width: "10%" }}
-                />
-                <div className="eventinfo">
-                  <IonLabel className="eventDescription">
-                    {item.description}
-                  </IonLabel>
-                </div>
+
+              <div>
+                <IonLabel className="teamDescription">
+                  {item.description}
+                </IonLabel>
               </div>
             </IonCard>
           );
         })}
-        <IonButton>Join Team</IonButton>
+        <div className="detailButton">
+          <IonButton className="chatButton">Chat</IonButton>
+          <IonButton className="joinButton">Join</IonButton>
+        </div>
 
         <IonList>
           {teamMember.map((item) => {
