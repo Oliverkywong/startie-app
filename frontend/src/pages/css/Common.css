@@ -35,6 +35,7 @@
   align-items: center;
   margin-bottom: 10px;
   padding: 10px;
+  padding-top: 5px;
 }
 
 .tag > span {
@@ -47,8 +48,6 @@
   font-size: 10px;
   padding: 5px;
   border-radius: 5px;
-  font-family: "Open Sans";
-  font-style: normal;
   color: #fff;
   display: flex;
   justify-content: flex-start;
@@ -56,6 +55,7 @@
   max-width: 100px;
   height: 25px;
   overflow: hidden;
+  font-weight: bold;
 }
 
 .detailButton {
