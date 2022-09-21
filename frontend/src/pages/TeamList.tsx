@@ -16,19 +16,45 @@ import {
   IonTitle,
   IonBackButton,
   IonCardTitle,
+  useIonViewWillEnter,
 } from "@ionic/react";
 
 import { Team } from "../model";
 import "./css/Common.css";
 import "./css/Team.css";
 
+let i = 0
 const TeamList: React.FC = () => {
   const [data, setData] = useState<Team[]>([]);
+  const [fetchData, setFetchData] = useState<Team[]>([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
 
+  useEffect(() => {
+    (async function () {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`);
+      const result = await res.json();
+      // console.log(result);
+      setFetchData(result);
+      setData(result.slice(0, 10));
+    })();
+  }, []);
+
+  let sliceData: Team[] = [];
+
+  const pushData = () => {
+    i = i + 10
+    sliceData = fetchData.slice(i, i + 10);
+
+    setData([
+      ...data,
+      ...sliceData
+    ]);
+  }
+
   const loadData = (ev: any) => {
     setTimeout(() => {
+      pushData();
       console.log("Loaded data");
       ev.target.complete();
       if (data.length === 100) {
@@ -37,14 +63,9 @@ const TeamList: React.FC = () => {
     }, 500);
   };
 
-  useEffect(() => {
-    (async function () {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`);
-      const result = await res.json();
-      console.log(result);
-      setData(result);
-    })();
-  }, []);
+  useIonViewWillEnter(() => {
+    pushData();
+  });
 
   return (
     <IonPage>
