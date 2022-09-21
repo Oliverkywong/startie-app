@@ -32,6 +32,7 @@ export class EventController {
   getAllEvents = async (req: Request, res: Response) => {
     try {
       const domain = req.get('origin')
+      console.log(domain)
 
       let show;
       const name = req.query.name as string != undefined ? req.query.name as string : req.query.q as string;
@@ -50,6 +51,10 @@ export class EventController {
           show = true
           allEventInfo = await this.eventService.getAllEvents(name, description, status, maxTeammember, show)
           break;
+          default: // !!!!! remember to change to react admin domain when deploy
+          show = false
+          allEventInfo = await this.eventService.getAllEvents(name, description, status, maxTeammember, show)
+          break; 
       }
       
       res.set("x-total-count", String(allEventInfo.length));

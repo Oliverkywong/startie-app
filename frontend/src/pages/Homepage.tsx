@@ -238,6 +238,7 @@ const Homepage: React.FC = () => {
 
         <IonList className="teamListBackgound">
           <IonLabel className="labelTitle blackFontColor">
+            <p />
             Browse Teams
           </IonLabel>
           <div className="teamList">
