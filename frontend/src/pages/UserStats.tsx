@@ -25,7 +25,6 @@ ChartJS.register(
 );
 
 export default function UserStats() {
-
   const [sectorName, setSectorName] = useState<string[]>([]);
   const [skillName, setSkillName] = useState<string[]>([]);
   const [skillPoint, setSkillPoint] = useState<number[]>([]);
@@ -33,7 +32,6 @@ export default function UserStats() {
 
   useEffect(() => {
     async function getAllSectorSkill() {
-
       const localtoken = localStorage.getItem("token");
       if (localtoken === null) {
         router.push("/tab/login");
@@ -56,6 +54,10 @@ export default function UserStats() {
         skillPointArray.push(details.detail.skill[i].point);
       }
 
+      console.log(sectorNameArray);
+      console.log(skillNameArray);
+      console.log(skillPointArray);
+
       setSectorName(sectorNameArray);
       setSkillName(skillNameArray);
       setSkillPoint(skillPointArray);
@@ -67,6 +69,7 @@ export default function UserStats() {
     // <IonContent>
       <div className="ProfileBackground">
         {sectorName.map((sectorName, index) => {
+          console.log(sectorName);
           return (
             <div className="char" key={sectorName}>
               {/* <IonInfiniteScroll> */}
