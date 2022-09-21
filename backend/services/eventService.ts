@@ -45,6 +45,9 @@ export class EventService {
       if (input.name) {
         query = query.where("event.name", "ilike", `%${input.name}%`);
       }
+      if (input.q) {
+        query = query.where("event.name", "ilike", `%${input.q}%`);
+      }
       if (input.description) {
         query = query.where("description", "ilike", `%${input.description}%`);
       }
@@ -69,49 +72,52 @@ export class EventService {
   // -------------------------------------------------------------------------------------------------------------------
   // get one event ✅
   // -------------------------------------------------------------------------------------------------------------------
-  async getEvent(id: string) {
+  async getEvent(id: string | number) {
     return await this.knex<Event>("event").select("*").where("id", id);
   }
 
   // -------------------------------------------------------------------------------------------------------------------
-  // update event ✅
+  // update event for Admin
   // -------------------------------------------------------------------------------------------------------------------
-  async updateEvent(
-    eventId: number,
-    eventName: string,
-    description: string,
-    maxteammember: number,
-    profilepic: string,
-    starttime: Date | string,
-    newStatusId: number
-  ) {
-    if (
-      eventName !== null ||
-      description !== null ||
-      maxteammember !== null ||
-      profilepic !== null ||
-      starttime !== null
-    ) {
-      try {
+  async updateEventForAdmin(eventId: number, input: EventListInput) {
+
         const eventInfo = await this.knex<Event>("event")
           .update({
-            name: eventName,
-            description: description,
-            maxteammember: maxteammember,
-            profilepic: profilepic,
-            starttime: starttime,
-            status_id: newStatusId,
+            name: input.name,
+            description: input.description,
+            maxteammember: input.maxteammember,
+            profilepic: input.profilepic,
+            status_id: input.status_id
           })
           .where("id", eventId)
           .returning("*");
 
         return eventInfo;
-      } catch (err) {
-        logger.error(err);
-        throw err;
-      }
-    } else {
-      return;
-    }
   }
-}
+// // -------------------------------------------------------------------------------------------------------------------
+// // update event 
+// // -------------------------------------------------------------------------------------------------------------------
+//   async updateEvent(
+//     eventId: number,
+//     eventName: string,
+//     description: string,
+//     maxteammember: number,
+//     profilepic: string,
+//     starttime: Date | string,
+//     newStatusId: number
+//   ) {
+//         const eventInfo = await this.knex<Event>("event")
+//           .update({
+//             name: eventName,
+//             description: description,
+//             maxteammember: maxteammember,
+//             profilepic: profilepic,
+//             starttime: starttime,
+//             status_id: newStatusId,
+//           })
+//           .where("id", eventId)
+//           .returning("*");
+
+//         return eventInfo;
+//       }  
+  }
