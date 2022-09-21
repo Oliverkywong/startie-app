@@ -74,6 +74,7 @@ const Profile: React.FC = () => {
         }
       );
       const userTeam = await selfTeam.json();
+      console.log(userTeam);
       setUserBelongsTeam(userTeam);
 
       // if (res.status === 200) {

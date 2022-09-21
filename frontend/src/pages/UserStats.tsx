@@ -64,12 +64,12 @@ export default function UserStats() {
   }, []);
 
   return (
-    <IonContent>
+    // <IonContent>
       <div className="ProfileBackground">
         {sectorName.map((sectorName, index) => {
           return (
             <div className="char" key={sectorName}>
-              <IonInfiniteScroll>
+              {/* <IonInfiniteScroll> */}
                 <div className="charDetail">
                   <Radar
                     key={index}
@@ -98,11 +98,11 @@ export default function UserStats() {
                     }}
                   />
                 </div>
-              </IonInfiniteScroll>
+              {/* </IonInfiniteScroll> */}
             </div>
           );
         })}
       </div>
-    </IonContent>
+    // </IonContent>
   );
 }
