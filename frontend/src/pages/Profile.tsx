@@ -14,7 +14,6 @@ import {
 } from "@ionic/react";
 
 import {
-  bookmarkOutline,
   documentTextOutline,
   pencil,
   peopleOutline,
@@ -28,19 +27,12 @@ import UserInfo from "./UserInfo";
 import UserStats from "./UserStats";
 import UserTeams from "./UserTeams";
 import UserSettings from "./UserSettings";
-import { RootState, useAppDispatch, useAppSelector } from "../store";
-import { loggedIn } from "../redux/auth/action";
-import { loadUserTeam } from "../redux/userInfo/action";
+import { RootState, useAppSelector } from "../store";
 
 const Profile: React.FC = () => {
   const userdetails = useAppSelector(
     (state: RootState) => state.userInfo.userinfo
   );
-  // const userBelongsTeam = useAppSelector(
-  //   (state: RootState) => state.userInfo.team
-  // );
-  // console.log(userBelongsTeam);
-  // console.log(userdetails);
 
   const [stat, setStat] = React.useState(true);
   const [info, setInfo] = React.useState(false);
@@ -49,7 +41,6 @@ const Profile: React.FC = () => {
   const [userBelongsTeam, setUserBelongsTeam] = React.useState([]);
 
   const router = useIonRouter();
-  // const dispatch = useAppDispatch();
 
   useEffect(() => {
     (async function () {
@@ -76,14 +67,6 @@ const Profile: React.FC = () => {
       );
       const userTeam = await selfTeam.json();
       setUserBelongsTeam(userTeam);
-
-      // if (res.status === 200) {
-      //   const userRecord = await res.json();
-      //   // console.log(userRecord)
-      //   dispatch(loggedIn(userRecord, localtoken!));
-      //   const userTeam = await selfteam.json();
-      //   dispatch(loadUserTeam(userTeam));
-      // }
     })();
   }, []);
 

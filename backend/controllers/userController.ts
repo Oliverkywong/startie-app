@@ -474,10 +474,6 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   quitTeam = async (req: express.Request, res: express.Response) => {
     try {
-      // const userId =
-      //   req.user?.userId != undefined
-      //     ? Number(req.user.userId)
-      //     : parseInt(req.params.id);
       const { userId, teamId } = req.params;
       const NumberUserId = parseInt(userId);
       const NumberTeamId = parseInt(teamId);
@@ -495,7 +491,7 @@ export class UserController {
       const eventId = req.params.id;
       const NumberEventId = parseInt(eventId);
       const event = await this.userService.joinEvent(NumberEventId, userId);
-      res.status(200).json(event);
+      res.status(200).json({ result: true, event });
       console.log("joinEvent", event);
     } catch (err) {
       logger.error(err);
