@@ -11,6 +11,10 @@
   position: relative;
 }
 
+.ProfileBackground {
+  background-color: #fafafa;
+}
+
 .searchbar::before {
   position: absolute;
   left: 0;
@@ -35,6 +39,7 @@
   align-items: center;
   margin-bottom: 10px;
   padding: 10px;
+  padding-top: 5px;
 }
 
 .tag > span {
@@ -47,8 +52,6 @@
   font-size: 10px;
   padding: 5px;
   border-radius: 5px;
-  font-family: "Open Sans";
-  font-style: normal;
   color: #fff;
   display: flex;
   justify-content: flex-start;
@@ -56,6 +59,7 @@
   max-width: 100px;
   height: 25px;
   overflow: hidden;
+  font-weight: bold;
 }
 
 .detailButton {
@@ -67,12 +71,13 @@
 .chatButton,
 .joinButton {
   background: #747474;
-  border-radius: 8px;
+  border-radius: 10px;
   font-family: "Outfit";
   font-style: normal;
   font-weight: 600;
   font-size: 17px;
   line-height: 22px;
+  width: 150px;
 }
 
 .joinButton {
