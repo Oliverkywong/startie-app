@@ -43,6 +43,7 @@ export default function UserEdit() {
 
   const onCancel = () => {
     setState(null);
+    setCroppedImage(null);
   };
 
   const setCroppedImageFor = (croppedImageUrl: any) => {
@@ -64,7 +65,9 @@ export default function UserEdit() {
       </IonHeader>
       <IonContent>
         <form
+          className="buildTeamForm"
           onSubmit={handleSubmit(async (data) => {
+            // console.log(data);
             const formData = new FormData();
             formData.append("name", data.name);
             formData.append("Description", data.Description);
@@ -81,16 +84,15 @@ export default function UserEdit() {
                 body: formData,
               }
             );
-            // console.log(data);
             router.push("/recommend");
           })}
         >
           <br />
           <IonImg src={state} />
-          <IonLabel>Icon:</IonLabel>
+          <IonLabel className="formTitle">Icon:</IonLabel>
           <input type="file" {...register("icon")} onChange={imghandle} />
 
-          <IonLabel>Name</IonLabel>
+          <IonLabel className="formTitle">Name</IonLabel>
           <IonInput
             {...register("name", { required: true })}
             type="text"
@@ -98,16 +100,13 @@ export default function UserEdit() {
           />
 
           <br />
-          <IonLabel>Desicption:</IonLabel>
+          <IonLabel className="formTitle">Description:</IonLabel>
           <IonInput
             {...register("Description")}
             type="text"
-            placeholder="Desicption"
+            placeholder="Description"
           />
-
-          <IonLabel className="formTitle">Team icon/image: </IonLabel>
-          <input type="file" {...register("icon")} onChange={imghandle} />
-          <input type="submit" />
+          <input className="formSubmitButton" type="submit" />
         </form>
 
         {croppedImage ? (

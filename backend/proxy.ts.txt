@@ -1,0 +1,341 @@
+import { find, proxySchema } from 'better-sqlite3-proxy'
+import { db } from './db'
+
+export type Room = {
+  id?: number | null
+  name: string | null
+}
+
+export type Status = {
+  id?: number | null
+  name: string
+}
+
+export type Team = {
+  id?: number | null
+  clickrate: number | null
+  room_id: number | null
+  room?: Room
+  status_id: number
+  status?: Status
+  name: string
+  description: string | null
+  profilepic: string | null
+}
+
+export type Job = {
+  status_id: number
+  status?: Status
+  id?: number | null
+  clickrate: number | null
+  name: string
+  description: string | null
+}
+
+export type User = {
+  status_id: number
+  status?: Status
+  clickrate: number | null
+  id?: number | null
+  description: string | null
+  profilepic: string | null
+  username: string
+  password: string
+  email: string
+  phonenumber: string | null
+}
+
+export type Sector = {
+  id?: number | null
+  name: string
+}
+
+export type Skill = {
+  id?: number | null
+  sector_id: number
+  sector?: Sector
+  name: string
+}
+
+export type Notification = {
+  id?: number | null
+  user_id: number
+  user?: User
+  isread: boolean
+  content: string
+}
+
+export type Searchcategory = {
+  id?: number | null
+  name: string
+  profilepic: string | null
+}
+
+export type Tag = {
+  id?: number | null
+  searchcategory_id: number
+  searchcategory?: Searchcategory
+  name: string
+}
+
+export type Event = {
+  clickrate: number | null
+  id?: number | null
+  maxteammember: number | null
+  status_id: number
+  status?: Status
+  starttime: string | null
+  name: string
+  description: string | null
+  profilepic: string | null
+}
+
+export type Message = {
+  id?: number | null
+  receiver_id: number | null
+  receiver?: User
+  sender_id: number
+  sender?: User
+  isread: boolean | null
+  team_id: number | null
+  team?: Team
+  room_id: number
+  room?: Room
+  message: string | null
+}
+
+export type UserSkill = {
+  id?: number | null
+  user_id: number
+  user?: User
+  skill_id: number
+  skill?: Skill
+  point: number
+}
+
+export type UserSector = {
+  id?: number | null
+  user_id: number
+  user?: User
+  sector_id: number
+  sector?: Sector
+  point: number
+}
+
+export type RoomUser = {
+  id?: number | null
+  user_id: number | null
+  user?: User
+  room_id: number
+  room?: Room
+}
+
+export type UserTeam = {
+  id?: number | null
+  user_id: number
+  user?: User
+  team_id: number
+  team?: Team
+  isboard: boolean
+  iswaiting: boolean
+  applytime: string | null
+  quittime: string | null
+  isfollow: boolean
+}
+
+export type TeamTag = {
+  id?: number | null
+  team_id: number
+  team?: Team
+  tag_id: number
+  tag?: Tag
+}
+
+export type TeamJob = {
+  id?: number | null
+  job_id: number
+  job?: Job
+  team_id: number
+  team?: Team
+  iswaiting: boolean
+}
+
+export type JobTag = {
+  id?: number | null
+  job_id: number
+  job?: Job
+  tag_id: number
+  tag?: Tag
+}
+
+export type EventTag = {
+  id?: number | null
+  event_id: number
+  event?: Event
+  tag_id: number
+  tag?: Tag
+}
+
+export type EventTeam = {
+  id?: number | null
+  event_id: number
+  event?: Event
+  team_id: number
+  team?: Team
+}
+
+export type UserEvent = {
+  id?: number | null
+  event_id: number
+  event?: Event
+  user_id: number
+  user?: User
+  isfollow: boolean
+}
+
+export type UserJob = {
+  id?: number | null
+  job_id: number
+  job?: Job
+  user_id: number
+  user?: User
+  isfollow: boolean
+}
+
+export type DBProxy = {
+  room: Room[]
+  status: Status[]
+  team: Team[]
+  job: Job[]
+  user: User[]
+  sector: Sector[]
+  skill: Skill[]
+  notification: Notification[]
+  searchcategory: Searchcategory[]
+  tag: Tag[]
+  event: Event[]
+  message: Message[]
+  user_skill: UserSkill[]
+  user_sector: UserSector[]
+  room_user: RoomUser[]
+  user_team: UserTeam[]
+  team_tag: TeamTag[]
+  team_job: TeamJob[]
+  job_tag: JobTag[]
+  event_tag: EventTag[]
+  event_team: EventTeam[]
+  user_event: UserEvent[]
+  user_job: UserJob[]
+}
+
+export let proxy = proxySchema<DBProxy>({
+  db,
+  tableFields: {
+    room: [],
+    status: [],
+    team: [
+      /* foreign references */
+      ['room', { field: 'room_id', table: 'room' }],
+      ['status', { field: 'status_id', table: 'status' }],
+    ],
+    job: [
+      /* foreign references */
+      ['status', { field: 'status_id', table: 'status' }],
+    ],
+    user: [
+      /* foreign references */
+      ['status', { field: 'status_id', table: 'status' }],
+    ],
+    sector: [],
+    skill: [
+      /* foreign references */
+      ['sector', { field: 'sector_id', table: 'sector' }],
+    ],
+    notification: [
+      /* foreign references */
+      ['user', { field: 'user_id', table: 'user' }],
+    ],
+    searchcategory: [],
+    tag: [
+      /* foreign references */
+      ['searchcategory', { field: 'searchcategory_id', table: 'searchcategory' }],
+    ],
+    event: [
+      /* foreign references */
+      ['status', { field: 'status_id', table: 'status' }],
+    ],
+    message: [
+      /* foreign references */
+      ['receiver', { field: 'receiver_id', table: 'user' }],
+      ['sender', { field: 'sender_id', table: 'user' }],
+      ['team', { field: 'team_id', table: 'team' }],
+      ['room', { field: 'room_id', table: 'room' }],
+    ],
+    user_skill: [
+      /* foreign references */
+      ['user', { field: 'user_id', table: 'user' }],
+      ['skill', { field: 'skill_id', table: 'skill' }],
+    ],
+    user_sector: [
+      /* foreign references */
+      ['user', { field: 'user_id', table: 'user' }],
+      ['sector', { field: 'sector_id', table: 'sector' }],
+    ],
+    room_user: [
+      /* foreign references */
+      ['user', { field: 'user_id', table: 'user' }],
+      ['room', { field: 'room_id', table: 'room' }],
+    ],
+    user_team: [
+      /* foreign references */
+      ['user', { field: 'user_id', table: 'user' }],
+      ['team', { field: 'team_id', table: 'team' }],
+    ],
+    team_tag: [
+      /* foreign references */
+      ['team', { field: 'team_id', table: 'team' }],
+      ['tag', { field: 'tag_id', table: 'tag' }],
+    ],
+    team_job: [
+      /* foreign references */
+      ['job', { field: 'job_id', table: 'job' }],
+      ['team', { field: 'team_id', table: 'team' }],
+    ],
+    job_tag: [
+      /* foreign references */
+      ['job', { field: 'job_id', table: 'job' }],
+      ['tag', { field: 'tag_id', table: 'tag' }],
+    ],
+    event_tag: [
+      /* foreign references */
+      ['event', { field: 'event_id', table: 'event' }],
+      ['tag', { field: 'tag_id', table: 'tag' }],
+    ],
+    event_team: [
+      /* foreign references */
+      ['event', { field: 'event_id', table: 'event' }],
+      ['team', { field: 'team_id', table: 'team' }],
+    ],
+    user_event: [
+      /* foreign references */
+      ['event', { field: 'event_id', table: 'event' }],
+      ['user', { field: 'user_id', table: 'user' }],
+    ],
+    user_job: [
+      /* foreign references */
+      ['job', { field: 'job_id', table: 'job' }],
+      ['user', { field: 'user_id', table: 'user' }],
+    ],
+  },
+})
+
+console.log(proxy.user[1].username)
+proxy.user[1].username = 'a'
+
+proxy.team[1].status?.name
+
+proxy.user_team[1].team?.status?.name
+
+let user = 
+find(proxy.user, { username: 'alice' })
+if(user) user.status_id = 1

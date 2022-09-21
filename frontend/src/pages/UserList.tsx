@@ -43,9 +43,9 @@ const UserList: React.FC = () => {
                     <IonRow>
                         {data.map((item) => {
                             return (
-                                <IonCol size='6'>
+                                <IonCol  key={item.id} size='6'>
                                     <a href='/teamdetail'>
-                                        <IonCard key={item.id} className="card">
+                                        <IonCard className="card">
                                             <IonImg src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`} style={{ width: '100%' }} />
                                             <IonCardContent className='content' style={{ fontSize: '10px' }}>
                                                 <p style={{ fontSize: '14px', color: 'white' }}>{item.username}</p><br />
