@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import icon from "../img/tonystarkicon.png";
 import { RootState, useAppSelector } from "../store";
 import "./css/Common.css";
+import "./css/UserEdit.css";
 import ImageCropDialogForUser from "./ImageCropDialogForUser";
 
 export default function UserEdit() {
@@ -50,8 +51,6 @@ export default function UserEdit() {
     setState(croppedImageUrl);
     setCroppedImage(null);
   };
-
-  // console.log(userdetails);
 
   return (
     <IonPage>
@@ -88,7 +87,7 @@ export default function UserEdit() {
           })}
         >
           <br />
-          <IonImg src={state} />
+          <img className="userEditIcon" src={state} />
           <IonLabel className="formTitle">Icon:</IonLabel>
           <input type="file" {...register("icon")} onChange={imghandle} />
 
@@ -106,7 +105,7 @@ export default function UserEdit() {
             type="text"
             placeholder="Description"
           />
-          <input className="formSubmitButton" type="submit" />
+          <input className="formSubmitButton" type="submit" value={"Done"} />
         </form>
 
         {croppedImage ? (

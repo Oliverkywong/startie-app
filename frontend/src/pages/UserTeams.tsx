@@ -7,6 +7,7 @@ import {
   useIonRouter,
 } from "@ionic/react";
 import React from "react";
+import "./css/Common.css";
 import { Team } from "../model";
 
 import "./css/Common.css";
@@ -16,7 +17,7 @@ export default function UserTeams(props: { team: Team[] }) {
   const router = useIonRouter();
   return (
     <IonContent>
-      <div style={{ color: "#000" }}>
+      <div className="ProfileBackground">
         {props.team.map((team) => {
           return (
             <div

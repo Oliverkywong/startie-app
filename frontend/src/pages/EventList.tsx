@@ -57,7 +57,7 @@ const EventList: React.FC = () => {
           <div className="searchbarContainer">
             <input
               className="searchbar"
-              placeholder="Search Position"
+              placeholder="Search For Events"
               onClick={() => {
                 router.push("/search");
               }}
