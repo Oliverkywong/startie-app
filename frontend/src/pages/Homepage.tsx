@@ -21,11 +21,6 @@ import {
 import { Swiper, SwiperSlide } from "swiper/react";
 import { notificationsOutline } from "ionicons/icons";
 
-import com1 from "../img/com1.png";
-import com2 from "../img/com2.png";
-import com3 from "../img/com3.png";
-import com4 from "../img/com4.png";
-import com5 from "../img/com5.png";
 import cat1 from "../img/all.png";
 import cat2 from "../img/startup.png";
 import cat3 from "../img/business.png";
@@ -78,11 +73,14 @@ const Homepage: React.FC = () => {
         dispatch(logOut());
       }
 
-      const teamRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/app/team`, {
-        headers: {
-          Authorization: `Bearer ${localtoken}`,
-        },
-      });
+      const teamRes = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/app/team`,
+        {
+          headers: {
+            Authorization: `Bearer ${localtoken}`,
+          },
+        }
+      );
       const teamResult = await teamRes.json();
       console.log(teamResult);
       setTeamData(teamResult.teams.rows); // remove .teams.rows after backend fix
@@ -96,7 +94,7 @@ const Homepage: React.FC = () => {
         }
       );
       const eventResult = await eventRes.json();
-      const hotEvent = eventResult.slice(0, 4);
+      const hotEvent = eventResult.events.slice(0, 4);
       setEventData(hotEvent);
 
       const userRes = await fetch(
@@ -149,7 +147,6 @@ const Homepage: React.FC = () => {
 
   // const events = useGet<Event[]>('/event')
 
-
   // const events = useGet<Event[]>('/event')
 
   return (
@@ -181,8 +178,9 @@ const Homepage: React.FC = () => {
                 // src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`}
                 src={
                   userdetails.profilepic !== null
-                  ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`
-                  : "https://www.w3schools.com/howto/img_avatar.png"}
+                    ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`
+                    : "https://www.w3schools.com/howto/img_avatar.png"
+                }
               />
             </IonButton>
           </IonButtons>
@@ -199,7 +197,6 @@ const Homepage: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="homecontent">
-        <p></p>
         <IonLabel className="labelTitle">Hot Events</IonLabel>
 
         <Swiper
