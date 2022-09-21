@@ -1,4 +1,5 @@
 import { Knex } from "knex";
+import { TeamListData, TeamListInput } from "../utils/api-types";
 import { Team} from "../utils/model";
 
 export class TeamService {
@@ -6,7 +7,7 @@ export class TeamService {
   // -------------------------------------------------------------------------------------------------------------------
   // create team
   // -------------------------------------------------------------------------------------------------------------------
-  async createTeam(name: string, searchcategory_id: number, description: string, profilepic: string) {
+  async createTeam(name: string, searchcategory_id: number, description?: string, profilepic?: string) {
     try {
       const teaminfo = await this.knex<Team>("team")
         .insert({
@@ -34,7 +35,8 @@ export class TeamService {
   // -------------------------------------------------------------------------------------------------------------------
   // get all teams
   // -------------------------------------------------------------------------------------------------------------------
-  async getAllTeams(name?:string, description?:string, status?:string, tags?: string, show?: boolean) {
+    async getAllTeams(input:TeamListInput, show: boolean): Promise<TeamListData>  {
+    // let binding:any[] = []
     let query = /*SQL*/ 
     `SELECT
     t.id,
@@ -43,32 +45,34 @@ export class TeamService {
     s2.name AS category,
     array_agg(DISTINCT u.username) AS users,
     t.description, 
-    array_agg(DISTINCT tag.name) AS looking_for,
+    array_agg(DISTINCT tag.name) AS tags,
     t.clickrate,
     t.profilepic 
-    FROM (((((team_tag INNER JOIN team t on t.id= team_tag.team_id) 
-    INNER JOIN tag ON tag.id=team_tag.tag_id) 
-    INNER JOIN status s ON s.id= t.status_id) 
-    INNER JOIN user_team ut ON ut.team_id = t.id)
-    INNER JOIN "user" u ON u.id = ut.user_id)
+    FROM team t LEFT JOIN team_tag on t.id = team_tag.team_id
+    LEFT JOIN tag ON tag.id = team_tag.tag_id
+    LEFT JOIN status s ON s.id = t.status_id
+    INNER JOIN user_team ut ON ut.team_id = t.id
+    INNER JOIN "user" u ON u.id = ut.user_id
     INNER JOIN searchcategory s2 on s2.id = t.searchcategory_id
     GROUP BY t.id, s.id, s2.name
     HAVING `
 
-    if (show) { // if show is false, only show active teams
+    if (!show) { // if show is false, only show active teams
       query += /*SQL*/ `s.id = 1 AND `
     }
-    if (status) {
-      query += /*SQL*/ `s.name ILIKE '${status}' AND `
+    if (input.status_id) {
+      // let i = binding.length +1 // // method for preventing sql injection
+      query += /*SQL*/ `s.name ILIKE ${input.status_id} AND `
+      
     }
-    if (name) {
-      query += /*SQL*/ `t.name ILIKE '%${name}%' AND `
+    if (input.name) {
+      query += /*SQL*/ `t.name ILIKE '%${input.name}%' AND `
    }    
-    if (description) {
-      query += /*SQL*/ `t.description ILIKE '%${description}%' AND `
+    if (input.description) {
+      query += /*SQL*/ `t.description ILIKE '%${input.description}%' AND `
     }
-    if (tags) {
-      query += /*SQL*/ `array_agg(DISTINCT tag.name)::VARCHAR ILIKE '%${tags}%'` 
+    if (input.tags) {
+      query += /*SQL*/ `array_agg(DISTINCT tag.name)::VARCHAR ILIKE '%${input.tags}%'` 
   }
 
     if (query.endsWith('AND ')) {
@@ -81,16 +85,13 @@ export class TeamService {
 
     // console.log(query);
     
-     const teamsRecord = await this.knex.raw(query)
+     const teams = await this.knex.raw(query)
 
-    // const teamTags = await this.knex.raw(`
-    // select team_id as id, t.name, s.name as status, t.description, array_agg(tag.name) as tags, t.profilepic from ((team_tag inner join team t on t.id= team_tag.team_id) inner join tag on tag.id=team_tag.tag_id) join status s on s.id=t.status_id group by team_id,t.name,t.description, t.status_id, s.name, t.profilepic`);
-    return teamsRecord.rows
+    return {teams}
   }
-  // -------------------------------------------------------------------------------------------------------------------
-  // get team
-  // -------------------------------------------------------------------------------------------------------------------
-
+// -------------------------------------------------------------------------------------------------------------------
+// get team
+// -------------------------------------------------------------------------------------------------------------------
   async getTeam(id: number) {
     const team = await this.knex<Team>("team").select("*").where("id", id);
 

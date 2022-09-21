@@ -7,16 +7,21 @@ export function userRoutes(userController: UserController) {
 
   userRoutes.post("/login/google", userController.loginGoogle);
   userRoutes.post("/login/apple", userController.loginApple);
-  userRoutes.post("/user", userController.register); // I have changed the route name sorsor
+  userRoutes.post("/user", userController.register);
   userRoutes.post("/login", userController.login);
-  userRoutes.get("/user/:id", isLogin, userController.userInfo); //need to add isLogin
-  userRoutes.get("/user", isLogin, userController.getAllUser); //need to add isLogin
+  userRoutes.get("/app/user/:id", userController.userInfo);
+  userRoutes.get("/app/user", userController.getAllUser);
   userRoutes.post("/logout", isLogin, userController.logout);
-  userRoutes.put("/user/:id", isLogin, userController.editUser); //need to add isLogin
+  userRoutes.put("/app/user/:id", isLogin, userController.editUser); //need to add isLogin
+// -----------------------------------------------------------------------------------------------------------------------
   userRoutes.get("/user/me/team", isLogin, userController.checkTeam);
   userRoutes.post("/user/me/:teamid", isLogin, userController.joinTeam); //user join team
   userRoutes.delete("/user/me/:teamid", isLogin, userController.quitTeam); //user quit team
   userRoutes.post("/user/me/event/:id", isLogin, userController.joinEvent); //user join event
   userRoutes.get("/user/me/note", isLogin, userController.getNotification);
+// ----------------------------Admin Routes-------------------------------------------------------------------------------
+  userRoutes.get("/user/:id", userController.userInfoForAdmin);
+  userRoutes.put("/user/:id", isLogin, userController.editUserForAdmin);
+  userRoutes.get("/user", userController.getAllUserForAdmin); //need to add isLogin
   return userRoutes;
 }

@@ -55,7 +55,7 @@ export const TeamList = (props: any) => (
       <TextField source="category" />
       <TextField source="description" />
       <TextField source="users" />
-      <TextField source="looking_for" />
+      <TextField source="tags" />
       <TextField source="profilepic" sortable={false} />
       {/* <ReferenceField source="userId" reference="team" /> */}
     </Datagrid>

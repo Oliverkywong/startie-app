@@ -15,6 +15,7 @@ import * as jose from "jose";
 import appleSignin from "apple-signin-auth";
 import crypto from "crypto";
 import { OAuth2Client } from "google-auth-library";
+import { UserListInput } from "../utils/api-types";
 
 export class UserController {
   constructor(private userService: UserService) {}
@@ -59,14 +60,14 @@ export class UserController {
         .setExpirationTime("24h")
         .sign(ecPrivateKey);
 
-      return res.status(200).json({
+       res.status(200).json({
         result: true,
         msg: "google login success",
         user: user,
         jwt: jwt,
       });
     } catch (err) {
-      return res.json({ result: false, msg: "google login error" });
+       res.json({ result: false, msg: "google login error" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -81,28 +82,28 @@ export class UserController {
       let email: string = req.body.email.trim();
 
       await this.userService.register(username, password, email);
-      return res.status(200).json({ result: true, msg: "register success" });
+       res.status(200).json({ result: true, msg: "register success" });
     } catch (err) {
       if (err instanceof UserDuplicateUsernameError) {
-        return res
+         res
           .status(500)
           .json({ result: false, msg: "username already exists" });
       }
 
       if (err instanceof UserDuplicateEmailError) {
-        return res
+         res
           .status(500)
           .json({ result: false, msg: "email already exists" });
       }
 
       if (err instanceof UserMissingRegisterInfoError) {
-        return res
+         res
           .status(500)
           .json({ result: false, msg: "missing register info" });
       }
 
       logger.error(err);
-      return res.status(500).json({ result: false, msg: "register error" });
+       res.status(500).json({ result: false, msg: "register error" });
     }
   };
 
@@ -125,20 +126,8 @@ export class UserController {
       }) // use private key to sign
         .setProtectedHeader({ alg: "ES256" })
         .setIssuedAt()
-        .setExpirationTime("24h")
+        .setExpirationTime("2h")
         .sign(ecPrivateKey);
-
-      // console.log("jwt in login",jwt);
-      // req.session={isLogin:true,
-      //   jwt:jwt,
-      //   userId:user[0].id,
-      //   username:user[0].username,}
-      // req.session['isLogin'] = true
-      // req.session['jwt'] = jwt
-      // req.session['username'] = user[0].username
-      // req.session['userId'] = user[0].id
-
-      // console.log("login",req.session);
 
       logger.info(`${username} logged in`);
       // res.header('token', jwt)
@@ -188,28 +177,34 @@ export class UserController {
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
-  // get one userInfo
+  // get self user Info
   // -------------------------------------------------------------------------------------------------------------------
   userInfo = async (req: express.Request, res: express.Response) => {
     try {
-      let userId
-      if (req.get("origin") === "http://localhost:3000"){ // react admin
-        userId = parseInt(req.params.id);
-      } else {
-        userId =
-        req.user?.userId != undefined
-          ? Number(req.user.userId)
-          : parseInt(req.params.id); // get userId from JWT
-      }
-      
-      console.log(userId);
-      
+      let userId = req.user!.userId // get userId from JWT
 
       const userInfo = await this.userService.userInfo(userId);
-      return res.json(userInfo[0]);
+       res.json(userInfo[0]);
+
     } catch (err) {
       logger.error(err);
-      return res.json({ result: false, msg: "Get user profile fail" });
+       res.json({ result: false, msg: "Get user profile fail" });
+    }
+  };
+  // -------------------------------------------------------------------------------------------------------------------
+  // get user Info by Admin
+  // -------------------------------------------------------------------------------------------------------------------
+  userInfoForAdmin = async (req: express.Request, res: express.Response) => {
+    try {
+      let userId = parseInt(req.params.id); // get userId from params
+
+      console.log(userId);
+
+      const userInfo = await this.userService.userInfo(userId);
+       res.json(userInfo[0]);
+    } catch (err) {
+      logger.error(err);
+       res.json({ result: false, msg: "Get user profile fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -217,175 +212,112 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   getAllUser = async (req: express.Request, res: express.Response) => {
     try {
-      const domain = req.get("origin");
+      let input: UserListInput = req.query;
+      let show = false;
+      let json = await this.userService.getAllUser(input, show);
 
-      let show;
-      const name =
-        (req.query.name as string) != undefined
-          ? (req.query.name as string)
-          : (req.query.q as string);
-      const email = req.query.email as string;
-      const status:any = req.query.status_id;
-      const description = req.query.description as string;
-      const phonenumber = parseInt(String(req.query.phonenumber)) as number;
-      let allUserInfo: any;
-
-      switch (domain) {
-        case "http://localhost:3000": // !!!!! remember to change to react admin domain when deploy
-          show = false;
-          allUserInfo = await this.userService.getAllUser(
-            name,
-            email,
-            status,
-            description,
-            phonenumber,
-            show
-          );
-          break;
-        case "http://localhost:3001": // !!!!! remember to change to frontend domain when deploy
-          show = true;
-          allUserInfo = await this.userService.getAllUser(
-            name,
-            email,
-            status,
-            description,
-            phonenumber,
-            show
-          );
-          break;
-        default:
-          show = false;
-          allUserInfo = await this.userService.getAllUser(
-            name,
-            email,
-            status,
-            description,
-            phonenumber,
-            show
-          );
-          break;
-      }
-
-      res.set("x-total-count", String(allUserInfo.length));
-      res.status(200).json(allUserInfo);
+      res.status(200).json(json);
     } catch (err) {
       logger.error(err);
-      res.json({ result: false, msg: "Get user profile fail" });
+      res.status(500).json({ error: String(err) });
+    }
+  };
+  // -------------------------------------------------------------------------------------------------------------------
+  // get all userInfo for react admin
+  // -------------------------------------------------------------------------------------------------------------------
+  getAllUserForAdmin = async (req: express.Request, res: express.Response) => {
+    try {
+      let input: UserListInput = req.query;
+      console.log(req.query.q);
+      
+      let show = true;
+      let json = await this.userService.getAllUser(input, show);
+
+      res.set("x-total-count", String(json.user?.length));
+      res.status(200).json(json.user);
+    } catch (err) {
+      logger.error(err);
+      res.status(500).json({ error: String(err) });
     }
   };
 
   // -------------------------------------------------------------------------------------------------------------------
   // edit User Info
   // -------------------------------------------------------------------------------------------------------------------
-
   editUser = async (req: express.Request, res: express.Response) => {
-    
-    if (req.get("origin") === "http://localhost:3000") { //react admin
-      console.log("req.origin", req.get("origin"));
+    try {
+      form.parse(req, async (err, fields, files) => {
+       
+        const userId = req.user!.userId  //get userId from JWT
 
-      try {
-        let userId;
-        if (req.get("origin") === "http://localhost:3000"){ // react admin
-        userId = parseInt(req.params.id);
-      } else {
-        userId =
-        req.user?.userId != undefined
-          ? Number(req.user.userId)
-          : parseInt(req.params.id); // get userId from JWT
-      }   
-      console.log("edit User",userId);
-      
+        const userInfos = await this.userService.userInfo(userId);
+        let oldProfilepic = userInfos[0].profilepic;
+        let oldPhoneNumber = userInfos[0].phonenumber;
+        let oldDescription = userInfos[0].description;
 
-        const { description, phonenumber, profilepic } = req.body;
+        const newProfilepic =
+          files.profilepic != null && !Array.isArray(files.profilepic)
+            ? files.profilepic.newFilename
+            : oldProfilepic;
 
-        console.log(req.body);
-        
+        const newPhoneNumber =
+          fields.phonenumber != null && !Array.isArray(fields.phonenumber)
+            ? fields.phonenumber.trim()
+            : oldPhoneNumber;
 
-        const newStatusId = req.body.status_id
+        const newDescription =
+          fields.description != null && !Array.isArray(fields.description)
+            ? fields.description
+            : oldDescription;
 
         const userInfo = await this.userService.editUser(
           userId,
-          profilepic,
-          newStatusId,
-          phonenumber,
-          description
+          newProfilepic,
+          newPhoneNumber,
+          newDescription
         );
 
-        return res.json({
+      res.json({
           result: true,
           msg: "Edit user profile success",
           userInfo,
         });
-      } catch (err) {
-        logger.error(err);
-        res.status(400).json({ result: false, msg: "update User fail" });
-      }
-    } 
-    else {
-      try{
-      form.parse(req, async (err, fields, files) => {
-        
-          console.log("req.origin", req.get("origin"));
-          const userId =
-            req.user?.userId != undefined
-              ? Number(req.user.userId)
-              : parseInt(req.params.id); // get userId from JWT
-
-          const userInfos = await this.userService.userInfo(userId);
-          let oldProfilepic = userInfos[0].profilepic;
-          let oldPhoneNumber = userInfos[0].phonenumber;
-          let oldDescription = userInfos[0].description;
-
-          const newStatusId =
-            req.body.status_id != null ? req.body.status_id : 1;
-
-          const newProfilepic =
-            files.profilepic != null && !Array.isArray(files.profilepic)
-              ? files.profilepic.newFilename
-              : oldProfilepic;
-
-          const newPhoneNumber =
-            fields.phonenumber != null && !Array.isArray(fields.phonenumber)
-              ? fields.phonenumber.trim()
-              : oldPhoneNumber;
-
-          const newDescription =
-            fields.description != null && !Array.isArray(fields.description)
-              ? fields.description
-              : oldDescription;
-
-          const userInfo:any = await this.userService.editUser(
-            userId,
-            newProfilepic,
-            newStatusId,
-            newPhoneNumber,
-            newDescription
-          );
-
-          return res.json({
-            result: true,
-            msg: "Edit user profile success",
-            userInfo,
-          });
-       
       });
     } catch (err) {
       logger.error(err);
-      return res.json({
-        result: false,
-        msg: "Edit user profile fail",
+      res.status(500).json({ result: false, msg: "edit user fail" });
+  };
+}
+  // -------------------------------------------------------------------------------------------------------------------
+  // Edit User for React Admin
+  // -------------------------------------------------------------------------------------------------------------------
+  editUserForAdmin = async (req: express.Request, res: express.Response) => {
+    try {
+      const userId = parseInt(req.params.id);
+
+      console.log("edit User", userId);
+
+      const input:UserListInput = req.body;
+
+      console.log(req.body);
+
+      const newStatusId = req.body.status_id;
+
+      const userInfo = await this.userService.editUserForAdmin(
+        userId,
+        input,
+        newStatusId
+      );
+
+       res.json({
+        id: userInfo[0].id,
+        data:userInfo[0]
       });
+    } catch (err) {
+      logger.error(err);
+       res.status(400).json({ error: String(err) });
     }
-
-
-
-    }
-    return res.json({
-      result: false,
-      msg: "Edit user profile fail",
-    });
-  } 
-  
+  };
   // -------------------------------------------------------------------------------------------------------------------
   // Apple Login
   // -------------------------------------------------------------------------------------------------------------------
@@ -455,10 +387,10 @@ export class UserController {
           ? Number(req.user.userId)
           : parseInt(req.params.id);
       const team = await this.userService.checkTeam(userId);
-      return res.json(team);
+       res.json(team);
     } catch (err) {
       logger.error(err);
-      return res.status(400).json({ result: false, msg: "get team fail" });
+       res.status(400).json({ result: false, msg: "get team fail" });
     }
   };
 
@@ -471,7 +403,7 @@ export class UserController {
       const teamId = req.params.teamid;
       const NumberTeamId = parseInt(teamId);
       const team = await this.userService.joinTeam(NumberTeamId, userId);
-      res.status(200).json(team);
+      res.status(200).json(team); // json must pass result:true, otherwise inform michael
     } catch (err) {
       logger.error(err);
       res.status(400).json({ result: false, msg: "join team fail" });
@@ -491,10 +423,10 @@ export class UserController {
       const NumberUserId = parseInt(userId);
       const NumberTeamId = parseInt(teamId);
       const team = await this.userService.quitTeam(NumberUserId, NumberTeamId);
-      return res.json(team);
+       res.json(team);
     } catch (err) {
       logger.error(err);
-      return res.status(400).json({ result: false, msg: "guit team fail" });
+       res.status(400).json({ result: false, msg: "guit team fail" });
     }
   };
 
@@ -522,10 +454,10 @@ export class UserController {
           : parseInt(req.params.id);
       // console.log("userId", userId);
       const notification = await this.userService.getNotification(userId);
-      return res.json(notification);
+       res.json(notification);
     } catch (err) {
       logger.error(err);
-      return res.json({ result: false, msg: "Get notification fail" });
+       res.json({ result: false, msg: "Get notification fail" });
     }
   };
 }
