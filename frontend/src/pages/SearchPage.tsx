@@ -1,4 +1,4 @@
-import { IonPage, IonHeader, IonSearchbar, IonButtons, useIonRouter, IonButton, IonToolbar, IonLabel, IonContent, IonIcon, IonChip, IonImg, IonList } from '@ionic/react'
+import { IonPage, IonHeader, IonSearchbar, IonButtons, useIonRouter, IonButton, IonToolbar, IonLabel, IonContent, IonIcon, IonChip, IonImg, IonList, IonBackButton } from '@ionic/react'
 import { flameOutline, trashOutline } from 'ionicons/icons';
 import React from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -20,8 +20,11 @@ export default function SearchPage() {
             <IonHeader>
                 <IonToolbar>
                     <IonSearchbar placeholder="Search" />
+                    <IonButtons slot="start">
+                        <IonBackButton />
+                    </IonButtons>
                     <IonButtons slot="end">
-                        <IonButton onClick={() => { router.push("/tab/home") }}>Cancel</IonButton>
+                        <IonButton onClick={() => {}}>Cancel</IonButton>
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>

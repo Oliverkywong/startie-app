@@ -29,7 +29,7 @@ export const isLogin = async (
     // console.log('session:',req.session);
     // console.log("session jwt:",req.session['jwt']);
     
-    // console.log("jwt:", jwt);
+    console.log("jwt:", jwt);
     
     const publicKey = await josePublicKey();
     const { payload } = await jose.jwtVerify(jwt, publicKey); //use the public key to verify the token

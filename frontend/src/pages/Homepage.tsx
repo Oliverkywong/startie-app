@@ -42,6 +42,7 @@ import { EffectCards } from "swiper";
 import Profile from "./Profile";
 import { loadUserInfo } from "../redux/userInfo/action";
 import { Team, Event } from "../model";
+// import { useGet } from "../hooks/useGet";
 
 const catergorys = {
   cat1: { src: cat1, title: "All" },
@@ -54,8 +55,8 @@ const Homepage: React.FC = () => {
   const userdetails = useAppSelector(
     (state: RootState) => state.userInfo.userinfo
   );
-  const [data, setData] = useState<Team[]>([]);
-  const [tag, setTag] = useState<string[]>([]);
+  const isLogin = useAppSelector((state: RootState) => state.auth.loggedIn);
+  const [teamData, setTeamData] = useState<Team[]>([]);
   const [eventData, setEventData] = useState<Event[]>([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
@@ -65,7 +66,7 @@ const Homepage: React.FC = () => {
     setTimeout(() => {
       console.log("Loaded data");
       ev.target.complete();
-      if (data.length === 100) {
+      if (teamData.length === 100) {
         setInfiniteDisabled(true);
       }
     }, 500);
@@ -78,48 +79,69 @@ const Homepage: React.FC = () => {
         dispatch(logOut());
       }
 
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/:id`, {
+      const teamRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`, {
         headers: {
           Authorization: `Bearer ${localtoken}`,
-        },
+        }
+      });
+      const teamResult = await teamRes.json();
+      setTeamData(teamResult);
+
+      const eventRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/event`, {
+        headers: {
+          Authorization: `Bearer ${localtoken}`,
+        }
+      });
+      const eventResult = await eventRes.json();
+      const hotEvent = eventResult.slice(0, 4);
+      setEventData(hotEvent);
+
+      const userRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/:id`, {
+        headers: {
+          Authorization: `Bearer ${localtoken}`,
+        }
       });
 
-      if (res.status === 200) {
-        const userRecord = await res.json();
+      if (userRes.status === 200) {
+        const userRecord = await userRes.json();
         dispatch(loadUserInfo(userRecord));
-        router.push("/tab/home");
+        // setIsLogin(true);
+        // router.push("/tab/home");
       }
     })();
   }, []);
 
-  useEffect(() => {
-    (async function () {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`);
-      const result = await res.json();
-      setData(result);
+  // useEffect(() => {
+  //   (async function () {
+  //     const teamRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`);
+  //     const teamResult = await teamRes.json();
+  //     setTeamData(teamResult);
+  //     console.log(teamResult);
 
-      for (let i = 0; i < result.length; i++) {
-        const tagres = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/team/${result[i].id}`
-        );
+  //     for (let i = 0; i < teamResult.length; i++) {
+  //       const tagRes = await fetch(
+  //         `${process.env.REACT_APP_BACKEND_URL}/team/${teamResult[i].id}`
+  //       );
 
-        const item = await tagres.json();
-        const tagArray: string[] = [];
-        for (let i = 0; i < item.teamTag.length; i++) {
-          tagArray.push(item.teamTag[i].name);
-        }
-        setTag(tagArray);
-      }
-    })();
-  }, []);
+  //       const tagItem = await tagRes.json();
+  //       const tagArray: string[] = [];
+  //       for (let i = 0; i < tagItem.teamTag.length; i++) {
+  //         tagArray.push(tagItem.teamTag[i].name);
+  //       }
+  //       setTag(tagArray);
+  //     }
+  //   })();
+  // }, []);
 
-  useEffect(() => {
-    (async function () {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/event`);
-      const result = await res.json();
-      setEventData(result);
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async function () {
+  //     const eventRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/event`);
+  //     const eventResult = await eventRes.json();
+  //     setEventData(eventResult);
+  //   })();
+  // }, []);
+
+  // const events = useGet<Event[]>('/event')
 
   return (
     <IonPage>
@@ -128,8 +150,10 @@ const Homepage: React.FC = () => {
           <IonButtons slot="end">
             <IonButton
               onClick={() => {
-                router.push("/notification");
+                isLogin ? router.push("/notification") : router.push("/tab/login");
               }}
+              // routerLink="/notification"
+              
             >
               <IonIcon icon={notificationsOutline} />
             </IonButton>
@@ -137,7 +161,7 @@ const Homepage: React.FC = () => {
           <IonButtons slot="start">
             <IonButton
               onClick={() => {
-                router.push("/tab/profile", "forward", "push");
+                isLogin ? router.push("/tab/profile") : router.push("/tab/login");
               }}
             >
               <IonImg
@@ -159,6 +183,7 @@ const Homepage: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="homecontent">
+        <p></p>
         <IonLabel className="labelTitle">Hot Events</IonLabel>
 
         <Swiper
@@ -169,6 +194,7 @@ const Homepage: React.FC = () => {
           className="mySwiper swiper-container"
         >
           {eventData.map((event) => {
+            // console.log(event.id);
             return (
               <IonCard key={event.id} routerLink={`/event/${event.id}`}>
                 <SwiperSlide className="imgelement">
@@ -183,6 +209,7 @@ const Homepage: React.FC = () => {
               </IonCard>
             );
           })}
+          {/* {events.render(eventData=>eventData.map(event=><div key={event.id}>{}</div>))} */}
         </Swiper>
 
         <IonLabel className="labelTitle">Catergories</IonLabel>
@@ -215,10 +242,10 @@ const Homepage: React.FC = () => {
 
         <IonList className="teamListBackgound">
           <IonLabel className="labelTitle blackFontColor">
-            Brownse Teams
+            Browse Teams
           </IonLabel>
           <div className="teamList">
-            {data.map((item) => {
+            {teamData.map((item) => {
               return (
                 <IonCol key={item.id}>
                   <div className="teamInfo">

@@ -29,10 +29,14 @@ const BuildTeam: React.FC = () => {
   useEffect(() => {
     (async function () {
       const localtoken = localStorage.getItem("token");
+      if (localtoken === null) {
+        router.push("/tab/login");
+      }
+
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/category`, {
         headers: {
           Authorization: `Bearer ${localtoken}`,
-        },
+        }
       });
       const teamcategory = await res.json();
       setTeamcategory(teamcategory);
@@ -58,6 +62,7 @@ const BuildTeam: React.FC = () => {
 
   const onCancel = () => {
     setState(null);
+    setCroppedImage(null);
   };
 
   const setCroppedImageFor = (croppedImageUrl: any) => {

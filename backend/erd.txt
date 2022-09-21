@@ -1,0 +1,210 @@
+# Visualize on https://erd.surge.sh
+# or https://quick-erd.surge.sh
+#
+# Relationship Types
+#  -    - one to one
+#  -<   - one to many
+#  >-   - many to one
+#  >-<  - many to many
+#  -0   - one to zero or one
+#  0-   - zero or one to one
+#  0-0  - zero or one to zero or one
+#  -0<  - one to zero or many
+#  >0-  - zero or many to one
+#
+////////////////////////////////////
+
+
+room
+----
+id integer PK
+name varchar(255) null
+
+
+team
+----
+id integer PK
+clickrate integer NULL
+room_id integer NULL unique FK >- room.id
+name varchar(255) unique
+description text NULL
+profilepic text NULL
+
+
+status_id integer FK >- status.id
+
+created_at timestamp
+inactive_at timestamp null
+
+
+status
+------
+id integer PK
+name varchar(255) unique
+
+
+job
+---
+status_id integer FK >- status.id
+id integer PK
+clickrate integer NULL
+name varchar(255) unique
+description text NULL
+
+
+user
+----
+status_id integer FK >- status.id
+clickrate integer NULL
+id integer PK
+description text NULL
+profilepic text NULL
+username varchar(255) unique
+password varchar(255)
+email varchar(255) unique
+phonenumber varchar(255) NULL
+
+
+sector
+------
+id integer PK
+name varchar(255) unique
+
+
+skill
+-----
+id integer PK
+sector_id integer FK >- sector.id
+name varchar(255)
+
+
+notification
+------------
+id integer PK
+user_id integer FK >- user.id
+isread boolean
+content text
+
+
+searchcategory
+--------------
+id integer PK
+name varchar(255) unique
+profilepic text NULL
+
+
+tag
+---
+id integer PK
+searchcategory_id integer FK >- searchcategory.id
+name varchar(255)
+
+
+event
+-----
+clickrate integer NULL
+id integer PK
+maxteammember integer NULL
+status_id integer FK >- status.id
+starttime timestamp NULL
+name varchar(255) unique
+description text NULL
+profilepic text NULL
+
+
+message
+-------
+id integer PK
+receiver_id integer NULL FK >- user.id
+sender_id integer FK >- user.id
+isread boolean NULL
+team_id integer NULL FK >- team.id
+room_id integer FK >- room.id
+message text NULL
+
+
+user_skill
+----------
+id integer PK
+user_id integer FK >- user.id
+skill_id integer FK >- skill.id
+point integer
+
+
+user_sector
+-----------
+id integer PK
+user_id integer FK >- user.id
+sector_id integer FK >- sector.id
+point integer
+
+
+room_user
+---------
+id integer PK
+user_id integer NULL FK >- user.id
+room_id integer FK >- room.id
+
+
+user_team
+---------
+id integer PK
+user_id integer unique FK >- user.id
+team_id integer unique FK >- team.id
+isboard boolean
+iswaiting boolean
+applytime timestamp NULL
+quittime timestamp NULL
+isfollow boolean
+
+
+team_tag
+--------
+id integer PK
+team_id integer FK >- team.id
+tag_id integer FK >- tag.id
+
+
+team_job
+--------
+id integer PK
+job_id integer FK >- job.id
+team_id integer FK >- team.id
+iswaiting boolean
+
+
+job_tag
+-------
+id integer PK
+job_id integer FK >- job.id
+tag_id integer FK >- tag.id
+
+
+event_tag
+---------
+id integer PK
+event_id integer FK >- event.id
+tag_id integer FK >- tag.id
+
+
+event_team
+----------
+id integer PK
+event_id integer FK >- event.id
+team_id integer FK >- team.id
+
+
+user_event
+----------
+id integer PK
+event_id integer unique FK >- event.id
+user_id integer unique FK >- user.id
+isfollow boolean
+
+
+user_job
+--------
+id integer PK
+job_id integer FK >- job.id
+user_id integer FK >- user.id
+isfollow boolean

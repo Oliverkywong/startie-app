@@ -13,6 +13,7 @@ import {
   addCircleOutline,
   chatbubbleEllipsesOutline,
   personOutline,
+  logoOctocat,
 } from "ionicons/icons";
 import { Redirect, Route } from "react-router";
 import Homepage from "./pages/Homepage";
@@ -37,13 +38,15 @@ export default function Routes() {
   return (
     <IonRouterOutlet>
       {/* <Route path="/" component={Login} /> */}
-      <Redirect exact path="/" to="/login" />
-      <Route path="/login" component={Login} />
-      <Route path="/signup" component={SignUp} />
-      <Route path="/search" component={SearchPage} />
-      <Route path="/notification" component={Notification} />
-      <Route path="/recommend" component={Recommend} />
-      <Route path="/sociallogin" component={SocialLogin} />
+      <Redirect exact path="/" to="/tab/home" />
+      {/* <Route path="/login" component={Login} /> */}
+      <Route exact path="/signup" component={SignUp} />
+      <Route exact path="/search" component={SearchPage} />
+      <Route exact path="/notification" component={Notification} />
+      <Route exact path="/recommend" component={Recommend} />
+      <Route exact path="/sociallogin" component={SocialLogin} />
+      <Route exact path="/settings" component={UserSettings} />
+      <Route exact path="/useredit" component={UserEdit} />
 
       <Route path="/tab">
         <IonTabs>
@@ -60,11 +63,11 @@ export default function Routes() {
             <Route exact path="/tab/event/:id" component={EventDetail} />
 
             <Route exact path="/tab/profile" component={Profile} />
-            <Route exact path="/tab/profile/edit" component={UserEdit} />
             {/* <Route exact path="/tab/user/:id" component={User} /> */}
             <Route exact path="/tab/user" component={UserList} />
 
-            <Route path="/tab/settings" component={UserSettings} />
+            <Route exact path="/tab/login" component={Login} />
+
           </IonRouterOutlet>
 
           <IonTabBar slot="bottom">
@@ -78,10 +81,10 @@ export default function Routes() {
             </IonTabButton>
             <IonTabButton tab="buildteam" href="/tab/buildteam">
               <IonIcon icon={addCircleOutline} />
-              <IonLabel>Build New Team</IonLabel>
+              <IonLabel>Build Team</IonLabel>
             </IonTabButton>
             <IonTabButton tab="event" href="/tab/event">
-              <IonIcon icon={chatbubbleEllipsesOutline} />
+              <IonIcon icon={logoOctocat} />
               <IonLabel>Event</IonLabel>
             </IonTabButton>
             <IonTabButton tab="profile" href="/tab/profile">
