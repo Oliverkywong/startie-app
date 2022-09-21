@@ -1,10 +1,10 @@
 import express from "express";
 import { TeamController } from "../controllers/teamController";
-import { isLogin } from "../utils/middleware";
+// import { isLogin } from "../utils/middleware";
 
 export function teamRoutes(teamController: TeamController) {
   const router = express.Router();
-  router.get("/team", isLogin, teamController.getAllTeams);
+  router.get("/team", teamController.getAllTeams);
   router.get("/team/:id", teamController.getTeam);
   router.post("/team", teamController.createTeam); // need to add isLogin
   router.put("/team/:id", teamController.updateTeam); // need to add isBoard

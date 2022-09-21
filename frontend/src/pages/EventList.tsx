@@ -5,11 +5,8 @@ import {
   IonTitle,
   IonContent,
   IonList,
-  IonItem,
   IonLabel,
-  IonSearchbar,
   IonCard,
-  IonCardContent,
   IonImg,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
@@ -33,7 +30,6 @@ const EventList: React.FC = () => {
     (async function () {
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/event`);
       const result = await res.json();
-      // console.log(result);
       setData(result);
     })();
   }, []);
@@ -58,20 +54,29 @@ const EventList: React.FC = () => {
           <IonTitle className="title">商業比賽</IonTitle>
         </IonToolbar>
         <IonToolbar>
-          <IonSearchbar
-            placeholder="Search"
-            onClick={() => {
-              router.push("/search");
-            }}
-          />
+          <div className="searchbarContainer">
+            <input
+              className="searchbar"
+              placeholder="Search Position"
+              onClick={() => {
+                router.push("/search");
+              }}
+            />
+          </div>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonList>
+        <div className="eventContainer">
           {data.map((item) => {
             return (
-              <IonCard key={item.id} routerLink={`event/${item.id}`}>
-                <IonImg
+              <div
+                className="eventinfo"
+                key={item.id}
+                onClick={() => {
+                  router.push(`event/${item.id}`);
+                }}
+              >
+                <img
                   className="eventThumbnail"
                   src={
                     item?.profilepic != null
@@ -80,27 +85,25 @@ const EventList: React.FC = () => {
                   }
                 />
 
-                <IonCardTitle className="eventTitle">{item.name}</IonCardTitle>
-                <div className="event">
+                <p className="eventTitle">{item.name}</p>
+                <div className="eventData">
                   <IonImg
                     src={
                       item?.profilepic != null
                         ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
                         : "StartieLogo.png"
                     }
-                    style={{ width: "10%" }}
+                    style={{ width: "10%", height: "10%" }}
                   />
-                  <div className="eventinfo">
-                    <IonLabel className="eventDescription">
-                      {item.description}
-                    </IonLabel>
-                    <IonLabel>{item.starttime}</IonLabel>
+                  <div className="">
+                    <p className="eventDescription">{item.description}</p>
+                    <p className="eventDate">Due: {item.starttime}</p>
                   </div>
                 </div>
-              </IonCard>
+              </div>
             );
           })}
-        </IonList>
+        </div>
         <IonInfiniteScroll
           onIonInfinite={loadData}
           threshold="100px"

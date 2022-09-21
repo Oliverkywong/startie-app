@@ -192,18 +192,16 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   userInfo = async (req: express.Request, res: express.Response) => {
     try {
-      let userId
-      if (req.get("origin") === "http://localhost:3000"){ // react admin
-        userId = parseInt(req.params.id);
-      } else {
-        userId =
+      let userId;
+      // if (req.get("origin") === "http://localhost:3000") {
+      //   // react admin
+      //   userId = parseInt(req.params.id);
+      // } else {
+      userId =
         req.user?.userId != undefined
           ? Number(req.user.userId)
           : parseInt(req.params.id); // get userId from JWT
-      }
-      
-      console.log(userId);
-      
+      // }
 
       const userInfo = await this.userService.userInfo(userId);
       return res.json(userInfo[0]);
@@ -225,7 +223,7 @@ export class UserController {
           ? (req.query.name as string)
           : (req.query.q as string);
       const email = req.query.email as string;
-      const status:any = req.query.status_id;
+      const status: any = req.query.status_id;
       const description = req.query.description as string;
       const phonenumber = parseInt(String(req.query.phonenumber)) as number;
       let allUserInfo: any;
@@ -279,29 +277,28 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
 
   editUser = async (req: express.Request, res: express.Response) => {
-    
-    if (req.get("origin") === "http://localhost:3000") { //react admin
+    if (req.get("origin") === "http://localhost:3000") {
+      //react admin
       console.log("req.origin", req.get("origin"));
 
       try {
         let userId;
-        if (req.get("origin") === "http://localhost:3000"){ // react admin
-        userId = parseInt(req.params.id);
-      } else {
-        userId =
-        req.user?.userId != undefined
-          ? Number(req.user.userId)
-          : parseInt(req.params.id); // get userId from JWT
-      }   
-      console.log("edit User",userId);
-      
+        if (req.get("origin") === "http://localhost:3000") {
+          // react admin
+          userId = parseInt(req.params.id);
+        } else {
+          userId =
+            req.user?.userId != undefined
+              ? Number(req.user.userId)
+              : parseInt(req.params.id); // get userId from JWT
+        }
+        console.log("edit User", userId);
 
         const { description, phonenumber, profilepic } = req.body;
 
         console.log(req.body);
-        
 
-        const newStatusId = req.body.status_id
+        const newStatusId = req.body.status_id;
 
         const userInfo = await this.userService.editUser(
           userId,
@@ -320,11 +317,9 @@ export class UserController {
         logger.error(err);
         res.status(400).json({ result: false, msg: "update User fail" });
       }
-    } 
-    else {
-      try{
-      form.parse(req, async (err, fields, files) => {
-        
+    } else {
+      try {
+        form.parse(req, async (err, fields, files) => {
           console.log("req.origin", req.get("origin"));
           const userId =
             req.user?.userId != undefined
@@ -354,7 +349,7 @@ export class UserController {
               ? fields.description
               : oldDescription;
 
-          const userInfo:any = await this.userService.editUser(
+          const userInfo: any = await this.userService.editUser(
             userId,
             newProfilepic,
             newStatusId,
@@ -367,25 +362,21 @@ export class UserController {
             msg: "Edit user profile success",
             userInfo,
           });
-       
-      });
-    } catch (err) {
-      logger.error(err);
-      return res.json({
-        result: false,
-        msg: "Edit user profile fail",
-      });
-    }
-
-
-
+        });
+      } catch (err) {
+        logger.error(err);
+        return res.json({
+          result: false,
+          msg: "Edit user profile fail",
+        });
+      }
     }
     return res.json({
       result: false,
       msg: "Edit user profile fail",
     });
-  } 
-  
+  };
+
   // -------------------------------------------------------------------------------------------------------------------
   // Apple Login
   // -------------------------------------------------------------------------------------------------------------------
