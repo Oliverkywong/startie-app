@@ -166,14 +166,14 @@ export class UserService {
   // -------------------------------------------------------------------------------------------------------------------
   // edit User Info (Admin)
   // -------------------------------------------------------------------------------------------------------------------
-  async editUserForAdmin(userId: number, input: UserListInput, newStatusId?: number) {
+  async editUserForAdmin(userId: number, input: UserListInput) {
     
     const userRecord = await this.knex<User>("user")
       .update({
         profilepic: input.profilepic,
         phonenumber: input.phonenumber,
         description: input.description,
-        status_id: newStatusId
+        status_id: input.status_id
       })
       .where("id", userId)
       .returning("*");
