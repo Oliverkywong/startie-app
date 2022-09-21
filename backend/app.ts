@@ -23,7 +23,6 @@ import { EventController } from "./controllers/eventController";
 import { teamRoutes } from "./routes/teamRoute";
 import { eventRoutes } from "./routes/eventRoute";
 import { jobRoutes } from "./routes/jobRoute";
-// import expressSession from 'express-session';
 
 // -------------------------------------------------------------------------------------------------------------------
 // Knex
@@ -49,26 +48,9 @@ declare global {
   namespace Express {
     interface Request {
       user?: UserId_Username;
-      session: {
-        isLogin: boolean;
-        jwt: string;
-        username: string;
-        userId: number;
-        destroy?: (err: any) => void;
-      }
     }
   }
 }
-
-
-// session
-// app.use(
-// 	expressSession({
-// 		secret: 'Extremely secret secret',
-// 		resave: true,
-// 		saveUninitialized: true
-// 	})
-// )
 
 // const allowedOrigins = [
 //   'capacitor://localhost',
@@ -82,7 +64,7 @@ declare global {
 
 app.use(
   cors({
-    origin: [process.env.REACT_DOMAIN!,'capacitor://localhost'],
+    origin: [process.env.REACT_DOMAIN!,'capacitor://localhost', 'http://localhost:3001'],
     credentials: true,
     exposedHeaders: ["x-total-count", "content-length","server" ], //for react-admin
    

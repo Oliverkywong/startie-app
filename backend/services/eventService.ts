@@ -1,4 +1,5 @@
 import { Knex } from "knex";
+import { EventListData, EventListInput } from "../utils/api-types";
 import { logger } from "../utils/logger";
 import { Event } from "../utils/model";
 
@@ -37,26 +38,32 @@ export class EventService {
   // -------------------------------------------------------------------------------------------------------------------
   // get All Events ✅
   // -------------------------------------------------------------------------------------------------------------------
-    async getAllEvents(name?:string, description?:string, status?:number, maxTeammember?:number, show?: boolean) {
+    async getAllEvents(input:EventListInput, show: boolean): Promise<EventListData> {
 
       let query = this.knex<Event>("event").select("event.id", "event.name", "status.name as status", "description", "maxteammember", "starttime", "profilepic", "clickrate", "created_at").join("status", "status_id", "status.id");
   
-      if (name) {
-        query = query.where("event.name", "ilike", `%${name}%`);
+      if (input.name) {
+        query = query.where("event.name", "ilike", `%${input.name}%`);
       }
-      if (description) {
-        query = query.where("description", "ilike", `%${description}%`);
+      if (input.description) {
+        query = query.where("description", "ilike", `%${input.description}%`);
       }
-      if (status) {
-        query = query.where("status.id", "=", `${status}`);
+      if (input.status_id) {
+        query = query.where("status.id", "=", `${input.status_id}`);
       }
-      if (maxTeammember) {
-        query = query.where("maxteammember", "<=", `${maxTeammember}`);
+      if (input.maxteammember) {
+        query = query.where("maxteammember", "<=", `${input.maxteammember}`);
       }
-      const eventRecord = show == true? await query.orderBy('id', 'asc') : await query.orderBy('id', 'asc').where('status_id', 1);
+      if (show) {
+        query = query.orderBy('id', 'asc')
+      } else {
+        query = query.orderBy('id', 'asc').where('status_id', 1)
+      }
+
+      let events = await query
 
       
-      return eventRecord;
+      return {events};
   }
 
   // -------------------------------------------------------------------------------------------------------------------
@@ -75,7 +82,7 @@ export class EventService {
     description: string,
     maxteammember: number,
     profilepic: string,
-    starttime: Date,
+    starttime: Date | string,
     newStatusId: number
   ) {
     if (

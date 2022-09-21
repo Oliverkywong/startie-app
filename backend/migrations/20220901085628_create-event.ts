@@ -7,9 +7,11 @@ export async function up(knex: Knex): Promise<void> {
       table.string("name").unique().notNullable();
       table.text("description");
       table.integer("maxteammember").unsigned();
-      table.integer("status_id").unsigned().notNullable();
+      table.integer("status_id").notNullable();
       table.foreign("status_id").references("status.id");
       table.timestamp("starttime");
+      table.integer("searchcategory_id").notNullable();
+      table.foreign("searchcategory_id").references("searchcategory.id");
       table.text("profilepic");
       table.integer("clickrate").unsigned().defaultTo(0);
       table.timestamps(false, true);

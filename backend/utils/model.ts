@@ -5,7 +5,7 @@ export interface User {
   email: string;
   status_id: number;
   profilepic: string;
-  phonenumber: string;
+  phonenumber: string | number;
   description: string;
   clickrate: number;
   team_id: number;
@@ -41,7 +41,7 @@ export interface Event {
   description?: string;
   maxteammember: number;
   profilepic?: string;
-  starttime: Date;
+  starttime: Date | string;
   status_id: number;
   clickrate: number;
 }

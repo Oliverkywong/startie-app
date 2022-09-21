@@ -26,7 +26,7 @@ import {
 
 export const UserList = () => (
   <List filters={getUserFilters()}>
-    <Datagrid rowClick="edit">
+    <Datagrid rowClick="edit" >
       <TextField source="id" sortByOrder="DESC" />
       <TextField source="username" />
       <EmailField source="email" />

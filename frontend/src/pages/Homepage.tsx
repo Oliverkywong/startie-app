@@ -22,6 +22,11 @@ import {
 import { Swiper, SwiperSlide } from "swiper/react";
 import { notificationsOutline } from "ionicons/icons";
 
+import com1 from "../img/com1.png";
+import com2 from "../img/com2.png";
+import com3 from "../img/com3.png";
+import com4 from "../img/com4.png";
+import com5 from "../img/com5.png";
 import cat1 from "../img/all.png";
 import cat2 from "../img/startup.png";
 import cat3 from "../img/business.png";
@@ -37,9 +42,11 @@ import { EffectCards } from "swiper";
 import Profile from "./Profile";
 import { loadUserInfo } from "../redux/userInfo/action";
 import { Team, Event } from "../model";
+import { EventListData } from "../utils/api-types";
+// import { useGet } from "../hooks/useGet";
 
 const catergorys = {
-  cat1: { src: cat1, title: "Investment" },
+  cat1: { src: cat1, title: "All" },
   cat2: { src: cat2, title: "Startup" },
   cat3: { src: cat3, title: "Business" },
   cat4: { src: cat4, title: "Hackathon" },
@@ -51,7 +58,7 @@ const Homepage: React.FC = () => {
   );
   const [data, setData] = useState<Team[]>([]);
   const [tag, setTag] = useState<string[]>([]);
-  const [eventData, setEventData] = useState<Event[]>([]);
+  const [eventData, setEventData] = useState<EventListData>({});
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
   const dispatch = useAppDispatch();
@@ -73,7 +80,7 @@ const Homepage: React.FC = () => {
         dispatch(logOut());
       }
 
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/:id`, {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/1`, {
         headers: {
           Authorization: `Bearer ${localtoken}`,
         },
@@ -87,45 +94,51 @@ const Homepage: React.FC = () => {
     })();
   }, []);
 
-  useEffect(() => {
-    (async function () {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`);
-      const result = await res.json();
-      setData(result);
+  // useEffect(() => {
+  //   (async function () {
+  //     const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`);
+  //     const result = await res.json();
+  //     setData(result);
 
-      for (let i = 0; i < result.length; i++) {
-        const tagres = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/team/${result[i].id}`
-        );
+  //     for (let i = 0; i < result.length; i++) {
+  //       const tagres = await fetch(
+  //         `${process.env.REACT_APP_BACKEND_URL}/team/${result[i].id}`
+  //       );
 
-        const item = await tagres.json();
-        console.log(item.tag);
-        const tagArray: string[] = [];
-        for (let i = 0; i < item.teamTag.length; i++) {
-          tagArray.push(item.teamTag[i].name);
-        }
-        setTag(tagArray);
-      }
-    })();
-  }, []);
+  //       const item = await tagres.json();
+  //       const tagArray: string[] = [];
+  //       for (let i = 0; i < item.teamTag.length; i++) {
+  //         tagArray.push(item.teamTag[i].name);
+  //       }
+  //       setTag(tagArray);
+  //     }
+  //   })();
+  // }, []);
 
   useEffect(() => {
     (async function () {
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/event`);
       const result = await res.json();
       setEventData(result);
+      console.log(eventData)
     })();
   }, []);
+
+  console.log(data);
+
+  // const events = useGet<Event[]>('/event')
 
   return (
     <IonPage>
       <IonHeader className="searchBar">
-        <IonToolbar>
+        <IonToolbar >
           <IonButtons slot="end">
             <IonButton
-              onClick={() => {
-                router.push("/notification");
-              }}
+              // onClick={() => {
+              //   router.push("/notification");
+              // }}
+              routerLink="/notification"
+              
             >
               <IonIcon icon={notificationsOutline} />
             </IonButton>
@@ -164,23 +177,26 @@ const Homepage: React.FC = () => {
           modules={[EffectCards]}
           className="mySwiper swiper-container"
         >
-          {eventData.map((event) => {
+          {eventData.error?<p>
+            Failed to load event list: 
+            {eventData.error}
+          </p>:null}
+          {eventData.events?.map((event) => {
             return (
-              <SwiperSlide
-                key={`event${event.id}`}
-                onClick={() => router.push(`event/${event.id}`)}
-                className="imgelement"
-              >
-                <IonImg
-                  src={
-                    event.profilepic != null
-                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${event.profilepic}`
-                      : "StartieLogo.png"
-                  }
-                />
-              </SwiperSlide>
+              <IonCard key={event.id} routerLink={`/event/${event.id}`}>
+                <SwiperSlide className="imgelement">
+                  <IonImg
+                    src={
+                      event.profilepic != null
+                        ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${event.profilepic}`
+                        : "StartieLogo.png"
+                    }
+                  />
+                </SwiperSlide>
+              </IonCard>
             );
           })}
+          {/* {events.render(eventData=>eventData.map(event=><div key={event.id}>{}</div>))} */}
         </Swiper>
 
         <IonLabel className="labelTitle">Catergories</IonLabel>
@@ -213,12 +229,12 @@ const Homepage: React.FC = () => {
 
         <IonList className="teamListBackgound">
           <IonLabel className="labelTitle blackFontColor">
-            Brownse Teams
+            Browse Teams
           </IonLabel>
           <div className="teamList">
             {data.map((item) => {
               return (
-                <IonCol key={`Team${item.id}`}>
+                <IonCol key={item.id}>
                   <div className="teamInfo">
                     <IonCard
                       className="teamCard"
@@ -243,7 +259,7 @@ const Homepage: React.FC = () => {
 
                       <div className="tag">
                         {item.tags.map((tag) => {
-                          return <span key={`teamTags${tag}`}>{tag}</span>;
+                          return <span key={tag}>{tag}</span>;
                         })}
                       </div>
                     </IonCard>

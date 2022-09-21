@@ -1,4 +1,5 @@
 import { Knex } from "knex";
+import { UserListData, UserListInput } from "../utils/api-types";
 import { checkPassword, hashPassword } from "../utils/hash";
 import { User } from "../utils/model";
 
@@ -50,7 +51,6 @@ export class UserService {
   // -------------------------------------------------------------------------------------------------------------------
   // Register ✅
   // -------------------------------------------------------------------------------------------------------------------
-
   async register(
     username: string,
     password: string,
@@ -130,52 +130,71 @@ export class UserService {
     return userRecord;
   }
   // -------------------------------------------------------------------------------------------------------------------
-  // get all UserInfo
+  // get all User Info
   // -------------------------------------------------------------------------------------------------------------------
-  async getAllUser(name?:string, email?:string, status?:number,description?:string, phonenumber?:number, show?: boolean) {
+  async getAllUser(input:UserListInput, show?: boolean): Promise<UserListData>  {
 
     let query = this.knex<User>("user").select("user.id", "username", "email", "phonenumber", "profilepic", "description", "clickrate", "created_at", "status_id as sid", "name as status").join("status", "status_id", "status.id");
 
-    if (name) {
-      query = query.where("username", "ilike", `%${name}%`);
+    if (input.name) {
+      query = query.where("username", "ilike", `%${input.name}%`);
     }
-    if (email) {
-      query = query.where("email", "ilike", `%${email}%`);
+    if (input.q) {
+      query = query.where("username", "ilike", `%${input.q}%`);
     }
-    if (status) {
-      query = query.where("status.id", "=", `${status}`);
+    if (input.email) {
+      query = query.where("email", "ilike", `%${input.email}%`);
     }
-    if (description) {
-      query = query.where("description", "ilike", `%${description}%`);
+    if (input.status_id) {
+      query = query.where("status.id", "=", `${input.status_id}`);
     }
-    if (phonenumber) {
-      query = query.where("phonenumber", "ilike", `%${phonenumber}%`);
+    if (input.description) {
+      query = query.where("description", "ilike", `%${input.description}%`);
     }
-    const userRecord = show == false? await query.orderBy('id', 'asc') : await query.orderBy('id', 'asc').where('status_id', 1);
+    if (input.phonenumber) {
+      query = query.where("phonenumber", "ilike", `%${input.phonenumber}%`);
+    }
+    if (show) {
+      query = query.orderBy('id', 'asc')
+    } else {
+      query = query.orderBy('id', 'asc').where('status_id', 1)
+    }
+    let user = await query;
 
-    return userRecord;
+    return {user};
   }
   // -------------------------------------------------------------------------------------------------------------------
-  // edit User Info
+  // edit User Info (Admin)
   // -------------------------------------------------------------------------------------------------------------------
-  async editUser(
-    userId: number,
-    newProfilepic: string,
-    newStatusId: number,
-    newPhoneNumber: string,
-    newDescription: string
-  ) {
+  async editUserForAdmin(userId: number, input: UserListInput, newStatusId?: number) {
+    
     const userRecord = await this.knex<User>("user")
       .update({
-        profilepic: newProfilepic,
-        phonenumber: newPhoneNumber,
-        status_id: newStatusId,
-        description: newDescription,
+        profilepic: input.profilepic,
+        phonenumber: input.phonenumber,
+        description: input.description,
+        status_id: newStatusId
       })
       .where("id", userId)
       .returning("*");
 
-    return userRecord;
+    return userRecord
+  }
+// -------------------------------------------------------------------------------------------------------------------
+// edit User Info
+// -------------------------------------------------------------------------------------------------------------------
+  async editUser(userId: number, profilepic: string, phonenumber: number | string, description: string) {
+    
+    const userRecord = await this.knex<User>("user")
+      .update({
+        profilepic: profilepic,
+        phonenumber: phonenumber,
+        description: description,
+      })
+      .where("id", userId)
+      .returning("*");
+
+    return userRecord
   }
 
   // -------------------------------------------------------------------------------------------------------------------

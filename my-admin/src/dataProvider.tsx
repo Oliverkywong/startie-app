@@ -111,7 +111,7 @@ import fakeRestProvider from 'ra-data-fakerest';
 // import { fetchUtils } from 'react-admin';
 // import { stringify } from 'query-string';
 
-// const apiUrl = 'https://localhost:8000';
+// const apiUrl = process.env.BACKEND_URL;
 // const httpClient = fetchUtils.fetchJson;
 
 // const dataProvider= {

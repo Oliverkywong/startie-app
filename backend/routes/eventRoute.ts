@@ -4,9 +4,10 @@ import { isLogin } from "../utils/middleware";
 
 export function eventRoutes(eventController: EventController) {
   const router = express.Router();
-  router.get("/event", isLogin, eventController.getAllEvents);
+  router.get("/app/event", eventController.getAllEvents); // no need isLogin
+  router.get("/event", eventController.getAllEventsForAdmin); // no need isLogin
   router.get("/event/:id", eventController.getEvent);
-  router.post("/event", eventController.createEvent); // need to add isLogin
-  router.put("/event/:id", eventController.updateEvent); // need to add isLogin + isBoard
+  router.post("/event", isLogin, eventController.createEvent);
+  router.put("/event/:id", isLogin, eventController.updateEvent); // need to add isLogin + isBoard
   return router;
 }

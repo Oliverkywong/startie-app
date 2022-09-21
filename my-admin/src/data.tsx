@@ -1,5 +1,5 @@
  export async  function fetchData() {
-    let fetchRes =  await fetch(`http://localhost:8000/team`)
+    let fetchRes =  await fetch(`${process.env.BACKEND_URL}/team`)
    
      let data= await fetchRes.json()
      console.log("data1:",data);
