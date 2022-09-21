@@ -16,6 +16,7 @@ export type EventListData = { //type of list of events for EventList of react ad
 export type EventListInput = { //input query from react admin
   name?: string;
   q?: string;
+  profilepic?: string;
   description?: string;
   maxteammember?: number | string;
   status_id?: number | string;

@@ -74,11 +74,14 @@ const Homepage: React.FC = () => {
         dispatch(logOut());
       }
 
-      const teamRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/app/team`, {
-        headers: {
-          Authorization: `Bearer ${localtoken}`,
-        },
-      });
+      const teamRes = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/app/team`,
+        {
+          headers: {
+            Authorization: `Bearer ${localtoken}`,
+          },
+        }
+      );
       const teamResult = await teamRes.json();
       
       setTeamData(teamResult.teams.rows); // remove .teams.rows after backend fix
@@ -92,7 +95,6 @@ const Homepage: React.FC = () => {
         }
       );
       const eventResult = await eventRes.json();
-      
       const hotEvent = eventResult.events.slice(0, 4);
       setEventData(hotEvent);
 
@@ -146,7 +148,6 @@ const Homepage: React.FC = () => {
 
   // const events = useGet<Event[]>('/event')
 
-
   // const events = useGet<Event[]>('/event')
 
   return (
@@ -178,8 +179,9 @@ const Homepage: React.FC = () => {
                 // src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`}
                 src={
                   userdetails.profilepic !== null
-                  ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`
-                  : "https://www.w3schools.com/howto/img_avatar.png"}
+                    ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`
+                    : "https://www.w3schools.com/howto/img_avatar.png"
+                }
               />
             </IonButton>
           </IonButtons>
@@ -196,7 +198,6 @@ const Homepage: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="homecontent">
-        <p></p>
         <IonLabel className="labelTitle">Hot Events</IonLabel>
 
         <Swiper

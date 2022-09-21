@@ -3,7 +3,7 @@ export interface User {
   username: string;
   password: string;
   email: string;
-  status_id: number;
+  status_id: number | string;
   profilepic: string;
   phonenumber: string | number;
   description: string;
@@ -39,10 +39,10 @@ export interface Event {
   id: number;
   name: string;
   description?: string;
-  maxteammember: number;
+  maxteammember: number | string;
   profilepic?: string;
   starttime: Date | string;
-  status_id: number;
+  status_id: number | string;
   clickrate: number;
 }
 
