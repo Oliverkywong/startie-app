@@ -17,11 +17,11 @@
   background-color: #fff;
   border-radius: 20px 20px 12px 12px;
   box-shadow: #999999 2px 2px 20px;
-  margin: 10px;
+  margin: 5px;
 }
 
 .teamCard {
-  width: 100%;
+  max-width: 100%;
   margin: 0;
   background-color: #fff;
   border-radius: 20px 20px 12px 12px;
