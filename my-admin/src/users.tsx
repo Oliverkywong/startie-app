@@ -21,7 +21,6 @@ import {
   ImageInput,
   required,
   PasswordInput,
-  NumberInput,
 } from "react-admin";
 
 export const UserList = () => (
@@ -57,7 +56,7 @@ export const UserEdit = (props: any) => (
           { id: 3, name: "Pending" },
         ]}
       />
-      <TextInput multiline source="description" resettable />
+      <TextInput multiline source="description" fullWidth resettable />
       <SelectInput
         source="profilepic"
         resettable
