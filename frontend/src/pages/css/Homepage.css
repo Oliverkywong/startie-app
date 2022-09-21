@@ -1,3 +1,7 @@
+.header {
+  background-color: #000;
+}
+
 .homecontent {
   --background: #000 no-repeat center center / cover;
 }
@@ -33,6 +37,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #000;
 }
 
 .labelTitle {

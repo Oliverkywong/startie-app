@@ -145,8 +145,8 @@ const Homepage: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader className="searchBar">
-        <IonToolbar>
+      <IonHeader>
+        <IonToolbar className="searchBar">
           <IonButtons slot="end">
             <IonButton
               onClick={() => {
@@ -180,7 +180,7 @@ const Homepage: React.FC = () => {
                 router.push("/search");
               }}
             >
-              <IonSearchbar placeholder="Search" />
+              <input className="searchbar" placeholder="Search" />
             </IonButton>
           </IonButtons>
         </IonToolbar>
