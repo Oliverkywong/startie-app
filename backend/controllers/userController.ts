@@ -221,8 +221,7 @@ export class UserController {
   getAllUserForAdmin = async (req: express.Request, res: express.Response) => {
     try {
       let input: UserListInput = req.query;
-      console.log(req.query.q);
-
+      
       let show = true;
       let json = await this.userService.getAllUser(input, show);
 
@@ -293,21 +292,26 @@ export class UserController {
 
       console.log(req.body);
 
-      const newStatusId = req.body.status_id;
-
       const userInfo = await this.userService.editUserForAdmin(
         userId,
-        input,
-        newStatusId
+        input
       );
 
+<<<<<<< HEAD
       res.json({
+=======
+       res.status(200).json({ //for react admin, otherwise dataProvider will throw error
+>>>>>>> e8b55a7d63283662f474c4b3acfd76588c88a92c
         id: userInfo[0].id,
         data: userInfo[0],
       });
     } catch (err) {
       logger.error(err);
+<<<<<<< HEAD
       res.status(400).json({ error: String(err) });
+=======
+       res.status(500).json({ error: String(err) });
+>>>>>>> e8b55a7d63283662f474c4b3acfd76588c88a92c
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
