@@ -30,7 +30,9 @@ const EventList: React.FC = () => {
     (async function () {
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/app/event`);
       const result = await res.json();
-      setData(result);
+      console.log(result);
+
+      setData(result.events);
     })();
   }, []);
 
