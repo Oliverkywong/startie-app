@@ -3,13 +3,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  background-color: #fff;
-  height: 100%;
+  background-color: #fafafa;
+  padding: 20px;
 }
 
 .profilepicContainer {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,8 +17,9 @@
 }
 
 .profilepic {
-  max-width: 200px;
-  max-height: 200px;
+  width: 150px;
+  height: 150px;
+  border-radius: 100%;
 }
 
 .uresname {
@@ -38,6 +39,9 @@
   border-radius: 50%;
   padding: 10px;
   font-size: 15px;
+  position: absolute;
+  top: 12%;
+  left: 80%;
 }
 
 .profilebar {

@@ -67,15 +67,15 @@ export async function seed(knex: Knex): Promise<void> {
     ])
     .into("user_team");
 
-    // for(let i = 0; i < 100; i++) {
-    //     await knex("user_team").insert({
-    //         team_id: Math.floor(Math.random()* 100)+1,
-    //         user_id: Math.floor(Math.random()* 100)+1,
-    //         isboard: true,
-    //         iswaiting: true,
-    //         applytime: new Date(),
-    //         isfollow: true,
-    //     });
-    // }
+    for(let i = 5; i <= 104; i++) {
+        await knex("user_team").insert({
+            team_id: i,
+            user_id: i,
+            isboard: true,
+            iswaiting: true,
+            applytime: new Date(),
+            isfollow: true,
+        });
+    }
 
 }

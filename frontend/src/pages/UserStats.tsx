@@ -13,7 +13,7 @@ import { Radar } from "react-chartjs-2";
 import "./css/UserStats.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { IonContent, IonInfiniteScroll } from "@ionic/react";
+import { IonContent, IonInfiniteScroll, useIonRouter } from "@ionic/react";
 
 ChartJS.register(
   RadialLinearScale,
@@ -25,17 +25,20 @@ ChartJS.register(
 );
 
 export default function UserStats() {
-  const token = useSelector((state: RootState) => state.auth.token);
-
   const [sectorName, setSectorName] = useState<string[]>([]);
   const [skillName, setSkillName] = useState<string[]>([]);
   const [skillPoint, setSkillPoint] = useState<number[]>([]);
+  const router = useIonRouter();
 
   useEffect(() => {
     async function getAllSectorSkill() {
+      const localtoken = localStorage.getItem("token");
+      if (localtoken === null) {
+        router.push("/tab/login");
+      }
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/skill`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localtoken}`,
         },
       });
       const details = await res.json();
@@ -51,19 +54,24 @@ export default function UserStats() {
         skillPointArray.push(details.detail.skill[i].point);
       }
 
+      console.log(sectorNameArray);
+      console.log(skillNameArray);
+      console.log(skillPointArray);
+
       setSectorName(sectorNameArray);
       setSkillName(skillNameArray);
       setSkillPoint(skillPointArray);
     }
     getAllSectorSkill();
-  }, [token]);
+  }, []);
 
   return (
     <IonContent>
-      {sectorName.map((sectorName, index) => {
-        return (
-          <div className="char" key={sectorName}>
-            <IonInfiniteScroll>
+      <div className="ProfileBackground">
+        {sectorName.map((sectorName, index) => {
+          console.log(sectorName);
+          return (
+            <div className="char" key={sectorName}>
               <div className="charDetail">
                 <Radar
                   key={index}
@@ -92,10 +100,10 @@ export default function UserStats() {
                   }}
                 />
               </div>
-            </IonInfiniteScroll>
-          </div>
-        );
-      })}
+            </div>
+          );
+        })}
+      </div>
     </IonContent>
   );
 }

@@ -4,6 +4,7 @@ import {
   IonContent,
   IonIcon,
   IonImg,
+  IonInput,
   IonPage,
   useIonRouter,
 } from "@ionic/react";
@@ -84,18 +85,23 @@ const Login: React.FC = () => {
               New to Startie? <span />
               <span
                 style={{ color: "#4fc564" }}
-                onClick={()=>{
+                onClick={() => {
                   // window.location.replace('/signup')
-                  router.push("/signup");}}
+                  router.push("/signup");
+                }}
               >
                 Sign Up
               </span>
             </p>
           </div>
-          <IonButton onClick={()=>{
-            // window.location.replace('/sociallogin')
-            router.push("/sociallogin")
-          }}>Social Login</IonButton>
+          <IonButton
+            onClick={() => {
+              // window.location.replace('/sociallogin')
+              router.push("/sociallogin");
+            }}
+          >
+            Social Login
+          </IonButton>
         </div>
       </IonContent>
     </IonPage>

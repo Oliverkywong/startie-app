@@ -11,6 +11,8 @@ import {
   IonIcon,
   IonContent,
   useIonRouter,
+  IonBackButton,
+  IonButtons,
 } from "@ionic/react";
 import { logoApple, logoGoogle } from "ionicons/icons";
 import { GooglePlus } from "@awesome-cordova-plugins/google-plus";
@@ -76,7 +78,7 @@ export default function SocialLogin() {
           <IonIcon icon={logoGoogle} />
           Sign in with Google
         </IonButton>
-        <IonButton onClick={() => { router.push("/login") }}>Login</IonButton>
+        <IonButton onClick={() => { router.push("/tab/login") }}>Go Back</IonButton>
         </div>
       </IonContent>
     </IonPage>

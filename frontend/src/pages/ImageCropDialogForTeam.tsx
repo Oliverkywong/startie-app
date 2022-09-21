@@ -22,7 +22,7 @@ const ImageCropDialogForTeam = ({
   };
 
   return (
-    <IonPage>
+    <IonPage> 
       <IonContent>
         <Cropper
           image={imageUrl}

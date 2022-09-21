@@ -1,5 +1,27 @@
-.eventdetail{
-    display: flex;
-    flex-direction: column;
+.eventdetail {
+  display: flex;
+  flex-direction: column;
 }
 
+.evenDetailTitle {
+  font-size: 20px;
+  padding: 20px;
+}
+
+.eventDetailDescription {
+  font-size: 15px;
+  padding: 20px;
+}
+
+.eventDetailDate {
+  font-size: 12px;
+  padding: 20px;
+}
+
+.eventButtonContainer {
+  text-align: center;
+}
+
+.eventDetailButton {
+  width: 200px;
+}

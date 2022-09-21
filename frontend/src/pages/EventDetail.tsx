@@ -2,23 +2,19 @@ import {
   IonPage,
   IonHeader,
   IonImg,
-  IonButton,
   IonBackButton,
   IonButtons,
   IonToolbar,
   useIonRouter,
-  IonCard,
-  IonCardContent,
-  IonItem,
-  IonLabel,
   IonContent,
-  IonCardTitle,
 } from "@ionic/react";
+import { IonButton, useIonToast } from "@ionic/react";
 import "./css/Event.css";
+import "./css/EventDetail.css";
 import "./css/Common.css";
+import JoinEvent from "./JoinEvent";
 import React, { useEffect, useState } from "react";
 import { useLocation, useRouteMatch } from "react-router-dom";
-import eventimg from "../img/com1.png";
 
 interface EventDetail {
   id: number;
@@ -29,7 +25,10 @@ interface EventDetail {
 }
 
 const EventDetail: React.FC = () => {
+  const [present] = useIonToast();
   const [data, setData] = useState<EventDetail[]>([]);
+  const [resultBox, setResult] = React.useState(false);
+  const [result, setResultText] = React.useState([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
 
@@ -57,7 +56,7 @@ const EventDetail: React.FC = () => {
 
   async function joinEvent() {
     const localtoken = localStorage.getItem("token");
-    await fetch(
+    const fetchResult = await fetch(
       `${process.env.REACT_APP_BACKEND_URL}/user/me/event/${match?.params.id}`,
       {
         headers: {
@@ -66,7 +65,20 @@ const EventDetail: React.FC = () => {
         method: "POST",
       }
     );
+    const result = await fetchResult.json();
+    if (result.result) {
+      presentToast("top");
+    } else presentToast("bottom");
+    console.log(result.result);
   }
+
+  const presentToast = (position: "top" | "middle" | "bottom") => {
+    present({
+      message: "Hello World!",
+      duration: 1500,
+      position: position,
+    });
+  };
 
   return (
     <IonPage>
@@ -80,7 +92,7 @@ const EventDetail: React.FC = () => {
       <IonContent>
         {data.map((item) => {
           return (
-            <IonCard key={item.id} className="eventDetail">
+            <div key={item.id}>
               <IonImg
                 className="eventThumbnail"
                 src={
@@ -89,30 +101,19 @@ const EventDetail: React.FC = () => {
                     : "StartieLogo.png"
                 }
               />
-              <IonCardTitle className="evenDetailTitle">
-                {item.name}
-              </IonCardTitle>
-              <div className="event">
-                <IonImg
-                  src={
-                    item?.profilepic != null
-                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
-                      : "StartieLogo.png"
-                  }
-                  style={{ width: "10%" }}
-                />
-                <div className="eventinfo">
-                  <IonLabel className="eventDescription">
-                    {item.description}
-                  </IonLabel>
-                  <IonLabel>{item.starttime}</IonLabel>
-                </div>
+              <h1 className="evenDetailTitle">{item.name}</h1>
+
+              <div>
+                <p className="eventDetailDescription">{item.description}</p>
+                <p className="eventDetailDate">Due date: {item.starttime}</p>
               </div>
-            </IonCard>
+            </div>
           );
         })}
-        <div className="detailButton">
-          <IonButton onClick={joinEvent}>Join Competition</IonButton>
+        <div className="eventButtonContainer">
+          <button className="eventDetailButton" onClick={joinEvent}>
+            Join Competition
+          </button>
         </div>
       </IonContent>
     </IonPage>
