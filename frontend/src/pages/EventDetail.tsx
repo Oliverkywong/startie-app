@@ -54,14 +54,6 @@ const EventDetail: React.FC = () => {
     }, 500);
   };
 
-  const presentToast = (position: "top" | "middle" | "bottom") => {
-    present({
-      message: "Hello World!",
-      duration: 1500,
-      position: position,
-    });
-  };
-
   async function joinEvent() {
     const localtoken = localStorage.getItem("token");
     const fetchResult = await fetch(
@@ -76,10 +68,17 @@ const EventDetail: React.FC = () => {
     const result = await fetchResult.json();
     if (result.result) {
       presentToast("top");
-    }
-    presentToast("bottom");
+    } else presentToast("bottom");
     console.log(result.result);
   }
+
+  const presentToast = (position: "top" | "middle" | "bottom") => {
+    present({
+      message: "Hello World!",
+      duration: 1500,
+      position: position,
+    });
+  };
 
   return (
     <IonPage>

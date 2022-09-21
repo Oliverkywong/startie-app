@@ -18,6 +18,7 @@ export default function UserTeams(props: { team: Team[] }) {
     <IonContent>
       <div className="ProfileBackground">
         {props.team.map((team) => {
+          console.log(team);
           return (
             <div
               className="userTeam"

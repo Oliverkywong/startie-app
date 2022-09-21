@@ -5,7 +5,7 @@ const initialState: userInfoState = {
   userinfo: {
     id: 0,
     username: "dummy",
-    profilepic: "tonystarkicon.png",
+    profilepic: null,
     description: "testing",
   },
   team: [],
