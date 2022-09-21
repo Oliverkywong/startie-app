@@ -5,6 +5,7 @@ import {
   IonContent,
   IonHeader,
   IonIcon,
+  IonImg,
   IonLabel,
   IonPage,
   IonTitle,
@@ -99,7 +100,7 @@ const Profile: React.FC = () => {
       <IonContent>
         <div className="profile">
           <div className="profilepicContainer">
-            <img
+            <IonImg
               className="profilepic"
               src={
                 userdetails?.profilepic != null
