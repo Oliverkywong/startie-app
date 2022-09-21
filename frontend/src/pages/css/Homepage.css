@@ -40,8 +40,6 @@
   font-size: 15px;
   padding-top: 20px;
   padding-left: 20px;
-  font-family: "Poppins";
-  font-style: normal;
   font-weight: 400;
   line-height: 22px;
 }
@@ -70,4 +68,13 @@
 
 .swiper-container {
   margin: 20px;
+}
+
+.homePageTeamList {
+  margin-top: 0px !important;
+}
+
+.homePageEventThumbnail {
+  height: 200px;
+  border-radius: 20px;
 }
