@@ -5,7 +5,7 @@ import {
   IonTabBar,
   IonTabButton,
   IonIcon,
-  IonLabel
+  IonLabel,
 } from "@ionic/react";
 import {
   homeOutline,
@@ -35,8 +35,6 @@ import UserEdit from "./pages/UserEdit";
 import SocialLogin from "./pages/SocialLogin";
 
 export default function Routes() {
-
-  
   return (
     <IonRouterOutlet>
       {/* <Route path="/" component={Login} /> */}
@@ -69,7 +67,6 @@ export default function Routes() {
             <Route exact path="/tab/user" component={UserList} />
 
             <Route exact path="/tab/login" component={Login} />
-
           </IonRouterOutlet>
 
           <IonTabBar slot="bottom">
@@ -89,7 +86,7 @@ export default function Routes() {
               <IonIcon icon={logoOctocat} />
               <IonLabel>Event</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="profile" href="/tab/profile">
+            <IonTabButton tab="profile" href="/tab/user">
               <IonIcon icon={personOutline} />
               <IonLabel>Profile</IonLabel>
             </IonTabButton>

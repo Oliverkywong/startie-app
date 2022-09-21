@@ -1,7 +1,6 @@
 import {
   IonContent,
   IonImg,
-  IonItem,
   IonLabel,
   IonTitle,
   useIonRouter,

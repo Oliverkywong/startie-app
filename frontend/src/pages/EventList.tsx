@@ -51,7 +51,7 @@ const EventList: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/tab/home" />
           </IonButtons>
-          <IonTitle className="title">商業比賽</IonTitle>
+          <IonTitle className="title">Event List</IonTitle>
         </IonToolbar>
         <IonToolbar>
           <div className="searchbarContainer">

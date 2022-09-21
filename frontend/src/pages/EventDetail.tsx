@@ -8,9 +8,11 @@ import {
   useIonRouter,
   IonContent,
 } from "@ionic/react";
+import { IonButton, useIonToast } from "@ionic/react";
 import "./css/Event.css";
 import "./css/EventDetail.css";
 import "./css/Common.css";
+import JoinEvent from "./JoinEvent";
 import React, { useEffect, useState } from "react";
 import { useLocation, useRouteMatch } from "react-router-dom";
 
@@ -23,7 +25,10 @@ interface EventDetail {
 }
 
 const EventDetail: React.FC = () => {
+  const [present] = useIonToast();
   const [data, setData] = useState<EventDetail[]>([]);
+  const [resultBox, setResult] = React.useState(false);
+  const [result, setResultText] = React.useState([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
 
@@ -49,9 +54,17 @@ const EventDetail: React.FC = () => {
     }, 500);
   };
 
+  const presentToast = (position: "top" | "middle" | "bottom") => {
+    present({
+      message: "Hello World!",
+      duration: 1500,
+      position: position,
+    });
+  };
+
   async function joinEvent() {
     const localtoken = localStorage.getItem("token");
-    await fetch(
+    const fetchResult = await fetch(
       `${process.env.REACT_APP_BACKEND_URL}/user/me/event/${match?.params.id}`,
       {
         headers: {
@@ -60,6 +73,12 @@ const EventDetail: React.FC = () => {
         method: "POST",
       }
     );
+    const result = await fetchResult.json();
+    if (result.result) {
+      presentToast("top");
+    }
+    presentToast("bottom");
+    console.log(result.result);
   }
 
   return (

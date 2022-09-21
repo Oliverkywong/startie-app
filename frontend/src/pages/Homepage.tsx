@@ -9,7 +9,6 @@ import {
   IonCardContent,
   IonIcon,
   IonButtons,
-  IonSearchbar,
   IonToolbar,
   useIonRouter,
   IonList,
@@ -39,7 +38,7 @@ import { Team, Event } from "../model";
 // import { useGet } from "../hooks/useGet";
 
 const catergorys = {
-  cat1: { src: cat1, title: "Investment" },
+  cat1: { src: cat1, title: "All" },
   cat2: { src: cat2, title: "Startup" },
   cat3: { src: cat3, title: "Business" },
   cat4: { src: cat4, title: "Hackathon" },
@@ -197,7 +196,6 @@ const Homepage: React.FC = () => {
           className="mySwiper swiper-container"
         >
           {eventData.map((event) => {
-            // console.log(event.id);
             return (
               <SwiperSlide
                 key={`event${event.id}`}
@@ -215,7 +213,6 @@ const Homepage: React.FC = () => {
               </SwiperSlide>
             );
           })}
-          {/* {events.render(eventData=>eventData.map(event=><div key={event.id}>{}</div>))} */}
         </Swiper>
 
         <IonLabel className="labelTitle">Catergories</IonLabel>
@@ -248,7 +245,6 @@ const Homepage: React.FC = () => {
 
         <IonList className="teamListBackgound">
           <IonLabel className="labelTitle blackFontColor">
-            <p />
             Browse Teams
           </IonLabel>
           <div className="teamList homePageTeamList">
