@@ -21,11 +21,6 @@ import {
 import { Swiper, SwiperSlide } from "swiper/react";
 import { notificationsOutline } from "ionicons/icons";
 
-import com1 from "../img/com1.png";
-import com2 from "../img/com2.png";
-import com3 from "../img/com3.png";
-import com4 from "../img/com4.png";
-import com5 from "../img/com5.png";
 import cat1 from "../img/all.png";
 import cat2 from "../img/startup.png";
 import cat3 from "../img/business.png";
@@ -36,11 +31,10 @@ import "./css/Homepage.css";
 // Import Swiper styles
 import "swiper/css";
 import { RootState, useAppDispatch, useAppSelector } from "../store";
-import { loggedIn, logOut } from "../redux/auth/action";
+import { logOut } from "../redux/auth/action";
 import { EffectCards } from "swiper";
 import { loadUserInfo } from "../redux/userInfo/action";
 import { Team, Event } from "../model";
-import { EventListData } from "../utils/api-types";
 // import { useGet } from "../hooks/useGet";
 
 const catergorys = {
@@ -74,6 +68,8 @@ const Homepage: React.FC = () => {
   useEffect(() => {
     (async function () {
       const localtoken = localStorage.getItem("token");
+      console.log(localtoken);
+      console.log(isLogin);
       if (localtoken === null) {
         dispatch(logOut());
       }
@@ -84,7 +80,7 @@ const Homepage: React.FC = () => {
         },
       });
       const teamResult = await teamRes.json();
-      console.log(teamResult);
+      
       setTeamData(teamResult.teams.rows); // remove .teams.rows after backend fix
 
       const eventRes = await fetch(
@@ -96,7 +92,8 @@ const Homepage: React.FC = () => {
         }
       );
       const eventResult = await eventRes.json();
-      const hotEvent = eventResult.slice(0, 4);
+      
+      const hotEvent = eventResult.events.slice(0, 4);
       setEventData(hotEvent);
 
       const userRes = await fetch(
