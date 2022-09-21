@@ -169,7 +169,11 @@ const Homepage: React.FC = () => {
             >
               <IonImg
                 className="icon"
-                src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`}
+                // src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`}
+                src={
+                  userdetails.profilepic !== null
+                  ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`
+                  : "https://www.w3schools.com/howto/img_avatar.png"}
               />
             </IonButton>
           </IonButtons>
