@@ -35,6 +35,8 @@ import UserEdit from "./pages/UserEdit";
 import SocialLogin from "./pages/SocialLogin";
 
 export default function Routes() {
+
+  
   return (
     <IonRouterOutlet>
       {/* <Route path="/" component={Login} /> */}
