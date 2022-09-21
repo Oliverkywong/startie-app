@@ -3,9 +3,6 @@ import {
   IonPage,
   IonHeader,
   IonContent,
-  IonSearchbar,
-  IonCardContent,
-  IonImg,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   IonButtons,
@@ -13,7 +10,6 @@ import {
   IonToolbar,
   IonTitle,
   IonBackButton,
-  IonCardTitle,
   useIonViewWillEnter,
 } from "@ionic/react";
 
@@ -32,7 +28,6 @@ const TeamList: React.FC = () => {
     (async function () {
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`);
       const result = await res.json();
-      // console.log(result);
       setFetchData(result);
       setData(result.slice(0, 10));
     })();
@@ -72,13 +67,15 @@ const TeamList: React.FC = () => {
           <IonTitle className="title">Team List</IonTitle>
         </IonToolbar>
         <IonToolbar>
-          <IonSearchbar
-            className="teamListSearchbar"
-            placeholder="Search"
-            onClick={() => {
-              router.push("/search");
-            }}
-          />
+          <div className="searchbarContainer">
+            <input
+              className="searchbar"
+              placeholder="Search Position"
+              onClick={() => {
+                router.push("/search");
+              }}
+            />
+          </div>
         </IonToolbar>
       </IonHeader>
       <IonContent>
