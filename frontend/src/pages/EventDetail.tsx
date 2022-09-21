@@ -27,8 +27,7 @@ interface EventDetail {
 const EventDetail: React.FC = () => {
   const [present] = useIonToast();
   const [data, setData] = useState<EventDetail[]>([]);
-  const [resultBox, setResult] = React.useState(false);
-  const [result, setResultText] = React.useState([]);
+  const [resultText, setResultText] = React.useState("");
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
 
@@ -66,19 +65,13 @@ const EventDetail: React.FC = () => {
       }
     );
     const result = await fetchResult.json();
-    if (result.result) {
-      presentToast("top");
-    } else presentToast("bottom");
-    console.log(result.result);
-  }
 
-  const presentToast = (position: "top" | "middle" | "bottom") => {
     present({
-      message: "Hello World!",
+      message: result.msg,
       duration: 1500,
-      position: position,
+      position: "bottom",
     });
-  };
+  }
 
   return (
     <IonPage>

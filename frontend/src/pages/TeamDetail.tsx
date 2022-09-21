@@ -6,6 +6,7 @@ import {
   IonPage,
   IonToolbar,
   useIonRouter,
+  useIonToast,
 } from "@ionic/react";
 import "./css/TeamDetail.css";
 import "./css/Common.css";
@@ -14,6 +15,7 @@ import { useRouteMatch } from "react-router";
 import { TeamData, TeamMember } from "../model";
 
 const TeamDetail: React.FC = () => {
+  const [present] = useIonToast();
   const [data, setData] = useState<TeamData[]>([]);
   const [tag, setTag] = useState<string[]>([]);
   const [teamMember, setTeamMember] = useState<TeamMember[]>([]);
@@ -43,7 +45,7 @@ const TeamDetail: React.FC = () => {
 
   async function joinTeam() {
     const localtoken = localStorage.getItem("token");
-    await fetch(
+    const fetchResult = await fetch(
       `${process.env.REACT_APP_BACKEND_URL}/user/me/${match?.params.id}`,
       {
         headers: {
@@ -52,6 +54,13 @@ const TeamDetail: React.FC = () => {
         method: "POST",
       }
     );
+    const result = await fetchResult.json();
+
+    present({
+      message: result.msg,
+      duration: 1500,
+      position: "bottom",
+    });
   }
 
   return (
