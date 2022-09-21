@@ -1,25 +1,17 @@
 import {
   IonBackButton,
-  IonButton,
   IonButtons,
-  IonCard,
-  IonCardContent,
-  IonCardTitle,
   IonContent,
   IonHeader,
-  IonImg,
-  IonItem,
-  IonLabel,
-  IonList,
   IonPage,
   IonToolbar,
   useIonRouter,
 } from "@ionic/react";
+import "./css/TeamDetail.css";
 import "./css/Common.css";
 import React, { useEffect, useState } from "react";
 import { useRouteMatch } from "react-router";
 import { TeamData, TeamMember } from "../model";
-import { join } from "path";
 
 const TeamDetail: React.FC = () => {
   const [data, setData] = useState<TeamData[]>([]);
@@ -74,8 +66,8 @@ const TeamDetail: React.FC = () => {
       <IonContent>
         {data.map((item) => {
           return (
-            <IonCard key={item.id} className="teamDetail">
-              <IonImg
+            <div key={item.id} className="teamDetail">
+              <img
                 className="teamThumbnail"
                 src={
                   item?.profilepic != null
@@ -84,12 +76,8 @@ const TeamDetail: React.FC = () => {
                 }
               />
 
-              <IonCardTitle className="teamDetailTitle">
-                {item.name}
-              </IonCardTitle>
-              <IonLabel className="teamDetailLookingFor">
-                Looking for:{" "}
-              </IonLabel>
+              <h1 className="teamDetailTitle">{item.name}</h1>
+              <p className="teamDetailLookingFor">Looking for:</p>
               <div className="lookingForTag">
                 {tag.map((item) => {
                   return <span key={item}>{item}</span>;
@@ -97,41 +85,41 @@ const TeamDetail: React.FC = () => {
               </div>
 
               <div>
-                <IonLabel className="teamDescription">
-                  {item.description}
-                </IonLabel>
+                <p className="teamDescription">{item.description}</p>
               </div>
-            </IonCard>
+            </div>
           );
         })}
-        <div className="detailButton">
-          <IonButton className="chatButton">Chat</IonButton>
+        <div className="teamDetailButtonContainer">
+          <button className="chatButton">Chat</button>
 
-          <IonButton className="joinButton" onClick={joinTeam}>
+          <button className="joinButton" onClick={joinTeam}>
             Join
-          </IonButton>
+          </button>
         </div>
 
-        <IonList>
+        <div className="teamDetailMemeberContainer">
           {teamMember.map((item) => {
             return (
-              <div className="event" key={item.id}>
-                <IonImg
+              <div className="teamDetailMemeber" key={item.id}>
+                <img
+                  className="teamDetailMemeberThumbnail"
                   src={
                     item?.profilepic != null
                       ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
                       : "StartieLogo.png"
                   }
-                  style={{ width: "10%" }}
                 />
-                <div className="eventinfo">
-                  <IonLabel>{item.username}</IonLabel>
-                  <IonLabel>{item.description}</IonLabel>
+                <div className="teamDetailCaption">
+                  <p className="teamDetailMemeberUserName">{item.username}</p>
+                  <p className="teamDetailMemeberUserDetail">
+                    {item.description}
+                  </p>
                 </div>
               </div>
             );
           })}
-        </IonList>
+        </div>
       </IonContent>
     </IonPage>
   );

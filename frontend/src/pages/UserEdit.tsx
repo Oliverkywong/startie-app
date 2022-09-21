@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import icon from "../img/tonystarkicon.png";
 import { RootState, useAppSelector } from "../store";
 import "./css/Common.css";
+import "./css/UserEdit.css";
 import ImageCropDialogForUser from "./ImageCropDialogForUser";
 
 export default function UserEdit() {
@@ -43,14 +44,13 @@ export default function UserEdit() {
 
   const onCancel = () => {
     setState(null);
+    setCroppedImage(null);
   };
 
   const setCroppedImageFor = (croppedImageUrl: any) => {
     setState(croppedImageUrl);
     setCroppedImage(null);
   };
-
-  // console.log(userdetails);
 
   return (
     <IonPage>
@@ -64,7 +64,9 @@ export default function UserEdit() {
       </IonHeader>
       <IonContent>
         <form
+          className="buildTeamForm"
           onSubmit={handleSubmit(async (data) => {
+            // console.log(data);
             const formData = new FormData();
             formData.append("name", data.name);
             formData.append("Description", data.Description);
@@ -72,7 +74,7 @@ export default function UserEdit() {
             const localtoken = localStorage.getItem("token");
 
             await fetch(
-              `${process.env.REACT_APP_BACKEND_URL}/user/${userdetails?.id}`,
+              `${process.env.REACT_APP_BACKEND_URL}/app/user/${userdetails?.id}`,
               {
                 method: "PUT",
                 headers: {
@@ -81,16 +83,15 @@ export default function UserEdit() {
                 body: formData,
               }
             );
-            // console.log(data);
             router.push("/recommend");
           })}
         >
           <br />
-          <IonImg src={state} />
-          <IonLabel>Icon:</IonLabel>
+          <img className="userEditIcon" src={state} />
+          <IonLabel className="formTitle">Icon:</IonLabel>
           <input type="file" {...register("icon")} onChange={imghandle} />
 
-          <IonLabel>Name</IonLabel>
+          <IonLabel className="formTitle">Name</IonLabel>
           <IonInput
             {...register("name", { required: true })}
             type="text"
@@ -98,16 +99,13 @@ export default function UserEdit() {
           />
 
           <br />
-          <IonLabel>Desicption:</IonLabel>
+          <IonLabel className="formTitle">Description:</IonLabel>
           <IonInput
             {...register("Description")}
             type="text"
-            placeholder="Desicption"
+            placeholder="Description"
           />
-
-          <IonLabel className="formTitle">Team icon/image: </IonLabel>
-          <input type="file" {...register("icon")} onChange={imghandle} />
-          <input type="submit" />
+          <input className="formSubmitButton" type="submit" value={"Done"} />
         </form>
 
         {croppedImage ? (

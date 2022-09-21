@@ -25,6 +25,7 @@
     "@types/pg": "^8.6.5",
     "apple-signin-auth": "^1.7.4",
     "bcryptjs": "^2.4.3",
+    "better-sqlite3-proxy": "^1.4.2",
     "cors": "^2.8.5",
     "cross-fetch": "^3.1.5",
     "debug": "^4.3.4",
@@ -51,6 +52,7 @@
     "winston": "^3.8.1"
   },
   "devDependencies": {
-    "prettier": "2.7.1"
+    "prettier": "2.7.1",
+    "quick-erd": "^3.3.2"
   }
 }

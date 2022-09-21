@@ -9,7 +9,6 @@ import {
   IonCardContent,
   IonIcon,
   IonButtons,
-  IonSearchbar,
   IonToolbar,
   useIonRouter,
   IonList,
@@ -39,7 +38,6 @@ import "swiper/css";
 import { RootState, useAppDispatch, useAppSelector } from "../store";
 import { loggedIn, logOut } from "../redux/auth/action";
 import { EffectCards } from "swiper";
-import Profile from "./Profile";
 import { loadUserInfo } from "../redux/userInfo/action";
 import { Team, Event } from "../model";
 import { EventListData } from "../utils/api-types";
@@ -56,9 +54,9 @@ const Homepage: React.FC = () => {
   const userdetails = useAppSelector(
     (state: RootState) => state.userInfo.userinfo
   );
-  const [data, setData] = useState<Team[]>([]);
-  const [tag, setTag] = useState<string[]>([]);
-  const [eventData, setEventData] = useState<EventListData>({});
+  const isLogin = useAppSelector((state: RootState) => state.auth.loggedIn);
+  const [teamData, setTeamData] = useState<Team[]>([]);
+  const [eventData, setEventData] = useState<Event[]>([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
   const dispatch = useAppDispatch();
@@ -67,7 +65,7 @@ const Homepage: React.FC = () => {
     setTimeout(() => {
       console.log("Loaded data");
       ev.target.complete();
-      if (data.length === 100) {
+      if (teamData.length === 100) {
         setInfiniteDisabled(true);
       }
     }, 500);
@@ -80,65 +78,92 @@ const Homepage: React.FC = () => {
         dispatch(logOut());
       }
 
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/1`, {
+      const teamRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/app/team`, {
         headers: {
           Authorization: `Bearer ${localtoken}`,
         },
       });
+      const teamResult = await teamRes.json();
+      console.log(teamResult);
+      setTeamData(teamResult.teams.rows); // remove .teams.rows after backend fix
 
-      if (res.status === 200) {
-        const userRecord = await res.json();
+      const eventRes = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/app/event`,
+        {
+          headers: {
+            Authorization: `Bearer ${localtoken}`,
+          },
+        }
+      );
+      const eventResult = await eventRes.json();
+      const hotEvent = eventResult.slice(0, 4);
+      setEventData(hotEvent);
+
+      const userRes = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/app/user/:id`,
+        {
+          headers: {
+            Authorization: `Bearer ${localtoken}`,
+          },
+        }
+      );
+
+      if (userRes.status === 200) {
+        const userRecord = await userRes.json();
         dispatch(loadUserInfo(userRecord));
-        router.push("/tab/home");
+        // setIsLogin(true);
+        // router.push("/tab/home");
       }
     })();
   }, []);
 
   // useEffect(() => {
   //   (async function () {
-  //     const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`);
-  //     const result = await res.json();
-  //     setData(result);
+  //     const teamRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`);
+  //     const teamResult = await teamRes.json();
+  //     setTeamData(teamResult);
+  //     console.log(teamResult);
 
-  //     for (let i = 0; i < result.length; i++) {
-  //       const tagres = await fetch(
-  //         `${process.env.REACT_APP_BACKEND_URL}/team/${result[i].id}`
+  //     for (let i = 0; i < teamResult.length; i++) {
+  //       const tagRes = await fetch(
+  //         `${process.env.REACT_APP_BACKEND_URL}/team/${teamResult[i].id}`
   //       );
 
-  //       const item = await tagres.json();
+  //       const tagItem = await tagRes.json();
   //       const tagArray: string[] = [];
-  //       for (let i = 0; i < item.teamTag.length; i++) {
-  //         tagArray.push(item.teamTag[i].name);
+  //       for (let i = 0; i < tagItem.teamTag.length; i++) {
+  //         tagArray.push(tagItem.teamTag[i].name);
   //       }
   //       setTag(tagArray);
   //     }
   //   })();
   // }, []);
 
-  useEffect(() => {
-    (async function () {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/event`);
-      const result = await res.json();
-      setEventData(result);
-      console.log(eventData)
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async function () {
+  //     const eventRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/event`);
+  //     const eventResult = await eventRes.json();
+  //     setEventData(eventResult);
+  //   })();
+  // }, []);
 
-  console.log(data);
+  // const events = useGet<Event[]>('/event')
+
 
   // const events = useGet<Event[]>('/event')
 
   return (
     <IonPage>
-      <IonHeader className="searchBar">
-        <IonToolbar >
+      <IonHeader>
+        <IonToolbar className="searchBar">
           <IonButtons slot="end">
             <IonButton
-              // onClick={() => {
-              //   router.push("/notification");
-              // }}
-              routerLink="/notification"
-              
+              onClick={() => {
+                isLogin
+                  ? router.push("/notification")
+                  : router.push("/tab/login");
+              }}
+              // routerLink="/notification"
             >
               <IonIcon icon={notificationsOutline} />
             </IonButton>
@@ -146,12 +171,18 @@ const Homepage: React.FC = () => {
           <IonButtons slot="start">
             <IonButton
               onClick={() => {
-                router.push("/tab/profile", "forward", "push");
+                isLogin
+                  ? router.push("/tab/profile")
+                  : router.push("/tab/login");
               }}
             >
               <IonImg
                 className="icon"
-                src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`}
+                // src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`}
+                src={
+                  userdetails.profilepic !== null
+                  ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`
+                  : "https://www.w3schools.com/howto/img_avatar.png"}
               />
             </IonButton>
           </IonButtons>
@@ -162,12 +193,13 @@ const Homepage: React.FC = () => {
                 router.push("/search");
               }}
             >
-              <IonSearchbar placeholder="Search" />
+              <input className="searchbar" placeholder="Search" />
             </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className="homecontent">
+        <p></p>
         <IonLabel className="labelTitle">Hot Events</IonLabel>
 
         <Swiper
@@ -177,23 +209,26 @@ const Homepage: React.FC = () => {
           modules={[EffectCards]}
           className="mySwiper swiper-container"
         >
-          {eventData.error?<p>
+          {/* {eventData.error?<p>
             Failed to load event list: 
             {eventData.error}
-          </p>:null}
-          {eventData.events?.map((event) => {
+          </p>:null} */}
+          {eventData.map((event) => {
             return (
-              <IonCard key={event.id} routerLink={`/event/${event.id}`}>
-                <SwiperSlide className="imgelement">
-                  <IonImg
-                    src={
-                      event.profilepic != null
-                        ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${event.profilepic}`
-                        : "StartieLogo.png"
-                    }
-                  />
-                </SwiperSlide>
-              </IonCard>
+              <SwiperSlide
+                key={`event${event.id}`}
+                onClick={() => router.push(`event/${event.id}`)}
+                className="imgelement"
+              >
+                <img
+                  className="homePageEventThumbnail"
+                  src={
+                    event.profilepic != null
+                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${event.profilepic}`
+                      : "StartieLogo.png"
+                  }
+                />
+              </SwiperSlide>
             );
           })}
           {/* {events.render(eventData=>eventData.map(event=><div key={event.id}>{}</div>))} */}
@@ -231,8 +266,8 @@ const Homepage: React.FC = () => {
           <IonLabel className="labelTitle blackFontColor">
             Browse Teams
           </IonLabel>
-          <div className="teamList">
-            {data.map((item) => {
+          <div className="teamList homePageTeamList">
+            {teamData.map((item) => {
               return (
                 <IonCol key={item.id}>
                   <div className="teamInfo">
@@ -240,7 +275,7 @@ const Homepage: React.FC = () => {
                       className="teamCard"
                       routerLink={`/tab/team/${item.id}`}
                     >
-                      <IonImg
+                      <img
                         className="teamIcon"
                         src={
                           item?.profilepic != null

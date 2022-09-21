@@ -65,7 +65,7 @@ const UserSettings: React.FC = () => {
           onClick={() => {
             dispatch(logOut());
             // window.location.replace("/login");
-            router.push("/login");
+            router.push("/tab/home");
           }}
         >
           Log Out

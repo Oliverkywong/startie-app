@@ -4,12 +4,7 @@ import {
   IonContent,
   IonHeader,
   IonImg,
-  IonInput,
-  IonItem,
-  IonLabel,
   IonPage,
-  IonSelect,
-  IonSelectOption,
   IonTitle,
   IonToolbar,
   useIonRouter,
@@ -29,10 +24,14 @@ const BuildTeam: React.FC = () => {
   useEffect(() => {
     (async function () {
       const localtoken = localStorage.getItem("token");
+      if (localtoken === null) {
+        router.push("/tab/login");
+      }
+
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/category`, {
         headers: {
           Authorization: `Bearer ${localtoken}`,
-        },
+        }
       });
       const teamcategory = await res.json();
       setTeamcategory(teamcategory);
@@ -58,6 +57,7 @@ const BuildTeam: React.FC = () => {
 
   const onCancel = () => {
     setState(null);
+    setCroppedImage(null);
   };
 
   const setCroppedImageFor = (croppedImageUrl: any) => {
@@ -72,7 +72,7 @@ const BuildTeam: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/tab/home" />
           </IonButtons>
-          <IonTitle className="title">Build Your Team</IonTitle>
+          <IonTitle className="title">NEW Project</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -98,43 +98,57 @@ const BuildTeam: React.FC = () => {
             router.push("/recommend");
           })}
         >
-          <IonLabel className="formTitle">Project Name</IonLabel>
-          <IonInput
-            className="formInput"
+          <label htmlFor="nameInput" className="formTitle">
+            Project Name
+          </label>
+          <input
+            id="nameInput"
+            className="formName"
             {...register("teamName", { required: true })}
             type="text"
             placeholder="Type here..."
           />
 
-          <IonLabel className="formTitle">Category</IonLabel>
+          <label htmlFor="dropdownList" className="formTitle">
+            Category
+          </label>
+          <select id="dropdownList" className="formDropdownSelect" required>
+            <option value="" disabled selected hidden>
+              Dropdown
+            </option>
+            {teamcategory.map((item) => (
+              <option
+                className="formDropdownList"
+                key={item.id}
+                {...register("teamcategory", { required: true })}
+                value={`${item.name}`}
+              >
+                {item.name}
+              </option>
+            ))}
+          </select>
 
-          <IonItem className="formDropdownSelect">
-            <IonSelect placeholder="Dropdown">
-              {teamcategory.map((item) => (
-                <IonSelectOption
-                  key={item.id}
-                  {...register("teamcategory", { required: true })}
-                  value={`${item.name}`}
-                >
-                  {item.name}
-                </IonSelectOption>
-              ))}
-            </IonSelect>
-          </IonItem>
-
-          <IonLabel className="formTitle">
+          <label htmlFor="descriptionInput" className="formTitle">
             One sentence to describe your project:
-          </IonLabel>
-          <IonInput
-            className="DescribionFormInput"
+          </label>
+          <input
+            id="descriptionInput"
+            className="formDescribion"
             {...register("teamDescription")}
             type="text"
             placeholder="Type here..."
           />
           {state && <IonImg src={state} />}
-          <IonLabel className="formTitle">Team icon/image: </IonLabel>
-          <input type="file" {...register("teamImage")} onChange={imghandle} />
-          <input className="formSubmitButton" type="submit" />
+          <label htmlFor="formImage" className="formTitle">
+            Team icon / image:
+          </label>
+          <input
+            id="formImage"
+            type="file"
+            {...register("teamImage")}
+            onChange={imghandle}
+          />
+          <input className="formSubmitButton" type="submit" value={"Next"} />
         </form>
 
         {croppedImage ? (

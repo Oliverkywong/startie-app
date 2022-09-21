@@ -1,0 +1,70 @@
+.teamDetailButtonContainer {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.teamDetail {
+  padding: 30px;
+  padding-bottom: 0;
+}
+
+.teamDetailTitle {
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 40px;
+  text-align: center;
+  color: #29235c;
+}
+
+.teamDetailLookingFor {
+  font-size: 17px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.teamDetailMemeberContainer {
+  background-color: #757575;
+  border-radius: 20px 20px 0 0;
+}
+
+.teamDetailMemeber {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  column-gap: 10px;
+  padding: 10px;
+}
+
+.teamDetailMemeberThumbnail {
+  width: 50px;
+  height: 50px;
+  border-radius: 40px;
+}
+
+.teamDetailMemeberUserName {
+  font-size: 15px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.teamDetailCaption {
+  position: relative;
+}
+
+.teamDetailMemeberUserDetail {
+  color: #ffffff;
+  overflow: hidden;
+  height: 50px;
+}
+
+.teamDetailCaption::after {
+  position: absolute;
+  content: "";
+  background-color: #fff;
+  bottom: 0px;
+  left: 0%;
+  height: 5px;
+  width: 150px;
+  border-radius: 20px;
+}

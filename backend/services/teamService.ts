@@ -15,7 +15,7 @@ export class TeamService {
           searchcategory_id: searchcategory_id,
           description: description,
           profilepic: profilepic,
-          status_id: 1
+          status_id: 1,
         })
         .returning("*");
 
@@ -55,7 +55,7 @@ export class TeamService {
     INNER JOIN "user" u ON u.id = ut.user_id
     INNER JOIN searchcategory s2 on s2.id = t.searchcategory_id
     GROUP BY t.id, s.id, s2.name
-    HAVING `
+    HAVING `;
 
     if (!show) { // if show is false, only show active teams
       query += /*SQL*/ `s.id = 1 AND `
@@ -75,12 +75,12 @@ export class TeamService {
       query += /*SQL*/ `array_agg(DISTINCT tag.name)::VARCHAR ILIKE '%${input.tags}%'` 
   }
 
-    if (query.endsWith('AND ')) {
-      query = query.slice(0, -4) // delete the "AND"
-      query += /*SQL*/ ` ORDER BY clickrate DESC, t.id ASC`
-    } else if (query.endsWith('HAVING ')) {
-      query = query.slice(0, -7) // delete the "HAVING"
-      query += /*SQL*/ ` ORDER BY clickrate DESC, t.id ASC`
+    if (query.endsWith("AND ")) {
+      query = query.slice(0, -4); // delete the "AND"
+      query += /*SQL*/ ` ORDER BY clickrate DESC, t.id ASC`;
+    } else if (query.endsWith("HAVING ")) {
+      query = query.slice(0, -7); // delete the "HAVING"
+      query += /*SQL*/ ` ORDER BY clickrate DESC, t.id ASC`;
     }
 
     // console.log(query);
@@ -116,18 +116,17 @@ export class TeamService {
     description: string,
     profilepic: string
   ) {
+    const teamInfo = await this.knex<Team>("team")
+      .update({
+        name: name,
+        searchcategory_id: searchcategory,
+        description: description,
+        profilepic: profilepic,
+      })
+      .where("id", id)
+      .returning("*");
 
-        const teamInfo = await this.knex<Team>("team")
-          .update({
-            name: name,
-            searchcategory_id: searchcategory,
-            description: description,
-            profilepic: profilepic,
-          })
-          .where("id", id)
-          .returning("*");
-
-        return teamInfo;
+    return teamInfo;
   }
   // -------------------------------------------------------------------------------------------------------------------
   // delete team

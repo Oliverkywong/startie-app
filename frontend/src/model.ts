@@ -1,7 +1,7 @@
 export interface UserInfo {
   id: number;
   username: string;
-  profilepic: string;
+  profilepic: string | null;
   description: string;
 }
 
@@ -25,7 +25,6 @@ export interface Tag {
   id: number;
   name: string;
 }
-
 
 export interface TeamData {
   id: number;

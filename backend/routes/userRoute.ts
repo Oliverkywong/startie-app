@@ -9,7 +9,7 @@ export function userRoutes(userController: UserController) {
   userRoutes.post("/login/apple", userController.loginApple);
   userRoutes.post("/user", userController.register);
   userRoutes.post("/login", userController.login);
-  userRoutes.get("/app/user/:id", userController.userInfo);
+  userRoutes.get("/app/user/:id", isLogin, userController.userInfo);
   userRoutes.get("/app/user", userController.getAllUser);
   userRoutes.post("/logout", isLogin, userController.logout);
   userRoutes.put("/app/user/:id", isLogin, userController.editUser); //need to add isLogin

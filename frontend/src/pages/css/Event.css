@@ -1,31 +1,22 @@
-.event {
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  padding: 10px;
-}
-
 .eventinfo {
-  display: flex;
-  flex-direction: column;
-  padding-left: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: #999999 2px 2px 20px;
 }
 
-.eventTitle {
+.eventinfo img {
+  width: auto;
+  height: 250px;
+  border-radius: 12px 12px 0 0;
+}
+
+.eventContainer {
   padding: 20px;
 }
 
-.evenDetailTitle {
-  font-family: "Poppins";
-  text-transform: capitalize;
-  font-style: normal;
-  padding: 10px;
-  color: #5f5f5f;
-  font-size: 15px;
-}
-
-.eventDescription {
-  font-size: 16px;
+.eventTitle {
+  padding-left: 20px;
+  font-size: 20px;
 }
 
 .eventDetail {
@@ -34,4 +25,22 @@
 
 .eventThumbnail {
   width: 100%;
+}
+
+.eventData {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+  column-gap: 20px;
+}
+
+.eventDescription {
+  font-size: 12px;
+}
+
+.eventDate {
+  font-size: 10px;
+  color: #a1a8b9;
 }
