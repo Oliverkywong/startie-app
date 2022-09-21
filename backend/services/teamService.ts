@@ -1,12 +1,17 @@
 import { Knex } from "knex";
-import { Team} from "../utils/model";
+import { Team } from "../utils/model";
 
 export class TeamService {
   constructor(private knex: Knex) {}
   // -------------------------------------------------------------------------------------------------------------------
   // create team
   // -------------------------------------------------------------------------------------------------------------------
-  async createTeam(name: string, searchcategory_id: number, description: string, profilepic: string) {
+  async createTeam(
+    name: string,
+    searchcategory_id: number,
+    description: string,
+    profilepic: string
+  ) {
     try {
       const teaminfo = await this.knex<Team>("team")
         .insert({
@@ -14,7 +19,7 @@ export class TeamService {
           searchcategory_id: searchcategory_id,
           description: description,
           profilepic: profilepic,
-          status_id: 1
+          status_id: 1,
         })
         .returning("*");
 
@@ -34,16 +39,23 @@ export class TeamService {
   // -------------------------------------------------------------------------------------------------------------------
   // get all teams
   // -------------------------------------------------------------------------------------------------------------------
-  async getAllTeams(name?:string, description?:string, status?:string, tags?: string, show?: boolean) {
-    let query = /*SQL*/ 
-    `SELECT
+  async getAllTeams(
+    name?: string,
+    description?: string,
+    status?: string,
+    tags?: string,
+    show?: boolean
+  ) {
+    let query =
+      /*SQL*/
+      `SELECT
     t.id,
     t.name, 
     s.name AS status,
     s2.name AS category,
     array_agg(DISTINCT u.username) AS users,
     t.description, 
-    array_agg(DISTINCT tag.name) AS looking_for,
+    array_agg(DISTINCT tag.name) AS tags,
     t.clickrate,
     t.profilepic 
     FROM (((((team_tag INNER JOIN team t on t.id= team_tag.team_id) 
@@ -53,39 +65,40 @@ export class TeamService {
     INNER JOIN "user" u ON u.id = ut.user_id)
     INNER JOIN searchcategory s2 on s2.id = t.searchcategory_id
     GROUP BY t.id, s.id, s2.name
-    HAVING `
+    HAVING `;
 
-    if (show) { // if show is false, only show active teams
-      query += /*SQL*/ `s.id = 1 AND `
+    if (show) {
+      // if show is false, only show active teams
+      query += /*SQL*/ `s.id = 1 AND `;
     }
     if (status) {
-      query += /*SQL*/ `s.name ILIKE '${status}' AND `
+      query += /*SQL*/ `s.name ILIKE '${status}' AND `;
     }
     if (name) {
-      query += /*SQL*/ `t.name ILIKE '%${name}%' AND `
-   }    
+      query += /*SQL*/ `t.name ILIKE '%${name}%' AND `;
+    }
     if (description) {
-      query += /*SQL*/ `t.description ILIKE '%${description}%' AND `
+      query += /*SQL*/ `t.description ILIKE '%${description}%' AND `;
     }
     if (tags) {
-      query += /*SQL*/ `array_agg(DISTINCT tag.name)::VARCHAR ILIKE '%${tags}%'` 
-  }
+      query += /*SQL*/ `array_agg(DISTINCT tag.name)::VARCHAR ILIKE '%${tags}%'`;
+    }
 
-    if (query.endsWith('AND ')) {
-      query = query.slice(0, -4) // delete the "AND"
-      query += /*SQL*/ ` ORDER BY clickrate DESC, t.id ASC`
-    } else if (query.endsWith('HAVING ')) {
-      query = query.slice(0, -7) // delete the "HAVING"
-      query += /*SQL*/ ` ORDER BY clickrate DESC, t.id ASC`
+    if (query.endsWith("AND ")) {
+      query = query.slice(0, -4); // delete the "AND"
+      query += /*SQL*/ ` ORDER BY clickrate DESC, t.id ASC`;
+    } else if (query.endsWith("HAVING ")) {
+      query = query.slice(0, -7); // delete the "HAVING"
+      query += /*SQL*/ ` ORDER BY clickrate DESC, t.id ASC`;
     }
 
     // console.log(query);
-    
-     const teamsRecord = await this.knex.raw(query)
+
+    const teamsRecord = await this.knex.raw(query);
 
     // const teamTags = await this.knex.raw(`
     // select team_id as id, t.name, s.name as status, t.description, array_agg(tag.name) as tags, t.profilepic from ((team_tag inner join team t on t.id= team_tag.team_id) inner join tag on tag.id=team_tag.tag_id) join status s on s.id=t.status_id group by team_id,t.name,t.description, t.status_id, s.name, t.profilepic`);
-    return teamsRecord.rows
+    return teamsRecord.rows;
   }
   // -------------------------------------------------------------------------------------------------------------------
   // get team
@@ -115,18 +128,17 @@ export class TeamService {
     description: string,
     profilepic: string
   ) {
+    const teamInfo = await this.knex<Team>("team")
+      .update({
+        name: name,
+        searchcategory_id: searchcategory,
+        description: description,
+        profilepic: profilepic,
+      })
+      .where("id", id)
+      .returning("*");
 
-        const teamInfo = await this.knex<Team>("team")
-          .update({
-            name: name,
-            searchcategory_id: searchcategory,
-            description: description,
-            profilepic: profilepic,
-          })
-          .where("id", id)
-          .returning("*");
-
-        return teamInfo;
+    return teamInfo;
   }
   // -------------------------------------------------------------------------------------------------------------------
   // delete team

@@ -10,63 +10,94 @@ export class TeamController {
   // -------------------------------------------------------------------------------------------------------------------
   // create team
   // -------------------------------------------------------------------------------------------------------------------
-  createTeam = async (req: express.Request, res: express.Response) => { //need to improve, not ready
+  createTeam = async (req: express.Request, res: express.Response) => {
+    //need to improve, not ready
     form.parse(req, async (err, fields, files) => {
-    try {
-       
-      const searchcategory = fields.category_id != null && !Array.isArray(fields.category_id)
-      ? parseInt(fields.category_id) : 5 //category_id = 5 is "other"
+      try {
+        const searchcategory =
+          fields.category_id != null && !Array.isArray(fields.category_id)
+            ? parseInt(fields.category_id)
+            : 5; //category_id = 5 is "other"
 
-      const name = fields.name != null && !Array.isArray(fields.name)
-      ? fields.name : "Team X"
+        const name =
+          fields.name != null && !Array.isArray(fields.name)
+            ? fields.name
+            : "Team X";
 
-      const description = fields.description != null && !Array.isArray(fields.description)
-      ? fields.description : ""
+        const description =
+          fields.description != null && !Array.isArray(fields.description)
+            ? fields.description
+            : "";
 
-      const profilepic =
-      files.profilepic != null && !Array.isArray(files.profilepic)
-        ? files.profilepic.newFilename
-        : "default.jpg"; //default use default.jpg
-        
-      
-      const team = await this.teamService.createTeam(
-        name,
-        searchcategory,
-        description,
-        profilepic
-      );
-      res.status(200).json(team);
-    } catch (err) {
-      logger.error(err);
-      res.status(400).json({ result: false, msg: "create team fail" });
-    }})
+        const profilepic =
+          files.profilepic != null && !Array.isArray(files.profilepic)
+            ? files.profilepic.newFilename
+            : "default.jpg"; //default use default.jpg
+
+        const team = await this.teamService.createTeam(
+          name,
+          searchcategory,
+          description,
+          profilepic
+        );
+        res.status(200).json(team);
+      } catch (err) {
+        logger.error(err);
+        res.status(400).json({ result: false, msg: "create team fail" });
+      }
+    });
   };
   // -------------------------------------------------------------------------------------------------------------------
   // get all teams
   // -------------------------------------------------------------------------------------------------------------------
   getAllTeams = async (req: Request, res: Response) => {
     try {
-      const domain = req.get('origin')
+      const domain = req.get("origin");
 
       let show;
-      const name = req.query.name as string != undefined ? req.query.name as string : req.query.q as string;
+      const name =
+        (req.query.name as string) != undefined
+          ? (req.query.name as string)
+          : (req.query.q as string);
       const description = req.query.description as string;
       const status = req.query.status as string;
       const tags = req.query.tags as string;
 
-      let allTeamInfo:any
+      let allTeamInfo: any;
 
       switch (domain) {
-        case 'http://localhost:3000': // !!!!! remember to change to react admin domain when deploy
-          show = false
-          allTeamInfo = await this.teamService.getAllTeams(name, description, status, tags, show)
-          break; 
-        case 'http://localhost:3001': // !!!!! remember to change to frontend domain when deploy
-          show = true
-          allTeamInfo = await this.teamService.getAllTeams(name, description, status, tags, show)
+        case "http://localhost:3000": // !!!!! remember to change to react admin domain when deploy
+          show = false;
+          allTeamInfo = await this.teamService.getAllTeams(
+            name,
+            description,
+            status,
+            tags,
+            show
+          );
+          break;
+        case "http://localhost:3001": // !!!!! remember to change to frontend domain when deploy
+          show = true;
+          allTeamInfo = await this.teamService.getAllTeams(
+            name,
+            description,
+            status,
+            tags,
+            show
+          );
+          break;
+        default: // !!!!! remember to change to react admin domain when deploy
+          show = false;
+          allTeamInfo = await this.teamService.getAllTeams(
+            name,
+            description,
+            status,
+            tags,
+            show
+          );
           break;
       }
-      
+
       res.set("x-total-count", String(allTeamInfo.length));
       res.status(200).json(allTeamInfo);
     } catch (err) {
@@ -93,43 +124,49 @@ export class TeamController {
   // -------------------------------------------------------------------------------------------------------------------
   updateTeam = async (req: express.Request, res: express.Response) => {
     form.parse(req, async (err, fields, files) => {
-    try {
+      try {
+        const teamId = parseInt(req.params.id);
 
-      const teamId = parseInt(req.params.id);
+        const oldTeamInfos = await this.teamService.getTeam(teamId);
 
-       const oldTeamInfos = await this.teamService.getTeam(teamId);
+        let oldProfilepic = oldTeamInfos.team[0].profilepic!;
+        let oldCategory = oldTeamInfos.team[0].searchcategory_id;
+        let oldDescription = oldTeamInfos.team[0].description!;
+        let oldName = oldTeamInfos.team[0].name;
 
-       let oldProfilepic = oldTeamInfos.team[0].profilepic!;
-       let oldCategory = oldTeamInfos.team[0].searchcategory_id;
-       let oldDescription = oldTeamInfos.team[0].description!;
-       let oldName = oldTeamInfos.team[0].name;
-       
-      const searchcategory = fields.category_id != null && !Array.isArray(fields.category_id)
-      ? parseInt(fields.category_id) : oldCategory
+        const searchcategory =
+          fields.category_id != null && !Array.isArray(fields.category_id)
+            ? parseInt(fields.category_id)
+            : oldCategory;
 
-      const name = fields.name != null && !Array.isArray(fields.name)
-      ? fields.name : oldName
+        const name =
+          fields.name != null && !Array.isArray(fields.name)
+            ? fields.name
+            : oldName;
 
-      const description = fields.description != null && !Array.isArray(fields.description)
-      ? fields.description : oldDescription
+        const description =
+          fields.description != null && !Array.isArray(fields.description)
+            ? fields.description
+            : oldDescription;
 
-      const profilepic =
-      files.profilepic != null && !Array.isArray(files.profilepic)
-        ? files.profilepic.newFilename
-        : oldProfilepic;
+        const profilepic =
+          files.profilepic != null && !Array.isArray(files.profilepic)
+            ? files.profilepic.newFilename
+            : oldProfilepic;
 
-      const team = await this.teamService.updateTeam(
-        teamId,
-        searchcategory,
-        name,
-        description,
-        profilepic
-      );
-      res.status(200).json(team);
-    } catch (err) {
-      logger.error(err);
-      res.status(400).json({ result: false, msg: "updateTeam fail" });
-    }})
+        const team = await this.teamService.updateTeam(
+          teamId,
+          searchcategory,
+          name,
+          description,
+          profilepic
+        );
+        res.status(200).json(team);
+      } catch (err) {
+        logger.error(err);
+        res.status(400).json({ result: false, msg: "updateTeam fail" });
+      }
+    });
   };
   // -------------------------------------------------------------------------------------------------------------------
   // delete team

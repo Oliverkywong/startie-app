@@ -34,7 +34,6 @@ import "swiper/css";
 import { RootState, useAppDispatch, useAppSelector } from "../store";
 import { loggedIn, logOut } from "../redux/auth/action";
 import { EffectCards } from "swiper";
-import Profile from "./Profile";
 import { loadUserInfo } from "../redux/userInfo/action";
 import { Team, Event } from "../model";
 
