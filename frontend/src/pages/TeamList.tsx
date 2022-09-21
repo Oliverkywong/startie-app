@@ -4,12 +4,10 @@ import {
   IonHeader,
   IonContent,
   IonSearchbar,
-  IonCard,
   IonCardContent,
   IonImg,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
-  IonCol,
   IonButtons,
   useIonRouter,
   IonToolbar,
@@ -23,7 +21,7 @@ import { Team } from "../model";
 import "./css/Common.css";
 import "./css/Team.css";
 
-let i = 0
+let i = 0;
 const TeamList: React.FC = () => {
   const [data, setData] = useState<Team[]>([]);
   const [fetchData, setFetchData] = useState<Team[]>([]);
@@ -43,14 +41,11 @@ const TeamList: React.FC = () => {
   let sliceData: Team[] = [];
 
   const pushData = () => {
-    i = i + 10
+    i = i + 10;
     sliceData = fetchData.slice(i, i + 10);
 
-    setData([
-      ...data,
-      ...sliceData
-    ]);
-  }
+    setData([...data, ...sliceData]);
+  };
 
   const loadData = (ev: any) => {
     setTimeout(() => {
@@ -90,50 +85,48 @@ const TeamList: React.FC = () => {
         <div className="teamList">
           {data.map((item) => {
             return (
-              <IonCol key={item.id}>
-                <div className="teamInfo">
-                  <IonCard
-                    className="teamCard"
-                    routerLink={`/tab/team/${item.id}`}
-                  >
-                    <IonImg
-                      className="teamIcon"
-                      src={
-                        item?.profilepic != null
-                          ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
-                          : "https://www.w3schools.com/howto/img_avatar.png"
-                      }
-                    />
-                    <IonCardTitle className="teamTitle">
-                      {item.name}
-                    </IonCardTitle>
+              <div className="teamInfo" key={item.id}>
+                <div
+                  className="teamCard"
+                  onClick={() => {
+                    router.push(`/tab/team/${item.id}`);
+                  }}
+                >
+                  <img
+                    className="teamIcon"
+                    src={
+                      item?.profilepic != null
+                        ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                        : "https://www.w3schools.com/howto/img_avatar.png"
+                    }
+                  />
+                  <p className="teamTitle">{item.name}</p>
 
-                    <IonCardContent className="teamContent">
-                      <p>{item.description}</p>
-                    </IonCardContent>
+                  <span className="teamContent">{item.description}</span>
 
-                    <div className="tag">
-                      {item.tags.map((tag) => {
-                        return <span key={tag}>{tag}</span>;
-                      })}
-                    </div>
-                  </IonCard>
+                  <span className="teamLookingFor">Looking for: </span>
+
+                  <div className="tag">
+                    {item.tags.map((tag) => {
+                      return <span key={tag}>{tag}</span>;
+                    })}
+                  </div>
                 </div>
-              </IonCol>
+              </div>
             );
           })}
-
-          <IonInfiniteScroll
-            onIonInfinite={loadData}
-            threshold="100px"
-            disabled={isInfiniteDisabled}
-          >
-            <IonInfiniteScrollContent
-              loadingSpinner="bubbles"
-              loadingText="Loading more data..."
-            ></IonInfiniteScrollContent>
-          </IonInfiniteScroll>
         </div>
+
+        <IonInfiniteScroll
+          onIonInfinite={loadData}
+          threshold="100px"
+          disabled={isInfiniteDisabled}
+        >
+          <IonInfiniteScrollContent
+            loadingSpinner="bubbles"
+            loadingText="Loading more data..."
+          ></IonInfiniteScrollContent>
+        </IonInfiniteScroll>
       </IonContent>
     </IonPage>
   );
