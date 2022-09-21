@@ -76,25 +76,31 @@ const Homepage: React.FC = () => {
       const teamRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`, {
         headers: {
           Authorization: `Bearer ${localtoken}`,
-        }
+        },
       });
       const teamResult = await teamRes.json();
       setTeamData(teamResult);
 
-      const eventRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/event`, {
-        headers: {
-          Authorization: `Bearer ${localtoken}`,
+      const eventRes = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/event`,
+        {
+          headers: {
+            Authorization: `Bearer ${localtoken}`,
+          },
         }
-      });
+      );
       const eventResult = await eventRes.json();
       const hotEvent = eventResult.slice(0, 4);
       setEventData(hotEvent);
 
-      const userRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/:id`, {
-        headers: {
-          Authorization: `Bearer ${localtoken}`,
+      const userRes = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/user/:id`,
+        {
+          headers: {
+            Authorization: `Bearer ${localtoken}`,
+          },
         }
-      });
+      );
 
       if (userRes.status === 200) {
         const userRecord = await userRes.json();
@@ -144,10 +150,11 @@ const Homepage: React.FC = () => {
           <IonButtons slot="end">
             <IonButton
               onClick={() => {
-                isLogin ? router.push("/notification") : router.push("/tab/login");
+                isLogin
+                  ? router.push("/notification")
+                  : router.push("/tab/login");
               }}
               // routerLink="/notification"
-              
             >
               <IonIcon icon={notificationsOutline} />
             </IonButton>
@@ -155,7 +162,9 @@ const Homepage: React.FC = () => {
           <IonButtons slot="start">
             <IonButton
               onClick={() => {
-                isLogin ? router.push("/tab/profile") : router.push("/tab/login");
+                isLogin
+                  ? router.push("/tab/profile")
+                  : router.push("/tab/login");
               }}
             >
               <IonImg
@@ -195,7 +204,8 @@ const Homepage: React.FC = () => {
                 onClick={() => router.push(`event/${event.id}`)}
                 className="imgelement"
               >
-                <IonImg
+                <img
+                  className="homePageEventThumbnail"
                   src={
                     event.profilepic != null
                       ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${event.profilepic}`
@@ -240,7 +250,7 @@ const Homepage: React.FC = () => {
           <IonLabel className="labelTitle blackFontColor">
             Browse Teams
           </IonLabel>
-          <div className="teamList">
+          <div className="teamList homePageTeamList">
             {teamData.map((item) => {
               return (
                 <IonCol key={`Team${item.id}`}>
@@ -249,7 +259,7 @@ const Homepage: React.FC = () => {
                       className="teamCard"
                       routerLink={`/tab/team/${item.id}`}
                     >
-                      <IonImg
+                      <img
                         className="teamIcon"
                         src={
                           item?.profilepic != null

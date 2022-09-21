@@ -11,6 +11,10 @@
   position: relative;
 }
 
+.ProfileBackground {
+  background-color: #fafafa;
+}
+
 .searchbar::before {
   position: absolute;
   left: 0;

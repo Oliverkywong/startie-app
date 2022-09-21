@@ -1,13 +1,10 @@
 import React, { useEffect } from "react";
 import {
   IonBackButton,
-  IonButton,
   IonButtons,
   IonContent,
   IonHeader,
   IonIcon,
-  IonImg,
-  IonItem,
   IonLabel,
   IonPage,
   IonTitle,
@@ -48,8 +45,7 @@ const Profile: React.FC = () => {
   const [info, setInfo] = React.useState(false);
   const [team, setTeam] = React.useState(false);
   const [setting, setSetting] = React.useState(false);
-  const [userBelongsTeam, setUserBelongsTeam] = React.useState([])
-
+  const [userBelongsTeam, setUserBelongsTeam] = React.useState([]);
 
   const router = useIonRouter();
   // const dispatch = useAppDispatch();
@@ -103,7 +99,7 @@ const Profile: React.FC = () => {
       <IonContent>
         <div className="profile">
           <div className="profilepicContainer">
-            <IonImg
+            <img
               className="profilepic"
               src={
                 userdetails?.profilepic != null
@@ -112,10 +108,10 @@ const Profile: React.FC = () => {
               }
             />
           </div>
-          <div onClick={() => router.push('/useredit')}>
-            <IonIcon color='light' className="proedit" icon={pencil}></IonIcon>
+          <div onClick={() => router.push("/useredit")}>
+            <IonIcon color="light" className="proedit" icon={pencil}></IonIcon>
           </div>
-          
+
           <IonLabel className="uresname">
             {userdetails?.username ? userdetails.username : "new user"}
           </IonLabel>
