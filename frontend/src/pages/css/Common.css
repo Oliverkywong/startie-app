@@ -67,12 +67,13 @@
 .chatButton,
 .joinButton {
   background: #747474;
-  border-radius: 8px;
+  border-radius: 10px;
   font-family: "Outfit";
   font-style: normal;
   font-weight: 600;
   font-size: 17px;
   line-height: 22px;
+  width: 150px;
 }
 
 .joinButton {

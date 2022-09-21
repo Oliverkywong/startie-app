@@ -58,6 +58,7 @@
 
 .teamThumbnail {
   width: 100%;
+  border-radius: 20px;
 }
 
 .teamLookingFor {
@@ -69,25 +70,6 @@
 .teamDescription {
   font-size: 12px;
   line-height: 20px;
-}
-
-.teamDetail {
-  padding: 30px;
-}
-
-.teamDetailTitle {
-  font-weight: 700;
-  font-size: 34px;
-  line-height: 40px;
-  text-align: center;
-}
-
-.teamDetailLookingFor {
-  display: block;
-  font-weight: 400;
-  font-size: 17px;
-  line-height: 22px;
-  text-align: center;
 }
 
 .lookingForTag {
@@ -106,16 +88,13 @@
     #da2f69 67.96%,
     #ea5729 100.39%
   );
-  font-size: 10px;
+  font-size: 15px;
   padding: 5px;
   border-radius: 5px;
-  font-family: "Open Sans";
-  font-style: normal;
   color: #fff;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  max-width: 100px;
   height: 25px;
   overflow: hidden;
 }
