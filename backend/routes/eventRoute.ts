@@ -1,6 +1,5 @@
 import express from "express";
 import { EventController } from "../controllers/eventController";
-// import { isLogin } from "../utils/middleware";
 
 export function eventRoutes(eventController: EventController) {
   const router = express.Router();

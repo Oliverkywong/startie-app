@@ -8,12 +8,13 @@ import {
   IonToolbar,
   IonImg,
 } from "@ionic/react";
+import img from "../img/notFoundPage.png";
 
 const NotFoundPage: React.FC = () => {
   let title = "We're sorry";
   let content =
     "The page you requested could not be found. Please go back to the homepage.";
-  let img = "../img/notFoundPage.png";
+
 
   return (
     <IonPage>
@@ -26,10 +27,10 @@ const NotFoundPage: React.FC = () => {
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">{title}</IonTitle>
-            <IonLabel>{content}</IonLabel>
           </IonToolbar>
+          <IonLabel>{content}</IonLabel>
         </IonHeader>
-        <IonButton routerLink={"/login"}>Return to Homepage</IonButton>
+        <IonButton routerLink={"/tab/home"}>Return to Homepage</IonButton>
       </IonContent>
     </IonPage>
   );

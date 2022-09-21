@@ -90,7 +90,7 @@ const SignUp: React.FC = () => {
               <span />
               <span
                 style={{ color: "#4fc564" }}
-                onClick={() => { router.push("/login") }}
+                onClick={() => { router.push("/tab/login") }}
               >
                 Log In
               </span>

@@ -52,8 +52,8 @@ export async function seed(knex: Knex): Promise<void> {
       name: faker.company.bs(),
       room_id: i + 6,
       description: faker.lorem.paragraph(),
-      searchcategory_id: Math.floor(Math.random() * 5) + 1,
       status_id: 1,
+      searchcategory_id: Math.floor(Math.random() * 5) + 1,
       profilepic: `team${Math.floor(Math.random() * 50) + 1}.jpeg`,
       clickrate: Math.floor(Math.random() * 500) + 1,
     });
