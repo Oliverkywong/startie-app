@@ -17,13 +17,12 @@ import {
   IonToolbar,
   IonBackButton,
   IonButtons,
+  IonCardTitle,
 } from "@ionic/react";
 
 import "./css/Common.css";
 import "./css/Event.css";
 import { Event } from "../model";
-
-
 
 const EventList: React.FC = () => {
   const [data, setData] = useState<Event[]>([]);

@@ -22,11 +22,6 @@ import {
 import { Swiper, SwiperSlide } from "swiper/react";
 import { notificationsOutline } from "ionicons/icons";
 
-import com1 from "../img/com1.png";
-import com2 from "../img/com2.png";
-import com3 from "../img/com3.png";
-import com4 from "../img/com4.png";
-import com5 from "../img/com5.png";
 import cat1 from "../img/all.png";
 import cat2 from "../img/startup.png";
 import cat3 from "../img/business.png";
@@ -45,7 +40,7 @@ import { Team, Event } from "../model";
 // import { useGet } from "../hooks/useGet";
 
 const catergorys = {
-  cat1: { src: cat1, title: "All" },
+  cat1: { src: cat1, title: "Investment" },
   cat2: { src: cat2, title: "Startup" },
   cat3: { src: cat3, title: "Business" },
   cat4: { src: cat4, title: "Hackathon" },
@@ -146,7 +141,7 @@ const Homepage: React.FC = () => {
   return (
     <IonPage>
       <IonHeader className="searchBar">
-        <IonToolbar >
+        <IonToolbar>
           <IonButtons slot="end">
             <IonButton
               onClick={() => {
@@ -196,17 +191,19 @@ const Homepage: React.FC = () => {
           {eventData.map((event) => {
             // console.log(event.id);
             return (
-              <IonCard key={event.id} routerLink={`/event/${event.id}`}>
-                <SwiperSlide className="imgelement">
-                  <IonImg
-                    src={
-                      event.profilepic != null
-                        ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${event.profilepic}`
-                        : "StartieLogo.png"
-                    }
-                  />
-                </SwiperSlide>
-              </IonCard>
+              <SwiperSlide
+                key={`event${event.id}`}
+                onClick={() => router.push(`event/${event.id}`)}
+                className="imgelement"
+              >
+                <IonImg
+                  src={
+                    event.profilepic != null
+                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${event.profilepic}`
+                      : "StartieLogo.png"
+                  }
+                />
+              </SwiperSlide>
             );
           })}
           {/* {events.render(eventData=>eventData.map(event=><div key={event.id}>{}</div>))} */}
@@ -247,7 +244,7 @@ const Homepage: React.FC = () => {
           <div className="teamList">
             {teamData.map((item) => {
               return (
-                <IonCol key={item.id}>
+                <IonCol key={`Team${item.id}`}>
                   <div className="teamInfo">
                     <IonCard
                       className="teamCard"
@@ -272,7 +269,7 @@ const Homepage: React.FC = () => {
 
                       <div className="tag">
                         {item.tags.map((tag) => {
-                          return <span key={tag}>{tag}</span>;
+                          return <span key={`teamTags${tag}`}>{tag}</span>;
                         })}
                       </div>
                     </IonCard>

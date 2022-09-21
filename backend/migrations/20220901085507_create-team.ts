@@ -9,6 +9,8 @@ export async function up(knex: Knex): Promise<void> {
       table.foreign("room_id").references("room.id");
       table.integer("status_id").unsigned().notNullable();
       table.foreign("status_id").references("status.id");
+      table.integer("searchcategory_id").unsigned().notNullable();
+      table.foreign("searchcategory_id").references("searchcategory.id");
       table.text("description");
       table.text("profilepic");
       table.integer("clickrate").defaultTo(0).unsigned();

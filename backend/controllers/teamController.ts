@@ -1,6 +1,8 @@
 import { TeamService } from "../services/teamService";
 import { Request, Response } from "express";
 import { logger } from "../utils/logger";
+import express from "express";
+import { form } from "../utils/middleware";
 
 export class TeamController {
   constructor(private teamService: TeamService) {}
@@ -8,12 +10,28 @@ export class TeamController {
   // -------------------------------------------------------------------------------------------------------------------
   // create team
   // -------------------------------------------------------------------------------------------------------------------
-  createTeam = async (req: Request, res: Response) => {
+  createTeam = async (req: express.Request, res: express.Response) => { //need to improve, not ready
+    form.parse(req, async (err, fields, files) => {
     try {
-      const { teamName, description, profilepic, team_tag } = req.body; //must include tags when create
+       
+      const searchcategory = fields.category_id != null && !Array.isArray(fields.category_id)
+      ? parseInt(fields.category_id) : 5 //category_id = 5 is "other"
+
+      const name = fields.name != null && !Array.isArray(fields.name)
+      ? fields.name : "Team X"
+
+      const description = fields.description != null && !Array.isArray(fields.description)
+      ? fields.description : ""
+
+      const profilepic =
+      files.profilepic != null && !Array.isArray(files.profilepic)
+        ? files.profilepic.newFilename
+        : "default.jpg"; //default use default.jpg
+        
+      
       const team = await this.teamService.createTeam(
-        teamName,
-        team_tag,
+        name,
+        searchcategory,
         description,
         profilepic
       );
@@ -21,7 +39,7 @@ export class TeamController {
     } catch (err) {
       logger.error(err);
       res.status(400).json({ result: false, msg: "create team fail" });
-    }
+    }})
   };
   // -------------------------------------------------------------------------------------------------------------------
   // get all teams
@@ -61,7 +79,7 @@ export class TeamController {
   // -------------------------------------------------------------------------------------------------------------------
   getTeam = async (req: Request, res: Response) => {
     try {
-      const id = req.params.id;
+      const id = parseInt(req.params.id);
       const team = await this.teamService.getTeam(id);
 
       res.status(200).json(team);
@@ -73,12 +91,36 @@ export class TeamController {
   // -------------------------------------------------------------------------------------------------------------------
   // edit team
   // -------------------------------------------------------------------------------------------------------------------
-  updateTeam = async (req: Request, res: Response) => {
+  updateTeam = async (req: express.Request, res: express.Response) => {
+    form.parse(req, async (err, fields, files) => {
     try {
-      const { id } = req.params;
-      const { name, description, profilepic } = req.body;
+
+      const teamId = parseInt(req.params.id);
+
+       const oldTeamInfos = await this.teamService.getTeam(teamId);
+
+       let oldProfilepic = oldTeamInfos.team[0].profilepic!;
+       let oldCategory = oldTeamInfos.team[0].searchcategory_id;
+       let oldDescription = oldTeamInfos.team[0].description!;
+       let oldName = oldTeamInfos.team[0].name;
+       
+      const searchcategory = fields.category_id != null && !Array.isArray(fields.category_id)
+      ? parseInt(fields.category_id) : oldCategory
+
+      const name = fields.name != null && !Array.isArray(fields.name)
+      ? fields.name : oldName
+
+      const description = fields.description != null && !Array.isArray(fields.description)
+      ? fields.description : oldDescription
+
+      const profilepic =
+      files.profilepic != null && !Array.isArray(files.profilepic)
+        ? files.profilepic.newFilename
+        : oldProfilepic;
+
       const team = await this.teamService.updateTeam(
-        parseInt(id),
+        teamId,
+        searchcategory,
         name,
         description,
         profilepic
@@ -87,7 +129,7 @@ export class TeamController {
     } catch (err) {
       logger.error(err);
       res.status(400).json({ result: false, msg: "updateTeam fail" });
-    }
+    }})
   };
   // -------------------------------------------------------------------------------------------------------------------
   // delete team

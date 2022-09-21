@@ -3,7 +3,7 @@
 // -------------------------------------------------------------------------------------------------------------------
 import express from "express";
 import { logger } from "./utils/logger";
-import grant from "grant";
+// import grant from "grant";
 import { client } from "./utils/db";
 import dotenv from "dotenv";
 import { UserService } from "./services/userService";
@@ -23,7 +23,7 @@ import { EventController } from "./controllers/eventController";
 import { teamRoutes } from "./routes/teamRoute";
 import { eventRoutes } from "./routes/eventRoute";
 import { jobRoutes } from "./routes/jobRoute";
-import expressSession from 'express-session';
+// import expressSession from 'express-session';
 
 // -------------------------------------------------------------------------------------------------------------------
 // Knex
@@ -41,14 +41,34 @@ const knex = Knex(knexConfig);
 const app = express();
 const PORT = process.env.PORT || 8000;
 
+export interface UserId_Username {
+  userId: number;
+  username: string;
+}
+declare global {
+  namespace Express {
+    interface Request {
+      user?: UserId_Username;
+      session: {
+        isLogin: boolean;
+        jwt: string;
+        username: string;
+        userId: number;
+        destroy?: (err: any) => void;
+      }
+    }
+  }
+}
+
+
 // session
-app.use(
-	expressSession({
-		secret: 'Extremely secret secret',
-		resave: true,
-		saveUninitialized: true
-	})
-)
+// app.use(
+// 	expressSession({
+// 		secret: 'Extremely secret secret',
+// 		resave: true,
+// 		saveUninitialized: true
+// 	})
+// )
 
 // const allowedOrigins = [
 //   'capacitor://localhost',
@@ -70,21 +90,21 @@ app.use(
 );
 
 //grant
-const grantExpress = grant.express({
-  defaults: {
-    origin: "http://localhost:8000",
-    transport: "session",
-    state: true,
-  },
-  google: {
-    key: process.env.GOOGLE_CLIENT_ID || "",
-    secret: process.env.GOOGLE_CLIENT_SECRET || "",
-    scope: ["profile", "email"],
-    callback: "/login/google",
-  },
-});
+// const grantExpress = grant.express({
+//   defaults: {
+//     origin: "http://localhost:8000",
+//     transport: "session",
+//     state: true,
+//   },
+//   google: {
+//     key: process.env.GOOGLE_CLIENT_ID || "",
+//     secret: process.env.GOOGLE_CLIENT_SECRET || "",
+//     scope: ["profile", "email"],
+//     callback: "/login/google",
+//   },
+// });
 
-app.use(grantExpress as express.RequestHandler);
+// app.use(grantExpress as express.RequestHandler);
 
 // -------------------------------------------------------------------------------------------------------------------
 // others
