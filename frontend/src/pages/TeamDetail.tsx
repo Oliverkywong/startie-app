@@ -110,7 +110,7 @@ const TeamDetail: React.FC = () => {
                       : "StartieLogo.png"
                   }
                 />
-                <div className="">
+                <div className="teamDetailCaption">
                   <p className="teamDetailMemeberUserName">{item.username}</p>
                   <p className="teamDetailMemeberUserDetail">
                     {item.description}
