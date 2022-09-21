@@ -44,8 +44,8 @@ const Profile: React.FC = () => {
   // console.log(userBelongsTeam);
   // console.log(userdetails);
 
-  const [info, setInfo] = React.useState(true);
-  const [stat, setStat] = React.useState(false);
+  const [stat, setStat] = React.useState(true);
+  const [info, setInfo] = React.useState(false);
   const [team, setTeam] = React.useState(false);
   const [setting, setSetting] = React.useState(false);
   const [userBelongsTeam, setUserBelongsTeam] = React.useState([])
@@ -69,7 +69,7 @@ const Profile: React.FC = () => {
           },
         }
       );
-      const selfteam = await fetch(
+      const selfTeam = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/user/me/team`,
         {
           headers: {
@@ -77,7 +77,7 @@ const Profile: React.FC = () => {
           },
         }
       );
-      const userTeam = await selfteam.json();
+      const userTeam = await selfTeam.json();
       setUserBelongsTeam(userTeam);
 
       // if (res.status === 200) {

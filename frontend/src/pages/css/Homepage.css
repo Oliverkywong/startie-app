@@ -1,4 +1,4 @@
-.homecontent{
+.homecontent {
   --background: #000 no-repeat center center / cover;
 }
 
@@ -36,9 +36,14 @@
 }
 
 .labelTitle {
-  font-size: 20px;
   color: #fff;
-  margin: 20px;
+  font-size: 15px;
+  padding-top: 20px;
+  padding-left: 20px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
 }
 
 .alignRight {

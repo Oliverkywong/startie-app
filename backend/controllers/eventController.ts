@@ -36,17 +36,17 @@ export class EventController {
       let show;
       const name = req.query.name as string != undefined ? req.query.name as string : req.query.q as string;
       const description = req.query.description as string;
-      const status = req.query.status as string;
+      const status:any = req.query.status_id;
       const maxTeammember = parseInt(String(req.query.maxteammember));
 
       let allEventInfo:any
 
       switch (domain) {
-        case 'http://localhost:3000': // !!!!! remember to change to react admin domain when deploy
+        case 'http://localhost:3001': // !!!!! remember to change to react admin domain when deploy
           show = false
           allEventInfo = await this.eventService.getAllEvents(name, description, status, maxTeammember, show)
           break; 
-        case 'http://localhost:3001': // !!!!! remember to change to frontend domain when deploy
+        case 'http://localhost:3000': // !!!!! remember to change to frontend domain when deploy
           show = true
           allEventInfo = await this.eventService.getAllEvents(name, description, status, maxTeammember, show)
           break;
@@ -81,6 +81,9 @@ export class EventController {
       const { id } = req.params;
       const { name, description, maxteammember, profilepic, starttime } =
         req.body;
+
+        console.log(req.body);
+        
 
       const newStatusId = req.body.status_id != null ? req.body.status_id : 1;
 

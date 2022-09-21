@@ -1,6 +1,5 @@
 import express from "express";
 import { TeamController } from "../controllers/teamController";
-// import { isLogin } from "../utils/middleware";
 
 export function teamRoutes(teamController: TeamController) {
   const router = express.Router();

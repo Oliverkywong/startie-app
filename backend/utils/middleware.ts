@@ -23,22 +23,29 @@ export const isLogin = async (
   next: express.NextFunction
 ) => {
   try {
-    const jwt = permit.check(req) != undefined? permit.check(req): req.session['jwt'] //receive token from redux
-    // console.log('redux:',permit.check(req));
 
+    // console.log("req.headers:",req);
+    //@ts-ignore
+    const jwt = permit.check(req) 
+    // != undefined? permit.check(req): req.session['jwt'] //receive token from redux
+    // console.log('redux:'jwt));
+
+    // console.log("session:",req.session);
     // console.log('session:',req.session);
     // console.log("session jwt:",req.session['jwt']);
     
     console.log("jwt:", jwt);
     
     const publicKey = await josePublicKey();
-    const { payload } = await jose.jwtVerify(jwt, publicKey); //use the public key to verify the token
+    const {payload }= await jose.jwtVerify(jwt, publicKey); //use the public key to verify the token
 
+    // console.log('payload:',payload);
+    
     if (payload["userId"]) {
       req.user = {
         userId: payload["userId"] as number,
         username: payload["username"] as string,
-      };
+      };      
       next();
     } else {
       res.status(401).json({ result: false, msg: "Unauthorized" });

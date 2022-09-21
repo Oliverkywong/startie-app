@@ -15,8 +15,10 @@ export interface User {
 export interface Team {
   id: number;
   name: string;
+  searchcategory_id: number;
   description?: string;
   profilepic?: string;
+  status_id: number;
   clickrate: number;
 }
 
@@ -44,14 +46,3 @@ export interface Event {
   clickrate: number;
 }
 
-export interface UserId_Username {
-  userId: number;
-  username: string;
-}
-declare global {
-  namespace Express {
-    interface Request {
-      user?: UserId_Username;
-    }
-  }
-}
