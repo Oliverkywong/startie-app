@@ -4,7 +4,7 @@
 import express from "express";
 import { logger } from "./utils/logger";
 // import grant from "grant";
-import { client } from "./utils/db";
+// import { client } from "./utils/db";
 import dotenv from "dotenv";
 import { UserService } from "./services/userService";
 import { UserController } from "./controllers/userController";
@@ -111,7 +111,7 @@ app.use(
 // -------------------------------------------------------------------------------------------------------------------
 
 //connect to client
-client.connect();
+// client.connect();
 
 //urlencoded
 app.use(express.urlencoded({ extended: true }));
