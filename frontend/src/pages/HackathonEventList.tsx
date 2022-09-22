@@ -24,7 +24,9 @@ const EventList: React.FC = () => {
 
   useEffect(() => {
     (async function () {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/app/event`);
+      const res = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/app/event/?category_id=3`
+      );
       const result = await res.json();
 
       setData(result.events);
