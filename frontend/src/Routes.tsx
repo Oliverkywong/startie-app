@@ -32,7 +32,6 @@ import Notification from "./pages/Notification";
 import Recommend from "./pages/Recommend";
 import UserEdit from "./pages/UserEdit";
 import SocialLogin from "./pages/SocialLogin";
-import UserInfo from "./pages/UserInfo";
 import StartupEventList from "./pages/StartupEventList";
 import BusinessEventList from "./pages/BusinessEventList";
 import HackathonEventList from "./pages/HackathonEventList";
@@ -61,17 +60,17 @@ export default function Routes() {
             <Route exact path="/tab/event" component={EventList} />
             <Route
               exact
-              path="/tab/event/category/1"
+              path="/tab/event/category/startup"
               component={StartupEventList}
             />
             <Route
               exact
-              path="/tab/event/category/2"
+              path="/tab/event/category/business"
               component={BusinessEventList}
             />
             <Route
               exact
-              path="/tab/event/category/3"
+              path="/tab/event/category/hackathon"
               component={HackathonEventList}
             />
             <Route exact path="/tab/event/:id" component={EventDetail} />
@@ -106,7 +105,7 @@ export default function Routes() {
             </IonTabButton>
             <IonTabButton tab="profile" href="/tab/user">
               <IonIcon icon={personOutline} />
-              <IonLabel>Profile</IonLabel>
+              <IonLabel>User</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>

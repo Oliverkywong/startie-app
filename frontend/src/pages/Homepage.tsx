@@ -251,7 +251,7 @@ const Homepage: React.FC = () => {
             <div
               className="categoryElement"
               onClick={() => {
-                router.push(`/tab/event/category/1`);
+                router.push(`/tab/event/category/startup`);
               }}
             >
               <IonImg className="categoryIcon" src={catergorys.cat2.src} />
@@ -264,7 +264,7 @@ const Homepage: React.FC = () => {
             <div
               className="categoryElement"
               onClick={() => {
-                router.push(`/tab/event/category/2`);
+                router.push(`/tab/event/category/business`);
               }}
             >
               <IonImg className="categoryIcon" src={catergorys.cat3.src} />
@@ -277,7 +277,7 @@ const Homepage: React.FC = () => {
             <div
               className="categoryElement"
               onClick={() => {
-                router.push(`/tab/event/category/3`);
+                router.push(`/tab/event/category/hackathon`);
               }}
             >
               <IonImg className="categoryIcon" src={catergorys.cat4.src} />

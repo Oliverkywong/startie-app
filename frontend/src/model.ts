@@ -15,6 +15,7 @@ export interface Team {
 }
 
 export interface Event {
+  category: string;
   id: number;
   name: string;
   description: string;
