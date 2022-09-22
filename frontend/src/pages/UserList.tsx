@@ -71,7 +71,7 @@ const UserList: React.FC = () => {
                 <div
                   className="teamCard"
                   onClick={() => {
-                    router.push(`/app/user/${item.id}`);
+                    router.push(`/tab/user/${item.id}`);
                   }}
                 >
                   <img
