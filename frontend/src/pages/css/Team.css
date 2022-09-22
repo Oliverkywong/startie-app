@@ -4,7 +4,7 @@
 
 .teamList {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+grid-template-columns: repeat(2, 1fr);
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -12,6 +12,7 @@
 .teamInfo {
   display: flex;
   flex-direction: column;
+  max-width:100%;
   justify-content: flex-start;
   align-items: center;
   background-color: #fff;
@@ -23,6 +24,7 @@
 .teamCard {
   position: relative;
   width: 100%;
+  position: relative;
   margin: 0;
   background-color: #fff;
   border-radius: 20px 20px 12px 12px;
@@ -36,12 +38,23 @@
 
 .teamTitle {
   padding-left: 10px;
+  padding-right:10px;
   color: #5f5f5f;
   font-size: 15px;
+  height:35px;
+  overflow: hidden;
+  position:relative;
+}
+
+.teamTitle::after{
+  content:"...";
+  position:absolute;
+  right:0;
+  bottom:0;
 }
 
 .teamContent {
-  padding: 0 10px 0 10px;
+  padding: 10px 10px 0 10px;
   font-size: 11px;
   color: #5f5f5f;
   display: inline-block;
@@ -51,7 +64,7 @@
 
 .teamContent::after {
   position: absolute;
-  right: 0;
+  right:0;
   bottom: 0;
   content: "...";
 }
