@@ -33,6 +33,9 @@ import Recommend from "./pages/Recommend";
 import UserEdit from "./pages/UserEdit";
 import SocialLogin from "./pages/SocialLogin";
 import UserInfo from "./pages/UserInfo";
+import StartupEventList from "./pages/StartupEventList";
+import BusinessEventList from "./pages/BusinessEventList";
+import HackathonEventList from "./pages/HackathonEventList";
 
 export default function Routes() {
   const localtoken = localStorage.getItem("token");
@@ -56,6 +59,21 @@ export default function Routes() {
             <Route exact path="/tab/buildteam" component={BuildTeam} />
             <Route exact path="/tab/team/:id" component={TeamDetail} />
             <Route exact path="/tab/event" component={EventList} />
+            <Route
+              exact
+              path="/tab/event/category/1"
+              component={StartupEventList}
+            />
+            <Route
+              exact
+              path="/tab/event/category/2"
+              component={BusinessEventList}
+            />
+            <Route
+              exact
+              path="/tab/event/category/3"
+              component={HackathonEventList}
+            />
             <Route exact path="/tab/event/:id" component={EventDetail} />
             <Route exact path="/tab/profile" component={Profile} />
             <Route exact path="/tab/user" component={UserList} />
