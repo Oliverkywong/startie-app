@@ -4,9 +4,11 @@ export interface UserInfo {
   profilepic: string | null;
   description: string;
   tags: string[];
+  shortDescription: string;
 }
 
 export interface Team {
+  shortDescription: string;
   id: number;
   name: string;
   description: string;
@@ -15,6 +17,7 @@ export interface Team {
 }
 
 export interface EventInfo {
+  shortDescription: string;
   category: string;
   id: number;
   name: string;
@@ -31,11 +34,13 @@ export interface Tag {
 export interface TeamData {
   id: number;
   name: string;
+  shortDescription: string;
   description: string;
   profilepic: string;
 }
 
 export interface TeamMember {
+  shortDescription: string;
   id: number;
   username: string;
   profilepic: string;
