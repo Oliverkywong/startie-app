@@ -36,6 +36,7 @@ import StartupEventList from "./pages/StartupEventList";
 import BusinessEventList from "./pages/BusinessEventList";
 import HackathonEventList from "./pages/HackathonEventList";
 import { RootState, useAppSelector } from "./store";
+import OtherUserProfile from "./pages/OtherUsersProfile";
 
 export default function Routes() {
   const isLogin = useAppSelector((state: RootState) => state.auth.loggedIn);
@@ -75,6 +76,7 @@ export default function Routes() {
             />
             <Route exact path="/tab/event/:id" component={EventDetail} />
             <Route exact path="/tab/profile" component={Profile} />
+            <Route exact path="/tab/user/:id" component={OtherUserProfile} />
             <Route exact path="/tab/user" component={UserList} />
             <Route exact path="/tab/login" component={Login} />
           </IonRouterOutlet>
