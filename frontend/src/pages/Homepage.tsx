@@ -19,7 +19,7 @@ import {
   IonCardTitle,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { notificationsOutline } from "ionicons/icons";
+import { notificationsOutline, shareOutline } from "ionicons/icons";
 
 import cat1 from "../img/all.png";
 import cat2 from "../img/startup.png";
@@ -51,19 +51,19 @@ const Homepage: React.FC = () => {
   let isLogin = useAppSelector((state: RootState) => state.auth.loggedIn);
   const [teamData, setTeamData] = useState<Team[]>([]);
   const [eventData, setEventData] = useState<EventInfo[]>([]);
-  const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
+  // const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
   const dispatch = useAppDispatch();
 
-  const loadData = (ev: any) => {
-    setTimeout(() => {
-      console.log("Loaded data");
-      ev.target.complete();
-      if (teamData.length === 100) {
-        setInfiniteDisabled(true);
-      }
-    }, 500);
-  };
+  // const loadData = (ev: any) => {
+  //   setTimeout(() => {
+  //     console.log("Loaded data");
+  //     ev.target.complete();
+  //     if (teamData.length === 100) {
+  //       setInfiniteDisabled(true);
+  //     }
+  //   }, 500);
+  // };
 
   useLayoutEffect(() => {
     (async function () {
@@ -86,7 +86,7 @@ const Homepage: React.FC = () => {
       );
       const teamResult = await teamRes.json();
 
-      setTeamData(teamResult.teams.rows); // remove .teams.rows after backend fix
+      setTeamData(teamResult.teams.rows.slice(0, 4)); // remove .teams.rows after backend fix
 
       const eventRes = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/app/event`,
@@ -322,6 +322,7 @@ const Homepage: React.FC = () => {
                         {item.tags.map((tag) => {
                           return <span key={tag}>{tag}</span>;
                         })}
+                      <IonIcon icon={shareOutline} />
                       </div>
                     </IonCard>
                   </div>
@@ -329,7 +330,7 @@ const Homepage: React.FC = () => {
               );
             })}
           </div>
-          <IonInfiniteScroll
+          {/* <IonInfiniteScroll
             onIonInfinite={loadData}
             threshold="100px"
             disabled={isInfiniteDisabled}
@@ -338,7 +339,7 @@ const Homepage: React.FC = () => {
               loadingSpinner="bubbles"
               loadingText="Loading more data..."
             ></IonInfiniteScrollContent>
-          </IonInfiniteScroll>
+          </IonInfiniteScroll> */}
         </IonList>
       </IonContent>
     </IonPage>

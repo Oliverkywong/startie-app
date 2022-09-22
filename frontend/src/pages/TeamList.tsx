@@ -11,11 +11,13 @@ import {
   IonTitle,
   IonBackButton,
   useIonViewWillEnter,
+  IonIcon,
 } from "@ionic/react";
 
 import { Team } from "../model";
 import "./css/Common.css";
 import "./css/Team.css";
+import { shareOutline } from "ionicons/icons";
 
 let i = 0;
 const TeamList: React.FC = () => {
@@ -107,6 +109,7 @@ const TeamList: React.FC = () => {
                     {item.tags.map((tag) => {
                       return <span key={tag}>{tag}</span>;
                     })}
+                    <IonIcon icon={shareOutline} />
                   </div>
                 </div>
               </div>
