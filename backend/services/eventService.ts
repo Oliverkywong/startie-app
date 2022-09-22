@@ -61,7 +61,7 @@ export class EventService {
         query = query.where("maxteammember", "<=", `${input.maxteammember}`);
       }
       if (input.category_id) {
-        query = query.where("category.id", "=", `${input.category_id}`);
+        query = query.where("searchcategory.id", "=", `${input.category_id}`);
       }
       if (show) {
         query = query.orderBy('id', 'asc')
