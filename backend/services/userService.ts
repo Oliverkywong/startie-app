@@ -135,7 +135,7 @@ export class UserService {
   async getAllUser(input:UserListInput, show?: boolean): Promise<UserListData>  {
 
     let query = this.knex<User>("user")
-    .select("user.id", "username", "email", "phonenumber", "s.name as status", this.knex.raw('ARRAY_AGG(distinct t.name) as tags'), "description", "profilepic", "clickrate", "created_at")
+    .select("user.id", "username", "email", "phonenumber", "s.name as status", this.knex.raw('ARRAY_AGG(distinct t.name) as tags'), "description", "shortDescription", "profilepic", "clickrate", "created_at")
     .join("status as s", "status_id", "s.id")
     .leftJoin("user_tag", "user.id", "user_tag.user_id")
     .join("tag as t", "user_tag.tag_id", "t.id")
@@ -155,6 +155,9 @@ export class UserService {
     }
     if (input.description) {
       query = query.having("description", "ilike", `%${input.description}%`);
+    }
+    if (input.shortDescription) {
+      query = query.having("shortDescription", "ilike", `%${input.shortDescription}%`);
     }
     if (input.phonenumber) {
       query = query.having("phonenumber", "ilike", `%${input.phonenumber}%`);
