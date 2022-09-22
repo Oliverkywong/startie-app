@@ -1,180 +1,204 @@
 import {
   IonPage,
   IonHeader,
-  IonSearchbar,
   IonButtons,
   useIonRouter,
   IonButton,
   IonToolbar,
-  IonLabel,
   IonContent,
   IonIcon,
-  IonChip,
-  IonImg,
-  IonList,
   IonBackButton,
+  IonCard,
+  IonCardContent,
+  IonCardTitle,
+  IonCol,
+  IonItem,
+  IonLabel,
+  IonSegment,
+  IonSegmentButton,
+  IonImg,
 } from "@ionic/react";
-import { flameOutline, trashOutline } from "ionicons/icons";
-import React from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import cat1 from "../img/cat1.png";
-import cat2 from "../img/cat2.png";
-import cat3 from "../img/cat3.png";
-import "swiper/css";
-
+import { search } from "ionicons/icons";
+import { useState } from "react";
+import { Team, UserInfo, EventInfo } from "../model";
 export default function SearchPage() {
+
   const router = useIonRouter();
-  const catergorys = {
-    cat1: { src: cat1, title: "NFT Team" },
-    cat2: { src: cat2, title: "Business Team" },
-    cat3: { src: cat3, title: "Insevment Team" },
-  };
+  const [searchText, setSearchText] = useState("");
+  const [userdata, setUserData] = useState<UserInfo[]>([]);
+  const [teamdata, setTeamData] = useState<Team[]>([]);
+  const [eventdata, setEventData] = useState<EventInfo[]>([]);
+  const [user, setUser] = useState(true); 
+  const [team, setTeam] = useState(false);
+  const [event, setEvent] = useState(false);  
+
+  const searchfetch = async (e: { target: { value: string } }) => {
+    setSearchText(e.target.value)
+    const teamreq = searchText.replace(/[^a-zA-Z ]/g, "");
+    const teamres = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/app/team/?${teamreq}`
+    );
+    const teamresult = await teamres.json();
+    // console.log(teamresult);
+    setTeamData(teamresult.teams.rows);
+
+
+    const userreq = searchText.replace(/[^a-zA-Z ]/g, "");
+    const userres = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/app/user/?${userreq}`
+    );
+    const userresult = await userres.json();
+    // console.log(userresult.user);
+    setUserData(userresult.user);
+
+
+    const eventreq = searchText.replace(/[^a-zA-Z ]/g, "");
+    const eventres = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/app/event/?${eventreq}`
+    );
+    const eventresult = await eventres.json();
+    console.log(eventresult.events);
+    setEventData(eventresult.events);
+  }
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonSearchbar placeholder="Search" />
+          <IonIcon size="large" icon={search} />
+          <input placeholder="Search" onChange={searchfetch} />
           <IonButtons slot="start">
             <IonBackButton />
           </IonButtons>
-          {/* <IonButtons slot="end">
-                        <IonButton onClick={() => {}}>Cancel</IonButton>
-                    </IonButtons> */}
+          <IonButtons slot="end">
+            <IonButton onClick={() => setSearchText('')}>Cancel</IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonToolbar>
-          <IonLabel>Search History</IonLabel>
-          <IonButtons slot="end">
-            <IonButton onClick={() => {}}>
-              <IonIcon icon={trashOutline} />
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
-        <IonChip style={{ backgroundColor: "#999" }} outline={true}>
-          Outline
-        </IonChip>
-        <IonChip style={{ backgroundColor: "#999" }} outline={true}>
-          Outline
-        </IonChip>
-        <IonChip style={{ backgroundColor: "#999" }} outline={true}>
-          Outline
-        </IonChip>
-        <IonChip style={{ backgroundColor: "#999" }} outline={true}>
-          Outline
-        </IonChip>
-        <IonChip style={{ backgroundColor: "#999" }} outline={true}>
-          Outline
-        </IonChip>
-        <IonToolbar>
-          <IonLabel>Top Search</IonLabel>
-          <IonIcon icon={flameOutline} />
-        </IonToolbar>
-        <IonChip style={{ backgroundColor: "#999" }} outline={true}>
-          Outline
-        </IonChip>
-        <IonChip style={{ backgroundColor: "#999" }} outline={true}>
-          Outline
-        </IonChip>
-        <IonChip style={{ backgroundColor: "#999" }} outline={true}>
-          Outline
-        </IonChip>
-        <IonToolbar>
-          <IonLabel>Team</IonLabel>
-          <IonButtons slot="end">
-            <a href="/tab/team">More</a>
-          </IonButtons>
-        </IonToolbar>
-        <Swiper className="mySwiper" slidesPerView={1}>
-          <SwiperSlide className="catelement">
-            <a href="/tab/team">
-              <IonImg src={catergorys.cat1.src} />
-              <IonLabel>{catergorys.cat1.title}</IonLabel>
-            </a>
-          </SwiperSlide>
-          <SwiperSlide className="catelement">
-            <a href="/tab/team">
-              <IonImg src={catergorys.cat2.src} />
-              <IonLabel>{catergorys.cat2.title}</IonLabel>
-            </a>
-          </SwiperSlide>
-          <SwiperSlide className="catelement">
-            <a href="/tab/team">
-              <IonImg src={catergorys.cat3.src} />
-              <IonLabel>{catergorys.cat3.title}</IonLabel>
-            </a>
-          </SwiperSlide>
-        </Swiper>
-        <IonToolbar>
-          <IonLabel>Event</IonLabel>
-          <IonButtons slot="end">
-            <a href="/tab/event">More</a>
-          </IonButtons>
-        </IonToolbar>
-        <IonList>
-          <a href="/tab/event">
-            <div className="event">
-              <div className="eventinfo">
-                <IonLabel>Event Name</IonLabel>
-                <IonLabel>Desription</IonLabel>
+        <IonSegment onIonChange={e => console.log('Segment selected', e.detail.value)}>
+          <IonSegmentButton value="User" onClick={()=>{setUser(true);setTeam(false);setEvent(false);}} >
+            <IonLabel>User</IonLabel>
+          </IonSegmentButton>
+          <IonSegmentButton value="Team" onClick={()=>{setUser(false);setTeam(true);setEvent(false);}} >
+            <IonLabel>Team</IonLabel>
+          </IonSegmentButton>
+          <IonSegmentButton value="Event" onClick={()=>{setUser(false);setTeam(false);setEvent(true);}} >
+            <IonLabel>Event</IonLabel>
+          </IonSegmentButton>
+        </IonSegment>
+
+        <IonItem>
+          <IonLabel>Search Results</IonLabel>
+        </IonItem>
+
+        {user && <div className="teamList">
+          {userdata.map((item) => {
+            return (
+              <div className="teamInfo" key={item.id}>
+                <div
+                  className="teamCard"
+                  onClick={() => {
+                    router.push(`/app/user/${item.id}`);
+                  }}
+                >
+                  <img
+                    className="teamIcon"
+                    src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`}
+                  />
+
+                  <p className="teamTitle">{item.username}</p>
+
+                  <p className="teamContent">{item.description}</p>
+
+                  {/* <div className="tag">
+                    {item.tags.map((tag) => {
+                      return <span key={tag}>{tag}</span>;
+                    })}
+                  </div> */}
+                </div>
               </div>
-              <IonImg src={catergorys.cat2.src} style={{ width: "10%" }} />
-            </div>
-          </a>
-          <a href="/tab/event">
-            <div className="event">
-              <div className="eventinfo">
-                <IonLabel>Event Name</IonLabel>
-                <IonLabel>Desription</IonLabel>
+            );
+          })}
+        </div>}
+
+        {team && <div className="teamList homePageTeamList">
+          {teamdata.map((item) => {
+            return (
+              <IonCol key={item.id}>
+                <div className="teamInfo">
+                  <IonCard
+                    className="teamCard"
+                    routerLink={`/tab/team/${item.id}`}
+                  >
+                    <img
+                      className="teamIcon"
+                      src={
+                        item?.profilepic != null
+                          ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                          : "https://www.w3schools.com/howto/img_avatar.png"
+                      }
+                    />
+
+                    <IonCardTitle className="teamTitle">
+                      {item.name}
+                    </IonCardTitle>
+
+                    <IonCardContent className="teamContent">
+                      {item.description}
+                    </IonCardContent>
+
+                    <div className="tag">
+                      {item.tags.map((tag) => {
+                        return <span key={tag}>{tag}</span>;
+                      })}
+                    </div>
+                  </IonCard>
+                </div>
+              </IonCol>
+            );
+          })}
+        </div>}
+
+        {event && <div className="eventContainer">
+          {eventdata.map((item) => {
+            return (
+              <div
+                className="eventinfo"
+                key={item.id}
+                onClick={() => {
+                  router.push(`event/${item.id}`);
+                }}
+              >
+                <img
+                  className="eventThumbnail"
+                  src={
+                    item?.profilepic != null
+                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                      : "StartieLogo.png"
+                  }
+                />
+
+                <p className="eventTitle">{item.name}</p>
+                <div className="eventData">
+                  <IonImg
+                    src={
+                      item?.profilepic != null
+                        ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                        : "StartieLogo.png"
+                    }
+                    style={{ width: "10%", height: "10%" }}
+                  />
+                  <div className="">
+                    <p className="eventDescription">{item.description}</p>
+                    <p className="eventDate">Due: {item.starttime}</p>
+                  </div>
+                </div>
               </div>
-              <IonImg src={catergorys.cat2.src} style={{ width: "10%" }} />
-            </div>
-          </a>
-          <a href="/tab/event">
-            <div className="event">
-              <div className="eventinfo">
-                <IonLabel>Event Name</IonLabel>
-                <IonLabel>Desription</IonLabel>
-              </div>
-              <IonImg src={catergorys.cat2.src} style={{ width: "10%" }} />
-            </div>
-          </a>
-        </IonList>
-        <IonToolbar>
-          <IonLabel>Job</IonLabel>
-          <IonButtons slot="end">
-            <a href="/tab/event">More</a>
-          </IonButtons>
-        </IonToolbar>
-        <IonList>
-          <a href="/tab/event">
-            <div className="event">
-              <div className="eventinfo">
-                <IonLabel>Job Name</IonLabel>
-                <IonLabel>Desription</IonLabel>
-              </div>
-              <IonImg src={catergorys.cat2.src} style={{ width: "10%" }} />
-            </div>
-          </a>
-          <a href="/tab/event">
-            <div className="event">
-              <div className="eventinfo">
-                <IonLabel>Job Name</IonLabel>
-                <IonLabel>Desription</IonLabel>
-              </div>
-              <IonImg src={catergorys.cat2.src} style={{ width: "10%" }} />
-            </div>
-          </a>
-          <a href="/tab/event">
-            <div className="event">
-              <div className="eventinfo">
-                <IonLabel>Job Name</IonLabel>
-                <IonLabel>Desription</IonLabel>
-              </div>
-              <IonImg src={catergorys.cat2.src} style={{ width: "10%" }} />
-            </div>
-          </a>
-        </IonList>
+            );
+          })}
+        </div>}
+        
       </IonContent>
     </IonPage>
   );

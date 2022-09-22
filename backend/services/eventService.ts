@@ -38,10 +38,23 @@ export class EventService {
   // -------------------------------------------------------------------------------------------------------------------
   // get All Events ✅
   // -------------------------------------------------------------------------------------------------------------------
-    async getAllEvents(input:EventListInput, show: boolean): Promise<EventListData> {
-
-      let query = this.knex<Event>("event")
-      .select("event.id", "event.name", "status.name as status","searchcategory.name as category", "description", "maxteammember", "starttime", "event.profilepic", "clickrate", "created_at")
+  async getAllEvents(
+    input: EventListInput,
+    show: boolean
+  ): Promise<EventListData> {
+    let query = this.knex<Event>("event")
+      .select(
+        "event.id",
+        "event.name",
+        "status.name as status",
+        "searchcategory.name as category",
+        "description",
+        "maxteammember",
+        "starttime",
+        "event.profilepic",
+        "clickrate",
+        "created_at"
+      )
       .join("status", "status_id", "status.id")
       .join("searchcategory", "event.searchcategory_id", "searchcategory.id")
   
@@ -85,44 +98,43 @@ export class EventService {
   // update event for Admin
   // -------------------------------------------------------------------------------------------------------------------
   async updateEventForAdmin(eventId: number, input: EventListInput) {
+    const eventInfo = await this.knex<Event>("event")
+      .update({
+        name: input.name,
+        description: input.description,
+        maxteammember: input.maxteammember,
+        profilepic: input.profilepic,
+        status_id: input.status_id,
+      })
+      .where("id", eventId)
+      .returning("*");
 
-        const eventInfo = await this.knex<Event>("event")
-          .update({
-            name: input.name,
-            description: input.description,
-            maxteammember: input.maxteammember,
-            profilepic: input.profilepic,
-            status_id: input.status_id
-          })
-          .where("id", eventId)
-          .returning("*");
-
-        return eventInfo;
+    return eventInfo;
   }
-// // -------------------------------------------------------------------------------------------------------------------
-// // update event 
-// // -------------------------------------------------------------------------------------------------------------------
-//   async updateEvent(
-//     eventId: number,
-//     eventName: string,
-//     description: string,
-//     maxteammember: number,
-//     profilepic: string,
-//     starttime: Date | string,
-//     newStatusId: number
-//   ) {
-//         const eventInfo = await this.knex<Event>("event")
-//           .update({
-//             name: eventName,
-//             description: description,
-//             maxteammember: maxteammember,
-//             profilepic: profilepic,
-//             starttime: starttime,
-//             status_id: newStatusId,
-//           })
-//           .where("id", eventId)
-//           .returning("*");
+  // // -------------------------------------------------------------------------------------------------------------------
+  // // update event
+  // // -------------------------------------------------------------------------------------------------------------------
+  //   async updateEvent(
+  //     eventId: number,
+  //     eventName: string,
+  //     description: string,
+  //     maxteammember: number,
+  //     profilepic: string,
+  //     starttime: Date | string,
+  //     newStatusId: number
+  //   ) {
+  //         const eventInfo = await this.knex<Event>("event")
+  //           .update({
+  //             name: eventName,
+  //             description: description,
+  //             maxteammember: maxteammember,
+  //             profilepic: profilepic,
+  //             starttime: starttime,
+  //             status_id: newStatusId,
+  //           })
+  //           .where("id", eventId)
+  //           .returning("*");
 
-//         return eventInfo;
-//       }  
-  }
+  //         return eventInfo;
+  //       }
+}

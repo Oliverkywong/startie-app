@@ -8,25 +8,18 @@ import {
   useIonRouter,
   IonContent,
 } from "@ionic/react";
-import { IonButton, useIonToast } from "@ionic/react";
+import { useIonToast } from "@ionic/react";
 import "./css/Event.css";
 import "./css/EventDetail.css";
 import "./css/Common.css";
-import JoinEvent from "./JoinEvent";
 import React, { useEffect, useState } from "react";
-import { useLocation, useRouteMatch } from "react-router-dom";
+import { EventInfo } from "../model";
+import { useRouteMatch } from "react-router-dom";
 
-interface EventDetail {
-  id: number;
-  name: string;
-  description: string;
-  profilepic: string;
-  starttime: string;
-}
 
 const EventDetail: React.FC = () => {
   const [present] = useIonToast();
-  const [data, setData] = useState<EventDetail[]>([]);
+  const [data, setData] = useState<EventInfo[]>([]);
   const [resultText, setResultText] = React.useState("");
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
