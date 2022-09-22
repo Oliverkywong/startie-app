@@ -6,15 +6,13 @@ import {
   IonLabel,
   IonButton,
   IonCard,
-  IonCardContent,
   IonIcon,
   IonButtons,
   useIonRouter,
   IonList,
   IonCol,
-  IonInfiniteScroll,
-  IonInfiniteScrollContent,
   IonCardTitle,
+  IonHeader,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { notificationsOutline, shareOutline } from "ionicons/icons";
@@ -152,7 +150,7 @@ const Homepage: React.FC = () => {
 
   return (
     <IonPage>
-      <div className="header">
+      <IonHeader className="header">
         <div className="searchBar">
           <IonButtons slot="start">
             <IonButton
@@ -196,7 +194,7 @@ const Homepage: React.FC = () => {
             </IonButton>
           </IonButtons>
         </div>
-      </div>
+      </IonHeader>
       <IonContent className="homecontent">
         <IonLabel className="labelTitle">Hot Events</IonLabel>
 
