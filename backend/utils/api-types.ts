@@ -56,6 +56,7 @@ export type UserListData = {
     email: string;
     description: string;
     profilepic: string;
+    tags: string[];
   }>;
   error?:string
 };
@@ -68,5 +69,6 @@ export type UserListInput = {
   phonenumber?: number | string;
   status_id?: number | string;
   profilepic?: string;
+  tags?: string[];
 };
 // ====================================================================================================================

@@ -134,25 +134,33 @@ export class UserService {
   // -------------------------------------------------------------------------------------------------------------------
   async getAllUser(input:UserListInput, show?: boolean): Promise<UserListData>  {
 
-    let query = this.knex<User>("user").select("user.id", "username", "email", "phonenumber", "profilepic", "description", "clickrate", "created_at", "status_id as sid", "name as status").join("status", "status_id", "status.id");
+    let query = this.knex<User>("user")
+    .select("user.id", "username", "email", "phonenumber", "s.name as status", this.knex.raw('ARRAY_AGG(distinct t.name) as tags'), "description", "profilepic", "clickrate", "created_at")
+    .join("status as s", "status_id", "s.id")
+    .leftJoin("user_tag", "user.id", "user_tag.user_id")
+    .join("tag as t", "user_tag.tag_id", "t.id")
+    .groupBy("user.id", "s.id")
 
     if (input.name) {
-      query = query.where("username", "ilike", `%${input.name}%`);
+      query = query.having("username", "ilike", `%${input.name}%`);
     }
     if (input.q) {
-      query = query.where("username", "ilike", `%${input.q}%`);
+      query = query.having("username", "ilike", `%${input.q}%`);
     }
     if (input.email) {
-      query = query.where("email", "ilike", `%${input.email}%`);
+      query = query.having("email", "ilike", `%${input.email}%`);
     }
     if (input.status_id) {
-      query = query.where("status.id", "=", `${input.status_id}`);
+      query = query.having("s.id", "=", `${input.status_id}`);
     }
     if (input.description) {
-      query = query.where("description", "ilike", `%${input.description}%`);
+      query = query.having("description", "ilike", `%${input.description}%`);
     }
     if (input.phonenumber) {
-      query = query.where("phonenumber", "ilike", `%${input.phonenumber}%`);
+      query = query.having("phonenumber", "ilike", `%${input.phonenumber}%`);
+    }
+    if (input.tags) {
+      query = query.having(this.knex.raw(`array_agg(distinct t.name)::VARCHAR ilike '%${input.tags}%'`));
     }
     if (show) {
       query = query.orderBy('id', 'asc')
