@@ -98,7 +98,22 @@ export class EventService {
   // get one event ✅
   // -------------------------------------------------------------------------------------------------------------------
   async getEvent(id: string | number) {
-    return await this.knex<Event>("event").select("*").where("id", id);
+    return await this.knex<Event>("event")
+    .select("event.id",
+    "event.name AS event_name",
+    "searchcategory.name as category",
+    "description",
+    "shortDescription",
+    "maxteammember",
+    "event_provider.name AS provider_name",
+    "event_provider.profile_pic as event_provider_profile_pic",
+    "starttime",
+    "event.profilepic as event_profilepic",
+    "clickrate",
+    "event.created_at")
+    .innerJoin("searchcategory", "event.searchcategory_id", "searchcategory.id")
+    .innerJoin("event_provider", "event_provider.id", "event.event_provider_id")
+    .where("event.id", id);
   }
 
   // -------------------------------------------------------------------------------------------------------------------
