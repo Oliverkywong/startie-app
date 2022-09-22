@@ -14,7 +14,7 @@ export interface Team {
   tags: string[];
 }
 
-export interface Event {
+export interface EventInfo {
   id: number;
   name: string;
   description: string;
