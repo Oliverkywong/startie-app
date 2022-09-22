@@ -31,11 +31,10 @@ import "./css/Homepage.css";
 // Import Swiper styles
 import "swiper/css";
 import { RootState, useAppDispatch, useAppSelector } from "../store";
-import { loggedIn, logOut } from "../redux/auth/action";
+import { logOut } from "../redux/auth/action";
 import { EffectCards } from "swiper";
 import { loadUserInfo } from "../redux/userInfo/action";
 import { Team, Event } from "../model";
-import { EventListData } from "../utils/api-types";
 // import { useGet } from "../hooks/useGet";
 
 const catergorys = {
@@ -69,6 +68,8 @@ const Homepage: React.FC = () => {
   useEffect(() => {
     (async function () {
       const localtoken = localStorage.getItem("token");
+      console.log(localtoken);
+      console.log(isLogin);
       if (localtoken === null) {
         dispatch(logOut());
       }
@@ -82,7 +83,7 @@ const Homepage: React.FC = () => {
         }
       );
       const teamResult = await teamRes.json();
-      console.log(teamResult);
+      
       setTeamData(teamResult.teams.rows); // remove .teams.rows after backend fix
 
       const eventRes = await fetch(

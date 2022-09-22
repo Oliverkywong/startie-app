@@ -33,9 +33,10 @@ const Profile: React.FC = () => {
   const userdetails = useAppSelector(
     (state: RootState) => state.userInfo.userinfo
   );
+  // console.log(userdetails);
 
-  const [stat, setStat] = React.useState(true);
-  const [info, setInfo] = React.useState(false);
+  const [stat, setStat] = React.useState(false);
+  const [info, setInfo] = React.useState(true);
   const [team, setTeam] = React.useState(false);
   const [setting, setSetting] = React.useState(false);
   const [userBelongsTeam, setUserBelongsTeam] = React.useState([]);
