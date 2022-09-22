@@ -49,6 +49,7 @@ export class EventService {
         "status.name as status",
         "searchcategory.name as category",
         "description",
+        "shortDescription",
         "maxteammember",
         "event_provider.name",
         "event_provider.profile_pic as event_provider_profile_pic",
@@ -69,6 +70,9 @@ export class EventService {
       }
       if (input.description) {
         query = query.where("description", "ilike", `%${input.description}%`);
+      }
+      if (input.shortDescription) {
+        query = query.where("shortDescription", "ilike", `%${input.shortDescription}%`);
       }
       if (input.status_id) {
         query = query.where("status.id", "=", `${input.status_id}`);
