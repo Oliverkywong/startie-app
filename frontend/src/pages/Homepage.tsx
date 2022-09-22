@@ -68,7 +68,7 @@ const Homepage: React.FC = () => {
       const localtoken = localStorage.getItem("token");
       if (localtoken === null) {
         dispatch(logOut());
-      }else{
+      } else {
         isLogin = true;
       }
       console.log(localtoken);
@@ -157,7 +157,9 @@ const Homepage: React.FC = () => {
           <IonButtons slot="start">
             <IonButton
               onClick={() => {
-                isLogin ? router.push("/tab/profile") : router.push("/tab/login");
+                isLogin
+                  ? router.push("/tab/profile")
+                  : router.push("/tab/login");
               }}
             >
               <IonImg
@@ -312,15 +314,15 @@ const Homepage: React.FC = () => {
                         {item.name}
                       </IonCardTitle>
 
-                      <IonCardContent className="teamContent">
-                        {item.shortDescription}
-                      </IonCardContent>
+                      <p className="teamContent">{item.shortDescription}</p>
 
                       <div className="tag">
                         {item.tags.map((tag) => {
                           return <span key={tag}>{tag}</span>;
                         })}
-                      <IonIcon icon={shareOutline} />
+                      </div>
+                      <div className="shareButton">
+                        <IonIcon icon={shareOutline} />
                       </div>
                     </IonCard>
                   </div>
