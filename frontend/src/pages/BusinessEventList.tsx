@@ -15,10 +15,10 @@ import {
 
 import "./css/Common.css";
 import "./css/Event.css";
-import { Event } from "../model";
+import { EventInfo } from "../model";
 
 const EventList: React.FC = () => {
-  const [data, setData] = useState<Event[]>([]);
+  const [data, setData] = useState<EventInfo[]>([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
 
@@ -73,7 +73,7 @@ const EventList: React.FC = () => {
                 className="eventinfo"
                 key={item.id}
                 onClick={() => {
-                  router.push(`event/${item.id}`);
+                  router.push(`/tab/event/${item.id}`);
                 }}
               >
                 <img
