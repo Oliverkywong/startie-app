@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import "./css/Login.css";
 import { useDispatch } from "react-redux";
 import { loggedIn } from "../redux/auth/action";
+import { loadUserInfo } from "../redux/userInfo/action";
 
 const Login: React.FC = () => {
   const { register, handleSubmit } = useForm();
@@ -48,6 +49,7 @@ const Login: React.FC = () => {
               if (res.status === 200) {
                 const userRecord = await res.json();
                 dispatch(loggedIn(userRecord["user"], userRecord["jwt"]));
+                dispatch(loadUserInfo(userRecord["user"]))
                 router.push("/tab/home");
                 // window.location.replace("/tab/home");
                 // <IonNavLink component={() => <Homepage />} ></IonNavLink>

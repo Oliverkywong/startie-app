@@ -54,9 +54,9 @@ export default function UserStats() {
         skillPointArray.push(details.detail.skill[i].point);
       }
 
-      console.log(sectorNameArray);
-      console.log(skillNameArray);
-      console.log(skillPointArray);
+      // console.log(sectorNameArray);
+      // console.log(skillNameArray);
+      // console.log(skillPointArray);
 
       setSectorName(sectorNameArray);
       setSkillName(skillNameArray);
@@ -69,7 +69,7 @@ export default function UserStats() {
     <IonContent>
       <div className="ProfileBackground">
         {sectorName.map((sectorName, index) => {
-          console.log(sectorName);
+          // console.log(sectorName);
           return (
             <div className="char" key={sectorName}>
               <div className="charDetail">
