@@ -103,17 +103,17 @@ const TeamList: React.FC = () => {
                   />
                   <IonCardTitle className="teamTitle">{item.name}</IonCardTitle>
 
-                  <IonCardContent className="teamContent">
-                    {" "}
-                    {item.shortDescription}
-                  </IonCardContent>
+                  <p className="teamContent">{item.shortDescription}</p>
 
-                  <span className="teamLookingFor">Looking for: </span>
+                  <p className="teamLookingFor">Looking for: </p>
 
                   <div className="tag">
                     {item.tags.map((tag) => {
                       return <span key={tag}>{tag}</span>;
                     })}
+                  </div>
+
+                  <div className="shareButton">
                     <IonIcon icon={shareOutline} />
                   </div>
                 </div>

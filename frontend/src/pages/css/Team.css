@@ -21,6 +21,7 @@
 }
 
 .teamCard {
+  position: relative;
   width: 100%;
   margin: 0;
   background-color: #fff;
@@ -43,7 +44,6 @@
   padding: 0 10px 0 10px;
   font-size: 11px;
   color: #5f5f5f;
-  height: 25px;
   display: inline-block;
   overflow: hidden;
   position: relative;
