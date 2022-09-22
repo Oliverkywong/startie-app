@@ -9,10 +9,8 @@ import {
   IonCardContent,
   IonIcon,
   IonButtons,
-  IonToolbar,
   useIonRouter,
   IonList,
-  IonHeader,
   IonCol,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
@@ -153,20 +151,8 @@ const Homepage: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar className="searchBar">
-          <IonButtons slot="end">
-            <IonButton
-              onClick={() => {
-                isLogin
-                  ? router.push("/notification")
-                  : router.push("/tab/login");
-              }}
-              // routerLink="/notification"
-            >
-              <IonIcon icon={notificationsOutline} />
-            </IonButton>
-          </IonButtons>
+      <div className="header">
+        <div className="searchBar">
           <IonButtons slot="start">
             <IonButton
               onClick={() => {
@@ -196,8 +182,20 @@ const Homepage: React.FC = () => {
               <input className="searchbar" placeholder="Search" />
             </IonButton>
           </IonButtons>
-        </IonToolbar>
-      </IonHeader>
+          <IonButtons slot="end">
+            <IonButton
+              onClick={() => {
+                isLogin
+                  ? router.push("/notification")
+                  : router.push("/tab/login");
+              }}
+              // routerLink="/notification"
+            >
+              <IonIcon icon={notificationsOutline} />
+            </IonButton>
+          </IonButtons>
+        </div>
+      </div>
       <IonContent className="homecontent">
         <IonLabel className="labelTitle">Hot Events</IonLabel>
 
