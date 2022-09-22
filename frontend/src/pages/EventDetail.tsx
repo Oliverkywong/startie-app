@@ -16,7 +16,6 @@ import React, { useLayoutEffect, useState } from "react";
 import { EventInfo } from "../model";
 import { useRouteMatch } from "react-router-dom";
 
-
 const EventDetail: React.FC = () => {
   const [present] = useIonToast();
   const [data, setData] = useState<EventInfo[]>([]);
@@ -33,6 +32,7 @@ const EventDetail: React.FC = () => {
       );
       const item = await res.json();
       setData([item]);
+      console.log(item);
     })();
   }, []);
 
@@ -79,15 +79,14 @@ const EventDetail: React.FC = () => {
         {data.map((item) => {
           return (
             <div key={item.id}>
-
-                <img
-                  className="eventThumbnail"
-                  src={
-                    item?.event_profilepic != null
-                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.event_profilepic}`
-                      : "StartieLogo.png"
-                  }
-                />
+              <img
+                className="eventThumbnail"
+                src={
+                  item?.event_profilepic != null
+                    ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.event_profilepic}`
+                    : "StartieLogo.png"
+                }
+              />
               <IonImg
                 className="eventThumbnail"
                 src={
@@ -97,6 +96,7 @@ const EventDetail: React.FC = () => {
                 }
               />
               <h1 className="evenDetailTitle">{item.event_name}</h1>
+              <p className="eventDetailDescription">{item.shortDescription}</p>
 
               <div>
                 <p className="eventDetailDescription">{item.description}</p>
