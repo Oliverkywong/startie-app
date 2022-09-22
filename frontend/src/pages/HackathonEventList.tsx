@@ -15,19 +15,22 @@ import {
 
 import "./css/Common.css";
 import "./css/Event.css";
-import { EventInfo } from "../model";
+import { Event } from "../model";
 
 const EventList: React.FC = () => {
-  const [data, setData] = useState<EventInfo[]>([]);
+  const [data, setData] = useState<Event[]>([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
 
   useEffect(() => {
     (async function () {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/app/event`);
+      const res = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/app/event/?category_id=3`
+      );
       const result = await res.json();
 
       setData(result.events);
+      console.log(result.events);
     })();
   }, []);
 
@@ -48,7 +51,7 @@ const EventList: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/tab/home" />
           </IonButtons>
-          <IonTitle className="title">Event List</IonTitle>
+          <IonTitle className="title">Hackathon Event List</IonTitle>
         </IonToolbar>
         <IonToolbar>
           <div className="searchbarContainer">
