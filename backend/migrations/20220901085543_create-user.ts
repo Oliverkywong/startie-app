@@ -8,7 +8,7 @@ export async function up(knex: Knex): Promise<void> {
       table.string("password").notNullable();
       table.string("email").unique().notNullable();
       table.string("phonenumber");
-      table.boolean("isAdmin").notNullable().defaultTo(false);
+      table.boolean("isadmin").notNullable().defaultTo(false);
       table.integer("status_id").unsigned().notNullable();
       table.foreign("status_id").references("status.id");
       table.text("profilepic");

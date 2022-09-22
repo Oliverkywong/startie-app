@@ -7,6 +7,7 @@ import fs from "fs";
 import { Bearer } from "permit";
 import * as jose from "jose";
 import { josePublicKey } from "../jose";
+import { logger } from "./logger";
 
 // -------------------------------------------------------------------------------------------------------------------
 // JWT Bearer
@@ -23,29 +24,20 @@ export const isLogin = async (
   next: express.NextFunction
 ) => {
   try {
+    const jwt = permit.check(req);
 
-    // console.log("req.headers:",req);
-    //@ts-ignore
-    const jwt = permit.check(req) 
-    // != undefined? permit.check(req): req.session['jwt'] //receive token from redux
-    // console.log('redux:'jwt));
-
-    // console.log("session:",req.session);
-    // console.log('session:',req.session);
-    // console.log("session jwt:",req.session['jwt']);
-    
     console.log("jwt:", jwt);
-    
+
     const publicKey = await josePublicKey();
-    const {payload }= await jose.jwtVerify(jwt, publicKey); //use the public key to verify the token
+    const { payload } = await jose.jwtVerify(jwt, publicKey); //use the public key to verify the token
 
     // console.log('payload:',payload);
-    
+
     if (payload["userId"]) {
       req.user = {
         userId: payload["userId"] as number,
         username: payload["username"] as string,
-      };      
+      };
       next();
     } else {
       res.status(401).json({ result: false, msg: "Unauthorized" });
@@ -60,17 +52,31 @@ export const isLogin = async (
 };
 
 // -------------------------------------------------------------------------------------------------------------------
-// check if the user is Board of the team
+// check if the current user is Admin
 // -------------------------------------------------------------------------------------------------------------------
-export const isBoard = async (
+export const isAdmin = async (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
 ) => {
-  if (true) {
-    next();
-  } else {
-    res.redirect("/");
+  try {
+    const jwt = permit.check(req);
+    const publicKey = await josePublicKey();
+    const { payload } = await jose.jwtVerify(jwt, publicKey);
+
+    if (payload["isadmin"]) {
+      req.user = {
+        userId: payload["userId"] as number,
+        username: payload["username"] as string,
+        isadmin: true as boolean
+      };
+      next();
+    } else {
+      res.status(401).json({ result: false, msg: "The user is not Admin" });
+    }
+  } catch (e) {
+    logger.error(e);
+    res.status(500).json({ result: false, msg: "check admin role fail" });
   }
 };
 
@@ -84,7 +90,6 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 export const form = formidable({
-
   uploadDir: uploadDir,
   keepExtensions: true,
   multiples: true,

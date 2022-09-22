@@ -10,21 +10,22 @@ export class EventController {
   // -------------------------------------------------------------------------------------------------------------------
   // create event ✅
   // -------------------------------------------------------------------------------------------------------------------
-  createEvent = async (req: Request, res: Response) => { //!!!!!!! add searchcategory!!!
+  createEvent = async (req: Request, res: Response) => {
     try {
-      const { name, description, maxteammember, profilepic, starttime } =
-        req.body;
+      const { name, description, maxteammember, profilepic, starttime, category_id } = req.body;
+
       const event = await this.eventService.createEvent(
         name,
         description,
         maxteammember,
         profilepic,
-        starttime
+        starttime,
+        category_id
       );
       res.status(200).json(event);
     } catch (err) {
       logger.error(err);
-      res.status(500).json({ result: false, msg: "creatEvent fail" });
+      res.status(500).json({ result: false, msg: "create Event fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------

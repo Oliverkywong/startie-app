@@ -107,10 +107,8 @@ export class UserService {
     }
 
     if (
-      !(
-        username === userRecord[0].username &&
-        (await checkPassword(password, userRecord[0].password))
-      )
+      !(username === userRecord[0].username &&
+        (await checkPassword(password, userRecord[0].password)))
     ) {
       throw new UserPasswordMissMatchError();
     }
@@ -135,7 +133,7 @@ export class UserService {
   async getAllUser(input:UserListInput, show?: boolean): Promise<UserListData>  {
 
     let query = this.knex<User>("user")
-    .select("user.id", "username", "email", "phonenumber", "s.name as status", this.knex.raw('ARRAY_AGG(distinct t.name) as tags'), "description", "shortDescription", "profilepic", "clickrate", "created_at")
+    .select("user.id", "username", "email", "phonenumber","isadmin", "s.name as status", this.knex.raw('ARRAY_AGG(distinct t.name) as tags'), "description", "shortDescription", "profilepic", "clickrate", "created_at")
     .join("status as s", "status_id", "s.id")
     .leftJoin("user_tag", "user.id", "user_tag.user_id")
     .join("tag as t", "user_tag.tag_id", "t.id")
@@ -182,6 +180,7 @@ export class UserService {
     const userRecord = await this.knex<User>("user")
       .update({
         profilepic: input.profilepic,
+        isadmin: input.isadmin,
         phonenumber: input.phonenumber,
         description: input.description,
         status_id: input.status_id

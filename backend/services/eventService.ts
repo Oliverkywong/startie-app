@@ -1,6 +1,5 @@
 import { Knex } from "knex";
 import { EventListData, EventListInput } from "../utils/api-types";
-import { logger } from "../utils/logger";
 import { Event } from "../utils/model";
 
 export class EventService {
@@ -14,9 +13,9 @@ export class EventService {
     description: string,
     maxteammember: number,
     profilepic: string,
-    starttime: Date
+    starttime: Date,
+    searchcategory_id: number,
   ) {
-    try {
       const eventInfo = await this.knex<Event>("event")
         .insert({
           name: EventName,
@@ -24,16 +23,13 @@ export class EventService {
           maxteammember: maxteammember,
           profilepic: profilepic,
           starttime: starttime,
+          searchcategory_id: searchcategory_id,
           status_id: 1,
         })
         .into("event")
         .returning("*");
 
       return eventInfo;
-    } catch (err) {
-      logger.error(err);
-      throw err;
-    }
   }
   // -------------------------------------------------------------------------------------------------------------------
   // get All Events ✅
@@ -80,8 +76,8 @@ export class EventService {
       if (input.maxteammember) {
         query = query.where("maxteammember", "<=", `${input.maxteammember}`);
       }
-      if (input.category_id) {
-        query = query.where("searchcategory.id", "=", `${input.category_id}`);
+      if (input.searchcategory_id) {
+        query = query.where("searchcategory.id", "=", `${input.searchcategory_id}`);
       }
       if (show) {
         query = query.orderBy('id', 'asc')
@@ -107,12 +103,16 @@ export class EventService {
     "maxteammember",
     "event_provider.name AS provider_name",
     "event_provider.profile_pic as event_provider_profile_pic",
+    "status.name as status",
+    "event.status_id",
+    "event.searchcategory_id",
     "starttime",
     "event.profilepic as event_profilepic",
     "clickrate",
     "event.created_at")
     .innerJoin("searchcategory", "event.searchcategory_id", "searchcategory.id")
     .innerJoin("event_provider", "event_provider.id", "event.event_provider_id")
+    .innerJoin("status", "status_id", "status.id")
     .where("event.id", id);
   }
 
@@ -122,11 +122,13 @@ export class EventService {
   async updateEventForAdmin(eventId: number, input: EventListInput) {
     const eventInfo = await this.knex<Event>("event")
       .update({
-        name: input.name,
+        event_name: input.name,
         description: input.description,
         maxteammember: input.maxteammember,
         profilepic: input.profilepic,
         status_id: input.status_id,
+        searchcategory_id: input.searchcategory_id,
+        shortDescription: input.shortDescription,
       })
       .where("id", eventId)
       .returning("*");
