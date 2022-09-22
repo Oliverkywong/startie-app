@@ -32,7 +32,6 @@ const EventDetail: React.FC = () => {
       );
       const item = await res.json();
       setData([item]);
-      console.log(item);
     })();
   }, []);
 
