@@ -92,8 +92,8 @@ const EventList: React.FC = () => {
                     }
                     style={{ width: "10%", height: "10%" }}
                   />
-                  <div className="">
-                    <p className="eventDescription">{item.description}</p>
+                  <div>
+                    <p className="eventDescription">{item.shortDescription}</p>
                     <p className="eventDate">Due: {item.starttime}</p>
                   </div>
                 </div>

@@ -85,6 +85,7 @@ const Homepage: React.FC = () => {
       const teamResult = await teamRes.json();
 
       setTeamData(teamResult.teams.rows); // remove .teams.rows after backend fix
+      console.log(teamResult.teams.rows);
 
       const eventRes = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/app/event`,
@@ -315,7 +316,7 @@ const Homepage: React.FC = () => {
                       </IonCardTitle>
 
                       <IonCardContent className="teamContent">
-                        {item.description}
+                        {item.shortDescription}
                       </IonCardContent>
 
                       <div className="tag">
