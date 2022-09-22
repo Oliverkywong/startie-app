@@ -67,7 +67,7 @@ export class UserController {
         jwt: jwt,
       });
     } catch (err) {
-      res.json({ result: false, msg: "google login error" });
+      res.status(500).json({ result: false, msg: "google login error" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -152,7 +152,7 @@ export class UserController {
       }
 
       logger.error(err);
-      return res.status(500).json({ result: false, msg: "login error" });
+      return res.status(500).json({ result: false, msg: "login fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------

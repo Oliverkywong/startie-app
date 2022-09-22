@@ -3,6 +3,7 @@ export interface User {
   username: string;
   password: string;
   email: string;
+  isadmin: boolean
   status_id: number | string;
   profilepic: string;
   phonenumber: string | number;
@@ -37,12 +38,21 @@ export interface Job {
 
 export interface Event {
   id: number;
-  name: string;
+  event_name?: string;
+  name?:string;
   description?: string;
+  provider_name?: string;
+  shortDescription?: string;
   maxteammember: number | string;
   profilepic?: string;
   starttime: Date | string;
   status_id: number | string;
   clickrate: number;
+  searchcategory_id: number | string,
 }
 
+export interface Event_Provider {
+  id: number;
+  name: string;
+  profile_pic?: string;
+}
