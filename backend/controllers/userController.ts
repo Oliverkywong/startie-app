@@ -60,14 +60,14 @@ export class UserController {
         .setExpirationTime("24h")
         .sign(ecPrivateKey);
 
-       res.status(200).json({
+      res.status(200).json({
         result: true,
         msg: "google login success",
         user: user,
         jwt: jwt,
       });
     } catch (err) {
-       res.json({ result: false, msg: "google login error" });
+      res.json({ result: false, msg: "google login error" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -82,28 +82,22 @@ export class UserController {
       let email: string = req.body.email.trim();
 
       await this.userService.register(username, password, email);
-       res.status(200).json({ result: true, msg: "register success" });
+      res.status(200).json({ result: true, msg: "register success" });
     } catch (err) {
       if (err instanceof UserDuplicateUsernameError) {
-         res
-          .status(500)
-          .json({ result: false, msg: "username already exists" });
+        res.status(500).json({ result: false, msg: "username already exists" });
       }
 
       if (err instanceof UserDuplicateEmailError) {
-         res
-          .status(500)
-          .json({ result: false, msg: "email already exists" });
+        res.status(500).json({ result: false, msg: "email already exists" });
       }
 
       if (err instanceof UserMissingRegisterInfoError) {
-         res
-          .status(500)
-          .json({ result: false, msg: "missing register info" });
+        res.status(500).json({ result: false, msg: "missing register info" });
       }
 
       logger.error(err);
-       res.status(500).json({ result: false, msg: "register error" });
+      res.status(500).json({ result: false, msg: "register error" });
     }
   };
 
@@ -181,14 +175,13 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   userInfo = async (req: express.Request, res: express.Response) => {
     try {
-      let userId = req.user!.userId // get userId from JWT
+      let userId = req.user!.userId; // get userId from JWT
 
       const userInfo = await this.userService.userInfo(userId);
-       res.json(userInfo[0]);
-
+      res.json(userInfo[0]);
     } catch (err) {
       logger.error(err);
-       res.json({ result: false, msg: "Get user profile fail" });
+      res.json({ result: false, msg: "Get user profile fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -201,10 +194,10 @@ export class UserController {
       console.log("userId", userId);
 
       const userInfo = await this.userService.userInfo(userId);
-       res.json(userInfo[0]);
+      res.json(userInfo[0]);
     } catch (err) {
       logger.error(err);
-       res.json({ result: false, msg: "Get user profile fail" });
+      res.json({ result: false, msg: "Get user profile fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -228,7 +221,7 @@ export class UserController {
   getAllUserForAdmin = async (req: express.Request, res: express.Response) => {
     try {
       let input: UserListInput = req.query;
-      
+
       let show = true;
       let json = await this.userService.getAllUser(input, show);
 
@@ -246,8 +239,7 @@ export class UserController {
   editUser = async (req: express.Request, res: express.Response) => {
     try {
       form.parse(req, async (err, fields, files) => {
-       
-        const userId = req.user!.userId  //get userId from JWT
+        const userId = req.user!.userId; //get userId from JWT
 
         const userInfos = await this.userService.userInfo(userId);
         let oldProfilepic = userInfos[0].profilepic;
@@ -276,7 +268,7 @@ export class UserController {
           newDescription
         );
 
-      res.json({
+        res.json({
           result: true,
           msg: "Edit user profile success",
           userInfo,
@@ -285,8 +277,8 @@ export class UserController {
     } catch (err) {
       logger.error(err);
       res.status(500).json({ result: false, msg: "edit user fail" });
+    }
   };
-}
   // -------------------------------------------------------------------------------------------------------------------
   // Edit User for React Admin
   // -------------------------------------------------------------------------------------------------------------------
@@ -296,22 +288,20 @@ export class UserController {
 
       console.log("edit User", userId);
 
-      const input:UserListInput = req.body;
+      const input: UserListInput = req.body;
 
       console.log(req.body);
 
-      const userInfo = await this.userService.editUserForAdmin(
-        userId,
-        input
-      );
+      const userInfo = await this.userService.editUserForAdmin(userId, input);
 
-       res.status(200).json({ //for react admin, otherwise dataProvider will throw error
+      res.status(200).json({
+        //for react admin, otherwise dataProvider will throw error
         id: userInfo[0].id,
-        data:userInfo[0]
+        data: userInfo[0],
       });
     } catch (err) {
       logger.error(err);
-       res.status(500).json({ error: String(err) });
+      res.status(500).json({ error: String(err) });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -383,10 +373,10 @@ export class UserController {
           ? Number(req.user.userId)
           : parseInt(req.params.id);
       const team = await this.userService.checkTeam(userId);
-       res.json(team);
+      res.json(team);
     } catch (err) {
       logger.error(err);
-       res.status(400).json({ result: false, msg: "get team fail" });
+      res.status(400).json({ result: false, msg: "get team fail" });
     }
   };
 
@@ -399,7 +389,9 @@ export class UserController {
       const teamId = req.params.teamid;
       const NumberTeamId = parseInt(teamId);
       const team = await this.userService.joinTeam(NumberTeamId, userId);
-      res.status(200).json(team); // json must pass result:true, otherwise inform michael
+      res
+        .status(200)
+        .json({ result: true, msg: "join team success!!", team: team }); // json must pass result:true, otherwise inform michael
     } catch (err) {
       logger.error(err);
       res.status(400).json({ result: false, msg: "join team fail" });
@@ -415,10 +407,10 @@ export class UserController {
       const NumberUserId = parseInt(userId);
       const NumberTeamId = parseInt(teamId);
       const team = await this.userService.quitTeam(NumberUserId, NumberTeamId);
-       res.json(team);
+      res.json(team);
     } catch (err) {
       logger.error(err);
-       res.status(400).json({ result: false, msg: "guit team fail" });
+      res.status(400).json({ result: false, msg: "guit team fail" });
     }
   };
 
@@ -428,11 +420,13 @@ export class UserController {
       const eventId = req.params.id;
       const NumberEventId = parseInt(eventId);
       const event = await this.userService.joinEvent(NumberEventId, userId);
-      res.status(200).json({ result: true, event });
+      res
+        .status(200)
+        .json({ result: true, msg: "join event success!!", event: event }); //for frontend toast box
       console.log("joinEvent", event);
     } catch (err) {
       logger.error(err);
-      res.status(400).json({ result: false, msg: "join event fail" });
+      res.status(400).json({ result: false, msg: "join event fail!!" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -446,10 +440,10 @@ export class UserController {
           : parseInt(req.params.id);
       // console.log("userId", userId);
       const notification = await this.userService.getNotification(userId);
-       res.json(notification);
+      res.json(notification);
     } catch (err) {
       logger.error(err);
-       res.json({ result: false, msg: "Get notification fail" });
+      res.json({ result: false, msg: "Get notification fail" });
     }
   };
 }
