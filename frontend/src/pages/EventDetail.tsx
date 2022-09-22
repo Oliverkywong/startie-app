@@ -12,7 +12,7 @@ import { useIonToast } from "@ionic/react";
 import "./css/Event.css";
 import "./css/EventDetail.css";
 import "./css/Common.css";
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { EventInfo } from "../model";
 import { useRouteMatch } from "react-router-dom";
 
@@ -26,7 +26,7 @@ const EventDetail: React.FC = () => {
 
   let match = useRouteMatch<{ id: string }>("/tab/event/:id");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     (async function () {
       const res = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/event/${match?.params.id}`

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { IonContent, IonPage, IonProgressBar } from "@ionic/react";
 import zxcvbn from "zxcvbn";
 
@@ -20,7 +20,7 @@ export default function PasswordComplexity(props: { password: string }) {
   const isUppercase = /[A-Z]/;
   const isSymbol = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setPasswordvalid({
       minLength: props.password.length >= 8,
       minLowercase: !!isLowercase.exec(props.password),

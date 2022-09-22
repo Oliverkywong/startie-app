@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import {
   IonPage,
   IonHeader,
@@ -15,14 +15,14 @@ import {
 
 import "./css/Common.css";
 import "./css/Event.css";
-import { Event } from "../model";
+import { EventInfo } from "../model";
 
 const EventList: React.FC = () => {
-  const [data, setData] = useState<Event[]>([]);
+  const [data, setData] = useState<EventInfo[]>([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     (async function () {
       const res = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/app/event/?category_id=2`
@@ -30,7 +30,6 @@ const EventList: React.FC = () => {
       const result = await res.json();
 
       setData(result.events);
-      console.log(result.events);
     })();
   }, []);
 

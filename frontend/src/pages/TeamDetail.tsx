@@ -10,7 +10,7 @@ import {
 } from "@ionic/react";
 import "./css/TeamDetail.css";
 import "./css/Common.css";
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { useRouteMatch } from "react-router";
 import { TeamData, TeamMember } from "../model";
 
@@ -24,7 +24,7 @@ const TeamDetail: React.FC = () => {
 
   let match = useRouteMatch<{ id: string }>("/tab/team/:id");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     (async function () {
       const res = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/team/${match?.params.id}`

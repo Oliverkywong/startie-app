@@ -14,12 +14,23 @@ import {
   useIonRouter,
 } from "@ionic/react";
 import React from "react";
+import { UserInfo } from "../model";
 import { logOut } from "../redux/auth/action";
+import { loadUserInfo } from "../redux/userInfo/action";
 import { useAppDispatch } from "../store";
 
 const UserSettings: React.FC = () => {
   const dispatch = useAppDispatch();
   const router = useIonRouter();
+
+  const initialState: UserInfo = {
+      id: 0,
+      username: "dummy",
+      profilepic: null,
+      description: "testing",
+      tags: ["dummytag", "dummytag2"],
+  };
+
   return (
     <IonPage>
       <IonHeader>
@@ -27,36 +38,11 @@ const UserSettings: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/tab/profile" />
           </IonButtons>
-          <IonTitle>User Settings</IonTitle>
+          <IonTitle>User Account</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonList>
-          <IonItem>
-            <IonToggle checked={true} onIonChange={(e) => false} />
-            <IonLabel>New Post</IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonToggle checked={true} onIonChange={(e) => false} />
-            <IonLabel>New Call</IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonToggle checked={true} onIonChange={(e) => false} />
-            <IonLabel>New Hired</IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonToggle checked={true} onIonChange={(e) => false} />
-            <IonLabel>Reject</IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonToggle checked={true} onIonChange={(e) => false} />
-            <IonLabel>New Post</IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonToggle checked={true} onIonChange={(e) => false} />
-            <IonLabel>New Post</IonLabel>
-          </IonItem>
-        </IonList>
+        <div className="setting">
         <IonButton color="danger" onClick={() => {}}>
           Delect Account
         </IonButton>
@@ -64,12 +50,14 @@ const UserSettings: React.FC = () => {
           color="danger"
           onClick={() => {
             dispatch(logOut());
+            dispatch(loadUserInfo(initialState))
             // window.location.replace("/login");
             router.push("/tab/home");
           }}
         >
           Log Out
         </IonButton>
+        </div>
       </IonContent>
     </IonPage>
   );

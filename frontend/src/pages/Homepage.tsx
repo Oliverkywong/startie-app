@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import {
   IonContent,
   IonImg,
@@ -48,7 +48,7 @@ const Homepage: React.FC = () => {
   const userdetails = useAppSelector(
     (state: RootState) => state.userInfo.userinfo
   );
-  const isLogin = useAppSelector((state: RootState) => state.auth.loggedIn);
+  let isLogin = useAppSelector((state: RootState) => state.auth.loggedIn);
   const [teamData, setTeamData] = useState<Team[]>([]);
   const [eventData, setEventData] = useState<EventInfo[]>([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
@@ -65,11 +65,13 @@ const Homepage: React.FC = () => {
     }, 500);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     (async function () {
       const localtoken = localStorage.getItem("token");
       if (localtoken === null) {
         dispatch(logOut());
+      }else{
+        isLogin = true;
       }
       console.log(localtoken);
       console.log(isLogin);
@@ -116,7 +118,7 @@ const Homepage: React.FC = () => {
     })();
   }, []);
 
-  // useEffect(() => {
+  // useLayoutEffect(() => {
   //   (async function () {
   //     const teamRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`);
   //     const teamResult = await teamRes.json();
@@ -138,7 +140,7 @@ const Homepage: React.FC = () => {
   //   })();
   // }, []);
 
-  // useEffect(() => {
+  // useLayoutEffect(() => {
   //   (async function () {
   //     const eventRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/event`);
   //     const eventResult = await eventRes.json();
@@ -169,9 +171,7 @@ const Homepage: React.FC = () => {
           <IonButtons slot="start">
             <IonButton
               onClick={() => {
-                isLogin
-                  ? router.push("/tab/profile")
-                  : router.push("/tab/login");
+                isLogin ? router.push("/tab/profile") : router.push("/tab/login");
               }}
             >
               <IonImg

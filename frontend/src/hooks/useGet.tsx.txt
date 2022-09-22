@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useLayoutEffect, useState } from "react";
 import { API_ORIGIN } from "../utils/api";
 
 
@@ -31,7 +31,7 @@ export function useGet<T>(url:string){
         return renderFn(data)
     }
 
-    useEffect(()=>{
+    useLayoutEffect(()=>{
         getData()
     },[getData])
 
