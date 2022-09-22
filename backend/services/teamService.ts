@@ -63,7 +63,7 @@ export class TeamService {
     }
     if (input.status_id) {
       // let i = binding.length +1 // // method for preventing sql injection
-      query += /*SQL*/ `s.name ILIKE ${input.status_id} AND `
+      query += /*SQL*/ `s.name = '${input.status_id}' AND `
     }
     if (input.name) {
       query += /*SQL*/ `t.name ILIKE '%${input.name}%' AND `
