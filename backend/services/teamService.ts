@@ -45,6 +45,7 @@ export class TeamService {
     s2.name AS category,
     array_agg(DISTINCT u.username) AS users,
     t.description, 
+    t."shortDescription",
     array_agg(DISTINCT tag.name) AS tags,
     t.clickrate,
     t.profilepic 
@@ -63,13 +64,15 @@ export class TeamService {
     if (input.status_id) {
       // let i = binding.length +1 // // method for preventing sql injection
       query += /*SQL*/ `s.name ILIKE ${input.status_id} AND `
-      
     }
     if (input.name) {
       query += /*SQL*/ `t.name ILIKE '%${input.name}%' AND `
    }    
     if (input.description) {
       query += /*SQL*/ `t.description ILIKE '%${input.description}%' AND `
+    }
+    if (input.shortDescription) {
+      query += /*SQL*/ `t.shortDescription ILIKE '%${input.shortDescription}%' AND `
     }
     if (input.tags) {
       query += /*SQL*/ `array_agg(DISTINCT tag.name)::VARCHAR ILIKE '%${input.tags}%'` 
@@ -82,8 +85,6 @@ export class TeamService {
       query = query.slice(0, -7); // delete the "HAVING"
       query += /*SQL*/ ` ORDER BY clickrate DESC, t.id ASC`;
     }
-
-    // console.log(query);
     
      const teams = await this.knex.raw(query)
 

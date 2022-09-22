@@ -32,6 +32,7 @@ export type TeamListData = {
     category: string;
     users: string[];
     description: string;
+    shortDescription: string;
     tags: string[];
     clickrate: number;
     profilepic: string;
@@ -43,6 +44,7 @@ export type TeamListInput = {
   name?: string;
   q?: string;
   description?: string;
+  shortDescription?: string;
   tags?: number | string;
   status_id?: number | string;
 };
@@ -54,6 +56,7 @@ export type UserListData = {
     username: string;
     status: string;
     email: string;
+    shortDescription: string;
     description: string;
     profilepic: string;
     tags: string[];
@@ -66,6 +69,7 @@ export type UserListInput = {
   q?: string;
   email?: string;
   description?: string;
+  shortDescription?: string;
   phonenumber?: number | string;
   status_id?: number | string;
   profilepic?: string;
