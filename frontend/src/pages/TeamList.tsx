@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import {
   IonPage,
   IonHeader,
@@ -24,14 +24,14 @@ const TeamList: React.FC = () => {
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     (async function () {
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/app/team`);
       const result = await res.json();
       setFetchData(result.teams.rows);
-      setData(result.teams.rows.slice(0, 10));
+      setData(result.teams.rows.slice(i, i+10));
     })();
-  }, []);
+  }, [i]);
 
   let sliceData: Team[] = [];
 

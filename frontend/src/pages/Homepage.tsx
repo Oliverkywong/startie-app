@@ -68,11 +68,11 @@ const Homepage: React.FC = () => {
   useEffect(() => {
     (async function () {
       const localtoken = localStorage.getItem("token");
-      console.log(localtoken);
-      console.log(isLogin);
       if (localtoken === null) {
         dispatch(logOut());
       }
+      console.log(localtoken);
+      console.log(isLogin);
 
       const teamRes = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/app/team`,
