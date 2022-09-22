@@ -33,7 +33,7 @@ const Profile: React.FC = () => {
   const userdetails = useAppSelector(
     (state: RootState) => state.userInfo.userinfo
   );
-  // console.log(userdetails);
+  console.log(userdetails);
 
   const [stat, setStat] = React.useState(false);
   const [info, setInfo] = React.useState(true);
@@ -147,7 +147,7 @@ const Profile: React.FC = () => {
               <IonLabel>Account</IonLabel>
             </div>
           </div>
-          {info && <UserInfo description={userdetails?.description} />}
+          {info && <UserInfo description={userdetails?.description} phone={userdetails?.phonenumber}/>}
           {stat && <UserStats />}
           {team && <UserTeams team={userBelongsTeam} />}
           {setting && <UserSettings />}

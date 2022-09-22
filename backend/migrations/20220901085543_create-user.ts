@@ -11,6 +11,7 @@ export async function up(knex: Knex): Promise<void> {
       table.integer("status_id").unsigned().notNullable();
       table.foreign("status_id").references("status.id");
       table.text("profilepic");
+      table.text("shortDescription");
       table.text("description");
       table.integer("clickrate").unsigned().defaultTo(0);
       table.timestamps(false, true);
