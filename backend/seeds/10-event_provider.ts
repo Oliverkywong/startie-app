@@ -26,7 +26,7 @@ export async function seed(knex: Knex): Promise<void> {
   for (let i = 0; i < 20; i++) {
     await knex("event_provider").insert({
       name: `${faker.company.bs()}`,
-      profile_pic: `event_provider${Math.floor(Math.random() * 10) + 1}.jpeg`,
+      profile_pic: `team${Math.floor(Math.random() * 10) + 1}.jpeg`,
     });
   }
 }

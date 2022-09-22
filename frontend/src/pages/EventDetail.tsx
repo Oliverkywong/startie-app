@@ -87,20 +87,23 @@ const EventDetail: React.FC = () => {
                     : "StartieLogo.png"
                 }
               />
-              <IonImg
-                className="eventThumbnail"
-                src={
-                  item?.event_provider_profile_pic != null
-                    ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.event_provider_profile_pic}`
-                    : "StartieLogo.png"
-                }
-              />
               <h1 className="evenDetailTitle">{item.event_name}</h1>
               <p className="eventDetailDescription">{item.shortDescription}</p>
+              <p className="eventDetailDescription">{item.description}</p>
 
-              <div>
-                <p className="eventDetailDescription">{item.description}</p>
-                <p className="eventDetailDate">Due date: {item.starttime}</p>
+              <div className="eventData">
+                <IonImg
+                  src={
+                    item?.event_provider_profile_pic != null
+                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.event_provider_profile_pic}`
+                      : "StartieLogo.png"
+                  }
+                  style={{ width: "10%", height: "10%" }}
+                />
+                <div>
+                  <p className="eventDescription">{item.provider_name}</p>
+                  <p className="eventDate">Due date: {item.starttime}</p>
+                </div>
               </div>
             </div>
           );
