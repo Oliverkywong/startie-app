@@ -83,7 +83,7 @@ const Homepage: React.FC = () => {
         }
       );
       const teamResult = await teamRes.json();
-      
+
       setTeamData(teamResult.teams.rows); // remove .teams.rows after backend fix
 
       const eventRes = await fetch(
@@ -234,29 +234,57 @@ const Homepage: React.FC = () => {
 
         <IonLabel className="labelTitle">Catergories</IonLabel>
         <Swiper className="mySwiper" slidesPerView={4} loop={true}>
-          <SwiperSlide className="categoryElement">
-            <IonImg className="categoryIcon" src={catergorys.cat1.src} />
-            <IonLabel className="categoryLable">
-              {catergorys.cat1.title}
-            </IonLabel>
+          <SwiperSlide>
+            <div
+              className="categoryElement"
+              onClick={() => {
+                router.push(`/tab/event`);
+              }}
+            >
+              <IonImg className="categoryIcon" src={catergorys.cat1.src} />
+              <IonLabel className="categoryLable">
+                {catergorys.cat1.title}
+              </IonLabel>
+            </div>
           </SwiperSlide>
-          <SwiperSlide className="categoryElement">
-            <IonImg className="categoryIcon" src={catergorys.cat2.src} />
-            <IonLabel className="categoryLable">
-              {catergorys.cat2.title}
-            </IonLabel>
+          <SwiperSlide>
+            <div
+              className="categoryElement"
+              onClick={() => {
+                router.push(`/tab/event`);
+              }}
+            >
+              <IonImg className="categoryIcon" src={catergorys.cat2.src} />
+              <IonLabel className="categoryLable">
+                {catergorys.cat2.title}
+              </IonLabel>
+            </div>
           </SwiperSlide>
-          <SwiperSlide className="categoryElement">
-            <IonImg className="categoryIcon" src={catergorys.cat3.src} />
-            <IonLabel className="categoryLable">
-              {catergorys.cat3.title}
-            </IonLabel>
+          <SwiperSlide>
+            <div
+              className="categoryElement"
+              onClick={() => {
+                router.push(`/tab/event`);
+              }}
+            >
+              <IonImg className="categoryIcon" src={catergorys.cat3.src} />
+              <IonLabel className="categoryLable">
+                {catergorys.cat3.title}
+              </IonLabel>
+            </div>
           </SwiperSlide>
-          <SwiperSlide className="categoryElement">
-            <IonImg className="categoryIcon" src={catergorys.cat4.src} />
-            <IonLabel className="categoryLable">
-              {catergorys.cat4.title}
-            </IonLabel>
+          <SwiperSlide>
+            <div
+              className="categoryElement"
+              onClick={() => {
+                router.push(`/tab/event`);
+              }}
+            >
+              <IonImg className="categoryIcon" src={catergorys.cat4.src} />
+              <IonLabel className="categoryLable">
+                {catergorys.cat4.title}
+              </IonLabel>
+            </div>
           </SwiperSlide>
         </Swiper>
 

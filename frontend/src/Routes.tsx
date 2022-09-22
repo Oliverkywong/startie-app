@@ -32,9 +32,9 @@ import Notification from "./pages/Notification";
 import Recommend from "./pages/Recommend";
 import UserEdit from "./pages/UserEdit";
 import SocialLogin from "./pages/SocialLogin";
+import UserInfo from "./pages/UserInfo";
 
 export default function Routes() {
-
   const localtoken = localStorage.getItem("token");
 
   return (
@@ -71,16 +71,17 @@ export default function Routes() {
               <IonIcon icon={planetOutline} />
               <IonLabel>Team</IonLabel>
             </IonTabButton>
-            {
-              localtoken ? <IonTabButton tab="buildteam" href="/tab/buildteam">
+            {localtoken ? (
+              <IonTabButton tab="buildteam" href="/tab/buildteam">
                 <IonIcon icon={addCircleOutline} />
                 <IonLabel>Build Team</IonLabel>
-              </IonTabButton> :
-                <IonTabButton tab="login" href="/tab/login">
-                  <IonIcon icon={addCircleOutline} />
-                  <IonLabel>Build Team</IonLabel>
-                </IonTabButton>
-            }
+              </IonTabButton>
+            ) : (
+              <IonTabButton tab="login" href="/tab/login">
+                <IonIcon icon={addCircleOutline} />
+                <IonLabel>Build Team</IonLabel>
+              </IonTabButton>
+            )}
             <IonTabButton tab="event" href="/tab/event">
               <IonIcon icon={logoOctocat} />
               <IonLabel>Event</IonLabel>

@@ -221,7 +221,7 @@ export class UserController {
   getAllUserForAdmin = async (req: express.Request, res: express.Response) => {
     try {
       let input: UserListInput = req.query;
-      
+
       let show = true;
       let json = await this.userService.getAllUser(input, show);
 
@@ -292,18 +292,16 @@ export class UserController {
 
       console.log(req.body);
 
-      const userInfo = await this.userService.editUserForAdmin(
-        userId,
-        input
-      );
+      const userInfo = await this.userService.editUserForAdmin(userId, input);
 
-       res.status(200).json({ //for react admin, otherwise dataProvider will throw error
+      res.status(200).json({
+        //for react admin, otherwise dataProvider will throw error
         id: userInfo[0].id,
         data: userInfo[0],
       });
     } catch (err) {
       logger.error(err);
-       res.status(500).json({ error: String(err) });
+      res.status(500).json({ error: String(err) });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -428,7 +426,7 @@ export class UserController {
       console.log("joinEvent", event);
     } catch (err) {
       logger.error(err);
-      res.status(400).json({ result: false, msg: "join event fail" });
+      res.status(400).json({ result: false, msg: "join event fail!!" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
