@@ -29,6 +29,7 @@ const UserSettings: React.FC = () => {
       profilepic: null,
       description: "testing",
       tags: ["dummytag", "dummytag2"],
+      phonenumber: "1234567890",
   };
 
   return (

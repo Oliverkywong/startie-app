@@ -11,6 +11,7 @@ export async function seed(knex: Knex): Promise<void> {
       {
         name: "蘋果隊",
         room_id: 2,
+        shortDescription: "Test",
         description: "Test",
         status_id: 1,
         searchcategory_id: 1,
@@ -20,6 +21,7 @@ export async function seed(knex: Knex): Promise<void> {
       {
         name: "橙隊",
         room_id: 3,
+        shortDescription: "Leo only",
         description: "Leo only",
         status_id: 1,
         searchcategory_id: 2,
@@ -29,6 +31,7 @@ export async function seed(knex: Knex): Promise<void> {
       {
         name: "芒果隊",
         room_id: 4,
+        shortDescription: "Yeung only",
         description: "Yeung only",
         status_id: 1,
         searchcategory_id: 3,
@@ -38,6 +41,7 @@ export async function seed(knex: Knex): Promise<void> {
       {
         name: "Leo隊",
         room_id: 5,
+        shortDescription: "Leo again",
         description: "Leo again",
         status_id: 1,
         searchcategory_id: 5,
@@ -51,6 +55,7 @@ export async function seed(knex: Knex): Promise<void> {
     await knex("team").insert({
       name: faker.company.bs(),
       room_id: i + 6,
+      shortDescription: faker.lorem.sentence(3),
       description: faker.lorem.paragraph(),
       status_id: 1,
       searchcategory_id: Math.floor(Math.random() * 5) + 1,

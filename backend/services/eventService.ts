@@ -56,35 +56,35 @@ export class EventService {
         "created_at"
       )
       .join("status", "status_id", "status.id")
-      .join("searchcategory", "event.searchcategory_id", "searchcategory.id");
-
-    if (input.name) {
-      query = query.where("event.name", "ilike", `%${input.name}%`);
-    }
-    if (input.q) {
-      query = query.where("event.name", "ilike", `%${input.q}%`);
-    }
-    if (input.description) {
-      query = query.where("description", "ilike", `%${input.description}%`);
-    }
-    if (input.status_id) {
-      query = query.where("status.id", "=", `${input.status_id}`);
-    }
-    if (input.maxteammember) {
-      query = query.where("maxteammember", "<=", `${input.maxteammember}`);
-    }
-    if (input.category_id) {
-      query = query.where("searchcategory.id", "=", `${input.category_id}`);
-    }
-    if (show) {
-      query = query.orderBy("id", "asc");
-    } else {
-      query = query.orderBy("id", "asc").where("status_id", 1);
-    }
-
-    let events = await query;
-
-    return { events };
+      .join("searchcategory", "event.searchcategory_id", "searchcategory.id")
+  
+      if (input.name) {
+        query = query.where("event.name", "ilike", `%${input.name}%`);
+      }
+      if (input.q) {
+        query = query.where("event.name", "ilike", `%${input.q}%`);
+      }
+      if (input.description) {
+        query = query.where("description", "ilike", `%${input.description}%`);
+      }
+      if (input.status_id) {
+        query = query.where("status.id", "=", `${input.status_id}`);
+      }
+      if (input.maxteammember) {
+        query = query.where("maxteammember", "<=", `${input.maxteammember}`);
+      }
+      if (input.category_id) {
+        query = query.where("searchcategory.id", "=", `${input.category_id}`);
+      }
+      if (show) {
+        query = query.orderBy('id', 'asc')
+      } else {
+        query = query.orderBy('id', 'asc').where('status_id', 1)
+      }
+      
+      let events = await query
+      
+      return {events};
   }
 
   // -------------------------------------------------------------------------------------------------------------------

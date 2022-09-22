@@ -3,6 +3,7 @@ export interface UserInfo {
   username: string;
   profilepic: string | null;
   description: string;
+  phonenumber: string;
   tags: string[];
 }
 
