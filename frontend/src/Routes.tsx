@@ -33,6 +33,7 @@ import Notification from "./pages/Notification";
 import Recommend from "./pages/Recommend";
 import UserEdit from "./pages/UserEdit";
 import SocialLogin from "./pages/SocialLogin";
+import UserInfo from "./pages/UserInfo";
 
 export default function Routes() {
   return (
@@ -60,7 +61,7 @@ export default function Routes() {
             <Route exact path="/tab/team/:id" component={TeamDetail} />
 
             <Route exact path="/tab/event" component={EventList} />
-            <Route exact path="/tab/event/:id" component={EventDetail} />
+            <Route exact path="/tab/  event/:id" component={EventDetail} />
 
             <Route exact path="/tab/profile" component={Profile} />
             {/* <Route exact path="/tab/user/:id" component={User} /> */}
