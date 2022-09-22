@@ -173,8 +173,8 @@ export default function SearchPage() {
                 <img
                   className="eventThumbnail"
                   src={
-                    item?.profilepic != null
-                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                    item?.event_profilepic != null
+                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.event_profilepic}`
                       : "StartieLogo.png"
                   }
                 />
@@ -183,8 +183,8 @@ export default function SearchPage() {
                 <div className="eventData">
                   <IonImg
                     src={
-                      item?.profilepic != null
-                        ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                      item?.event_provider_profile_pic != null
+                        ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.event_provider_profile_pic}`
                         : "StartieLogo.png"
                     }
                     style={{ width: "10%", height: "10%" }}

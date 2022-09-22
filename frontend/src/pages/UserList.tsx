@@ -81,7 +81,7 @@ const UserList: React.FC = () => {
 
                   <p className="teamTitle">{item.username}</p>
 
-                  <p className="teamContent">{item.description}</p>
+                  <p className="teamContent">{item.shortDescription}</p>
 
                   <div className="tag">
                     {item.tags.map((tag) => {

@@ -11,6 +11,7 @@ export async function seed(knex: Knex): Promise<void> {
       {
         name: "Programming Contest",
         description: "Programming Contest",
+        shortDescription: "Programming",
         status_id: 1,
         starttime: new Date(),
         searchcategory_id: 4,
@@ -22,6 +23,7 @@ export async function seed(knex: Knex): Promise<void> {
       {
         name: "Investment Contest",
         description: "Test",
+        shortDescription: "shortDescription",
         status_id: 1,
         starttime: new Date(),
         searchcategory_id: 3,
@@ -33,6 +35,7 @@ export async function seed(knex: Knex): Promise<void> {
       {
         name: "Marketing Contest",
         description: "Test",
+        shortDescription: "shortDescription",
         status_id: 1,
         starttime: new Date(),
         searchcategory_id: 1,
@@ -48,6 +51,7 @@ export async function seed(knex: Knex): Promise<void> {
     await knex("event").insert({
       name: `${faker.name.jobArea()}${faker.company.bs()}`,
       description: faker.lorem.paragraph(),
+      shortDescription: faker.lorem.sentence(),
       status_id: 1,
       starttime: faker.date.between(
         "2022-10-01T00:00:00.000Z",

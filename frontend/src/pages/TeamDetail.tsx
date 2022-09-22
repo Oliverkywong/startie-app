@@ -86,6 +86,7 @@ const TeamDetail: React.FC = () => {
               />
 
               <h1 className="teamDetailTitle">{item.name}</h1>
+              <p className="teamDescription">{item.shortDescription}</p>
               <p className="teamDetailLookingFor">Looking for:</p>
               <div className="lookingForTag">
                 {tag.map((item) => {
@@ -122,7 +123,7 @@ const TeamDetail: React.FC = () => {
                 <div className="teamDetailCaption">
                   <p className="teamDetailMemeberUserName">{item.username}</p>
                   <p className="teamDetailMemeberUserDetail">
-                    {item.description}
+                    {item.shortDescription}
                   </p>
                 </div>
               </div>

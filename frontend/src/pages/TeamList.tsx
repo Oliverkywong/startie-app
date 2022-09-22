@@ -11,6 +11,8 @@ import {
   IonTitle,
   IonBackButton,
   useIonViewWillEnter,
+  IonCardContent,
+  IonCardTitle,
   IonIcon,
 } from "@ionic/react";
 
@@ -31,7 +33,7 @@ const TeamList: React.FC = () => {
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/app/team`);
       const result = await res.json();
       setFetchData(result.teams.rows);
-      setData(result.teams.rows.slice(i, i+10));
+      setData(result.teams.rows.slice(i, i + 10));
     })();
   }, [i]);
 
@@ -99,9 +101,12 @@ const TeamList: React.FC = () => {
                         : "https://www.w3schools.com/howto/img_avatar.png"
                     }
                   />
-                  <p className="teamTitle">{item.name}</p>
+                  <IonCardTitle className="teamTitle">{item.name}</IonCardTitle>
 
-                  <span className="teamContent">{item.description}</span>
+                  <IonCardContent className="teamContent">
+                    {" "}
+                    {item.shortDescription}
+                  </IonCardContent>
 
                   <span className="teamLookingFor">Looking for: </span>
 

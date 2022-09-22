@@ -49,14 +49,18 @@ export class EventService {
         "status.name as status",
         "searchcategory.name as category",
         "description",
+        "shortDescription",
         "maxteammember",
+        "event_provider.name",
+        "event_provider.profile_pic as event_provider_profile_pic",
         "starttime",
-        "event.profilepic",
+        "event.profilepic as event_profilepic",
         "clickrate",
-        "created_at"
+        "event.created_at"
       )
       .join("status", "status_id", "status.id")
       .join("searchcategory", "event.searchcategory_id", "searchcategory.id")
+      .join("event_provider", "event_provider.id", "event.event_provider_id")
   
       if (input.name) {
         query = query.where("event.name", "ilike", `%${input.name}%`);
@@ -66,6 +70,9 @@ export class EventService {
       }
       if (input.description) {
         query = query.where("description", "ilike", `%${input.description}%`);
+      }
+      if (input.shortDescription) {
+        query = query.where("shortDescription", "ilike", `%${input.shortDescription}%`);
       }
       if (input.status_id) {
         query = query.where("status.id", "=", `${input.status_id}`);

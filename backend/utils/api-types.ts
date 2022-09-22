@@ -5,6 +5,7 @@ export type EventListData = { //type of list of events for EventList of react ad
     status: string;
     category: string;
     description: string;
+    shortDescription: string;
     maxteammember: number;
     starttime: string;
     profilepic: string;
@@ -20,6 +21,7 @@ export type EventListInput = { //input query from react admin
   profilepic?: string;
   category_id?: number | string;
   description?: string;
+  shortDescription?: string;
   maxteammember?: number | string;
   status_id?: number | string;
 };
@@ -32,6 +34,7 @@ export type TeamListData = {
     category: string;
     users: string[];
     description: string;
+    shortDescription: string;
     tags: string[];
     clickrate: number;
     profilepic: string;
@@ -43,6 +46,7 @@ export type TeamListInput = {
   name?: string;
   q?: string;
   description?: string;
+  shortDescription?: string;
   tags?: number | string;
   status_id?: number | string;
 };
@@ -54,6 +58,7 @@ export type UserListData = {
     username: string;
     status: string;
     email: string;
+    shortDescription: string;
     description: string;
     profilepic: string;
     tags: string[];
@@ -66,6 +71,7 @@ export type UserListInput = {
   q?: string;
   email?: string;
   description?: string;
+  shortDescription?: string;
   phonenumber?: number | string;
   status_id?: number | string;
   profilepic?: string;
