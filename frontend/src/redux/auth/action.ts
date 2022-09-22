@@ -14,7 +14,9 @@ export function loggedIn(info: UserInfo ,token: string) {
 
 export function loggedOut() {
     return {
-        type: '@@auth/LOGGED_OUT' as const
+        type: '@@auth/LOGGED_OUT' as const,
+        userinfo: null,
+        token: null
     }
 }
 

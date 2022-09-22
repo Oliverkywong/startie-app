@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 
 import {
   Chart as ChartJS,
@@ -30,7 +30,7 @@ export default function UserStats() {
   const [skillPoint, setSkillPoint] = useState<number[]>([]);
   const router = useIonRouter();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     async function getAllSectorSkill() {
       const localtoken = localStorage.getItem("token");
       if (localtoken === null) {

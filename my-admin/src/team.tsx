@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import {
   List,
   Datagrid,
@@ -29,8 +29,8 @@ import {
 //     const [loading, setLoading] = React.useState(true);
 //     const [error, setError] = React.useState();
 
-//     React.useEffect(() => {
-//        console.log("useEffect");
+//     React.useLayoutEffect(() => {
+//        console.log("useLayoutEffect");
 
 //         const fetchTeam = async () => {
 //        let data:any= await dataProvider.getOne('team')

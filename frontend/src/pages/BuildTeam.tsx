@@ -9,7 +9,7 @@ import {
   IonToolbar,
   useIonRouter,
 } from "@ionic/react";
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import "./css/Common.css";
@@ -21,7 +21,7 @@ const BuildTeam: React.FC = () => {
   const router = useIonRouter();
   const [teamcategory, setTeamcategory] = useState<Tag[]>([]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     (async function () {
       const localtoken = localStorage.getItem("token");
       if (localtoken === null) {

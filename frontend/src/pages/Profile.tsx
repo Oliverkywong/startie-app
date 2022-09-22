@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import {
   IonBackButton,
   IonButtons,
@@ -43,7 +43,7 @@ const Profile: React.FC = () => {
 
   const router = useIonRouter();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     (async function () {
       const localtoken = localStorage.getItem("token");
       if (localtoken === null) {
@@ -144,7 +144,7 @@ const Profile: React.FC = () => {
               }}
             >
               <IonIcon icon={settingsOutline} />
-              <IonLabel>Settings</IonLabel>
+              <IonLabel>Account</IonLabel>
             </div>
           </div>
           {info && <UserInfo description={userdetails?.description} />}

@@ -11,7 +11,7 @@ import {
   IonButtons,
   IonImg,
 } from "@ionic/react";
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import logo from "../img/logo.png";
 import "./css/Notification.css";
 import { OneSignal } from '@awesome-cordova-plugins/onesignal';
@@ -20,7 +20,7 @@ import { Note } from "../model";
 const Notification: React.FC = () => {
   const [data, setData] = useState<Note[]>([]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     OneSignal.startInit('b2f7f966-d8cc-11e4-bed1-df8f05be55ba', '703322744261');
 
     OneSignal.inFocusDisplaying(OneSignal.OSInFocusDisplayOption.InAppAlert);
@@ -38,7 +38,7 @@ const Notification: React.FC = () => {
 
   
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     (async function () {
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/me/note`, {
         headers: {

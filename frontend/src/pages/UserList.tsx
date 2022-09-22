@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import {
   IonPage,
   IonHeader,
@@ -21,7 +21,7 @@ const UserList: React.FC = () => {
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     (async function () {
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/app/user`, {
         headers: {

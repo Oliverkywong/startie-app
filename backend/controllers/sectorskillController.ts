@@ -1,4 +1,3 @@
-import console from 'console'
 import express from 'express'
 import { SectorskillService } from '../services/sectorskillService'
 import { logger } from '../utils/logger'
@@ -10,7 +9,6 @@ export class SectorskillController {
 
     allSectorskill = async (req: express.Request, res: express.Response) => {
         try {
-            console.log(req.user)
             let user = req.user!.userId
             let sectorskill = await this.sectorskillService.getAllSectorSkill(user)
 
