@@ -34,7 +34,7 @@ import { RootState, useAppDispatch, useAppSelector } from "../store";
 import { logOut } from "../redux/auth/action";
 import { EffectCards } from "swiper";
 import { loadUserInfo } from "../redux/userInfo/action";
-import { Team, Event } from "../model";
+import { Team, EventInfo } from "../model";
 // import { useGet } from "../hooks/useGet";
 
 const catergorys = {
@@ -50,7 +50,7 @@ const Homepage: React.FC = () => {
   );
   const isLogin = useAppSelector((state: RootState) => state.auth.loggedIn);
   const [teamData, setTeamData] = useState<Team[]>([]);
-  const [eventData, setEventData] = useState<Event[]>([]);
+  const [eventData, setEventData] = useState<EventInfo[]>([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
   const dispatch = useAppDispatch();
