@@ -7,6 +7,7 @@ const initialState: userInfoState = {
     username: "dummy",
     profilepic: null,
     description: "testing",
+    tags: ["dummytag", "dummytag2"],
   },
   team: [],
 };

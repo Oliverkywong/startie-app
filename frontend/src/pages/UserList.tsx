@@ -81,11 +81,12 @@ const UserList: React.FC = () => {
 
                   <p className="teamTitle">{item.username}</p>
 
-                  <span className="teamContent">{item.description}</span>
+                  <p className="teamContent">{item.description}</p>
 
                   <div className="tag">
-                    <span>View</span>
-                    <span>View</span>
+                    {item.tags.map((tag) => {
+                      return <span key={tag}>{tag}</span>;
+                    })}
                   </div>
                 </div>
               </div>
