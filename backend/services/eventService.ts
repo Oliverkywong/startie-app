@@ -40,7 +40,10 @@ export class EventService {
   // -------------------------------------------------------------------------------------------------------------------
     async getAllEvents(input:EventListInput, show: boolean): Promise<EventListData> {
 
-      let query = this.knex<Event>("event").select("event.id", "event.name", "status.name as status", "description", "maxteammember", "starttime", "profilepic", "clickrate", "created_at").join("status", "status_id", "status.id");
+      let query = this.knex<Event>("event")
+      .select("event.id", "event.name", "status.name as status","searchcategory.name as category", "description", "maxteammember", "starttime", "event.profilepic", "clickrate", "created_at")
+      .join("status", "status_id", "status.id")
+      .join("searchcategory", "event.searchcategory_id", "searchcategory.id")
   
       if (input.name) {
         query = query.where("event.name", "ilike", `%${input.name}%`);
@@ -57,14 +60,16 @@ export class EventService {
       if (input.maxteammember) {
         query = query.where("maxteammember", "<=", `${input.maxteammember}`);
       }
+      if (input.category_id) {
+        query = query.where("category.id", "=", `${input.category_id}`);
+      }
       if (show) {
         query = query.orderBy('id', 'asc')
       } else {
         query = query.orderBy('id', 'asc').where('status_id', 1)
       }
-
+      
       let events = await query
-
       
       return {events};
   }
