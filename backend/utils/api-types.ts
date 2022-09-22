@@ -3,6 +3,7 @@ export type EventListData = { //type of list of events for EventList of react ad
     id: number;
     name: string;
     status: string;
+    category: string;
     description: string;
     maxteammember: number;
     starttime: string;
@@ -17,6 +18,7 @@ export type EventListInput = { //input query from react admin
   name?: string;
   q?: string;
   profilepic?: string;
+  category_id?: number | string;
   description?: string;
   maxteammember?: number | string;
   status_id?: number | string;
