@@ -9,17 +9,17 @@ export function userRoutes(userController: UserController) {
   userRoutes.post("/login/apple", userController.loginApple);
   userRoutes.post("/user", userController.register);
   userRoutes.post("/login", userController.login);
-  userRoutes.get("/app/user/:id", isLogin, userController.userInfo);
+  userRoutes.get("/app/user/:id", userController.userInfoById);
   userRoutes.get("/app/user", userController.getAllUser);
   userRoutes.post("/logout", isLogin, userController.logout);
   userRoutes.put("/app/user/:id", isLogin, userController.editUser); //need to add isLogin
-// -----------------------------------------------------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------------------------------------------------
   userRoutes.get("/user/me/team", isLogin, userController.checkTeam);
   userRoutes.post("/user/me/:teamid", isLogin, userController.joinTeam); //user join team
   userRoutes.delete("/user/me/:teamid", isLogin, userController.quitTeam); //user quit team
   userRoutes.post("/user/me/event/:id", isLogin, userController.joinEvent); //user join event
   userRoutes.get("/user/me/note", isLogin, userController.getNotification);
-// ----------------------------Admin Routes-------------------------------------------------------------------------------
+  // ----------------------------Admin Routes-------------------------------------------------------------------------------
   userRoutes.get("/user/:id", userController.userInfoForAdmin);
   userRoutes.put("/user/:id", isLogin, userController.editUserForAdmin);
   userRoutes.get("/user", userController.getAllUserForAdmin); //need to add isLogin

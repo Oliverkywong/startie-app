@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import {
   IonBackButton,
   IonButtons,
@@ -13,35 +13,24 @@ import {
   useIonRouter,
 } from "@ionic/react";
 
-import {
-  documentTextOutline,
-  pencil,
-  peopleOutline,
-  settingsOutline,
-  statsChart,
-} from "ionicons/icons";
+import { documentTextOutline, peopleOutline, statsChart } from "ionicons/icons";
 
 import "./css/Common.css";
 import "./css/Profile.css";
 import UserInfo from "./UserInfo";
 import UserStats from "./UserStats";
 import UserTeams from "./UserTeams";
-import UserSettings from "./UserSettings";
-import { RootState, useAppSelector } from "../store";
+import { useRouteMatch } from "react-router";
 
 const OtherUserProfile: React.FC = () => {
-  const userdetails = useAppSelector(
-    (state: RootState) => state.userInfo.userinfo
-  );
-  console.log(userdetails);
-
   const [stat, setStat] = React.useState(false);
   const [info, setInfo] = React.useState(true);
   const [team, setTeam] = React.useState(false);
-  const [setting, setSetting] = React.useState(false);
-  const [userBelongsTeam, setUserBelongsTeam] = React.useState([]);
-
+  const [data, setData] = useState<any>([]);
+  // const [userBelongsTeam, setUserBelongsTeam] = React.useState([]);
   const router = useIonRouter();
+
+  let match = useRouteMatch<{ id: string }>("/tab/user/:id");
 
   useLayoutEffect(() => {
     (async function () {
@@ -51,7 +40,7 @@ const OtherUserProfile: React.FC = () => {
       }
 
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/app/user/${userdetails?.id}`,
+        `${process.env.REACT_APP_BACKEND_URL}/user/${match?.params.id}`,
         {
           headers: {
             Authorization: `Bearer ${localtoken}`,
@@ -59,18 +48,19 @@ const OtherUserProfile: React.FC = () => {
         }
       );
 
-      console.log(res);
+      const data = await res.json();
+      setData([data]);
 
-      const selfTeam = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/me/team`,
-        {
-          headers: {
-            Authorization: `Bearer ${localtoken}`,
-          },
-        }
-      );
-      const userTeam = await selfTeam.json();
-      setUserBelongsTeam(userTeam);
+      // const selfTeam = await fetch(
+      //   `${process.env.REACT_APP_BACKEND_URL}/user/me/team`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${localtoken}`,
+      //     },
+      //   }
+      // );
+      // const userTeam = await selfTeam.json();
+      // setUserBelongsTeam(userTeam);
     })();
   }, []);
 
@@ -85,77 +75,69 @@ const OtherUserProfile: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <div className="profile">
-          <div className="profilepicContainer">
-            <IonImg
-              className="profilepic"
-              src={
-                userdetails?.profilepic != null
-                  ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`
-                  : "https://www.w3schools.com/howto/img_avatar.png"
-              }
-            />
-          </div>
+        {data.map((item: any) => {
+          return (
+            <div key={item.id} className="profile">
+              <div className="profilepicContainer">
+                <IonImg
+                  className="profilepic"
+                  src={
+                    item?.profilepic != null
+                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                      : "https://www.w3schools.com/howto/img_avatar.png"
+                  }
+                />
+              </div>
 
-          <IonLabel className="uresname">
-            {userdetails?.username ? userdetails.username : "new user"}
-          </IonLabel>
+              <IonLabel className="uresname">
+                {item?.username ? item.username : "new user"}
+              </IonLabel>
 
-          <div className="profilebar">
-            <div
-              onClick={() => {
-                setInfo(false);
-                setStat(true);
-                setTeam(false);
-                setSetting(false);
-              }}
-            >
-              <IonIcon icon={statsChart} />
-              <IonLabel>Stats</IonLabel>
-            </div>
+              <div className="profilebar">
+                <div
+                  onClick={() => {
+                    setInfo(false);
+                    setStat(true);
+                    setTeam(false);
+                  }}
+                >
+                  <IonIcon icon={statsChart} />
+                  <IonLabel>Stats</IonLabel>
+                </div>
 
-            <div
-              onClick={() => {
-                setInfo(true);
-                setStat(false);
-                setTeam(false);
-                setSetting(false);
-              }}
-            >
-              <IonIcon icon={documentTextOutline} />
-              <IonLabel>Details</IonLabel>
-            </div>
+                <div
+                  onClick={() => {
+                    setInfo(true);
+                    setStat(false);
+                    setTeam(false);
+                  }}
+                >
+                  <IonIcon icon={documentTextOutline} />
+                  <IonLabel>Details</IonLabel>
+                </div>
 
-            <div
-              onClick={() => {
-                setInfo(false);
-                setStat(false);
-                setTeam(true);
-                setSetting(false);
-              }}
-            >
-              <IonIcon icon={peopleOutline} />
-              <IonLabel>My Teams</IonLabel>
+                <div
+                  onClick={() => {
+                    setInfo(false);
+                    setStat(false);
+                    setTeam(true);
+                  }}
+                >
+                  <IonIcon icon={peopleOutline} />
+                  <IonLabel>My Teams</IonLabel>
+                </div>
+              </div>
+              {info && (
+                <UserInfo
+                  description={item?.description}
+                  phone={item?.phonenumber}
+                />
+              )}
+              {stat && <UserStats />}
+              {/* {team && <UserTeams team={userBelongsTeam} />} */}
             </div>
-            <div
-              onClick={() => {
-                router.push("/settings");
-              }}
-            >
-              <IonIcon icon={settingsOutline} />
-              <IonLabel>Account</IonLabel>
-            </div>
-          </div>
-          {info && (
-            <UserInfo
-              description={userdetails?.description}
-              phone={userdetails?.phonenumber}
-            />
-          )}
-          {stat && <UserStats />}
-          {team && <UserTeams team={userBelongsTeam} />}
-          {setting && <UserSettings />}
-        </div>
+          );
+        })}
       </IonContent>
     </IonPage>
   );

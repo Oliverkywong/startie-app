@@ -185,6 +185,19 @@ export class UserController {
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
+  // get user Info by userId
+  // -------------------------------------------------------------------------------------------------------------------
+  userInfoById = async (req: express.Request, res: express.Response) => {
+    try {
+      let userId = parseInt(req.params.id);
+      const userInfo = await this.userService.userInfo(userId);
+      res.json(userInfo[0]);
+    } catch (err) {
+      logger.error(err);
+      res.json({ error: String(err) });
+    }
+  };
+  // -------------------------------------------------------------------------------------------------------------------
   // get user Info by Admin
   // -------------------------------------------------------------------------------------------------------------------
   userInfoForAdmin = async (req: express.Request, res: express.Response) => {
