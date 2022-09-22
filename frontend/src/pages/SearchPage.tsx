@@ -1,55 +1,64 @@
 import {
   IonPage,
   IonHeader,
-  IonSearchbar,
   IonButtons,
   useIonRouter,
   IonButton,
   IonToolbar,
-  IonLabel,
   IonContent,
   IonIcon,
-  IonChip,
-  IonImg,
-  IonList,
   IonBackButton,
-  IonTitle,
   IonCard,
   IonCardContent,
   IonCardTitle,
   IonCol,
+  IonItem,
+  IonLabel,
+  IonSegment,
+  IonSegmentButton,
+  IonImg,
 } from "@ionic/react";
 import { search } from "ionicons/icons";
 import { useState } from "react";
-import { Team } from "../model";
-// import { flameOutline, trashOutline } from "ionicons/icons";
-// import React from "react";
-// import { Swiper, SwiperSlide } from "swiper/react";
-// import cat1 from "../img/cat1.png";
-// import cat2 from "../img/cat2.png";
-// import cat3 from "../img/cat3.png";
-// import "swiper/css";
-
-  // const catergorys = {
-  //   cat1: { src: cat1, title: "NFT Team" },
-  //   cat2: { src: cat2, title: "Business Team" },
-  //   cat3: { src: cat3, title: "Insevment Team" },
-  // };
+import { Team, UserInfo, EventInfo } from "../model";
 export default function SearchPage() {
 
   const router = useIonRouter();
   const [searchText, setSearchText] = useState("");
-  const [data, setData] = useState<Team[]>([]);
+  const [userdata, setUserData] = useState<UserInfo[]>([]);
+  const [teamdata, setTeamData] = useState<Team[]>([]);
+  const [eventdata, setEventData] = useState<EventInfo[]>([]);
+  const [user, setUser] = useState(true); 
+  const [team, setTeam] = useState(false);
+  const [event, setEvent] = useState(false);  
 
-  const searchfetch = async (e:{target: {value: string}}) => {
+  const searchfetch = async (e: { target: { value: string } }) => {
     setSearchText(e.target.value)
-    const res = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/team/?${searchText}`
+    const teamreq = searchText.replace(/[^a-zA-Z ]/g, "");
+    const teamres = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/app/team/?${teamreq}`
     );
-    const result = await res.json();
-    console.log(result);
-    setData(result);
-    // setData(result.events);
+    const teamresult = await teamres.json();
+    // console.log(teamresult);
+    setTeamData(teamresult.teams.rows);
+
+
+    const userreq = searchText.replace(/[^a-zA-Z ]/g, "");
+    const userres = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/app/user/?${userreq}`
+    );
+    const userresult = await userres.json();
+    // console.log(userresult.user);
+    setUserData(userresult.user);
+
+
+    const eventreq = searchText.replace(/[^a-zA-Z ]/g, "");
+    const eventres = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/app/event/?${eventreq}`
+    );
+    const eventresult = await eventres.json();
+    console.log(eventresult.events);
+    setEventData(eventresult.events);
   }
 
   return (
@@ -67,44 +76,129 @@ export default function SearchPage() {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-      <div className="teamList homePageTeamList">
-            {data.map((item) => {
-              return (
-                <IonCol key={item.id}>
-                  <div className="teamInfo">
-                    <IonCard
-                      className="teamCard"
-                      routerLink={`/tab/team/${item.id}`}
-                    >
-                      <img
-                        className="teamIcon"
-                        src={
-                          item?.profilepic != null
-                            ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
-                            : "https://www.w3schools.com/howto/img_avatar.png"
-                        }
-                      />
+        <IonSegment onIonChange={e => console.log('Segment selected', e.detail.value)}>
+          <IonSegmentButton value="User" onClick={()=>{setUser(true);setTeam(false);setEvent(false);}} >
+            <IonLabel>User</IonLabel>
+          </IonSegmentButton>
+          <IonSegmentButton value="Team" onClick={()=>{setUser(false);setTeam(true);setEvent(false);}} >
+            <IonLabel>Team</IonLabel>
+          </IonSegmentButton>
+          <IonSegmentButton value="Event" onClick={()=>{setUser(false);setTeam(false);setEvent(true);}} >
+            <IonLabel>Event</IonLabel>
+          </IonSegmentButton>
+        </IonSegment>
 
-                      <IonCardTitle className="teamTitle">
-                        {item.name}
-                      </IonCardTitle>
+        <IonItem>
+          <IonLabel>Search Results</IonLabel>
+        </IonItem>
 
-                      <IonCardContent className="teamContent">
-                        {item.description}
-                      </IonCardContent>
+        {user && <div className="teamList">
+          {userdata.map((item) => {
+            return (
+              <div className="teamInfo" key={item.id}>
+                <div
+                  className="teamCard"
+                  onClick={() => {
+                    router.push(`/app/user/${item.id}`);
+                  }}
+                >
+                  <img
+                    className="teamIcon"
+                    src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`}
+                  />
 
-                      <div className="tag">
-                        {item.tags.map((tag) => {
-                          return <span key={tag}>{tag}</span>;
-                        })}
-                      </div>
-                    </IonCard>
+                  <p className="teamTitle">{item.username}</p>
+
+                  <p className="teamContent">{item.description}</p>
+
+                  {/* <div className="tag">
+                    {item.tags.map((tag) => {
+                      return <span key={tag}>{tag}</span>;
+                    })}
+                  </div> */}
+                </div>
+              </div>
+            );
+          })}
+        </div>}
+
+        {team && <div className="teamList homePageTeamList">
+          {teamdata.map((item) => {
+            return (
+              <IonCol key={item.id}>
+                <div className="teamInfo">
+                  <IonCard
+                    className="teamCard"
+                    routerLink={`/tab/team/${item.id}`}
+                  >
+                    <img
+                      className="teamIcon"
+                      src={
+                        item?.profilepic != null
+                          ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                          : "https://www.w3schools.com/howto/img_avatar.png"
+                      }
+                    />
+
+                    <IonCardTitle className="teamTitle">
+                      {item.name}
+                    </IonCardTitle>
+
+                    <IonCardContent className="teamContent">
+                      {item.description}
+                    </IonCardContent>
+
+                    <div className="tag">
+                      {item.tags.map((tag) => {
+                        return <span key={tag}>{tag}</span>;
+                      })}
+                    </div>
+                  </IonCard>
+                </div>
+              </IonCol>
+            );
+          })}
+        </div>}
+
+        {event && <div className="eventContainer">
+          {eventdata.map((item) => {
+            return (
+              <div
+                className="eventinfo"
+                key={item.id}
+                onClick={() => {
+                  router.push(`event/${item.id}`);
+                }}
+              >
+                <img
+                  className="eventThumbnail"
+                  src={
+                    item?.profilepic != null
+                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                      : "StartieLogo.png"
+                  }
+                />
+
+                <p className="eventTitle">{item.name}</p>
+                <div className="eventData">
+                  <IonImg
+                    src={
+                      item?.profilepic != null
+                        ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                        : "StartieLogo.png"
+                    }
+                    style={{ width: "10%", height: "10%" }}
+                  />
+                  <div className="">
+                    <p className="eventDescription">{item.description}</p>
+                    <p className="eventDate">Due: {item.starttime}</p>
                   </div>
-                </IonCol>
-              );
-            })}
-          </div>
-       
+                </div>
+              </div>
+            );
+          })}
+        </div>}
+        
       </IonContent>
     </IonPage>
   );
