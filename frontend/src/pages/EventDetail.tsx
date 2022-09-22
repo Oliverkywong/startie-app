@@ -79,11 +79,20 @@ const EventDetail: React.FC = () => {
         {data.map((item) => {
           return (
             <div key={item.id}>
+
+                <img
+                  className="eventThumbnail"
+                  src={
+                    item?.event_profilepic != null
+                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.event_profilepic}`
+                      : "StartieLogo.png"
+                  }
+                />
               <IonImg
                 className="eventThumbnail"
                 src={
-                  item?.profilepic != null
-                    ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                  item?.event_provider_profile_pic != null
+                    ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.event_provider_profile_pic}`
                     : "StartieLogo.png"
                 }
               />

@@ -27,6 +27,7 @@ const UserSettings: React.FC = () => {
       id: 0,
       username: "dummy",
       profilepic: null,
+      shortDescription: "short",
       description: "testing",
       tags: ["dummytag", "dummytag2"],
       phonenumber: "1234567890",
