@@ -13,7 +13,6 @@ import {
   IonCol,
   IonCardTitle,
   IonHeader,
-  IonToolbar,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { notificationsOutline, shareOutline } from "ionicons/icons";
