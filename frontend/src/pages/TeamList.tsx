@@ -35,7 +35,7 @@ const TeamList: React.FC = () => {
       setFetchData(result.teams.rows);
       setData(result.teams.rows.slice(i, i + 10));
     })();
-  }, [i]);
+  }, []);
 
   let sliceData: Team[] = [];
 
