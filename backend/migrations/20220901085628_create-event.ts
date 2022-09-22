@@ -12,6 +12,8 @@ export async function up(knex: Knex): Promise<void> {
       table.timestamp("starttime");
       table.integer("searchcategory_id").notNullable();
       table.foreign("searchcategory_id").references("searchcategory.id");
+      table.integer("event_provider_id").notNullable();
+      table.foreign("event_provider_id").references("event_provider.id");
       table.text("profilepic");
       table.integer("clickrate").unsigned().defaultTo(0);
       table.timestamps(false, true);

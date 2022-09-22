@@ -70,7 +70,7 @@ const EventList: React.FC = () => {
                 className="eventinfo"
                 key={item.id}
                 onClick={() => {
-                  router.push(`event/${item.id}`);
+                  router.push(`/tab/event/${item.id}`);
                 }}
               >
                 <img
