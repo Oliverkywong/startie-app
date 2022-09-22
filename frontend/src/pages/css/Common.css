@@ -63,9 +63,6 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  max-width: 100px;
-  height: 25px;
-  overflow: hidden;
   font-weight: bold;
 }
 
