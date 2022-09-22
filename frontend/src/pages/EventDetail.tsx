@@ -8,13 +8,12 @@ import {
   useIonRouter,
   IonContent,
 } from "@ionic/react";
-import { IonButton, useIonToast } from "@ionic/react";
+import { useIonToast } from "@ionic/react";
 import "./css/Event.css";
 import "./css/EventDetail.css";
 import "./css/Common.css";
-import JoinEvent from "./JoinEvent";
 import React, { useEffect, useState } from "react";
-import { useLocation, useRouteMatch } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 
 interface EventDetail {
   id: number;

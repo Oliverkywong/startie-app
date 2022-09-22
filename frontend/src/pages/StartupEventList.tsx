@@ -28,6 +28,7 @@ const EventList: React.FC = () => {
       const result = await res.json();
 
       setData(result.events);
+      console.log(result.events);
     })();
   }, []);
 
@@ -48,7 +49,7 @@ const EventList: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/tab/home" />
           </IonButtons>
-          <IonTitle className="title">Event List</IonTitle>
+          <IonTitle className="title">Startup Event List</IonTitle>
         </IonToolbar>
         <IonToolbar>
           <div className="searchbarContainer">
