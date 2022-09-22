@@ -65,7 +65,7 @@ const EventList: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <div className="eventContainer">
+      <div className="eventContainer">
           {data.map((item) => {
             return (
               <div
@@ -84,7 +84,8 @@ const EventList: React.FC = () => {
                   }
                 />
 
-                <p className="eventTitle">{item.name}</p>
+                <p className="eventTitle">{item.event_name}</p>
+                <p className="eventshortDescription">{item.shortDescription}</p>
                 <div className="eventData">
                   <IonImg
                     src={
@@ -94,8 +95,8 @@ const EventList: React.FC = () => {
                     }
                     style={{ width: "10%", height: "10%" }}
                   />
-                  <div className="">
-                    <p className="eventDescription">{item.description}</p>
+                  <div>
+                    <p className="eventDescription">{item.provider_name}</p>
                     <p className="eventDate">Due: {item.starttime}</p>
                   </div>
                 </div>

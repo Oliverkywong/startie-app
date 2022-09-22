@@ -16,7 +16,6 @@ import React, { useLayoutEffect, useState } from "react";
 import { EventInfo } from "../model";
 import { useRouteMatch } from "react-router-dom";
 
-
 const EventDetail: React.FC = () => {
   const [present] = useIonToast();
   const [data, setData] = useState<EventInfo[]>([]);
@@ -33,6 +32,7 @@ const EventDetail: React.FC = () => {
       );
       const item = await res.json();
       setData([item]);
+      console.log(item);
     })();
   }, []);
 
@@ -80,28 +80,31 @@ const EventDetail: React.FC = () => {
         {data.map((item) => {
           return (
             <div key={item.id}>
-
-                <img
-                  className="eventThumbnail"
-                  src={
-                    item?.event_profilepic != null
-                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.event_profilepic}`
-                      : "StartieLogo.png"
-                  }
-                />
-              <IonImg
+              <img
                 className="eventThumbnail"
                 src={
-                  item?.event_provider_profile_pic != null
-                    ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.event_provider_profile_pic}`
+                  item?.event_profilepic != null
+                    ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.event_profilepic}`
                     : "StartieLogo.png"
                 }
               />
-              <h1 className="evenDetailTitle">{item.name}</h1>
+              <h1 className="evenDetailTitle">{item.event_name}</h1>
+              <p className="eventDetailDescription">{item.shortDescription}</p>
+              <p className="eventDetailDescription">{item.description}</p>
 
-              <div>
-                <p className="eventDetailDescription">{item.description}</p>
-                <p className="eventDetailDate">Due date: {item.starttime}</p>
+              <div className="eventData">
+                <IonImg
+                  src={
+                    item?.event_provider_profile_pic != null
+                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.event_provider_profile_pic}`
+                      : "StartieLogo.png"
+                  }
+                  style={{ width: "10%", height: "10%" }}
+                />
+                <div>
+                  <p className="eventDescription">{item.provider_name}</p>
+                  <p className="eventDate">Due date: {item.starttime}</p>
+                </div>
               </div>
             </div>
           );
