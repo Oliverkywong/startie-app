@@ -34,7 +34,7 @@ import { RootState, useAppDispatch, useAppSelector } from "../store";
 import { logOut } from "../redux/auth/action";
 import { EffectCards } from "swiper";
 import { loadUserInfo } from "../redux/userInfo/action";
-import { Team, Event } from "../model";
+import { Team, EventInfo } from "../model";
 // import { useGet } from "../hooks/useGet";
 
 const catergorys = {
@@ -50,7 +50,7 @@ const Homepage: React.FC = () => {
   );
   const isLogin = useAppSelector((state: RootState) => state.auth.loggedIn);
   const [teamData, setTeamData] = useState<Team[]>([]);
-  const [eventData, setEventData] = useState<Event[]>([]);
+  const [eventData, setEventData] = useState<EventInfo[]>([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
   const dispatch = useAppDispatch();
@@ -68,11 +68,11 @@ const Homepage: React.FC = () => {
   useEffect(() => {
     (async function () {
       const localtoken = localStorage.getItem("token");
-      console.log(localtoken);
-      console.log(isLogin);
       if (localtoken === null) {
         dispatch(logOut());
       }
+      console.log(localtoken);
+      console.log(isLogin);
 
       const teamRes = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/app/team`,
@@ -251,7 +251,7 @@ const Homepage: React.FC = () => {
             <div
               className="categoryElement"
               onClick={() => {
-                router.push(`/tab/event`);
+                router.push(`/tab/event/category/startup`);
               }}
             >
               <IonImg className="categoryIcon" src={catergorys.cat2.src} />
@@ -264,7 +264,7 @@ const Homepage: React.FC = () => {
             <div
               className="categoryElement"
               onClick={() => {
-                router.push(`/tab/event`);
+                router.push(`/tab/event/category/business`);
               }}
             >
               <IonImg className="categoryIcon" src={catergorys.cat3.src} />
@@ -277,7 +277,7 @@ const Homepage: React.FC = () => {
             <div
               className="categoryElement"
               onClick={() => {
-                router.push(`/tab/event`);
+                router.push(`/tab/event/category/hackathon`);
               }}
             >
               <IonImg className="categoryIcon" src={catergorys.cat4.src} />

@@ -35,6 +35,10 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Startie want to use your Library for you to upload image</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Startie want to use your Location</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
