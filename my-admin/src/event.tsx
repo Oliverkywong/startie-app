@@ -22,7 +22,8 @@ export const EventList = (props:any)=> (
         
      <Datagrid rowClick="edit">
            <TextField source="id" />
-           <TextField source="name" />
+           <TextField source="event_name" />
+           <TextField source="provider_name" />
            <TextField source="status" />
            <TextField source="description" />
             <TextField source="maxteammember" />

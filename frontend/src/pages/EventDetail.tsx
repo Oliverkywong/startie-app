@@ -96,7 +96,7 @@ const EventDetail: React.FC = () => {
                     : "StartieLogo.png"
                 }
               />
-              <h1 className="evenDetailTitle">{item.name}</h1>
+              <h1 className="evenDetailTitle">{item.event_name}</h1>
 
               <div>
                 <p className="eventDetailDescription">{item.description}</p>

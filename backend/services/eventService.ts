@@ -45,13 +45,13 @@ export class EventService {
     let query = this.knex<Event>("event")
       .select(
         "event.id",
-        "event.name",
+        "event.name AS event_name",
         "status.name as status",
         "searchcategory.name as category",
         "description",
         "shortDescription",
         "maxteammember",
-        "event_provider.name",
+        "event_provider.name AS provider_name",
         "event_provider.profile_pic as event_provider_profile_pic",
         "starttime",
         "event.profilepic as event_profilepic",

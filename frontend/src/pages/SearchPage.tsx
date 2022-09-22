@@ -179,7 +179,7 @@ export default function SearchPage() {
                   }
                 />
 
-                <p className="eventTitle">{item.name}</p>
+                <p className="eventTitle">{item.event_name}</p>
                 <div className="eventData">
                   <IonImg
                     src={
