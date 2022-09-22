@@ -59,8 +59,10 @@ const TeamDetail: React.FC = () => {
     present({
       message: result.msg,
       duration: 1500,
-      position: "bottom",
-    });
+      position: "middle",
+      cssClass: "backtoast"
+    }
+    );
   }
 
   return (

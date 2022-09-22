@@ -35,10 +35,10 @@ import SocialLogin from "./pages/SocialLogin";
 import StartupEventList from "./pages/StartupEventList";
 import BusinessEventList from "./pages/BusinessEventList";
 import HackathonEventList from "./pages/HackathonEventList";
+import { RootState, useAppSelector } from "./store";
 
 export default function Routes() {
-  const localtoken = localStorage.getItem("token");
-
+  const isLogin = useAppSelector((state: RootState) => state.auth.loggedIn);
   return (
     <IonRouterOutlet>
       <Redirect exact path="/" to="/tab/home" />
@@ -88,7 +88,7 @@ export default function Routes() {
               <IonIcon icon={planetOutline} />
               <IonLabel>Team</IonLabel>
             </IonTabButton>
-            {localtoken ? (
+            {isLogin ? (
               <IonTabButton tab="buildteam" href="/tab/buildteam">
                 <IonIcon icon={addCircleOutline} />
                 <IonLabel>Build Team</IonLabel>

@@ -15,6 +15,8 @@ import {
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   IonCardTitle,
+  IonHeader,
+  IonToolbar,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { notificationsOutline, shareOutline } from "ionicons/icons";
@@ -46,7 +48,7 @@ const Homepage: React.FC = () => {
   const userdetails = useAppSelector(
     (state: RootState) => state.userInfo.userinfo
   );
-  let isLogin = useAppSelector((state: RootState) => state.auth.loggedIn);
+  const isLogin = useAppSelector((state: RootState) => state.auth.loggedIn);
   const [teamData, setTeamData] = useState<Team[]>([]);
   const [eventData, setEventData] = useState<EventInfo[]>([]);
   // const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
@@ -68,8 +70,6 @@ const Homepage: React.FC = () => {
       const localtoken = localStorage.getItem("token");
       if (localtoken === null) {
         dispatch(logOut());
-      } else {
-        isLogin = true;
       }
       console.log(localtoken);
       console.log(isLogin);
@@ -152,8 +152,8 @@ const Homepage: React.FC = () => {
 
   return (
     <IonPage>
-      <div className="header">
-        <div className="searchBar">
+      <IonHeader className="header">
+        <IonToolbar className="searchBar">
           <IonButtons slot="start">
             <IonButton
               onClick={() => {
@@ -195,8 +195,8 @@ const Homepage: React.FC = () => {
               <IonIcon icon={notificationsOutline} />
             </IonButton>
           </IonButtons>
-        </div>
-      </div>
+        </IonToolbar>
+      </IonHeader>
       <IonContent className="homecontent">
         <IonLabel className="labelTitle">Hot Events</IonLabel>
 
