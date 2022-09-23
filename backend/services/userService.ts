@@ -48,6 +48,22 @@ export class UserStatusError extends Error {
 export class UserService {
   constructor(private knex: Knex) {}
 
+  //-----------
+  //Apple Login
+  //------------
+  async socialLogin(email: string){
+    const userEmailRecord = await this.knex<User>("user")
+        .select("*")
+        .where("email", email)
+        .returning('id')
+        if (userEmailRecord.length > 0) {
+          return {result:true ,userId:userEmailRecord[0].id}
+        }else {
+          return {result:false, userId:null}
+        }
+
+  }
+
   // -------------------------------------------------------------------------------------------------------------------
   // Register ✅
   // -------------------------------------------------------------------------------------------------------------------
@@ -55,7 +71,7 @@ export class UserService {
     username: string,
     password: string,
     email: string,
-    phonenumber?: number,
+    phonenumber?: string,
     description?: string
   ) {
     {
@@ -86,6 +102,8 @@ export class UserService {
       password: await hashPassword(password),
       email: email,
       status_id: 1,
+      profilepic: "tonystarkicon.png",
+      phonenumber: "0000000000"
     });
 
     return true;
