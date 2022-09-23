@@ -13,6 +13,7 @@ import {
   IonCol,
   IonCardTitle,
   IonHeader,
+  IonToolbar,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { notificationsOutline, shareOutline } from "ionicons/icons";
@@ -44,7 +45,7 @@ const Homepage: React.FC = () => {
   const userdetails = useAppSelector(
     (state: RootState) => state.userInfo.userinfo
   );
-  let isLogin = useAppSelector((state: RootState) => state.auth.loggedIn);
+  const isLogin = useAppSelector((state: RootState) => state.auth.loggedIn);
   const [teamData, setTeamData] = useState<Team[]>([]);
   const [eventData, setEventData] = useState<EventInfo[]>([]);
   // const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
@@ -66,8 +67,6 @@ const Homepage: React.FC = () => {
       const localtoken = localStorage.getItem("token");
       if (localtoken === null) {
         dispatch(logOut());
-      } else {
-        isLogin = true;
       }
       console.log(localtoken);
       console.log(isLogin);
@@ -96,21 +95,21 @@ const Homepage: React.FC = () => {
       const hotEvent = eventResult.events.slice(0, 4);
       setEventData(hotEvent);
 
-      const userRes = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/app/user/:id`,
-        {
-          headers: {
-            Authorization: `Bearer ${localtoken}`,
-          },
-        }
-      );
+      // const userRes = await fetch(
+      //   `${process.env.REACT_APP_BACKEND_URL}/app/user/:id`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${localtoken}`,
+      //     },
+      //   }
+      // );
 
-      if (userRes.status === 200) {
-        const userRecord = await userRes.json();
-        dispatch(loadUserInfo(userRecord));
-        // setIsLogin(true);
-        // router.push("/tab/home");
-      }
+      // if (userRes.status === 200) {
+      //   const userRecord = await userRes.json();
+      //   dispatch(loadUserInfo(userRecord));
+      //   // setIsLogin(true);
+      //   // router.push("/tab/home");
+      // }
     })();
   }, []);
 
@@ -151,7 +150,7 @@ const Homepage: React.FC = () => {
   return (
     <IonPage>
       <IonHeader className="header">
-        <div className="searchBar">
+        <div className="homePageHeader">
           <IonButtons slot="start">
             <IonButton
               onClick={() => {
@@ -183,6 +182,7 @@ const Homepage: React.FC = () => {
           </IonButtons>
           <IonButtons slot="end">
             <IonButton
+              slot="end"
               onClick={() => {
                 isLogin
                   ? router.push("/notification")

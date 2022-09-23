@@ -51,8 +51,6 @@ const Login: React.FC = () => {
                 dispatch(loggedIn(userRecord["user"], userRecord["jwt"]));
                 dispatch(loadUserInfo(userRecord["user"]))
                 router.push("/tab/home");
-                // window.location.replace("/tab/home");
-                // <IonNavLink component={() => <Homepage />} ></IonNavLink>
               }
             })}
           >
