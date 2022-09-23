@@ -19,12 +19,7 @@ export class TeamService {
         })
         .returning("*");
 
-      // const teamTags = await this.knex<Team_Tags>("team_tag")
-      //   .insert({
-      //     team_id: teaminfo[0].id,
-      //     tag_id: team_tag,
-      //   })
-      //   .returning("*");
+        //Add user_team
 
       return teaminfo;
     } catch (err) {

@@ -23,6 +23,9 @@ import { EventController } from "./controllers/eventController";
 import { teamRoutes } from "./routes/teamRoute";
 import { eventRoutes } from "./routes/eventRoute";
 import { jobRoutes } from "./routes/jobRoute";
+import { EventProviderService } from "./services/eventProviderService";
+import { eventProviderRoutes } from "./routes/eventProviderRoute";
+import { EventProviderController } from "./controllers/eventProviderController";
 
 // -------------------------------------------------------------------------------------------------------------------
 // Knex
@@ -40,14 +43,19 @@ const knex = Knex(knexConfig);
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-export interface UserId_Username {
-  userId: number;
-  username: string;
-}
+// export interface UserId_Username {
+//   userId: number;
+//   username: string;
+//   isadmin?: boolean;
+// }
 declare global {
   namespace Express {
     interface Request {
-      user?: UserId_Username;
+      user?: {
+        userId: number;
+        username: string;
+        isadmin?: boolean;
+      };
     }
   }
 }
@@ -113,6 +121,9 @@ const jobController = new JobController(jobService);
 const eventService = new EventService(knex);
 const eventController = new EventController(eventService);
 
+const eventProviderService = new EventProviderService(knex);
+const eventProviderController = new EventProviderController(eventProviderService);
+
 const sectorskillService = new SectorskillService(knex);
 const sectorskillController = new SectorskillController(sectorskillService);
 
@@ -124,8 +135,9 @@ app.use(userRoutes(userController));
 app.use(teamRoutes(teamController));
 app.use(jobRoutes(jobController));
 app.use(eventRoutes(eventController));
+app.use(eventProviderRoutes(eventProviderController));
 app.use(sectorskillRoutes(sectorskillController));
-app.use(teamRoutes(teamController));
+
 
 // --------------------------------------------------------------------------------------------------------------------
 // Error 404
