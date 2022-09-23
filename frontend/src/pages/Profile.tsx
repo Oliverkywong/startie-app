@@ -28,18 +28,18 @@ import UserStats from "./UserStats";
 import UserTeams from "./UserTeams";
 import UserSettings from "./UserSettings";
 import { RootState, useAppSelector } from "../store";
+import { Team } from "../model";
 
 const Profile: React.FC = () => {
   const userdetails = useAppSelector(
     (state: RootState) => state.userInfo.userinfo
   );
-  console.log(userdetails);
 
   const [stat, setStat] = React.useState(false);
   const [info, setInfo] = React.useState(true);
   const [team, setTeam] = React.useState(false);
   const [setting, setSetting] = React.useState(false);
-  const [userBelongsTeam, setUserBelongsTeam] = React.useState([]);
+  const [userBelongsTeam, setUserBelongsTeam] = React.useState<Team[]>([]);
 
   const router = useIonRouter();
 
@@ -147,7 +147,12 @@ const Profile: React.FC = () => {
               <IonLabel>Account</IonLabel>
             </div>
           </div>
-          {info && <UserInfo description={userdetails?.description} phone={userdetails?.phonenumber}/>}
+          {info && (
+            <UserInfo
+              description={userdetails?.description}
+              phone={userdetails?.phonenumber}
+            />
+          )}
           {stat && <UserStats />}
           {team && <UserTeams team={userBelongsTeam} />}
           {setting && <UserSettings />}
