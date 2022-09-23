@@ -1,10 +1,10 @@
 import { IonContent, IonImg, IonLabel, IonTitle, useIonRouter } from "@ionic/react";
 import React from "react";
-import "./css/Common.css";
-import { Team } from "../model";
+import { Team } from "../../model";
 
-import "./css/Common.css";
-import "./css/UserTeam.css";
+import "../css/Common.css";
+import "../css/UserTeam.css"; 
+
 
 export default function UserTeams(props: { team: Team[] }) {
   const router = useIonRouter();

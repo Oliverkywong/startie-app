@@ -16,6 +16,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Share } from '@capacitor/share';
 import { notificationsOutline, shareOutline } from "ionicons/icons";
 
 import cat1 from "../img/all.png";
@@ -68,8 +69,6 @@ const Homepage: React.FC = () => {
       if (localtoken === null) {
         dispatch(logOut());
       }
-      console.log(localtoken);
-      console.log(isLogin);
 
       const teamRes = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/app/team`,
@@ -319,7 +318,15 @@ const Homepage: React.FC = () => {
                         })}
                       </div>
                       <div className="shareButton">
-                        <IonIcon icon={shareOutline} />
+                        <IonIcon icon={shareOutline} 
+                        onClick={async()=>{
+                          await Share.share({
+                            title: 'See cool stuff',
+                            text: 'Come to join us',
+                            url: `https://startie.oliverstrat.me/tab/team/${item.id}`,
+                            dialogTitle: 'Share with buddies',
+                          });
+                        }} />
                       </div>
                     </IonCard>
                   </div>

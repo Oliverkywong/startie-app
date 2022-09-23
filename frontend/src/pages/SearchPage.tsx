@@ -118,7 +118,7 @@ export default function SearchPage() {
                   <div
                     className="teamCard"
                     onClick={() => {
-                      router.push(`/app/user/${item.id}`);
+                      router.push(`/tab/user/${item.id}`);
                     }}
                   >
                     <img
@@ -130,11 +130,11 @@ export default function SearchPage() {
 
                     <p className="teamContent">{item.description}</p>
 
-                    {/* <div className="tag">
+                    <div className="tag">
                     {item.tags.map((tag) => {
                       return <span key={tag}>{tag}</span>;
                     })}
-                  </div> */}
+                  </div>
                   </div>
                 </div>
               );
