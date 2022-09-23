@@ -214,7 +214,7 @@ export class UserController {
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
-  // get all userInfo (this should be only for admin)
+  // get all userInfo (this should be only for admin & search)
   // -------------------------------------------------------------------------------------------------------------------
   getAllUser = async (req: express.Request, res: express.Response) => {
     try {
