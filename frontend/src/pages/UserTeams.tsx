@@ -15,14 +15,12 @@ import "./css/UserTeam.css";
 export default function UserTeams(props: { team: Team[] }) {
   const router = useIonRouter();
   return (
-    <IonContent>
       <div className="ProfileBackground">
         {props.team.map((team) => {
-          console.log(team);
           return (
             <div
               className="userTeam"
-              // key={team.id}
+              key={team.id}
               onClick={() => router.push(`team/${team.id}`)}
             >
               <IonImg
@@ -43,6 +41,5 @@ export default function UserTeams(props: { team: Team[] }) {
           );
         })}
       </div>
-    </IonContent>
   );
 }

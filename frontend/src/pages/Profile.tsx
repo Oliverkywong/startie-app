@@ -28,23 +28,22 @@ import UserStats from "./UserStats";
 import UserTeams from "./UserTeams";
 import UserSettings from "./UserSettings";
 import { RootState, useAppSelector } from "../store";
+import { Team } from "../model";
 
 const Profile: React.FC = () => {
 
   const userdetails = useAppSelector(
     (state: RootState) => state.userInfo.userinfo
   );
-  console.log(userdetails);
-
-  const [stat, setStat] = useState(false);
-  const [info, setInfo] = useState(true);
-  const [team, setTeam] = useState(false);
-  const [setting, setSetting] = useState(false);
-  const [userBelongsTeam, setUserBelongsTeam] = useState([]);
 
   const [sectorName, setSectorName] = useState<string[]>([]);
   const [skillName, setSkillName] = useState<string[]>([]);
   const [skillPoint, setSkillPoint] = useState<number[]>([]);
+  const [stat, setStat] = React.useState(false);
+  const [info, setInfo] = React.useState(true);
+  const [team, setTeam] = React.useState(false);
+  const [setting, setSetting] = React.useState(false);
+  const [userBelongsTeam, setUserBelongsTeam] = React.useState<Team[]>([]);
 
   const router = useIonRouter();
 
@@ -72,7 +71,7 @@ const Profile: React.FC = () => {
         }
       );
       const userTeam = await selfTeam.json();
-      console.log(userTeam);
+      // console.log(userTeam);
       setUserBelongsTeam(userTeam);
 
 
@@ -96,9 +95,9 @@ const Profile: React.FC = () => {
         skillPointArray.push(skilldetails.detail.skill[i].point);
       }
 
-      console.log(sectorNameArray);
-      console.log(skillNameArray);
-      console.log(skillPointArray);
+      // console.log(sectorNameArray);
+      // console.log(skillNameArray);
+      // console.log(skillPointArray);
 
       setSectorName(sectorNameArray);
       setSkillName(skillNameArray);
@@ -183,8 +182,14 @@ const Profile: React.FC = () => {
               <IonLabel>Account</IonLabel>
             </div>
           </div>
-          {info && <UserInfo description={userdetails?.description} phone={userdetails?.phonenumber}/>}
-          {stat && <UserStats sectorName={sectorName} skillName={skillName} skillPoint={skillPoint} />}
+         {stat && <UserStats sectorName={sectorName} skillName={skillName} skillPoint={skillPoint} />}
+          {/* {info && (
+            <UserInfo
+              description={userdetails?.description}
+              phone={userdetails?.phonenumber}
+            />
+          )} */}
+          {/* {stat && <UserStats />} */}
           {team && <UserTeams team={userBelongsTeam} />}
           {setting && <UserSettings />}
         </div>
