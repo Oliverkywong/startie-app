@@ -22,12 +22,12 @@ import ImageCropDialogForTeam from "./ImageCropDialogForTeam";
 import { register } from "../serviceWorkerRegistration";
 
 
-export declare function useIonFormState<T extends object>(initialValue?: T): {
-  state: T;
-  setState: React.Dispatch<React.SetStateAction<T>>;
-  reset: () => void;
-  item<K extends keyof T, E extends CustomEvent<any>>(props: UseIonFormItemOptions<T, K, E>): JSX.Element;
-}
+// export declare function useIonFormState<T extends object>(initialValue?: T): {
+//   state: T;
+//   setState: React.Dispatch<React.SetStateAction<T>>;
+//   reset: () => void;
+//   item<K extends keyof T, E extends CustomEvent<any>>(props: UseIonFormItemOptions<T, K, E>): JSX.Element;
+// }
 
 // export declare type UseIonFormItemOptions<T extends object, K extends keyof T, E extends CustomEvent> = {
 //   name: K;
