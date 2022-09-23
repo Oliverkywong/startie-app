@@ -10,6 +10,7 @@ const initialState: userInfoState = {
     description: "testing",
     tags: ["dummytag", "dummytag2"],
     phonenumber: "1234567890",
+    email: "123@gmail.com",
   },
   team: [],
 };
