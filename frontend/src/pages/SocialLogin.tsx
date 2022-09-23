@@ -20,6 +20,30 @@ export default function SocialLogin() {
 
   const router = useIonRouter();
 
+  // async function appleLogin() {
+  //   //@ts-ignore
+  //   SignInWithApple.signin({
+  //     requestedScopes: [
+  //       ASAuthorizationAppleIDRequest.ASAuthorizationScopeFullName,
+  //       ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail,
+  //     ],
+  //   })
+  //     .then((res: AppleSignInResponse) => {
+  //       fetch(`${process.env.REACT_APP_BACKEND_URL}/login/apple`, {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(res),
+  //       });
+  //       // console.log(res)
+  //     })
+  //     .catch((error: AppleSignInErrorResponse) => {
+  //       alert(error.code + " " + error.localizedDescription);
+  //       console.error(error);
+  //     });
+  // }
+
   async function appleLogin() {
     //@ts-ignore
     SignInWithApple.signin({
@@ -36,7 +60,8 @@ export default function SocialLogin() {
           },
           body: JSON.stringify(res),
         });
-        // console.log(res)
+        console.log(res)
+        
       })
       .catch((error: AppleSignInErrorResponse) => {
         alert(error.code + " " + error.localizedDescription);
