@@ -15,7 +15,7 @@ export function userRoutes(userController: UserController) {
   userRoutes.put("/app/user/:id", isLogin, userController.editUser); //need to add isLogin
   // -----------------------------------------------------------------------------------------------------------------------
   userRoutes.get("/user/me/team", isLogin, userController.checkTeam); /// user/team/checkteam?user"
-  userRoutes.post("/user/me/:teamid", isLogin, userController.joinTeam); //user join team
+  userRoutes.post("/user/me/team/:teamid", isLogin, userController.joinTeam); //user join team
   userRoutes.delete("/user/me/:teamid", isLogin, userController.quitTeam); //user quit team
   userRoutes.post("/user/me/event/:id", isLogin, userController.joinEvent); //user join event
   userRoutes.get("/user/me/note", isLogin, userController.getNotification);

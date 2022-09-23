@@ -61,6 +61,7 @@ export interface Event_Provider {
 export interface User_Team {
   user_id: number | string;
   team_id: number | string;
+  isboard?: boolean;
   iswaiting?: boolean;
   applytime?: Date | string;
   quittime?: Date | string;

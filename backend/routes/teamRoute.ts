@@ -6,7 +6,7 @@ export function teamRoutes(teamController: TeamController) {
   const router = express.Router();
   router.get("/app/team", teamController.getAllTeams);
 
-  router.get("/app/team/:id", teamController.getTeam);
+  router.get("/app/team/:id", teamController.getTeam); //error when not logged in
   router.post("/app/team", isLogin,teamController.createTeam); //✅ need to add isLogin, Admin cannot use, disable create team (formidable)
   router.get("/teamtag", teamController.teamTag); 
   router.get("/category", teamController.getCategory); 
