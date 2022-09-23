@@ -30,7 +30,6 @@ const TeamList: React.FC = () => {
 
   useLayoutEffect(() => {
     (async function () {
-      console.log(i)
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/app/team`);
       const result = await res.json();
       setFetchData(result.teams.rows);
@@ -47,7 +46,8 @@ const TeamList: React.FC = () => {
     setData([...data, ...sliceData]);
   };
 
-  const loadData = (ev: any) => { //set loading state
+  const loadData = (ev: any) => {
+    //set loading state
     setTimeout(() => {
       pushData();
       console.log("Loaded data");
