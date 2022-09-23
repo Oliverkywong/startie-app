@@ -39,7 +39,7 @@ const OtherUserProfile: React.FC = () => {
   const [info, setInfo] = useState(true);
   const [team, setTeam] = useState(false);
   const [data, setData] = useState<UserInfo>(rootinfo);
-  const [userBelongsTeam, setUserBelongsTeam] = useState([]);
+  // const [userBelongsTeam, setUserBelongsTeam] = useState([]);
   const [sectorName, setSectorName] = useState<string[]>([]);
   const [skillName, setSkillName] = useState<string[]>([]);
   const [skillPoint, setSkillPoint] = useState<number[]>([]);
@@ -56,11 +56,11 @@ const OtherUserProfile: React.FC = () => {
       const data = await res.json();
       setData(data);
 
-      const selfTeam = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/me/team`
-      );
-      const userTeam = await selfTeam.json();
-      setUserBelongsTeam(userTeam);
+      // const selfTeam = await fetch(
+      //   `${process.env.REACT_APP_BACKEND_URL}/user/me/team`
+      // );
+      // const userTeam = await selfTeam.json();
+      // setUserBelongsTeam(userTeam);
 
       const skillres = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/skill/${match?.params.id}`
@@ -158,7 +158,7 @@ const OtherUserProfile: React.FC = () => {
               skillPoint={skillPoint}
             />
           )}
-          {team && <UserTeams team={userBelongsTeam} />}
+          {/* {team && <UserTeams team={userBelongsTeam} />} */}
         </div>
       </IonContent>
     </IonPage>
