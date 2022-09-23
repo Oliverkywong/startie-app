@@ -9,6 +9,10 @@ import * as jose from "jose";
 import { josePublicKey } from "../jose";
 import { logger } from "./logger";
 
+jose.errors
+
+
+
 // -------------------------------------------------------------------------------------------------------------------
 // JWT Bearer
 // -------------------------------------------------------------------------------------------------------------------
@@ -45,9 +49,10 @@ export const isLogin = async (
   } catch (e) {
     if (e.code === "ERR_JWT_EXPIRED") {
       res.status(401).json({ result: false, msg: "Login Expired" });
-    } else if (e.code === 'Invalid Compact JWS'){
+    } else if (e.code === 'ERR_JWS_INVALID'){
       res.status(401).json({ result: false, msg: "You have to login first!" });
     } else {
+      logger.error(e);
       res.status(500).json({ result: false, msg: "Incorrect Token" });
     }
     }
