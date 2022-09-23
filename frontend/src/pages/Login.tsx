@@ -92,7 +92,7 @@ const Login: React.FC = () => {
           <a href="#">Forgot Password?</a>
           <div className="signup">
             <p>
-              New to Startie? <span />
+              New to Startie?
               <span
                 style={{ color: "#4fc564" }}
                 onClick={() => {
