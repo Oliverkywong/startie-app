@@ -109,16 +109,16 @@ export class UserService {
     }
 
     // insert user
-    await this.knex<User>("user").insert({
+    const user = await this.knex<User>("user").insert({
       username: username,
       password: await hashPassword(password),
       email: email,
       status_id: 1,
       profilepic: "tonystarkicon.png",
       phonenumber: "0000000000"
-    });
+    }).returning('*')
 
-    return true;
+    return {result:true ,user:user}
   }
   // -------------------------------------------------------------------------------------------------------------------
   // Login ✅
