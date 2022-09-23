@@ -18,7 +18,7 @@ import { OAuth2Client } from "google-auth-library";
 import { UserListInput } from "../utils/api-types";
 
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
   // -------------------------------------------------------------------------------------------------------------------
   // Google Login
   // -------------------------------------------------------------------------------------------------------------------
@@ -34,19 +34,25 @@ export class UserController {
 
       const payload = ticket.getPayload();
 
-      // await this.userService.appleLogin(req.body.displayName, req.body.email);
-      await this.userService.register(
-        req.body.displayName,
-        "google",
-        req.body.email,
-        1
-      );
+      console.log(req.body)
+      const googlelogin = await this.userService.socialLogin(req.body.email)
+      if (!googlelogin.result) {
+        await this.userService.register(
+          req.body.displayName,
+          "google",
+          req.body.email,
+          "0000000000",
+          "google user"
+        );
+      }
 
       const user = {
+        id:parseInt(googlelogin.userId),
         username: payload?.["name"],
         email: payload?.["email"],
         profilepic: "tonystarkicon.png",
         phonenumber: "0000000000",
+
         description: "google user",
       };
       const ecPrivateKey = await joseKey();
@@ -214,7 +220,7 @@ export class UserController {
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
-  // get all userInfo (this should be only for admin)
+  // get all userInfo (this should be only for admin & search)
   // -------------------------------------------------------------------------------------------------------------------
   getAllUser = async (req: express.Request, res: express.Response) => {
     try {
@@ -352,15 +358,20 @@ export class UserController {
           ? "Apple User"
           : req.body.fullName.nickname;
 
-      // await this.userService.appleLogin(req.body.fullName.nickname, appleuserinfo.email);
-      await this.userService.register(
-        appleUser,
-        "apple",
-        appleuserinfo.email,
-        1
-      );
+      console.log(req.body)
+      const applelogin = await this.userService.socialLogin(appleuserinfo.email)
+      if (!applelogin.result) {
+        await this.userService.register(
+          appleUser,
+          "apple",
+          appleuserinfo.email,
+          "0000000000",
+          "apple user"
+        );
+      }
 
       const user = {
+        id:parseInt(applelogin.userId),
         username: req.body.fullName.nickname,
         email: appleuserinfo.email,
         profilepic: "tonystarkicon.png",
@@ -395,6 +406,7 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   checkTeam = async (req: express.Request, res: express.Response) => {
     try {
+      console.log("/me/team",req.user?.userId)
       const userId =
         req.user?.userId != undefined
           ? Number(req.user.userId)

@@ -1,10 +1,4 @@
-import {
-  IonContent,
-  IonImg,
-  IonLabel,
-  IonTitle,
-  useIonRouter,
-} from "@ionic/react";
+import { IonContent, IonImg, IonLabel, IonTitle, useIonRouter } from "@ionic/react";
 import React from "react";
 import "./css/Common.css";
 import { Team } from "../model";
