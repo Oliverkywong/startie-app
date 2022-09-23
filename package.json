@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@capacitor/share": "^4.0.1"
+  }
+}

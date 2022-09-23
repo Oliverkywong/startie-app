@@ -20,7 +20,7 @@ import { OAuth2Client } from "google-auth-library";
 import { UserListInput } from "../utils/api-types";
 
 export class UserController {
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {}
   // -------------------------------------------------------------------------------------------------------------------
   // Google Login
   // -------------------------------------------------------------------------------------------------------------------
@@ -35,7 +35,7 @@ export class UserController {
 
       const payload = ticket.getPayload();
 
-      const googlelogin = await this.userService.socialLogin(req.body.email)
+      const googlelogin = await this.userService.socialLogin(req.body.email);
       if (!googlelogin.result) {
         await this.userService.register(
           req.body.displayName,
@@ -87,7 +87,11 @@ export class UserController {
       let password: string = req.body.password.trim();
       let email: string = req.body.email.trim();
 
-      const register = await this.userService.register(username, password, email);
+      const register = await this.userService.register(
+        username,
+        password,
+        email
+      );
 
       const ecPrivateKey = await joseKey();
       const jwt = await new jose.SignJWT({
@@ -100,9 +104,16 @@ export class UserController {
         .setExpirationTime("24h")
         .sign(ecPrivateKey);
 
-        logger.info(`${username} logged in`);
+      logger.info(`${username} logged in`);
 
-      res.status(200).json({ result: true, msg: "register success", user: register, jwt: jwt });
+      res
+        .status(200)
+        .json({
+          result: true,
+          msg: "register success",
+          user: register,
+          jwt: jwt,
+        });
     } catch (err) {
       if (err instanceof UserDuplicateUsernameError) {
         res.status(500).json({ result: false, msg: "username already exists" });
@@ -179,7 +190,7 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   logout = async (req: express.Request, res: express.Response) => {
     try {
-      logger.info(`${req.session["username"]} logging out`);
+      logger.info(`${req.user!.username} logging out`);
 
       // req.session.destroy( () => {
       //   res.status(500).json({ result: true, msg: "logout successful" });
@@ -371,7 +382,9 @@ export class UserController {
           ? "Apple User"
           : req.body.fullName.nickname;
 
-      const applelogin = await this.userService.socialLogin(appleuserinfo.email)
+      const applelogin = await this.userService.socialLogin(
+        appleuserinfo.email
+      );
       if (!applelogin.result) {
         await this.userService.register(
           appleUser,
