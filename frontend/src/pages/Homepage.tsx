@@ -150,49 +150,46 @@ const Homepage: React.FC = () => {
   return (
     <IonPage>
       <IonHeader className="header">
-        <IonToolbar className="searchBar">
-          <IonButtons slot="start">
-            <IonButton
-              onClick={() => {
-                isLogin
-                  ? router.push("/tab/profile")
-                  : router.push("/tab/login");
-              }}
-            >
-              <IonImg
-                className="icon"
-                // src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`}
-                src={
-                  userdetails.profilepic !== null
-                    ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`
-                    : "https://www.w3schools.com/howto/img_avatar.png"
-                }
-              />
-            </IonButton>
-          </IonButtons>
-          <IonButtons style={{ width: "100%" }} slot="primary">
-            <IonButton
-              style={{ width: "100%" }}
-              onClick={() => {
-                router.push("/search");
-              }}
-            >
-              <input className="searchbar" placeholder="Search" />
-            </IonButton>
-          </IonButtons>
-          <IonButtons slot="end">
-            <IonButton
-              onClick={() => {
-                isLogin
-                  ? router.push("/notification")
-                  : router.push("/tab/login");
-              }}
-              // routerLink="/notification"
-            >
-              <IonIcon icon={notificationsOutline} />
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
+        <IonButtons slot="start">
+          <IonButton
+            onClick={() => {
+              isLogin ? router.push("/tab/profile") : router.push("/tab/login");
+            }}
+          >
+            <IonImg
+              className="icon"
+              // src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`}
+              src={
+                userdetails.profilepic !== null
+                  ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`
+                  : "https://www.w3schools.com/howto/img_avatar.png"
+              }
+            />
+          </IonButton>
+        </IonButtons>
+        <IonButtons style={{ width: "100%" }} slot="primary">
+          <IonButton
+            style={{ width: "100%" }}
+            onClick={() => {
+              router.push("/search");
+            }}
+          >
+            <input className="searchbar" placeholder="Search" />
+          </IonButton>
+        </IonButtons>
+        <IonButtons slot="end">
+          <IonButton
+            slot="end"
+            onClick={() => {
+              isLogin
+                ? router.push("/notification")
+                : router.push("/tab/login");
+            }}
+            // routerLink="/notification"
+          >
+            <IonIcon icon={notificationsOutline} />
+          </IonButton>
+        </IonButtons>
       </IonHeader>
       <IonContent className="homecontent">
         <IonLabel className="labelTitle">Hot Events</IonLabel>
