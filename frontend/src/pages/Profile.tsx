@@ -31,7 +31,6 @@ import { RootState, useAppSelector } from "../store";
 import { Team } from "../model";
 
 const Profile: React.FC = () => {
-
   const userdetails = useAppSelector(
     (state: RootState) => state.userInfo.userinfo
   );
@@ -74,13 +73,14 @@ const Profile: React.FC = () => {
       // console.log(userTeam);
       setUserBelongsTeam(userTeam);
 
-
-
-      const skillres = await fetch(`${process.env.REACT_APP_BACKEND_URL}/skill`, {
-        headers: {
-          Authorization: `Bearer ${localtoken}`,
-        },
-      });
+      const skillres = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/skill`,
+        {
+          headers: {
+            Authorization: `Bearer ${localtoken}`,
+          },
+        }
+      );
 
       const skilldetails = await skillres.json();
 
@@ -102,8 +102,6 @@ const Profile: React.FC = () => {
       setSectorName(sectorNameArray);
       setSkillName(skillNameArray);
       setSkillPoint(skillPointArray);
-
-
     })();
   }, []);
 
@@ -182,14 +180,20 @@ const Profile: React.FC = () => {
               <IonLabel>Account</IonLabel>
             </div>
           </div>
-         {stat && <UserStats sectorName={sectorName} skillName={skillName} skillPoint={skillPoint} />}
-          {/* {info && (
+          {stat && (
+            <UserStats
+              sectorName={sectorName}
+              skillName={skillName}
+              skillPoint={skillPoint}
+            />
+          )}
+          {info && (
             <UserInfo
               description={userdetails?.description}
               phone={userdetails?.phonenumber}
+              email={userdetails?.email}
             />
-          )} */}
-          {/* {stat && <UserStats />} */}
+          )}
           {team && <UserTeams team={userBelongsTeam} />}
           {setting && <UserSettings />}
         </div>
