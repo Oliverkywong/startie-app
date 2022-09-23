@@ -23,14 +23,10 @@ const UserList: React.FC = () => {
 
   useLayoutEffect(() => {
     (async function () {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/app/user`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/app/user`);
       const result = await res.json();
       console.log(result);
-      setData(result.user); //remove.user after backend fix
+      setData(result); //remove.user after backend fix
     })();
   }, []);
 
