@@ -163,6 +163,9 @@ export class UserService {
     if (input.tags) {
       query = query.having(this.knex.raw(`array_agg(distinct t.name)::VARCHAR ilike '%${input.tags}%'`));
     }
+    if (input.isadmin) {
+      query = query.having("isadmin", "=", `%${input.isadmin}%`);
+    }
     if (show) {
       query = query.orderBy('id', 'asc')
     } else {
