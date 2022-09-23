@@ -12,7 +12,14 @@ export class EventController {
   // -------------------------------------------------------------------------------------------------------------------
   createEvent = async (req: Request, res: Response) => {
     try {
-      const { name, description, maxteammember, profilepic, starttime, category_id } = req.body;
+      const {
+        name,
+        description,
+        maxteammember,
+        profilepic,
+        starttime,
+        category_id,
+      } = req.body;
 
       const event = await this.eventService.createEvent(
         name,
@@ -33,32 +40,30 @@ export class EventController {
   // -------------------------------------------------------------------------------------------------------------------
   getAllEventsForAdmin = async (req: Request, res: Response) => {
     try {
-
-      let input:EventListInput = req.query
-      let show = true
+      let input: EventListInput = req.query;
+      let show = true;
       let json = await this.eventService.getAllEvents(input, show);
-      
+
       res.set("x-total-count", String(json.events?.length));
       res.status(200).json(json.events);
     } catch (err) {
       logger.error(err);
       res.status(500).json({ error: String(err) });
     }
-  }
+  };
   // -------------------------------------------------------------------------------------------------------------------
   // get all events
   // -------------------------------------------------------------------------------------------------------------------
   getAllEvents = async (req: Request, res: Response) => {
     try {
-
       // let show;
       // const name = req.query.name as string != undefined ? req.query.name as string : req.query.q as string;
       // const description = req.query.description as string;
       // const status:any = req.query.status_id;
       // const maxTeammember = parseInt(String(req.query.maxteammember));
 
-      let input:EventListInput = req.query
-      let show = false
+      let input: EventListInput = req.query;
+      let show = false;
       let json = await this.eventService.getAllEvents(input, show);
 
       res.status(200).json(json);
@@ -67,9 +72,9 @@ export class EventController {
       res.status(500).json({ error: String(err) });
     }
   };
-// -------------------------------------------------------------------------------------------------------------------
-// get an event 
-// -------------------------------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------------------------------
+  // get an event
+  // -------------------------------------------------------------------------------------------------------------------
   getEvent = async (req: Request, res: Response) => {
     try {
       const id = req.params.id;
@@ -79,7 +84,7 @@ export class EventController {
       logger.error(err);
       res.status(500).json({ result: false, msg: "getEvent fail" });
     }
-};
+  };
   // -------------------------------------------------------------------------------------------------------------------
   // update event for admin
   // -------------------------------------------------------------------------------------------------------------------
@@ -87,21 +92,22 @@ export class EventController {
     try {
       const eventId = req.params.id;
 
-      const input:EventListInput = req.body;
+      const input: EventListInput = req.body;
 
       const event = await this.eventService.updateEventForAdmin(
         parseInt(eventId),
         input
       );
-      res.status(200).json({ //for react admin, otherwise dataProvider will throw error
+      res.status(200).json({
+        //for react admin, otherwise dataProvider will throw error
         id: event[0].id,
-        data:event[0]
+        data: event[0],
       });
     } catch (err) {
       logger.error(err);
       res.status(500).json({ error: String(err) });
     }
-  }
+  };
   // // -------------------------------------------------------------------------------------------------------------------
   // // update event (if have time then try to use formidable)
   // // -------------------------------------------------------------------------------------------------------------------
@@ -128,7 +134,7 @@ export class EventController {
   //     const maxteammember = fields.maxteammember != null && !Array.isArray(fields.maxteammember)
   //     ? parseInt(fields.maxteammember)
   //     : OldMaxTeamMember
-      
+
   //     const profilepic = files.profilepic != null && !Array.isArray(files.profilepic)
   //     ? files.profilepic.newFilename
   //     : oldProfilepic;

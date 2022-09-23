@@ -25,7 +25,7 @@ const EventList: React.FC = () => {
   useLayoutEffect(() => {
     (async function () {
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/app/event/?category_id=1`
+        `${process.env.REACT_APP_BACKEND_URL}/app/event/?searchcategory_id=1`
       );
       const result = await res.json();
       setData(result.events);
