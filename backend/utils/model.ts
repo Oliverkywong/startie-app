@@ -16,7 +16,8 @@ export interface User {
 export interface Team {
   id: number;
   name: string;
-  searchcategory_id: number;
+  searchcategory_id: number | string;
+  shortDescription: string;
   description?: string;
   profilepic?: string;
   status_id: number;
@@ -55,4 +56,19 @@ export interface Event_Provider {
   id: number;
   name: string;
   profile_pic?: string;
+}
+
+export interface User_Team {
+  user_id: number | string;
+  team_id: number | string;
+  iswaiting?: boolean;
+  applytime?: Date | string;
+  quittime?: Date | string;
+  isfollow?: boolean;
+}
+
+export interface Category {
+  id: number | string;
+  name: string;
+  profilepic?: string;
 }

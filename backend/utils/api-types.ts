@@ -48,6 +48,8 @@ export type TeamListData = {
 export type TeamListInput = {
   name?: string;
   q?: string;
+  searchcategory_id?: number | string;
+  profile_pic?: string;
   description?: string;
   shortDescription?: string;
   tags?: number | string;
