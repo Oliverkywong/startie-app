@@ -20,42 +20,40 @@ import {
   ImageField,
   ImageInput,
   required,
+  RichTextField,
+  SimpleShowLayout,
+  BulkExportButton,
+  SaveButton,
+  Toolbar,
 } from "react-admin";
-// import dataProvider from "./dataProvider";
 
-// export const TeamProfile = ({ userId }: any) => {
-//     // const dataProvider = useDataProvider();
-//     const [team, setTeam] = React.useState();
-//     const [loading, setLoading] = React.useState(true);
-//     const [error, setError] = React.useState();
+const DescriptionShow = () => (
+  <SimpleShowLayout>
+      <RichTextField source="description" />
+  </SimpleShowLayout>
+);
 
-//     React.useLayoutEffect(() => {
-//        console.log("useLayoutEffect");
+const PostBulkActionButtons = () => (
+  <React.Fragment>
+      <BulkExportButton />
+  </React.Fragment>
+);
 
-//         const fetchTeam = async () => {
-//        let data:any= await dataProvider.getOne('team')
-//        if(data){
-//         setTeam(data);
-//         setLoading(false);
-//         console.log('data:',data)
-//        } else{
-//         setError(error);
-//         setLoading(false);
-//        }
-//     }
-
-//     }, []);}
+const TeamEditToolbar = (props:any) => (
+  <Toolbar {...props} >
+      <SaveButton />
+  </Toolbar>
+);
 
 export const TeamList = (props: any) => (
   <List filters={getTeamFilters()} {...props}>
-    <Datagrid rowClick="edit">
+    <Datagrid size="small" rowClick="edit" expand={<DescriptionShow />} bulkActionButtons={<PostBulkActionButtons />}>
       <TextField source="id" sortByOrder="DESC" />
       <TextField source="name" />
       <TextField source="status" />
       <TextField source="category" />
-      <TextField source="description" />
       <TextField source="users" />
-      <TextField source="tags" />
+      <FunctionField source="tags" render={(record: string) => record.replace(/[\[\]"]+/g, '')}/>
       <TextField source="profilepic" sortable={false} />
       {/* <ReferenceField source="userId" reference="team" /> */}
     </Datagrid>
@@ -64,7 +62,7 @@ export const TeamList = (props: any) => (
 
 export const TeamEdit = (props: any) => (
   <Edit title={<TeamTitle />} {...props}>
-    <SimpleForm>
+    <SimpleForm toolbar={<TeamEditToolbar />}>
       <TextInput disabled source="id" />
       <TextInput source="name" />
       <TextInput source="Description" />

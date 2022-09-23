@@ -17,34 +17,57 @@ import {
   SelectInput,
   SearchInput,
   usePermissions,
-  ImageField,
-  ImageInput,
   required,
   PasswordInput,
+  BooleanField,
+  BooleanInput,
+  SimpleShowLayout,
+  RichTextField,
+  BulkExportButton,
+  Toolbar,
+  SaveButton,
 } from "react-admin";
 
+const DescriptionShow = () => (
+  <SimpleShowLayout>
+      <RichTextField source="description" />
+  </SimpleShowLayout>
+);
+
+const PostBulkActionButtons = () => (
+  <React.Fragment>
+      <BulkExportButton />
+  </React.Fragment>
+);
+
+const UserEditToolbar = (props:any) => (
+  <Toolbar {...props} >
+      <SaveButton />
+  </Toolbar>
+);
+
 export const UserList = () => (
-  <List filters={getUserFilters()}>
-    <Datagrid rowClick="edit" >
-      <TextField source="id" sortByOrder="DESC" />
-      <TextField source="username" />
-      <EmailField source="email" />
-      <TextField source="phonenumber" />
-      <TextField source="status" />
-      <TextField source="description" />
-      <TextField source="created_at" />
+  <List filters={getUserFilters()} >
+    <Datagrid size="small" rowClick="edit" expand={<DescriptionShow />} bulkActionButtons={<PostBulkActionButtons />}>
+      <TextField source="id" sortable={false}/>
+      <TextField source="username" sortable={false}/>
+      <EmailField source="email" sortable={false}/>
+      <TextField source="phonenumber" sortable={false}/>
+      <TextField source="status" sortable={false}/>
+      <BooleanField source="isadmin" sortable={false}/>
+      <TextField source="created_at" sortable={false}/>
       <TextField source="profilepic" sortable={false} />
-      <EditButton />
     </Datagrid>
   </List>
 );
 
 export const UserEdit = (props: any) => (
   <Edit {...props}>
-    <SimpleForm>
+    <SimpleForm toolbar={<UserEditToolbar />}>
       <TextInput disabled source="id" />
       <TextInput disabled source="username" resettable />
       <TextInput disabled source="email" resettable />
+      <BooleanInput source="isadmin" />
       <TextInput source="phonenumber" />
       <SelectInput
         source="status_id"
