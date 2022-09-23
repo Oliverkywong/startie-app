@@ -214,13 +214,27 @@ export class UserController {
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
-  // get all userInfo
+  // get all userInfo (this should be only for admin & search)
   // -------------------------------------------------------------------------------------------------------------------
   getAllUser = async (req: express.Request, res: express.Response) => {
     try {
       let input: UserListInput = req.query;
       let show = false;
       let json = await this.userService.getAllUser(input, show);
+
+      res.status(200).json(json);
+    } catch (err) {
+      logger.error(err);
+      res.status(500).json({ error: String(err) });
+    }
+  };
+
+  // -------------------------------------------------------------------------------------------------------------------
+  // get all user
+  // -------------------------------------------------------------------------------------------------------------------
+  getAllUserList = async (req: express.Request, res: express.Response) => {
+    try {
+      let json = await this.userService.getAllUserList();
 
       res.status(200).json(json);
     } catch (err) {
