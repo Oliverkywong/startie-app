@@ -10,8 +10,7 @@ import {
   Legend,
 } from "chart.js";
 import { Radar } from "react-chartjs-2";
-import "./css/UserStats.css";
-import { IonContent } from "@ionic/react";
+import "../css/UserStats.css";
 
 ChartJS.register(
   RadialLinearScale,

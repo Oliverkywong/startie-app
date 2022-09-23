@@ -23,9 +23,9 @@ import {
 
 import "./css/Common.css";
 import "./css/Profile.css";
-import UserInfo from "./UserInfo";
-import UserStats from "./UserStats";
-import UserTeams from "./UserTeams";
+import User  from "./component/UserInfo";
+import UserStats from "./component/UserStats";
+import UserTeams from "./component/UserTeams";
 import UserSettings from "./UserSettings";
 import { RootState, useAppSelector } from "../store";
 import { Team } from "../model";
@@ -76,7 +76,7 @@ const Profile: React.FC = () => {
 
 
 
-      const skillres = await fetch(`${process.env.REACT_APP_BACKEND_URL}/skill`, {
+      const skillres = await fetch(`${process.env.REACT_APP_BACKEND_URL}/skill/${userdetails.id}`, {
         headers: {
           Authorization: `Bearer ${localtoken}`,
         },
@@ -183,13 +183,12 @@ const Profile: React.FC = () => {
             </div>
           </div>
          {stat && <UserStats sectorName={sectorName} skillName={skillName} skillPoint={skillPoint} />}
-          {/* {info && (
-            <UserInfo
+          {info && (
+            <User
               description={userdetails?.description}
               phone={userdetails?.phonenumber}
             />
-          )} */}
-          {/* {stat && <UserStats />} */}
+          )}
           {team && <UserTeams team={userBelongsTeam} />}
           {setting && <UserSettings />}
         </div>

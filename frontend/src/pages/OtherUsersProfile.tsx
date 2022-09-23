@@ -17,9 +17,9 @@ import { documentTextOutline, peopleOutline, statsChart } from "ionicons/icons";
 
 import "./css/Common.css";
 import "./css/Profile.css";
-import User from "./UserInfo";
-import UserStats from "./UserStats";
-import UserTeams from "./UserTeams";
+import User from "./component/UserInfo";
+import UserStats from "./component/UserStats";
+import UserTeams from "./component/UserTeams";
 import { useRouteMatch } from "react-router";
 import { UserInfo } from "../model";
 
@@ -77,7 +77,7 @@ const OtherUserProfile: React.FC = () => {
       setUserBelongsTeam(userTeam);
 
 
-      const skillres = await fetch(`${process.env.REACT_APP_BACKEND_URL}/skill${match?.params.id}`, {
+      const skillres = await fetch(`${process.env.REACT_APP_BACKEND_URL}/skill/${match?.params.id}`, {
         headers: {
           Authorization: `Bearer ${localtoken}`,
         },

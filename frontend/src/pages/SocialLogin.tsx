@@ -64,10 +64,10 @@ export default function SocialLogin() {
           },
           body: JSON.stringify(res),
         });
-        console.log(data)
+        
         if (data.status === 200) {
           const userRecord = await data.json();
-          console.log(userRecord)
+          
           dispatch(loggedIn(userRecord["user"], userRecord["jwt"]));
           dispatch(loadUserInfo(userRecord["user"]))
         router.push("/tab/home");
@@ -93,10 +93,10 @@ export default function SocialLogin() {
           },
           body: JSON.stringify(res),
         });
-        console.log(data)
+       
         if (data.status === 200) {
           const userRecord = await data.json();
-          console.log(userRecord)
+         
           dispatch(loggedIn(userRecord["user"], userRecord["jwt"]));
           dispatch(loadUserInfo(userRecord["user"]))
         router.push("/tab/home");

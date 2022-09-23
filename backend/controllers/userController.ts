@@ -25,7 +25,6 @@ export class UserController {
 
   loginGoogle = async (req: express.Request, res: express.Response) => {
     try {
-      // console.log(req.body)
       const client = new OAuth2Client(process.env.GOOGLE_IOS_CLIENT_ID);
       const ticket = await client.verifyIdToken({
         idToken: req.body.idToken,
@@ -34,7 +33,6 @@ export class UserController {
 
       const payload = ticket.getPayload();
 
-      console.log(req.body)
       const googlelogin = await this.userService.socialLogin(req.body.email)
       if (!googlelogin.result) {
         await this.userService.register(
@@ -83,8 +81,6 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   register = async (req: express.Request, res: express.Response) => {
     try {
-      // console.log(req.body);
-
       let username: string = req.body.username.trim();
       let password: string = req.body.password.trim();
       let email: string = req.body.email.trim();
@@ -117,7 +113,6 @@ export class UserController {
       let username = req.body.username.trim();
       let password = req.body.password.trim();
       let user = await this.userService.login(username, password);
-      console.log("user:", user);
 
       const ecPrivateKey = await joseKey();
 
@@ -211,8 +206,6 @@ export class UserController {
   userInfoForAdmin = async (req: express.Request, res: express.Response) => {
     try {
       let userId = parseInt(req.params.id); // get userId from params
-
-      console.log("userId", userId);
 
       const userInfo = await this.userService.userInfo(userId);
       res.json(userInfo[0]);
@@ -325,7 +318,7 @@ export class UserController {
 
       const input: UserListInput = req.body;
 
-      console.log(req.body);
+      // console.log(req.body);
 
       const userInfo = await this.userService.editUserForAdmin(userId, input);
 
@@ -360,7 +353,6 @@ export class UserController {
           ? "Apple User"
           : req.body.fullName.nickname;
 
-      console.log(req.body)
       const applelogin = await this.userService.socialLogin(appleuserinfo.email)
       if (!applelogin.result) {
         await this.userService.register(
@@ -410,7 +402,6 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   checkTeam = async (req: express.Request, res: express.Response) => {
     try {
-      console.log("/me/team", req.user?.userId)
       const userId =
         req.user?.userId != undefined
           ? Number(req.user.userId)
@@ -466,7 +457,7 @@ export class UserController {
       res
         .status(200)
         .json({ result: true, msg: "join event success!!", event: event }); //for frontend toast box
-      console.log("joinEvent", event);
+      // console.log("joinEvent", event);
     } catch (err) {
       logger.error(err);
       res.status(400).json({ result: false, msg: "join event fail!!" });
