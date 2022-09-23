@@ -10,7 +10,7 @@ export default function UserInfo(props: { description: string | undefined, phone
       <p>Phone Number: </p>
       <IonIcon icon={logoWhatsapp} />
       <span onClick={() => {
-        window.location.href = `https://wa.me/${props.phone}`;}}> { props.phone }</span>
+        window.location.href = `https://wa.me/852${props.phone}`;}}> { props.phone }</span>
     </div >
   );
 }

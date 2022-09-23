@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import {
   IonBackButton,
   IonButtons,
@@ -30,16 +30,21 @@ import UserSettings from "./UserSettings";
 import { RootState, useAppSelector } from "../store";
 
 const Profile: React.FC = () => {
+
   const userdetails = useAppSelector(
     (state: RootState) => state.userInfo.userinfo
   );
   console.log(userdetails);
 
-  const [stat, setStat] = React.useState(false);
-  const [info, setInfo] = React.useState(true);
-  const [team, setTeam] = React.useState(false);
-  const [setting, setSetting] = React.useState(false);
-  const [userBelongsTeam, setUserBelongsTeam] = React.useState([]);
+  const [stat, setStat] = useState(false);
+  const [info, setInfo] = useState(true);
+  const [team, setTeam] = useState(false);
+  const [setting, setSetting] = useState(false);
+  const [userBelongsTeam, setUserBelongsTeam] = useState([]);
+
+  const [sectorName, setSectorName] = useState<string[]>([]);
+  const [skillName, setSkillName] = useState<string[]>([]);
+  const [skillPoint, setSkillPoint] = useState<number[]>([]);
 
   const router = useIonRouter();
 
@@ -69,6 +74,37 @@ const Profile: React.FC = () => {
       const userTeam = await selfTeam.json();
       console.log(userTeam);
       setUserBelongsTeam(userTeam);
+
+
+
+      const skillres = await fetch(`${process.env.REACT_APP_BACKEND_URL}/skill`, {
+        headers: {
+          Authorization: `Bearer ${localtoken}`,
+        },
+      });
+
+      const skilldetails = await skillres.json();
+
+      const sectorNameArray: string[] = [];
+      for (let i = 0; i < skilldetails.detail.sector.length; i++) {
+        sectorNameArray.push(skilldetails.detail.sector[i].name);
+      }
+      const skillNameArray: string[] = [];
+      const skillPointArray: number[] = [];
+      for (let i = 0; i < skilldetails.detail.skill.length; i++) {
+        skillNameArray.push(skilldetails.detail.skill[i].name);
+        skillPointArray.push(skilldetails.detail.skill[i].point);
+      }
+
+      console.log(sectorNameArray);
+      console.log(skillNameArray);
+      console.log(skillPointArray);
+
+      setSectorName(sectorNameArray);
+      setSkillName(skillNameArray);
+      setSkillPoint(skillPointArray);
+
+
     })();
   }, []);
 
@@ -148,7 +184,7 @@ const Profile: React.FC = () => {
             </div>
           </div>
           {info && <UserInfo description={userdetails?.description} phone={userdetails?.phonenumber}/>}
-          {stat && <UserStats />}
+          {stat && <UserStats sectorName={sectorName} skillName={skillName} skillPoint={skillPoint} />}
           {team && <UserTeams team={userBelongsTeam} />}
           {setting && <UserSettings />}
         </div>

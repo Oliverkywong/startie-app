@@ -22,7 +22,7 @@ export default function UserTeams(props: { team: Team[] }) {
           return (
             <div
               className="userTeam"
-              key={team.id}
+              // key={team.id}
               onClick={() => router.push(`team/${team.id}`)}
             >
               <IonImg

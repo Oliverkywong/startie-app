@@ -95,21 +95,21 @@ const Homepage: React.FC = () => {
       const hotEvent = eventResult.events.slice(0, 4);
       setEventData(hotEvent);
 
-      const userRes = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/app/user/:id`,
-        {
-          headers: {
-            Authorization: `Bearer ${localtoken}`,
-          },
-        }
-      );
+      // const userRes = await fetch(
+      //   `${process.env.REACT_APP_BACKEND_URL}/app/user/:id`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${localtoken}`,
+      //     },
+      //   }
+      // );
 
-      if (userRes.status === 200) {
-        const userRecord = await userRes.json();
-        dispatch(loadUserInfo(userRecord));
-        // setIsLogin(true);
-        // router.push("/tab/home");
-      }
+      // if (userRes.status === 200) {
+      //   const userRecord = await userRes.json();
+      //   dispatch(loadUserInfo(userRecord));
+      //   // setIsLogin(true);
+      //   // router.push("/tab/home");
+      // }
     })();
   }, []);
 
