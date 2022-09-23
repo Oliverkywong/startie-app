@@ -28,7 +28,7 @@ const EventList: React.FC = () => {
         `${process.env.REACT_APP_BACKEND_URL}/app/event/?searchcategory_id=3`
       );
       const result = await res.json();
-      console.log(result);
+      // console.log(result);
       setData(result.events);
     })();
   }, []);

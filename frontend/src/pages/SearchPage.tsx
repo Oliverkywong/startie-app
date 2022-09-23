@@ -52,7 +52,7 @@ export default function SearchPage() {
       `${process.env.REACT_APP_BACKEND_URL}/app/event/?${eventreq}`
     );
     const eventresult = await eventres.json();
-    console.log(eventresult.events);
+    // console.log(eventresult.events);
     setEventData(eventresult.events);
   };
 
@@ -72,7 +72,7 @@ export default function SearchPage() {
       </IonHeader>
       <IonContent>
         <IonSegment
-          onIonChange={(e) => console.log("Segment selected", e.detail.value)}
+          // onIonChange={(e) => console.log("Segment selected", e.detail.value)}
         >
           <IonSegmentButton
             value="User"

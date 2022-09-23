@@ -24,13 +24,14 @@ const UserSettings: React.FC = () => {
   const router = useIonRouter();
 
   const initialState: UserInfo = {
-      id: 0,
-      username: "dummy",
-      profilepic: null,
-      shortDescription: "short",
-      description: "testing",
-      tags: ["dummytag", "dummytag2"],
-      phonenumber: "1234567890",
+    id: 0,
+    username: "dummy",
+    profilepic: null,
+    shortDescription: "short",
+    description: "testing",
+    tags: ["dummytag", "dummytag2"],
+    phonenumber: "1234567890",
+    email: "123@gmail.com",
   };
 
   return (
@@ -45,20 +46,20 @@ const UserSettings: React.FC = () => {
       </IonHeader>
       <IonContent>
         <div className="setting">
-        <IonButton color="danger" onClick={() => {}}>
-          Delect Account
-        </IonButton>
-        <IonButton
-          color="danger"
-          onClick={() => {
-            dispatch(logOut());
-            dispatch(loadUserInfo(initialState))
-            // window.location.replace("/login");
-            router.push("/tab/home");
-          }}
-        >
-          Log Out
-        </IonButton>
+          <IonButton color="danger" onClick={() => {}}>
+            Delect Account
+          </IonButton>
+          <IonButton
+            color="danger"
+            onClick={() => {
+              dispatch(logOut());
+              dispatch(loadUserInfo(initialState));
+              // window.location.replace("/login");
+              router.push("/tab/home");
+            }}
+          >
+            Log Out
+          </IonButton>
         </div>
       </IonContent>
     </IonPage>
