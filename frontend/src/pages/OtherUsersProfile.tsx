@@ -49,41 +49,26 @@ const OtherUserProfile: React.FC = () => {
 
   useLayoutEffect(() => {
     (async function () {
-      const localtoken = localStorage.getItem("token");
-      if (localtoken === null) {
-        router.push("/tab/login");
-      }
-
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/${match?.params.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localtoken}`,
-          },
-        }
+        `${process.env.REACT_APP_BACKEND_URL}/user/${match?.params.id}`
       );
 
       const data = await res.json();
       setData(data);
 
-      const selfTeam = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/me/team`,
-        {
-          headers: {
-            Authorization: `Bearer ${localtoken}`,
-          },
-        }
-      );
-      const userTeam = await selfTeam.json();
-      setUserBelongsTeam(userTeam);
+      // const selfTeam = await fetch(
+      //   `${process.env.REACT_APP_BACKEND_URL}/user/me/team`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${localtoken}`,
+      //     },
+      //   }
+      // );
+      // const userTeam = await selfTeam.json();
+      // setUserBelongsTeam(userTeam);
 
       const skillres = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/skill${match?.params.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localtoken}`,
-          },
-        }
+        `${process.env.REACT_APP_BACKEND_URL}/skill${match?.params.id}`
       );
 
       const skilldetails = await skillres.json();
