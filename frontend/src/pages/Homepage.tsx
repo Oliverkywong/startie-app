@@ -48,19 +48,8 @@ const Homepage: React.FC = () => {
   const isLogin = useAppSelector((state: RootState) => state.auth.loggedIn);
   const [teamData, setTeamData] = useState<Team[]>([]);
   const [eventData, setEventData] = useState<EventInfo[]>([]);
-  // const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
   const dispatch = useAppDispatch();
-
-  // const loadData = (ev: any) => {
-  //   setTimeout(() => {
-  //     console.log("Loaded data");
-  //     ev.target.complete();
-  //     if (teamData.length === 100) {
-  //       setInfiniteDisabled(true);
-  //     }
-  //   }, 500);
-  // };
 
   useLayoutEffect(() => {
     (async function () {
@@ -328,16 +317,6 @@ const Homepage: React.FC = () => {
               );
             })}
           </div>
-          {/* <IonInfiniteScroll
-            onIonInfinite={loadData}
-            threshold="100px"
-            disabled={isInfiniteDisabled}
-          >
-            <IonInfiniteScrollContent
-              loadingSpinner="bubbles"
-              loadingText="Loading more data..."
-            ></IonInfiniteScrollContent>
-          </IonInfiniteScroll> */}
         </IonList>
       </IonContent>
     </IonPage>

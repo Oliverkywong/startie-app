@@ -94,7 +94,6 @@ const SignUp: React.FC = () => {
           <div className="signup">
             <p>
               Already a member?
-              <span />
               <span
                 style={{ color: "#4fc564" }}
                 onClick={() => {
