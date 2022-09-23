@@ -66,44 +66,41 @@ export default function UserStats() {
   }, []);
 
   return (
-    <IonContent>
-      <div className="ProfileBackground">
-        {sectorName.map((sectorName, index) => {
-          // console.log(sectorName);
-          return (
-            <div className="char" key={sectorName}>
-              <div className="charDetail">
-                <Radar
-                  key={index}
-                  data={{
-                    labels: [
-                      skillName[index * 5],
-                      skillName[index * 5 + 1],
-                      skillName[index * 5 + 2],
-                      skillName[index * 5 + 3],
-                      skillName[index * 5 + 4],
-                    ],
-                    datasets: [
-                      {
-                        label: `${sectorName}`,
-                        backgroundColor: "rgba(34, 202, 236, 0.2)",
-                        borderColor: "rgba(34, 202, 236, 1)",
-                        data: [
-                          skillPoint[index * 5],
-                          skillPoint[index * 5 + 1],
-                          skillPoint[index * 5 + 2],
-                          skillPoint[index * 5 + 3],
-                          skillPoint[index * 5 + 4],
-                        ],
-                      },
-                    ],
-                  }}
-                />
-              </div>
+    <div className="ProfileBackground">
+      {sectorName.map((sectorName, index) => {
+        return (
+          <div className="char" key={sectorName}>
+            <div className="charDetail">
+              <Radar
+                key={index}
+                data={{
+                  labels: [
+                    skillName[index * 5],
+                    skillName[index * 5 + 1],
+                    skillName[index * 5 + 2],
+                    skillName[index * 5 + 3],
+                    skillName[index * 5 + 4],
+                  ],
+                  datasets: [
+                    {
+                      label: `${sectorName}`,
+                      backgroundColor: "rgba(34, 202, 236, 0.2)",
+                      borderColor: "rgba(34, 202, 236, 1)",
+                      data: [
+                        skillPoint[index * 5],
+                        skillPoint[index * 5 + 1],
+                        skillPoint[index * 5 + 2],
+                        skillPoint[index * 5 + 3],
+                        skillPoint[index * 5 + 4],
+                      ],
+                    },
+                  ],
+                }}
+              />
             </div>
-          );
-        })}
-      </div>
-    </IonContent>
+          </div>
+        );
+      })}
+    </div>
   );
 }
