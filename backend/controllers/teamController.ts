@@ -12,31 +12,10 @@ export class TeamController {
 // create team
 // -------------------------------------------------------------------------------------------------------------------
   createTeam = async (req: express.Request, res: express.Response) => {
-    //need to improve, not ready
-    console.log("req.origin", req.get("origin"));
-
-    if (req.get("origin") === process.env.REACT_APP_API_URL) {
-      //react admin
-      try {
-        const name = req.body.name;
-        const searchcategory = req.body.category_id;
-        const description = req.body.description;
-        const profilepic = req.body.profilepic;
-
-        const event = await this.teamService.createTeam(
-          name,
-          searchcategory,
-          description,
-          profilepic
-        );
-        res.status(200).json(event);
-      } catch (err) {
-        logger.error(err);
-        res.status(400).json({ result: false, msg: "create team fail" });
-      }
-    } else {
       form.parse(req, async (err, fields, files) => {
         try {
+          const userId = req.user!.userId;
+
           const searchcategory =
             fields.category_id != null && !Array.isArray(fields.category_id)
               ? parseInt(fields.category_id)
@@ -45,7 +24,7 @@ export class TeamController {
           const name =
             fields.name != null && !Array.isArray(fields.name)
               ? fields.name
-              : "Team X";
+              : "Team X";  //should throw error class (missing name)
 
           const description =
             fields.description != null && !Array.isArray(fields.description)
@@ -58,19 +37,19 @@ export class TeamController {
               : "default.jpg"; //default use default.jpg
 
           const team = await this.teamService.createTeam(
+            userId,
             name,
             searchcategory,
             description,
             profilepic
           );
-          res.status(200).json(team);
+          res.status(200).json(team.teamInfo);
         } catch (err) {
           logger.error(err);
           res.status(400).json({ result: false, msg: "create team fail" });
         }
       });
     }
-  };
 // -------------------------------------------------------------------------------------------------------------------
 // get all teams for react admin
 // -------------------------------------------------------------------------------------------------------------------
@@ -120,69 +99,24 @@ export class TeamController {
   // -------------------------------------------------------------------------------------------------------------------
   // edit team
   // -------------------------------------------------------------------------------------------------------------------
-  updateTeam = async (req: express.Request, res: express.Response) => {
-    form.parse(req, async (err, fields, files) => {
+  updateTeamForAdmin = async (req: express.Request, res: express.Response) => {
       try {
         const teamId = parseInt(req.params.id);
-
-        const oldTeamInfos = await this.teamService.getTeam(teamId);
-
-        let oldProfilepic = oldTeamInfos.team[0].profilepic!;
-        let oldCategory = oldTeamInfos.team[0].searchcategory_id;
-        let oldDescription = oldTeamInfos.team[0].description!;
-        let oldName = oldTeamInfos.team[0].name;
-
-        const searchcategory =
-          fields.category_id != null && !Array.isArray(fields.category_id)
-            ? parseInt(fields.category_id)
-            : oldCategory;
-
-        const name =
-          fields.name != null && !Array.isArray(fields.name)
-            ? fields.name
-            : oldName;
-
-        const description =
-          fields.description != null && !Array.isArray(fields.description)
-            ? fields.description
-            : oldDescription;
-
-        const profilepic =
-          files.profilepic != null && !Array.isArray(files.profilepic)
-            ? files.profilepic.newFilename
-            : oldProfilepic;
-
+  
+        const input: TeamListInput = req.body;
+  
         const team = await this.teamService.updateTeam(
           teamId,
-          searchcategory,
-          name,
-          description,
-          profilepic
+          input
         );
         res.status(200).json(team);
       } catch (err) {
         logger.error(err);
-        res.status(400).json({ result: false, msg: "updateTeam fail" });
+        res.status(500).json({ result: false, msg: "update team fail" });
       }
-    });
   };
   // -------------------------------------------------------------------------------------------------------------------
-  // delete team
-  // -------------------------------------------------------------------------------------------------------------------
-  deleteTeam = async (req: Request, res: Response) => {
-    try {
-      const team = await this.teamService.deleteTeam(
-        parseInt(req.params.id),
-        2
-      );
-      res.status(200).json(`team: ${team} has been deleted`);
-    } catch (err) {
-      logger.error(err);
-      res.status(400).json({ result: false, msg: "deleteTeam fail" });
-    }
-  };
-  // -------------------------------------------------------------------------------------------------------------------
-  // get all categories
+  // get tags of team
   // -------------------------------------------------------------------------------------------------------------------
   teamTag = async (req: Request, res: Response) => {
     try {
@@ -190,7 +124,7 @@ export class TeamController {
       res.status(200).json(teamtag);
     } catch (err) {
       logger.error(err);
-      res.status(400).json({ result: false, msg: "getTeamTag fail" });
+      res.status(500).json({ result: false, msg: "get team tag fail" });
     }
   };
 
@@ -203,7 +137,7 @@ export class TeamController {
       res.status(200).json(category);
     } catch (err) {
       logger.error(err);
-      res.status(400).json({ result: false, msg: "getCategory fail" });
+      res.status(500).json({ result: false, msg: "get all category fail" });
     }
   };
 }

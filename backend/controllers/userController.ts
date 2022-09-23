@@ -218,6 +218,8 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   getAllUser = async (req: express.Request, res: express.Response) => {
     try {
+      // let currentUserId = req.params.id;
+
       let input: UserListInput = req.query;
       let show = false;
       let json = await this.userService.getAllUser(input, show);
