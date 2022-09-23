@@ -4,14 +4,14 @@ import { isLogin } from "../utils/middleware";
 
 export function teamRoutes(teamController: TeamController) {
   const router = express.Router();
-  router.get("/app/team", teamController.getAllTeams); // no need isLogin
+  router.get("/app/team", teamController.getAllTeams);
 
-  router.get("/team/:id", teamController.getTeam);
-  router.post("/team", isLogin,teamController.createTeam); // need to add isLogin
-  router.put("/team/:id", isLogin, teamController.updateTeam); // need to add isBoard
-  router.get("/teamtag", teamController.teamTag); //show team on profile
-  router.get("/category", teamController.getCategory); //show team on profile
-
-  router.get("/team", teamController.getAllTeamsForAdmin); // no need isLogin
+  router.get("/app/team/:id", teamController.getTeam);
+  router.post("/app/team", isLogin,teamController.createTeam); //✅ need to add isLogin, Admin cannot use, disable create team (formidable)
+  router.get("/teamtag", teamController.teamTag); 
+  router.get("/category", teamController.getCategory); 
+  // ----------------------------Admin Routes-------------------------------------------------------------------------------
+  router.get("/team", teamController.getAllTeamsForAdmin);
+  router.put("/team/:id", teamController.updateTeamForAdmin); // no need isLogin
   return router;
 }
