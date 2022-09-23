@@ -27,7 +27,7 @@ const TeamDetail: React.FC = () => {
   useLayoutEffect(() => {
     (async function () {
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/team/${match?.params.id}`
+        `${process.env.REACT_APP_BACKEND_URL}/app/team/${match?.params.id}`
       );
       const item = await res.json();
 
