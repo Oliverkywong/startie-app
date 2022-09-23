@@ -40,13 +40,13 @@ export const isLogin = async (
       };
       next();
     } else {
-      res.status(401).json({ result: false, msg: "Unauthorized" });
+      res.status(500).json({ result: false, msg: "Unauthorized" });
     }
   } catch (e) {
     if (e.code === "ERR_JWT_EXPIRED") {
-      res.status(401).json({ result: false, msg: "Token expired" });
+      res.status(401).json({ result: false, msg: "You have to login first!" });
     } else {
-      res.status(401).json({ result: false, msg: "Incorrect Token" });
+      res.status(500).json({ result: false, msg: "Incorrect Token" });
     }
   }
 };
