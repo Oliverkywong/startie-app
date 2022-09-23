@@ -112,7 +112,11 @@ const TeamDetail: React.FC = () => {
         <div className="teamDetailMemeberContainer">
           {teamMember.map((item) => {
             return (
-              <div className="teamDetailMemeber" key={item.id}>
+              <div className="teamDetailMemeber" key={item.id}
+              onClick={() => {
+                router.push(`/tab/user/${item.id}`);
+              }}
+              >
                 <img
                   className="teamDetailMemeberThumbnail"
                   src={
