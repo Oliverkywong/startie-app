@@ -47,7 +47,7 @@ const TeamList: React.FC = () => {
     setData([...data, ...sliceData]);
   };
 
-  const loadData = (ev: any) => {
+  const loadData = (ev: any) => { //set loading state
     setTimeout(() => {
       pushData();
       console.log("Loaded data");
