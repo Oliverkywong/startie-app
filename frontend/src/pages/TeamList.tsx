@@ -21,28 +21,29 @@ import "./css/Common.css";
 import "./css/Team.css";
 import { shareOutline } from "ionicons/icons";
 
-let i = 0;
 const TeamList: React.FC = () => {
   const [data, setData] = useState<Team[]>([]);
   const [fetchData, setFetchData] = useState<Team[]>([]);
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
+  const [i, setI] = useState(0);
   const router = useIonRouter();
 
   useLayoutEffect(() => {
     (async function () {
+      console.log(i)
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/app/team`);
       const result = await res.json();
       setFetchData(result.teams.rows);
       setData(result.teams.rows.slice(i, i + 10));
+      setI(i + 10);
     })();
-  }, [i]);
+  }, []);
 
   let sliceData: Team[] = [];
 
   const pushData = () => {
-    i = i + 10;
     sliceData = fetchData.slice(i, i + 10);
-
+    setI(i + 10);
     setData([...data, ...sliceData]);
   };
 

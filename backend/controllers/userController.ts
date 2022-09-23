@@ -18,7 +18,7 @@ import { OAuth2Client } from "google-auth-library";
 import { UserListInput } from "../utils/api-types";
 
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
   // -------------------------------------------------------------------------------------------------------------------
   // Google Login
   // -------------------------------------------------------------------------------------------------------------------
@@ -34,19 +34,25 @@ export class UserController {
 
       const payload = ticket.getPayload();
 
-      // await this.userService.appleLogin(req.body.displayName, req.body.email);
-      await this.userService.register(
-        req.body.displayName,
-        "google",
-        req.body.email,
-        1
-      );
+      console.log(req.body)
+      const googlelogin = await this.userService.socialLogin(req.body.email)
+      if (!googlelogin.result) {
+        await this.userService.register(
+          req.body.displayName,
+          "google",
+          req.body.email,
+          "0000000000",
+          "google user"
+        );
+      }
 
       const user = {
+        id: parseInt(googlelogin.userId),
         username: payload?.["name"],
         email: payload?.["email"],
         profilepic: "tonystarkicon.png",
         phonenumber: "0000000000",
+
         description: "google user",
       };
       const ecPrivateKey = await joseKey();
@@ -60,14 +66,16 @@ export class UserController {
         .setExpirationTime("24h")
         .sign(ecPrivateKey);
 
-      res.status(200).json({
+      logger.info(`${user.username} logged in`);
+
+      return res.status(200).header("token", jwt).json({
         result: true,
         msg: "google login success",
         user: user,
         jwt: jwt,
       });
     } catch (err) {
-      res.status(500).json({ result: false, msg: "google login error" });
+      return res.status(500).json({ result: false, msg: "google login error" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -352,16 +360,21 @@ export class UserController {
           ? "Apple User"
           : req.body.fullName.nickname;
 
-      // await this.userService.appleLogin(req.body.fullName.nickname, appleuserinfo.email);
-      await this.userService.register(
-        appleUser,
-        "apple",
-        appleuserinfo.email,
-        1
-      );
+      console.log(req.body)
+      const applelogin = await this.userService.socialLogin(appleuserinfo.email)
+      if (!applelogin.result) {
+        await this.userService.register(
+          appleUser,
+          "apple",
+          appleuserinfo.email,
+          "0000000000",
+          "apple user"
+        );
+      }
 
       const user = {
-        username: req.body.fullName.nickname,
+        id: parseInt(applelogin.userId),
+        username: appleUser,
         email: appleuserinfo.email,
         profilepic: "tonystarkicon.png",
         phonenumber: "0000000000",
@@ -378,7 +391,9 @@ export class UserController {
         .setExpirationTime("24h")
         .sign(ecPrivateKey);
 
-      return res.status(200).json({
+      logger.info(`${user.username} logged in`);
+
+      return res.status(200).header("token", jwt).json({
         result: true,
         msg: "apple login success",
         user: user,
@@ -395,6 +410,7 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   checkTeam = async (req: express.Request, res: express.Response) => {
     try {
+      console.log("/me/team", req.user?.userId)
       const userId =
         req.user?.userId != undefined
           ? Number(req.user.userId)

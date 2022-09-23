@@ -35,10 +35,20 @@ import SocialLogin from "./pages/SocialLogin";
 import StartupEventList from "./pages/StartupEventList";
 import BusinessEventList from "./pages/BusinessEventList";
 import HackathonEventList from "./pages/HackathonEventList";
+import { RootState, useAppSelector } from "./store";
 import OtherUserProfile from "./pages/OtherUsersProfile";
 
+function UserRoute(props:{
+  path:string
+  exact?:boolean
+  component:any
+}){
+  const isLogin = useAppSelector((state: RootState) => state.auth.loggedIn);
+  let component = isLogin ? props.component : Login
+  return  <Route exact={props.exact} path={props.path} component={component} />
+}
+
 export default function Routes() {
-  const localtoken = localStorage.getItem("token");
 
   return (
     <IonRouterOutlet>
@@ -56,7 +66,7 @@ export default function Routes() {
           <IonRouterOutlet>
             <Route exact path="/tab/home" component={Homepage} />
             <Route exact path="/tab/team" component={TeamList} />
-            <Route exact path="/tab/buildteam" component={BuildTeam} />
+            <UserRoute exact path="/tab/buildteam" component={BuildTeam} />
             <Route exact path="/tab/team/:id" component={TeamDetail} />
             <Route exact path="/tab/event" component={EventList} />
             <Route
@@ -90,17 +100,10 @@ export default function Routes() {
               <IonIcon icon={planetOutline} />
               <IonLabel>Team</IonLabel>
             </IonTabButton>
-            {localtoken ? (
-              <IonTabButton tab="buildteam" href="/tab/buildteam">
+            <IonTabButton tab="buildteam" href="/tab/buildteam">
                 <IonIcon icon={addCircleOutline} />
                 <IonLabel>Build Team</IonLabel>
               </IonTabButton>
-            ) : (
-              <IonTabButton tab="login" href="/tab/login">
-                <IonIcon icon={addCircleOutline} />
-                <IonLabel>Build Team</IonLabel>
-              </IonTabButton>
-            )}
             <IonTabButton tab="event" href="/tab/event">
               <IonIcon icon={logoOctocat} />
               <IonLabel>Event</IonLabel>

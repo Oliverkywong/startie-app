@@ -9681,6 +9681,11 @@ react-scripts@^5.0.0:
   optionalDependencies:
     fsevents "^2.3.2"
 
+react-use-ionic-form@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-use-ionic-form/-/react-use-ionic-form-1.0.2.tgz#ce39bbb51b5404feb3e809016281d76c1f11d050"
+  integrity sha512-wdUOQkH7XQqxxNChhXrg7NePlmORqQ+3+wARN7FtmJb2Br1vJUedrpFRabxItyO+IIrn8ztVyE1Uaba/RKHaBw==
+
 react-use-storage-state@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/react-use-storage-state/-/react-use-storage-state-1.0.3.tgz#4983643879df52801ed5233265d7bca86e0b11e1"
