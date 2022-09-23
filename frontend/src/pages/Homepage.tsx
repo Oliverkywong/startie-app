@@ -29,7 +29,7 @@ import "./css/Homepage.css";
 // Import Swiper styles
 import "swiper/css";
 import { RootState, useAppDispatch, useAppSelector } from "../store";
-import { logOut } from "../redux/auth/action";
+import { loggedIn, logOut } from "../redux/auth/action";
 import { EffectCards } from "swiper";
 import { loadUserInfo } from "../redux/userInfo/action";
 import { Team, EventInfo } from "../model";
@@ -43,9 +43,7 @@ const catergorys = {
 };
 
 const Homepage: React.FC = () => {
-  const userdetails = useAppSelector(
-    (state: RootState) => state.userInfo.userinfo
-  );
+  const userdetails = useAppSelector((state: RootState) => state.auth.info);
   const isLogin = useAppSelector((state: RootState) => state.auth.loggedIn);
   const [teamData, setTeamData] = useState<Team[]>([]);
   const [eventData, setEventData] = useState<EventInfo[]>([]);
@@ -55,8 +53,23 @@ const Homepage: React.FC = () => {
   useLayoutEffect(() => {
     (async function () {
       const localtoken = localStorage.getItem("token");
-      if (localtoken === null) {
-        dispatch(logOut());
+      // if (localtoken === null) {
+      //   dispatch(logOut());
+      // }
+      if (localtoken !== null) {
+        const res = await fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/user/me`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localtoken}`,
+            },
+          }
+        );
+        const userRecord = await res.json();
+        console.log(userRecord);
+
+        dispatch(loggedIn(userRecord, localtoken));
       }
 
       const teamRes = await fetch(
@@ -151,8 +164,8 @@ const Homepage: React.FC = () => {
                 className="icon"
                 // src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`}
                 src={
-                  userdetails.profilepic !== null
-                    ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`
+                  userdetails?.profilepic !== null
+                    ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails?.profilepic}`
                     : "https://www.w3schools.com/howto/img_avatar.png"
                 }
               />
