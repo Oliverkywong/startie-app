@@ -1,7 +1,7 @@
 import { Knex } from "knex";
 import { UserListData, UserListInput } from "../utils/api-types";
 import { checkPassword, hashPassword } from "../utils/hash";
-import { User } from "../utils/model";
+import { User, User_Team } from "../utils/model";
 
 export class UserDuplicateUsernameError extends Error {
   constructor(msg?: string) {
@@ -42,6 +42,18 @@ export class UserStatusError extends Error {
   constructor(msg?: string) {
     super(msg); //super is used to call the parent class constructor
     Object.setPrototypeOf(this, UserStatusError.prototype);
+  }
+}
+export class YourHaveJoinedThisTeamError extends Error {
+  constructor(msg?: string) {
+    super(msg);
+    Object.setPrototypeOf(this, YourHaveJoinedThisTeamError.prototype);
+  }
+}
+export class YourHaveJoinedThisEventError extends Error {
+  constructor(msg?: string) {
+    super(msg);
+    Object.setPrototypeOf(this, YourHaveJoinedThisEventError.prototype);
   }
 }
 
@@ -291,7 +303,16 @@ export class UserService {
   // user join team
   // -------------------------------------------------------------------------------------------------------------------
   async joinTeam(teamId: number, userId: number) {
-    return await this.knex("user_team")
+    const joinTeamRecord = await this.knex<User_Team>("user_team")
+    .select("*")
+    .where("user_id",userId)
+    .andWhere("team_id", teamId);
+
+    if (joinTeamRecord.length > 0) {
+      throw new YourHaveJoinedThisTeamError();
+    }
+
+     return await this.knex<User_Team>("user_team")
       .insert({
         user_id: userId,
         team_id: teamId,
@@ -317,6 +338,15 @@ export class UserService {
   // user join event
   // -------------------------------------------------------------------------------------------------------------------
   async joinEvent(userId: number, eventId: number) {
+    const joinEventRecord = await this.knex("user_event")
+    .select("*")
+    .where("user_id",userId)
+    .andWhere("event_id", eventId);
+    
+    if (joinEventRecord.length > 0) {
+      throw new YourHaveJoinedThisEventError();
+    }
+
     return await this.knex("user_event")
       .insert({
         user_id: userId,
