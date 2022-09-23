@@ -206,6 +206,9 @@ export class UserService {
         )
       );
     }
+    if (input.isadmin) {
+      query = query.having("isadmin", "=", `%${input.isadmin}%`);
+    }
     if (show) {
       query = query.orderBy("id", "asc");
     } else {
