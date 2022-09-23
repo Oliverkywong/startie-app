@@ -14,6 +14,7 @@ export class TeamController {
   createTeam = async (req: express.Request, res: express.Response) => {
     //need to improve, not ready
     console.log("req.origin", req.get("origin"));
+    console.log("req.body", req.body);
 
     if (req.get("origin") === process.env.REACT_APP_API_URL) {
       //react admin

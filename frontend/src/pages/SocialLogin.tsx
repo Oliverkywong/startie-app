@@ -11,8 +11,6 @@ import {
   IonIcon,
   IonContent,
   useIonRouter,
-  IonBackButton,
-  IonButtons,
 } from "@ionic/react";
 import { logoApple, logoGoogle } from "ionicons/icons";
 import { GooglePlus } from "@awesome-cordova-plugins/google-plus";

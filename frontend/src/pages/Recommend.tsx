@@ -1,8 +1,9 @@
 import React from 'react'
-import { IonButton, IonCard, IonCardContent, IonContent, IonHeader, IonImg, IonLabel, IonList, IonPage } from '@ionic/react'
+import { IonButton, IonCard, IonCardContent, IonContent, IonHeader, IonImg, IonLabel, IonList, IonPage, useIonRouter } from '@ionic/react'
 import icon from '../img/tonystarkicon.png'
 
 export default function Recommend() {
+    const router = useIonRouter();
     return (
         <IonPage>
             <IonHeader>
@@ -71,7 +72,7 @@ export default function Recommend() {
                         </IonCard>
                     </a>
                 </IonList>
-                <a href="/tab/home">No Thanks</a>
+                <IonLabel onClick={()=>router.push('tab/home')}>No Thanks</IonLabel>
             </IonContent>
         </IonPage>
     )
