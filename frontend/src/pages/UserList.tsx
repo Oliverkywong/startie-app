@@ -26,7 +26,7 @@ const UserList: React.FC = () => {
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/app/user`);
       const result = await res.json();
       console.log(result);
-      setData(result); //remove.user after backend fix
+      setData(result.user); //remove.user after backend fix
     })();
   }, []);
 
