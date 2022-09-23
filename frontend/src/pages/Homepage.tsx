@@ -49,19 +49,8 @@ const Homepage: React.FC = () => {
   const isLogin = useAppSelector((state: RootState) => state.auth.loggedIn);
   const [teamData, setTeamData] = useState<Team[]>([]);
   const [eventData, setEventData] = useState<EventInfo[]>([]);
-  // const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
   const dispatch = useAppDispatch();
-
-  // const loadData = (ev: any) => {
-  //   setTimeout(() => {
-  //     console.log("Loaded data");
-  //     ev.target.complete();
-  //     if (teamData.length === 100) {
-  //       setInfiniteDisabled(true);
-  //     }
-  //   }, 500);
-  // };
 
   useLayoutEffect(() => {
     (async function () {
@@ -149,7 +138,7 @@ const Homepage: React.FC = () => {
   return (
     <IonPage>
       <IonHeader className="header">
-        <IonToolbar className="searchBar">
+        <div className="homePageHeader">
           <IonButtons slot="start">
             <IonButton
               onClick={() => {
@@ -181,6 +170,7 @@ const Homepage: React.FC = () => {
           </IonButtons>
           <IonButtons slot="end">
             <IonButton
+              slot="end"
               onClick={() => {
                 isLogin
                   ? router.push("/notification")
@@ -191,7 +181,7 @@ const Homepage: React.FC = () => {
               <IonIcon icon={notificationsOutline} />
             </IonButton>
           </IonButtons>
-        </IonToolbar>
+        </div>
       </IonHeader>
       <IonContent className="homecontent">
         <IonLabel className="labelTitle">Hot Events</IonLabel>
@@ -334,16 +324,6 @@ const Homepage: React.FC = () => {
               );
             })}
           </div>
-          {/* <IonInfiniteScroll
-            onIonInfinite={loadData}
-            threshold="100px"
-            disabled={isInfiniteDisabled}
-          >
-            <IonInfiniteScrollContent
-              loadingSpinner="bubbles"
-              loadingText="Loading more data..."
-            ></IonInfiniteScrollContent>
-          </IonInfiniteScroll> */}
         </IonList>
       </IonContent>
     </IonPage>

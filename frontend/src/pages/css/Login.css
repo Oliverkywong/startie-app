@@ -1,13 +1,14 @@
 .background {
-  --background: #fff url('../../img/bgimage.png') no-repeat center center / cover;
-  display: flex; 
+  --background: #fff url("../../img/bgimage.png") no-repeat center center /
+    cover;
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
-.background > .sociallogin{
-  display: flex; 
+.background > .sociallogin {
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -49,7 +50,7 @@ form {
 
 .email > :first-child,
 .password > :first-child,
-.username > :first-child{
+.username > :first-child {
   margin-right: 10px;
 }
 
@@ -60,7 +61,7 @@ input {
   background-color: #e8e8e8;
 }
 
-.nav{
+.nav {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -87,6 +88,10 @@ a {
 
 .signup {
   color: #000;
+}
+
+.signup span {
+  padding-left: 10px;
 }
 
 button,

@@ -31,7 +31,6 @@ import { RootState, useAppSelector } from "../store";
 import { Team } from "../model";
 
 const Profile: React.FC = () => {
-
   const userdetails = useAppSelector(
     (state: RootState) => state.userInfo.userinfo
   );
@@ -102,8 +101,6 @@ const Profile: React.FC = () => {
       setSectorName(sectorNameArray);
       setSkillName(skillNameArray);
       setSkillPoint(skillPointArray);
-
-
     })();
   }, []);
 
@@ -183,10 +180,19 @@ const Profile: React.FC = () => {
             </div>
           </div>
          {stat && <UserStats sectorName={sectorName} skillName={skillName} skillPoint={skillPoint} />}
+
+          {stat && (
+            <UserStats
+              sectorName={sectorName}
+              skillName={skillName}
+              skillPoint={skillPoint}
+            />
+          )}
           {info && (
             <User
               description={userdetails?.description}
               phone={userdetails?.phonenumber}
+              email={userdetails?.email}
             />
           )}
           {team && <UserTeams team={userBelongsTeam} />}
