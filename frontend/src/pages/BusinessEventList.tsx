@@ -25,7 +25,7 @@ const EventList: React.FC = () => {
   useLayoutEffect(() => {
     (async function () {
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/app/event/?category_id=2`
+        `${process.env.REACT_APP_BACKEND_URL}/app/event/?searchcategory_id=2`
       );
       const result = await res.json();
 
@@ -65,7 +65,7 @@ const EventList: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-      <div className="eventContainer">
+        <div className="eventContainer">
           {data.map((item) => {
             return (
               <div
