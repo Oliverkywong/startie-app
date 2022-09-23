@@ -31,7 +31,8 @@ const rootinfo = {
   description: "testing",
   tags: ["dummytag", "dummytag2"],
   phonenumber: "1234567890",
-}
+  email: "123@gmail.com",
+};
 
 const OtherUserProfile: React.FC = () => {
   const [stat, setStat] = useState(false);
@@ -48,40 +49,22 @@ const OtherUserProfile: React.FC = () => {
 
   useLayoutEffect(() => {
     (async function () {
-      const localtoken = localStorage.getItem("token");
-      if (localtoken === null) {
-        router.push("/tab/login");
-      }
-
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/${match?.params.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localtoken}`,
-          },
-        }
+        `${process.env.REACT_APP_BACKEND_URL}/user/${match?.params.id}`
       );
 
       const data = await res.json();
       setData(data);
 
       const selfTeam = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/me/team`,
-        {
-          headers: {
-            Authorization: `Bearer ${localtoken}`,
-          },
-        }
+        `${process.env.REACT_APP_BACKEND_URL}/user/me/team`
       );
       const userTeam = await selfTeam.json();
       setUserBelongsTeam(userTeam);
 
-
-      const skillres = await fetch(`${process.env.REACT_APP_BACKEND_URL}/skill/${match?.params.id}`, {
-        headers: {
-          Authorization: `Bearer ${localtoken}`,
-        },
-      });
+      const skillres = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/skill${match?.params.id}`
+      );
 
       const skilldetails = await skillres.json();
 
@@ -125,9 +108,7 @@ const OtherUserProfile: React.FC = () => {
             />
           </div>
 
-          <IonLabel className="uresname">
-            {data?.username}
-          </IonLabel>
+          <IonLabel className="uresname">{data?.username}</IonLabel>
 
           <div className="profilebar">
             <div
@@ -167,9 +148,16 @@ const OtherUserProfile: React.FC = () => {
             <User
               description={data?.description}
               phone={data?.phonenumber}
+              email={data?.email}
             />
           )}
-          {stat && <UserStats sectorName={sectorName} skillName={skillName} skillPoint={skillPoint} />}
+          {stat && (
+            <UserStats
+              sectorName={sectorName}
+              skillName={skillName}
+              skillPoint={skillPoint}
+            />
+          )}
           {team && <UserTeams team={userBelongsTeam} />}
         </div>
       </IonContent>

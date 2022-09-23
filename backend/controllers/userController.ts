@@ -9,6 +9,8 @@ import {
   UserPasswordMissMatchError,
   UserService,
   UserStatusError,
+  YourHaveJoinedThisEventError,
+  YourHaveJoinedThisTeamError,
 } from "../services/userService";
 import { joseKey } from "../jose";
 import * as jose from "jose";
@@ -219,6 +221,8 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   getAllUser = async (req: express.Request, res: express.Response) => {
     try {
+      // let currentUserId = req.params.id;
+
       let input: UserListInput = req.query;
       let show = false;
       let json = await this.userService.getAllUser(input, show);
@@ -428,7 +432,11 @@ export class UserController {
         .json({ result: true, msg: "join team success!!", team: team }); // json must pass result:true, otherwise inform michael
     } catch (err) {
       logger.error(err);
-      res.status(400).json({ result: false, msg: "join team fail" });
+      if (err instanceof YourHaveJoinedThisTeamError) {
+        res.status(400).json({ result: false, msg: "already joined team" });
+      } else {
+        res.status(400).json({ result: false, msg: "join team fail" });
+      }
     }
   };
 
@@ -447,7 +455,9 @@ export class UserController {
       res.status(400).json({ result: false, msg: "guit team fail" });
     }
   };
-
+  // -------------------------------------------------------------------------------------------------------------------
+  // user join event
+  // -------------------------------------------------------------------------------------------------------------------
   joinEvent = async (req: express.Request, res: express.Response) => {
     try {
       const userId = req.user!.userId;
@@ -460,7 +470,11 @@ export class UserController {
       // console.log("joinEvent", event);
     } catch (err) {
       logger.error(err);
-      res.status(400).json({ result: false, msg: "join event fail!!" });
+      if (err instanceof YourHaveJoinedThisEventError) {
+        res.status(400).json({ result: false, msg: "already joined event" });
+      } else {
+        res.status(500).json({ result: false, msg: "join event fail!!" });
+      }
     }
   };
   // -------------------------------------------------------------------------------------------------------------------

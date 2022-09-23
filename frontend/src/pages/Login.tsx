@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import {
+  IonBackButton,
   IonButton,
+  IonButtons,
   IonContent,
+  IonHeader,
   IonIcon,
   IonImg,
-  IonInput,
   IonPage,
+  IonToolbar,
   useIonRouter,
 } from "@ionic/react";
 import logo from "../img/StartieLogo.png";
@@ -29,6 +32,13 @@ const Login: React.FC = () => {
 
   return (
     <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/tab/home" />
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
       <IonContent className="background">
         <div className="pageContent">
           <IonImg src={logo} className="logo" />
@@ -49,7 +59,7 @@ const Login: React.FC = () => {
               if (res.status === 200) {
                 const userRecord = await res.json();
                 dispatch(loggedIn(userRecord["user"], userRecord["jwt"]));
-                dispatch(loadUserInfo(userRecord["user"]))
+                dispatch(loadUserInfo(userRecord["user"]));
                 router.push("/tab/home");
               }
             })}
@@ -82,7 +92,7 @@ const Login: React.FC = () => {
           <a href="#">Forgot Password?</a>
           <div className="signup">
             <p>
-              New to Startie? <span />
+              New to Startie?
               <span
                 style={{ color: "#4fc564" }}
                 onClick={() => {

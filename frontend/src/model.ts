@@ -6,6 +6,7 @@ export interface UserInfo {
   phonenumber: string;
   tags: string[];
   shortDescription: string;
+  email: string;
 }
 
 export interface Team {

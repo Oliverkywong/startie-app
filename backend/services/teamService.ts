@@ -1,27 +1,34 @@
 import { Knex } from "knex";
 import { TeamListData, TeamListInput } from "../utils/api-types";
-import { Team} from "../utils/model";
+import { Category, Team, User_Team} from "../utils/model";
 
 export class TeamService {
   constructor(private knex: Knex) {}
   // -------------------------------------------------------------------------------------------------------------------
   // create team
   // -------------------------------------------------------------------------------------------------------------------
-  async createTeam(name: string, searchcategory_id: number, description?: string, profilepic?: string) {
+  async createTeam(userId: number, name: string, searchcategory_id: number, shortDescription?: string, description?: string, profilepic?: string) {
     try {
-      const teaminfo = await this.knex<Team>("team")
+      const teamInfo = await this.knex<Team>("team")
         .insert({
           name: name,
           searchcategory_id: searchcategory_id,
+          shortDescription: description,
           description: description,
           profilepic: profilepic,
           status_id: 1,
         })
         .returning("*");
 
-        //Add user_team
+        const user_team = await this.knex<User_Team>("user_team")
+        .insert({
+          user_id: userId,
+          team_id: teamInfo[0].id,
+          
+        })
+        .returning("*");
 
-      return teaminfo;
+      return {teamInfo, user_team};
     } catch (err) {
       console.error(err);
       throw err;
@@ -92,7 +99,7 @@ export class TeamService {
     const team = await this.knex<Team>("team").select("*").where("id", id);
 
     const teamTag = await this.knex.raw(
-      `select * from team_tag join tag on tag.id=tag_id where team_id = ?`,
+      `select * from team_tag join tag on tag.id = team_tag.tag_id where team_tag.team_id = ?`,
       [id]
     );
     const teammember = await this.knex.raw(
@@ -107,17 +114,15 @@ export class TeamService {
   // -------------------------------------------------------------------------------------------------------------------
   async updateTeam(
     id: number,
-    searchcategory: number,
-    name: string,
-    description: string,
-    profilepic: string
+    input: TeamListInput
   ) {
+    
     const teamInfo = await this.knex<Team>("team")
       .update({
-        name: name,
-        searchcategory_id: searchcategory,
-        description: description,
-        profilepic: profilepic,
+        name: input.name,
+        searchcategory_id: input.searchcategory_id,
+        description: input.description,
+        profilepic: input.profile_pic
       })
       .where("id", id)
       .returning("*");
@@ -125,21 +130,16 @@ export class TeamService {
     return teamInfo;
   }
   // -------------------------------------------------------------------------------------------------------------------
-  // delete team
-  // -------------------------------------------------------------------------------------------------------------------
-  async deleteTeam(id: number, status_id: number) {
-    return await this.knex<Team>("team")
-      .update("status_id", status_id)
-      .where({ id: id });
-  }
-
-  // -------------------------------------------------------------------------------------------------------------------
   // get all teamtag
   // -------------------------------------------------------------------------------------------------------------------
   async teamTag() {
-    // return await this.knex("team_tag").select("*");
-    const teamTags = await this.knex.raw(
-      `select team_id as id, array_agg(tag.name) as tags from (team_tag inner join team t on t.id= team_tag.team_id) inner join tag on tag.id=team_tag.tag_id group by team_id,t.name`
+    const teamTags = 
+    await this.knex.raw( /*SQL*/
+      `SELECT team_id AS id, t.name, array_agg(tag.name) AS tags 
+      FROM team_tag 
+      INNER JOIN team t ON t.id= team_tag.team_id
+      INNER JOIN tag ON tag.id=team_tag.tag_id 
+      GROUP BY team_id,t.name`
     );
     return teamTags.rows;
   }
@@ -148,6 +148,6 @@ export class TeamService {
   // get all Category
   // -------------------------------------------------------------------------------------------------------------------
   async getCategory() {
-    return await this.knex("searchcategory").select("*");
+    return await this.knex<Category>("searchcategory").select("*");
   }
 }

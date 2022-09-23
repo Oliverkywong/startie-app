@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import {
+  IonBackButton,
+  IonButtons,
   IonContent,
   IonIcon,
   IonImg,
   IonPage,
-  useIonRouter
+  IonToolbar,
+  useIonRouter,
 } from "@ionic/react";
 import logo from "../img/StartieLogo.png";
 import {
@@ -25,11 +28,15 @@ const SignUp: React.FC = () => {
 
   const password = watch("password");
 
-
   const router = useIonRouter();
 
   return (
     <IonPage>
+      <IonToolbar>
+        <IonButtons slot="start">
+          <IonBackButton defaultHref="/tab/home" />
+        </IonButtons>
+      </IonToolbar>
       <IonContent className="background">
         <div className="pageContent">
           <IonImg src={logo} className="logo" />
@@ -87,10 +94,11 @@ const SignUp: React.FC = () => {
           <div className="signup">
             <p>
               Already a member?
-              <span />
               <span
                 style={{ color: "#4fc564" }}
-                onClick={() => { router.push("/tab/login") }}
+                onClick={() => {
+                  router.push("/tab/login");
+                }}
               >
                 Log In
               </span>

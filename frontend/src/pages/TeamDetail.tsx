@@ -27,7 +27,7 @@ const TeamDetail: React.FC = () => {
   useLayoutEffect(() => {
     (async function () {
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/team/${match?.params.id}`
+        `${process.env.REACT_APP_BACKEND_URL}/app/team/${match?.params.id}`
       );
       const item = await res.json();
 
@@ -46,7 +46,7 @@ const TeamDetail: React.FC = () => {
   async function joinTeam() {
     const localtoken = localStorage.getItem("token");
     const fetchResult = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/user/me/${match?.params.id}`,
+      `${process.env.REACT_APP_BACKEND_URL}/user/me/team/${match?.params.id}`,
       {
         headers: {
           Authorization: `Bearer ${localtoken}`,
@@ -60,9 +60,8 @@ const TeamDetail: React.FC = () => {
       message: result.msg,
       duration: 1500,
       position: "middle",
-      cssClass: "backtoast"
-    }
-    );
+      cssClass: "backtoast",
+    });
   }
 
   return (
