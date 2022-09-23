@@ -59,7 +59,7 @@ export class UserController {
       const jwt = await new jose.SignJWT({
         "urn:example:claim": true,
         userId: req.body.user,
-        username: req.body.fullName.nickname,
+        username: req.body.displayName,
       }) // use private key to sign
         .setProtectedHeader({ alg: "ES256" })
         .setIssuedAt()
@@ -87,8 +87,22 @@ export class UserController {
       let password: string = req.body.password.trim();
       let email: string = req.body.email.trim();
 
-      await this.userService.register(username, password, email);
-      res.status(200).json({ result: true, msg: "register success" });
+      const register = await this.userService.register(username, password, email);
+
+      const ecPrivateKey = await joseKey();
+      const jwt = await new jose.SignJWT({
+        "urn:example:claim": true,
+        userId: req.body.user,
+        username: req.body.username,
+      }) // use private key to sign
+        .setProtectedHeader({ alg: "ES256" })
+        .setIssuedAt()
+        .setExpirationTime("24h")
+        .sign(ecPrivateKey);
+
+        logger.info(`${username} logged in`);
+
+      res.status(200).json({ result: true, msg: "register success", user: register, jwt: jwt });
     } catch (err) {
       if (err instanceof UserDuplicateUsernameError) {
         res.status(500).json({ result: false, msg: "username already exists" });

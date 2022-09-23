@@ -122,11 +122,12 @@ const BuildTeam: React.FC = () => {
             const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`, {
               method: "POST",
               headers: {
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localtoken}`
               },
-              body: formData,
+              body: JSON.stringify(formData),
             })
-            reset(res)
+            console.log(formData)
             
             router.push("/recommend");
           })}

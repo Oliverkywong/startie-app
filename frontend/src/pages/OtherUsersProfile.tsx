@@ -63,7 +63,7 @@ const OtherUserProfile: React.FC = () => {
       setUserBelongsTeam(userTeam);
 
       const skillres = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/skill${match?.params.id}`
+        `${process.env.REACT_APP_BACKEND_URL}/skill/${match?.params.id}`
       );
 
       const skilldetails = await skillres.json();
