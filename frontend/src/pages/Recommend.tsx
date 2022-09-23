@@ -16,7 +16,7 @@ export default function Recommend() {
                 },
             });
             const result = await res.json();
-            console.log(result);
+            // console.log(result);
             setData(result.user.slice(0,4)); //remove.user after backend fix
         })();
     }, []);

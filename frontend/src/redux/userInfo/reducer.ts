@@ -20,7 +20,7 @@ export function userInforeducer(
 ): userInfoState {
   switch (action.type) {
     case "@@userInfo/LOAD_USER_INFO":
-      console.log(action.payload)
+      // console.log(action.payload)
       return {
         ...state,
         userinfo: action.payload,

@@ -116,8 +116,8 @@ const BuildTeam: React.FC = () => {
             formData.append("teamImage", data.teamImage[0]);
             formData.append("teamcategory", data.teamcategory);
             const localtoken = localStorage.getItem("token");
-            console.log(data);
-            console.log(formData);
+            // console.log(data);
+            // console.log(formData);
 
             const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`, {
               method: "POST",
