@@ -1,6 +1,6 @@
 import express from "express";
 import { TeamController } from "../controllers/teamController";
-import { isLogin } from "../utils/middleware";
+import { isAdmin, isLogin } from "../utils/middleware";
 
 export function teamRoutes(teamController: TeamController) {
   const router = express.Router();
@@ -11,8 +11,8 @@ export function teamRoutes(teamController: TeamController) {
   router.get("/teamtag", teamController.teamTag); 
   router.get("/category", teamController.getCategory); 
   // ----------------------------Admin Routes-------------------------------------------------------------------------------
-  router.get("/team", teamController.getAllTeamsForAdmin);
-  router.get("/team/:id", teamController.getTeamForAdmin);
-  router.put("/team/:id", teamController.updateTeamForAdmin);
+  router.get("/team", isAdmin,teamController.getAllTeamsForAdmin);
+  router.get("/team/:id", isAdmin, teamController.getTeamForAdmin);
+  router.put("/team/:id", isAdmin,teamController.updateTeamForAdmin);
   return router;
 }

@@ -33,7 +33,7 @@ const httpClient = (url:string, options :any= {}) => {
  console.log("host", host);
  console.log("react admin", REACT_APP_API_URL);
 
-const dataProvider =  jsonServerProvider('https://api.startie.oliverstrat.me', httpClient);
+const dataProvider =  jsonServerProvider('http://localhost:8000', httpClient);
 
 
 const App = () => (
