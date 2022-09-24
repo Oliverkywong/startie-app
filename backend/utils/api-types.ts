@@ -19,6 +19,8 @@ export type EventListData = { //type of list of events for EventList of react ad
 export type EventListInput = { //input query from react admin
   name?: string;
   q?: string;
+  _order?: string;
+  _sort?: string;
   event_name?: string;
   provider_name?: string;
   profilepic?: string;
@@ -47,12 +49,15 @@ export type TeamListData = {
 
 export type TeamListInput = {
   name?: string;
+  _order?: string;
+  _sort?: string;
   q?: string;
   searchcategory_id?: number | string;
   profile_pic?: string;
   description?: string;
   shortDescription?: string;
   tags?: number | string;
+  users?: number | string;
   status_id?: number | string;
 };
 
@@ -75,6 +80,8 @@ export type UserListData = {
 export type UserListInput = {
   name?: string;
   q?: string;
+  _order?: string;
+  _sort?: string;
   email?: string;
   isadmin?: boolean;
   description?: string;
@@ -96,8 +103,12 @@ export type EventProviderListData = {
 
 export type EventProviderListInput = {
   name?: string;
+  _order?: string;
+  _sort?: string;
   q?: string;
   profile_pic?: string;
+  _end?: number;
+  _start?: number;
 };
     
 // ====================================================================================================================

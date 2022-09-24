@@ -4,19 +4,12 @@ import {
   Datagrid,
   TextField,
   EmailField,
-  EditButton,
   TextInput,
-  ReferenceInput,
   Edit,
   SimpleForm,
   Create,
-  FileInput,
-  FileField,
-  Button,
-  useDataProvider,
   SelectInput,
   SearchInput,
-  usePermissions,
   required,
   PasswordInput,
   BooleanField,
@@ -49,14 +42,14 @@ const UserEditToolbar = (props:any) => (
 export const UserList = () => (
   <List filters={getUserFilters()} >
     <Datagrid size="small" rowClick="edit" expand={<DescriptionShow />} bulkActionButtons={<PostBulkActionButtons />}>
-      <TextField source="id" sortable={false}/>
-      <TextField source="username" sortable={false}/>
-      <EmailField source="email" sortable={false}/>
-      <TextField source="phonenumber" sortable={false}/>
-      <TextField source="status" sortable={false}/>
-      <BooleanField source="isadmin" sortable={false}/>
+      <TextField source="id" />
+      <TextField source="username" />
+      <EmailField source="email" />
+      <TextField source="phonenumber" label="Phone" />
+      <TextField source="status" />
+      <BooleanField source="isadmin" label="Admin" />
       <TextField source="created_at" sortable={false}/>
-      <TextField source="profilepic" sortable={false} />
+      <TextField source="profilepic" label="Profile pic" sortable={false} />
     </Datagrid>
   </List>
 );
@@ -67,8 +60,8 @@ export const UserEdit = (props: any) => (
       <TextInput disabled source="id" />
       <TextInput disabled source="username" resettable />
       <TextInput disabled source="email" resettable />
-      <BooleanInput source="isadmin" />
-      <TextInput source="phonenumber" />
+      <BooleanInput source="isadmin" label="Admin"/>
+      <TextInput source="phonenumber" label="Phone"/>
       <SelectInput
         source="status_id"
         validate={required()}
@@ -92,10 +85,6 @@ export const UserEdit = (props: any) => (
 export const UserCreate = (props: any) => (
   <Create {...props}>
     <SimpleForm>
-      {/* <ReferenceInput source="userId" reference="users" />
-      {props.map((user: any) => {
-        return <TextInput source="name">{user}</TextInput>;
-      })} */}
       <TextInput source="username" validate={[required()]} />
       <PasswordInput source="password" validate={[required()]} />
       <TextInput source="email" validate={[required()]} />
@@ -103,13 +92,11 @@ export const UserCreate = (props: any) => (
   </Create>
 );
 
-const postFilters = [<SearchInput source="q" label="Search" alwaysOn />];
-
 const getUserFilters = () =>
   [
     <SearchInput source="q" alwaysOn />,
     <TextInput source="name" />,
-    <TextInput source="phonenumber" />,
+    <TextInput source="phonenumber" label="Phone"/>,
     <TextInput source="email" />,
     <TextInput source="description" />,
     <SelectInput
@@ -120,11 +107,16 @@ const getUserFilters = () =>
         { id: 3, name: "Pending" },
       ]}
     />,
-    // <SelectInput
-    //   source="isadmin"
-    //   choices={[
-    //     { id: , name: "true" },
-    //     { id: , name: "fa" },
-    //   ]}
-    // />
+    <SelectInput
+    source="isadmin"
+    label="Admin"
+    optionValue="name"
+    optionText="label"
+    choices={choices}
+    />
   ].filter((filter) => filter !== null);
+
+  const choices = [
+    { name: 'true', label: 'Yes' },
+    { name: 'false', label: 'No' }
+];

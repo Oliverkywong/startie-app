@@ -25,7 +25,11 @@ import {
   BulkExportButton,
   SaveButton,
   Toolbar,
+  ChipField,
+  SingleFieldList,
+  AutocompleteInput,
 } from "react-admin";
+// import { ReferenceManyToManyField } from '@react-admin/ra-relationships'; //need to buy enterprise edition
 
 const DescriptionShow = () => (
   <SimpleShowLayout>
@@ -45,6 +49,13 @@ const TeamEditToolbar = (props:any) => (
   </Toolbar>
 );
 
+// const validateName = (value) => {
+//   if (value < 18) {
+//       return 'Must be over 18';
+//   }
+//   return undefined;
+// }
+
 export const TeamList = (props: any) => (
   <List filters={getTeamFilters()} {...props}>
     <Datagrid size="small" rowClick="edit" expand={<DescriptionShow />} bulkActionButtons={<PostBulkActionButtons />}>
@@ -53,9 +64,8 @@ export const TeamList = (props: any) => (
       <TextField source="status" />
       <TextField source="category" />
       <TextField source="users" />
-      <FunctionField source="tags" render={(record: string) => record.replace(/[\[\]"]+/g, '')}/>
-      <TextField source="profilepic" sortable={false} />
-      {/* <ReferenceField source="userId" reference="team" /> */}
+      <TextField source="tags" label="Looking for" />
+      <TextField source="shortDescription" label="short description" />
     </Datagrid>
   </List>
 );
@@ -86,7 +96,14 @@ export const TeamCreate = (props: any) => (
           { id: 5, name: "Others" },
         ]}
       />
-      <TextInput multiline source="description" />
+      {/* <TextInput validate={required()} source="name" /> */}
+      <ReferenceInput
+        source="id"
+        reference="user"
+      >
+        <AutocompleteInput label="First Member" />
+      </ReferenceInput>
+      <TextInput multiline source="description" fullWidth/>
     </SimpleForm>
   </Create>
 );
@@ -110,7 +127,8 @@ const getTeamFilters = () =>
         { id: 5, name: "Others" },
       ]}
     />,
-    <TextInput source="looking_for" />,
+    <TextInput source="tags" label="Looking for" />,
+    <TextInput source="users" label="Users" />,
     <TextInput source="description" />,
     <SelectInput
       source="status_id"

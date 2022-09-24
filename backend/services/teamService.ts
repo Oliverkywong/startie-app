@@ -60,9 +60,6 @@ export class TeamService {
     GROUP BY t.id, s.id, s2.name
     HAVING `;
 
-    if (!show) { // if show is false, only show active teams
-      query += /*SQL*/ `s.id = 1 AND `
-    }
     if (input.status_id) {
       // let i = binding.length +1 // // method for preventing sql injection
       query += /*SQL*/ `s.name = '${input.status_id}' AND `
@@ -79,13 +76,23 @@ export class TeamService {
     if (input.tags) {
       query += /*SQL*/ `array_agg(DISTINCT tag.name)::VARCHAR ILIKE '%${input.tags}%'` 
   }
+  if (input.users) {
+    query += /*SQL*/ `array_agg(DISTINCT u.username)::VARCHAR ILIKE '%${input.users}%'` 
+}
+  if (!show) { // if show is false, only show active teams
+    query += /*SQL*/ `s.id = 1 AND `
+  }
 
     if (query.endsWith("AND ")) {
       query = query.slice(0, -4); // delete the "AND"
-      query += /*SQL*/ ` ORDER BY clickrate DESC, t.id ASC`;
     } else if (query.endsWith("HAVING ")) {
       query = query.slice(0, -7); // delete the "HAVING"
-      query += /*SQL*/ ` ORDER BY clickrate DESC, t.id ASC`;
+    }
+
+    if (input._order && input._sort) {
+      query += /*SQL*/ ` ORDER BY ${input._sort} ${input._order}`;
+    } else {
+      query += /*SQL*/ ` ORDER BY clickrate, t.id DESC`;
     }
     
      const teams = await this.knex.raw(query)
@@ -109,6 +116,23 @@ export class TeamService {
 
     return { team: team, teamTag: teamTag.rows, teamMember: teammember.rows };
   }
+// -------------------------------------------------------------------------------------------------------------------
+// get one team for admin
+// -------------------------------------------------------------------------------------------------------------------
+async getTeamForAdmin(id: number) {
+  const team = await this.knex<Team>("team as t")
+  .select("t.id as id", "t.name as name", "t.description as description", "t.shortDescription as shortDescription", "t.profilepic as profilepic", "s.name as status", "sc.name as category", "t.clickrate as clickrate", this.knex.raw("ARRAY_AGG(distinct u.username) AS users"), this.knex.raw("ARRAY_AGG(distinct tag.name) AS tags"))
+  .leftJoin("team_tag as tt", "t.id", "tt.team_id")
+  .innerJoin("tag", "tt.tag_id", "tag.id")
+  .innerJoin("status as s", "s.id", "t.status_id")
+  .innerJoin("searchcategory as sc", "sc.id", "t.searchcategory_id")
+  .innerJoin("user_team as ut", "ut.team_id", "t.id")
+  .innerJoin('user as u', "u.id", "ut.user_id")
+  .groupBy("t.id", "s.id", "sc.name")
+  .where("t.id", id);
+
+  return { team };
+}
   // -------------------------------------------------------------------------------------------------------------------
   // edit team
   // -------------------------------------------------------------------------------------------------------------------
