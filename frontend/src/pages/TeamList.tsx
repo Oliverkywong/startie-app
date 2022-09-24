@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   IonPage,
   IonHeader,
@@ -10,8 +10,6 @@ import {
   IonToolbar,
   IonTitle,
   IonBackButton,
-  useIonViewWillEnter,
-  IonCardContent,
   IonCardTitle,
   IonIcon,
 } from "@ionic/react";
@@ -19,7 +17,7 @@ import {
 import { Team } from "../model";
 import "./css/Common.css";
 import "./css/Team.css";
-import { logoWindows, shareOutline } from "ionicons/icons";
+import { shareOutline } from "ionicons/icons";
 import { API_ORIGIN } from "../utils/api";
 
 const TeamList: React.FC = () => {
@@ -85,7 +83,6 @@ const TeamList: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        items: { data.length}
         <div className="teamList">
           {data.map((item) => {
             return (

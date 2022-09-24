@@ -21,21 +21,21 @@ import { API_ORIGIN } from "../utils/api";
 const Notification: React.FC = () => {
   const [data, setData] = useState<Note[]>([]);
 
-  useLayoutEffect(() => {
-    OneSignal.startInit('b2f7f966-d8cc-11e4-bed1-df8f05be55ba', '703322744261');
+  // useLayoutEffect(() => {
+  //   OneSignal.startInit('b2f7f966-d8cc-11e4-bed1-df8f05be55ba', '703322744261');
 
-    OneSignal.inFocusDisplaying(OneSignal.OSInFocusDisplayOption.InAppAlert);
+  //   OneSignal.inFocusDisplaying(OneSignal.OSInFocusDisplayOption.InAppAlert);
 
-    OneSignal.handleNotificationReceived().subscribe(() => {
-      // do something when notification is received
-    });
+  //   OneSignal.handleNotificationReceived().subscribe(() => {
+  //     // do something when notification is received
+  //   });
 
-    OneSignal.handleNotificationOpened().subscribe(() => {
-      // do something when a notification is opened
-    });
+  //   OneSignal.handleNotificationOpened().subscribe(() => {
+  //     // do something when a notification is opened
+  //   });
 
-    OneSignal.endInit();
-  }, []);
+  //   OneSignal.endInit();
+  // }, []);
 
   
 

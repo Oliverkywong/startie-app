@@ -15,6 +15,7 @@ import {
   IonSegment,
   IonSegmentButton,
   IonImg,
+  IonIcon,
 } from "@ionic/react";
 import { search } from "ionicons/icons";
 import { useState } from "react";
@@ -60,6 +61,7 @@ export default function SearchPage() {
           <IonButtons slot="start">
             <IonBackButton />
           </IonButtons>
+          {/* <IonIcon icon={search} /> */}
           <input
             className="searchbar"
             placeholder="Search"

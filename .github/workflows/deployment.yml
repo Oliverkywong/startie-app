@@ -14,66 +14,66 @@ env:
   IMAGE_TAG: latest
 
 jobs:
-  server-testing:
-    runs-on: ubuntu-latest
-    container: node:latest
-    env:
-      DB_HOST: postgres
-    services:
-      postgres:  
-        image: postgres
-        env: 
-          POSTGRES_DB: ${{env.TESTDB_NAME}}
-          POSTGRES_USERNAME: ${{env.DB_USERNAME}}
-          POSTGRES_PASSWORD: ${{env.DB_PASSWORD}}
-        ports:
-          - 5432:5432
-    steps:
-      - uses: actions/checkout@v3
-      - name: Testing
-        run: |
-          cd backend
-          yarn install
-          yarn knex migrate:latest --env test
-          yarn knex seed:run --env test     
-          yarn jest
+  # server-testing:
+  #   runs-on: ubuntu-latest
+  #   container: node:latest
+  #   env:
+  #     DB_HOST: postgres
+  #   services:
+  #     postgres:  
+  #       image: postgres
+  #       env: 
+  #         POSTGRES_DB: ${{env.TESTDB_NAME}}
+  #         POSTGRES_USERNAME: ${{env.DB_USERNAME}}
+  #         POSTGRES_PASSWORD: ${{env.DB_PASSWORD}}
+  #       ports:
+  #         - 5432:5432
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Testing
+  #       run: |
+  #         cd backend
+  #         yarn install
+  #         yarn knex migrate:latest --env test
+  #         yarn knex seed:run --env test     
+  #         yarn jest
 
-  server-build:
-     if: github.ref_name == 'production'
-     runs-on: ubuntu-latest
-     needs: testing
-     steps:
-      - uses: actions/checkout@v3
-      - uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-southeast-1
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-      - name: Build, tag, and push image to Amazon ECR
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: startie
-          IMAGE_TAG: startie:latest
-        run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-
-
-  server-deploy:
-     if: github.ref_name == 'production'
-     runs-on: ubuntu-latest
-     needs: server-build
-     steps:
-      - uses: fifsky/ssh-action@master
-        with:
-          command: |
-            cd backend
-            yarn knex migrate:latest
-            yarn knex seed:run 
-            forever restart 0
-          host: 18.136.98.33
-          user: ubuntu
-          key: ${{secrets.SSH_PRIVATE_KEY}}
+    server-build:
+       if: github.ref_name == 'production'
+       runs-on: ubuntu-latest
+      #  needs: testing
+       steps:
+        - uses: actions/checkout@v3
+        - uses: aws-actions/configure-aws-credentials@v1
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ap-southeast-1
+        - name: Login to Amazon ECR
+          id: login-ecr
+          uses: aws-actions/amazon-ecr-login@v1
+        - name: Build, tag, and push image to Amazon ECR
+          env:
+            ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+            ECR_REPOSITORY: startie
+            IMAGE_TAG: startie:latest
+          run: |
+            docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+            docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+  
+  
+    server-deploy:
+       if: github.ref_name == 'production'
+       runs-on: ubuntu-latest
+       needs: server-build
+       steps:
+        - uses: fifsky/ssh-action@master
+          with:
+            command: |
+              cd backend
+              yarn knex migrate:latest
+              yarn knex seed:run 
+              forever restart 0
+            host: 18.136.98.33
+            user: ubuntu
+            key: ${{secrets.SSH_PRIVATE_KEY}}
