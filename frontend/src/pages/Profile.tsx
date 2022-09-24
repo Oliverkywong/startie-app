@@ -23,7 +23,7 @@ import {
 
 import "./css/Common.css";
 import "./css/Profile.css";
-import User  from "./component/UserInfo";
+import User from "./component/UserInfo";
 import UserStats from "./component/UserStats";
 import UserTeams from "./component/UserTeams";
 import UserSettings from "./UserSettings";
@@ -175,8 +175,6 @@ const Profile: React.FC = () => {
               <IonLabel>Account</IonLabel>
             </div>
           </div>
-         {stat && <UserStats sectorName={sectorName} skillName={skillName} skillPoint={skillPoint} />}
-
           {stat && (
             <UserStats
               sectorName={sectorName}

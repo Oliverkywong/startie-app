@@ -12,7 +12,8 @@ import {
   IonList,
   IonCol,
   IonCardTitle,
-  IonHeader
+  IonHeader,
+  IonToolbar
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Share } from "@capacitor/share";
@@ -149,52 +150,55 @@ const Homepage: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader className="header">
-        <div className="homePageHeader">
-          <IonButtons slot="start">
-            <IonButton
-              onClick={() => {
-                isLogin
-                  ? router.push("/tab/profile")
-                  : router.push("/tab/login");
-              }}
-            >
-              <IonImg
-                className="icon"
-                // src={`${API_ORIGIN}/userUploadedFiles/${userdetails.profilepic}`}
-                src={
-                  userdetails?.profilepic !== null
-                    ? `${API_ORIGIN}/userUploadedFiles/${userdetails?.profilepic}`
-                    : "https://www.w3schools.com/howto/img_avatar.png"
-                }
-              />
-            </IonButton>
-          </IonButtons>
-          <IonButtons style={{ width: "100%" }} slot="primary">
-            <IonButton
-              style={{ width: "100%" }}
-              onClick={() => {
-                router.push("/search");
-              }}
-            >
-              <input className="searchbar" placeholder="Search" />
-            </IonButton>
-          </IonButtons>
-          <IonButtons slot="end">
-            <IonButton
-              slot="end"
-              onClick={() => {
-                isLogin
-                  ? router.push("/notification")
-                  : router.push("/tab/login");
-              }}
+        <IonHeader className="header">
+      <IonToolbar color="dark">
+          <div className="homePageHeader">
+            <IonButtons slot="start">
+              <IonButton
+                onClick={() => {
+                  isLogin
+                    ? router.push("/tab/profile")
+                    : router.push("/tab/login");
+                }}
+              >
+
+                <IonImg
+                  className="icon"
+                  // src={`${API_ORIGIN}/userUploadedFiles/${userdetails.profilepic}`}
+                  src={
+                    userdetails?.profilepic !== undefined || null
+                      ? `${API_ORIGIN}/userUploadedFiles/${userdetails?.profilepic}`
+                      : "https://www.w3schools.com/howto/img_avatar.png"
+                  }
+                />
+              </IonButton>
+            </IonButtons>
+            <IonButtons style={{ width: "100%" }} slot="primary">
+              <IonButton
+                style={{ width: "100%" }}
+                onClick={() => {
+                  router.push("/search");
+                }}
+              >
+                <input className="searchbar" placeholder="Search" />
+              </IonButton>
+            </IonButtons>
+            <IonButtons slot="end">
+              <IonButton
+                slot="end"
+                onClick={() => {
+                  isLogin
+                    ? router.push("/notification")
+                    : router.push("/tab/login");
+                }}
               // routerLink="/notification"
-            >
-              <IonIcon icon={notificationsOutline} />
-            </IonButton>
-          </IonButtons>
-        </div>
-      </IonHeader>
+              >
+                <IonIcon icon={notificationsOutline} />
+              </IonButton>
+            </IonButtons>
+          </div>
+      </IonToolbar>
+        </IonHeader>
       <IonContent className="homecontent">
         <IonLabel className="labelTitle">Hot Events</IonLabel>
 

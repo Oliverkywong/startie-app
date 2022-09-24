@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import {
-  IonBackButton,
   IonButton,
-  IonButtons,
   IonContent,
-  IonHeader,
   IonIcon,
   IonImg,
   IonPage,
-  IonToolbar,
   useIonRouter,
 } from "@ionic/react";
 import logo from "../img/StartieLogo.png";
