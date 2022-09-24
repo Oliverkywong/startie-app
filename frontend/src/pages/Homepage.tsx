@@ -12,8 +12,7 @@ import {
   IonList,
   IonCol,
   IonCardTitle,
-  IonHeader,
-  IonToolbar,
+  IonHeader
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Share } from "@capacitor/share";
@@ -33,6 +32,7 @@ import { loggedIn, logOut } from "../redux/auth/action";
 import { EffectCards } from "swiper";
 import { loadUserInfo } from "../redux/userInfo/action";
 import { Team, EventInfo } from "../model";
+import { API_ORIGIN } from "../utils/api";
 // import { useGet } from "../hooks/useGet";
 
 const catergorys = {
@@ -58,7 +58,7 @@ const Homepage: React.FC = () => {
       // }
       if (localtoken !== null) {
         const res = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/user/me`,
+          `${API_ORIGIN}/user/me`,
           {
             method: "GET",
             headers: {
@@ -67,13 +67,12 @@ const Homepage: React.FC = () => {
           }
         );
         const userRecord = await res.json();
-        console.log(userRecord);
 
         dispatch(loggedIn(userRecord, localtoken));
       }
 
       const teamRes = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/app/team`,
+        `${API_ORIGIN}/app/team`,
         {
           headers: {
             Authorization: `Bearer ${localtoken}`,
@@ -85,7 +84,7 @@ const Homepage: React.FC = () => {
       setTeamData(teamResult.teams.rows.slice(0, 4)); // remove .teams.rows after backend fix
 
       const eventRes = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/app/event`,
+        `${API_ORIGIN}/app/event`,
         {
           headers: {
             Authorization: `Bearer ${localtoken}`,
@@ -97,7 +96,7 @@ const Homepage: React.FC = () => {
       setEventData(hotEvent);
 
       // const userRes = await fetch(
-      //   `${process.env.REACT_APP_BACKEND_URL}/app/user/:id`,
+      //   `${API_ORIGIN}/app/user/:id`,
       //   {
       //     headers: {
       //       Authorization: `Bearer ${localtoken}`,
@@ -116,14 +115,14 @@ const Homepage: React.FC = () => {
 
   // useLayoutEffect(() => {
   //   (async function () {
-  //     const teamRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`);
+  //     const teamRes = await fetch(`${API_ORIGIN}/team`);
   //     const teamResult = await teamRes.json();
   //     setTeamData(teamResult);
   //     console.log(teamResult);
 
   //     for (let i = 0; i < teamResult.length; i++) {
   //       const tagRes = await fetch(
-  //         `${process.env.REACT_APP_BACKEND_URL}/team/${teamResult[i].id}`
+  //         `${API_ORIGIN}/team/${teamResult[i].id}`
   //       );
 
   //       const tagItem = await tagRes.json();
@@ -138,7 +137,7 @@ const Homepage: React.FC = () => {
 
   // useLayoutEffect(() => {
   //   (async function () {
-  //     const eventRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/event`);
+  //     const eventRes = await fetch(`${API_ORIGIN}/event`);
   //     const eventResult = await eventRes.json();
   //     setEventData(eventResult);
   //   })();
@@ -162,10 +161,10 @@ const Homepage: React.FC = () => {
             >
               <IonImg
                 className="icon"
-                // src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`}
+                // src={`${API_ORIGIN}/userUploadedFiles/${userdetails.profilepic}`}
                 src={
                   userdetails?.profilepic !== null
-                    ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails?.profilepic}`
+                    ? `${API_ORIGIN}/userUploadedFiles/${userdetails?.profilepic}`
                     : "https://www.w3schools.com/howto/img_avatar.png"
                 }
               />
@@ -221,7 +220,7 @@ const Homepage: React.FC = () => {
                   className="homePageEventThumbnail"
                   src={
                     event.event_profilepic != null
-                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${event.event_profilepic}`
+                      ? `${API_ORIGIN}/userUploadedFiles/${event.event_profilepic}`
                       : "StartieLogo.png"
                   }
                 />
@@ -304,7 +303,7 @@ const Homepage: React.FC = () => {
                         className="teamIcon"
                         src={
                           item?.profilepic != null
-                            ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                            ? `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
                             : "https://www.w3schools.com/howto/img_avatar.png"
                         }
                       />

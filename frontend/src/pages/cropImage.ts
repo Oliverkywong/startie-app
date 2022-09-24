@@ -65,7 +65,6 @@ ctx!.putImageData(
 // As a blob
 return new Promise((resolve) => {
   canvas.toBlob((file) => {
-    console.log(file);
     //@ts-ignore
     resolve(URL.createObjectURL(file));
   }, "image/jpeg");

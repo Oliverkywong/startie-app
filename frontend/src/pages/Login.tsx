@@ -23,6 +23,7 @@ import "./css/Login.css";
 import { useDispatch } from "react-redux";
 import { loggedIn } from "../redux/auth/action";
 import { loadUserInfo } from "../redux/userInfo/action";
+import { API_ORIGIN } from "../utils/api";
 
 const Login: React.FC = () => {
   const { register, handleSubmit } = useForm();
@@ -32,13 +33,6 @@ const Login: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton defaultHref="/tab/home" />
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
       <IonContent className="background">
         <div className="pageContent">
           <IonImg src={logo} className="logo" />
@@ -46,7 +40,7 @@ const Login: React.FC = () => {
           <form
             onSubmit={handleSubmit(async (data) => {
               const res = await fetch(
-                `${process.env.REACT_APP_BACKEND_URL}/login`,
+                `${API_ORIGIN}/login`,
                 {
                   method: "POST",
                   headers: {

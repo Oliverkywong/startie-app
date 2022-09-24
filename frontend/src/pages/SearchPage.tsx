@@ -19,6 +19,7 @@ import {
 import { search } from "ionicons/icons";
 import { useState } from "react";
 import { Team, UserInfo, EventInfo } from "../model";
+import { API_ORIGIN } from "../utils/api";
 export default function SearchPage() {
   const router = useIonRouter();
   const [searchText, setSearchText] = useState("");
@@ -33,7 +34,7 @@ export default function SearchPage() {
     setSearchText(e.target.value);
     const teamreq = searchText.replace(/[^a-zA-Z ]/g, "");
     const teamres = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/app/team/?${teamreq}`
+      `${API_ORIGIN}/app/team/?${teamreq}`
     );
     const teamresult = await teamres.json();
     // console.log(teamresult);
@@ -41,7 +42,7 @@ export default function SearchPage() {
 
     const userreq = searchText.replace(/[^a-zA-Z ]/g, "");
     const userres = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/app/user/?${userreq}`
+      `${API_ORIGIN}/app/user/?${userreq}`
     );
     const userresult = await userres.json();
     // console.log(userresult.user);
@@ -49,7 +50,7 @@ export default function SearchPage() {
 
     const eventreq = searchText.replace(/[^a-zA-Z ]/g, "");
     const eventres = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/app/event/?${eventreq}`
+      `${API_ORIGIN}/app/event/?${eventreq}`
     );
     const eventresult = await eventres.json();
     // console.log(eventresult.events);
@@ -71,9 +72,7 @@ export default function SearchPage() {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonSegment
-          // onIonChange={(e) => console.log("Segment selected", e.detail.value)}
-        >
+        <IonSegment>
           <IonSegmentButton
             value="User"
             onClick={() => {
@@ -123,7 +122,7 @@ export default function SearchPage() {
                   >
                     <img
                       className="teamIcon"
-                      src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`}
+                      src={`${API_ORIGIN}/userUploadedFiles/${item.profilepic}`}
                     />
 
                     <p className="teamTitle">{item.username}</p>
@@ -156,7 +155,7 @@ export default function SearchPage() {
                         className="teamIcon"
                         src={
                           item?.profilepic != null
-                            ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                            ? `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
                             : "https://www.w3schools.com/howto/img_avatar.png"
                         }
                       />
@@ -197,7 +196,7 @@ export default function SearchPage() {
                     className="eventThumbnail"
                     src={
                       item?.event_profilepic != null
-                        ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.event_profilepic}`
+                        ? `${API_ORIGIN}/userUploadedFiles/${item.event_profilepic}`
                         : "StartieLogo.png"
                     }
                   />
@@ -207,7 +206,7 @@ export default function SearchPage() {
                     <IonImg
                       src={
                         item?.event_provider_profile_pic != null
-                          ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.event_provider_profile_pic}`
+                          ? `${API_ORIGIN}/userUploadedFiles/${item.event_provider_profile_pic}`
                           : "StartieLogo.png"
                       }
                       style={{ width: "10%", height: "10%" }}

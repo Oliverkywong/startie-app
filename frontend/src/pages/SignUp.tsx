@@ -23,6 +23,7 @@ import PasswordComplexity from "./PasswordComplexity";
 import { useDispatch } from "react-redux";
 import { loggedIn } from "../redux/auth/action";
 import { loadUserInfo } from "../redux/userInfo/action";
+import { API_ORIGIN } from "../utils/api";
 
 const SignUp: React.FC = () => {
   const { register, handleSubmit, watch } = useForm();
@@ -36,18 +37,17 @@ const SignUp: React.FC = () => {
 
   return (
     <IonPage>
-      {/* <IonToolbar>
+      <IonToolbar>
         <IonButtons slot="start">
           <IonBackButton defaultHref="/tab/home" />
         </IonButtons>
-      </IonToolbar> */}
+      </IonToolbar>
       <IonContent className="background">
         <div className="pageContent">
           <IonImg src={logo} className="logo" />
           <form
             onSubmit={handleSubmit(async (data) => {
-              // console.log(data);
-              const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user`, {
+              const res = await fetch(`${API_ORIGIN}/user`, {
                 method: "POST",
                 headers: {
                   'Content-Type': 'application/json'
