@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   IonPage,
   IonHeader,
@@ -15,27 +15,36 @@ import {
 import "./css/Common.css";
 import "./css/Team.css";
 import { UserInfo } from "../model";
+import { API_ORIGIN } from "../utils/api";
 
 const UserList: React.FC = () => {
   const [data, setData] = useState<UserInfo[]>([]);
-  const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
+  const [fetchData, setFetchData] = useState<UserInfo[]>([]);
+  const [i, setI] = useState(10);
   const router = useIonRouter();
+  const isInfiniteDisabled = data.length >= fetchData.length
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     (async function () {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/app/user`);
+      const res = await fetch(`${API_ORIGIN}/app/user`);
       const result = await res.json();
-      setData(result.user); //remove.user after backend fix
+
+      setData(result.user.slice(0, 10)); //remove.user after backend fix
+      setFetchData(result.user);
+      setI(10)
     })();
   }, []);
 
+  const pushData = () => {
+    let sliceData = fetchData.slice(i, i + 10);
+    setI(i=>i + 10);
+    setData(data=>[...data, ...sliceData]);
+  };
+
   const loadData = (ev: any) => {
     setTimeout(() => {
-      console.log("Loaded data");
+      pushData();
       ev.target.complete();
-      if (data.length === 100) {
-        setInfiniteDisabled(true);
-      }
     }, 500);
   };
 
@@ -71,7 +80,7 @@ const UserList: React.FC = () => {
                 >
                   <img
                     className="teamIcon"
-                    src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`}
+                    src={`${API_ORIGIN}/userUploadedFiles/${item.profilepic}`}
                   />
 
                   <p className="teamTitle">{item.username}</p>

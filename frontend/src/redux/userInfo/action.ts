@@ -1,7 +1,6 @@
 import { UserInfo, Team } from "../../model";
 
 export function loadUserInfo(userInfo: UserInfo) {
-  // console.log(userInfo)
   return {
     type: "@@userInfo/LOAD_USER_INFO" as const,
     payload: userInfo,

@@ -66,7 +66,7 @@ declare global {
 //   'http://localhost',
 //   'http://localhost:8080',
 //   'http://localhost:8100',
-//   'http://localhost:8000',
+//   'https://api.startie.oliverstrat.me',
 //   'http://localhost:3000',
 // ];
 
@@ -82,7 +82,7 @@ app.use(
 //grant
 // const grantExpress = grant.express({
 //   defaults: {
-//     origin: "http://localhost:8000",
+//     origin: "https://api.startie.oliverstrat.me",
 //     transport: "session",
 //     state: true,
 //   },

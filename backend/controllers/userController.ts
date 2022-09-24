@@ -20,14 +20,13 @@ import { OAuth2Client } from "google-auth-library";
 import { UserListInput } from "../utils/api-types";
 
 export class UserController {
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {}
   // -------------------------------------------------------------------------------------------------------------------
   // Google Login
   // -------------------------------------------------------------------------------------------------------------------
 
   loginGoogle = async (req: express.Request, res: express.Response) => {
     try {
-      // console.log(req.body)
       const client = new OAuth2Client(process.env.GOOGLE_IOS_CLIENT_ID);
       const ticket = await client.verifyIdToken({
         idToken: req.body.idToken,
@@ -36,8 +35,7 @@ export class UserController {
 
       const payload = ticket.getPayload();
 
-      console.log(req.body)
-      const googlelogin = await this.userService.socialLogin(req.body.email)
+      const googlelogin = await this.userService.socialLogin(req.body.email);
       if (!googlelogin.result) {
         await this.userService.register(
           req.body.displayName,
@@ -61,7 +59,7 @@ export class UserController {
       const jwt = await new jose.SignJWT({
         "urn:example:claim": true,
         userId: req.body.user,
-        username: req.body.fullName.nickname,
+        username: req.body.displayName,
       }) // use private key to sign
         .setProtectedHeader({ alg: "ES256" })
         .setIssuedAt()
@@ -85,14 +83,37 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   register = async (req: express.Request, res: express.Response) => {
     try {
-      // console.log(req.body);
-
       let username: string = req.body.username.trim();
       let password: string = req.body.password.trim();
       let email: string = req.body.email.trim();
 
-      await this.userService.register(username, password, email);
-      res.status(200).json({ result: true, msg: "register success" });
+      const register = await this.userService.register(
+        username,
+        password,
+        email
+      );
+
+      const ecPrivateKey = await joseKey();
+      const jwt = await new jose.SignJWT({
+        "urn:example:claim": true,
+        userId: req.body.user,
+        username: req.body.username,
+      }) // use private key to sign
+        .setProtectedHeader({ alg: "ES256" })
+        .setIssuedAt()
+        .setExpirationTime("24h")
+        .sign(ecPrivateKey);
+
+      logger.info(`${username} logged in`);
+
+      res
+        .status(200)
+        .json({
+          result: true,
+          msg: "register success",
+          user: register,
+          jwt: jwt,
+        });
     } catch (err) {
       if (err instanceof UserDuplicateUsernameError) {
         res.status(500).json({ result: false, msg: "username already exists" });
@@ -169,7 +190,7 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   logout = async (req: express.Request, res: express.Response) => {
     try {
-      logger.info(`${req.session["username"]} logging out`);
+      logger.info(`${req.user!.username} logging out`);
 
       // req.session.destroy( () => {
       //   res.status(500).json({ result: true, msg: "logout successful" });
@@ -213,8 +234,6 @@ export class UserController {
     try {
       let userId = parseInt(req.params.id); // get userId from params
 
-      console.log("userId", userId);
-
       const userInfo = await this.userService.userInfo(userId);
       res.json(userInfo[0]);
     } catch (err) {
@@ -227,8 +246,6 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   getAllUser = async (req: express.Request, res: express.Response) => {
     try {
-      // let currentUserId = req.params.id;
-
       let input: UserListInput = req.query;
       let show = false;
       let json = await this.userService.getAllUser(input, show);
@@ -328,7 +345,7 @@ export class UserController {
 
       const input: UserListInput = req.body;
 
-      console.log(req.body);
+      // console.log(req.body);
 
       const userInfo = await this.userService.editUserForAdmin(userId, input);
 
@@ -363,8 +380,9 @@ export class UserController {
           ? "Apple User"
           : req.body.fullName.nickname;
 
-      console.log(req.body)
-      const applelogin = await this.userService.socialLogin(appleuserinfo.email)
+      const applelogin = await this.userService.socialLogin(
+        appleuserinfo.email
+      );
       if (!applelogin.result) {
         await this.userService.register(
           appleUser,
@@ -413,11 +431,24 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   checkTeam = async (req: express.Request, res: express.Response) => {
     try {
-      console.log("/me/team", req.user?.userId)
       const userId =
         req.user?.userId != undefined
           ? Number(req.user.userId)
           : parseInt(req.params.id);
+      const team = await this.userService.checkTeam(userId);
+      res.json(team);
+    } catch (err) {
+      logger.error(err);
+      res.status(400).json({ result: false, msg: "get team fail" });
+    }
+  };
+
+  //-----------
+  // otheruserteam
+  //-----------
+  otheruserTeam = async (req: express.Request, res: express.Response) => {
+    try {
+      const userId = parseInt(req.params.id);
       const team = await this.userService.checkTeam(userId);
       res.json(team);
     } catch (err) {
@@ -475,7 +506,7 @@ export class UserController {
       res
         .status(200)
         .json({ result: true, msg: "join event success!!", event: event }); //for frontend toast box
-      console.log("joinEvent", event);
+      // console.log("joinEvent", event);
     } catch (err) {
       logger.error(err);
       if (err instanceof YourHaveJoinedThisEventError) {

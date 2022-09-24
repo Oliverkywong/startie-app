@@ -1,12 +1,10 @@
 import React, { useState, useLayoutEffect } from "react";
-import { IonContent, IonPage, IonProgressBar } from "@ionic/react";
+import { IonProgressBar } from "@ionic/react";
 import zxcvbn from "zxcvbn";
 
 export default function PasswordComplexity(props: { password: string }) {
   const passwordStrength = zxcvbn(props.password);
   const score = (passwordStrength.score * 100) / 4;
-  // console.log(passwordStrength)
-
   const [passwordvalid, setPasswordvalid] = useState({
     minLength: null as boolean | null,
     minLowercase: null as boolean | null,

@@ -17,11 +17,12 @@ import { documentTextOutline, peopleOutline, statsChart } from "ionicons/icons";
 
 import "./css/Common.css";
 import "./css/Profile.css";
-import User from "./UserInfo";
-import UserStats from "./UserStats";
-import UserTeams from "./UserTeams";
+import User from "./component/UserInfo";
+import UserStats from "./component/UserStats";
+import UserTeams from "./component/UserTeams";
 import { useRouteMatch } from "react-router";
 import { UserInfo } from "../model";
+import { API_ORIGIN } from "../utils/api";
 
 const rootinfo = {
   id: 0,
@@ -50,25 +51,20 @@ const OtherUserProfile: React.FC = () => {
   useLayoutEffect(() => {
     (async function () {
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/${match?.params.id}`
+        `${API_ORIGIN}/user/${match?.params.id}`
       );
 
       const data = await res.json();
       setData(data);
 
-      // const selfTeam = await fetch(
-      //   `${process.env.REACT_APP_BACKEND_URL}/user/me/team`,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${localtoken}`,
-      //     },
-      //   }
-      // );
-      // const userTeam = await selfTeam.json();
-      // setUserBelongsTeam(userTeam);
+      const selfTeam = await fetch(
+        `${API_ORIGIN}/user/team/${match?.params.id}`);
+      const userTeam = await selfTeam.json();
+      
+      setUserBelongsTeam(userTeam);
 
       const skillres = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/skill${match?.params.id}`
+        `${API_ORIGIN}/skill/${match?.params.id}`
       );
 
       const skilldetails = await skillres.json();
@@ -107,7 +103,7 @@ const OtherUserProfile: React.FC = () => {
               className="profilepic"
               src={
                 data?.profilepic != null
-                  ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${data.profilepic}`
+                  ? `${API_ORIGIN}/userUploadedFiles/${data.profilepic}`
                   : "https://www.w3schools.com/howto/img_avatar.png"
               }
             />

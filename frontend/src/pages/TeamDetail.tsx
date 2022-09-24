@@ -13,6 +13,7 @@ import "./css/Common.css";
 import React, { useLayoutEffect, useState } from "react";
 import { useRouteMatch } from "react-router";
 import { TeamData, TeamMember } from "../model";
+import { API_ORIGIN } from "../utils/api";
 
 const TeamDetail: React.FC = () => {
   const [present] = useIonToast();
@@ -27,7 +28,7 @@ const TeamDetail: React.FC = () => {
   useLayoutEffect(() => {
     (async function () {
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/app/team/${match?.params.id}`
+        `${API_ORIGIN}/app/team/${match?.params.id}`
       );
       const item = await res.json();
 
@@ -46,7 +47,7 @@ const TeamDetail: React.FC = () => {
   async function joinTeam() {
     const localtoken = localStorage.getItem("token");
     const fetchResult = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/user/me/team/${match?.params.id}`,
+      `${API_ORIGIN}/user/me/team/${match?.params.id}`,
       {
         headers: {
           Authorization: `Bearer ${localtoken}`,
@@ -81,7 +82,7 @@ const TeamDetail: React.FC = () => {
                 className="teamThumbnail"
                 src={
                   item?.profilepic != null
-                    ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                    ? `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
                     : "StartieLogo.png"
                 }
               />
@@ -112,12 +113,16 @@ const TeamDetail: React.FC = () => {
         <div className="teamDetailMemeberContainer">
           {teamMember.map((item) => {
             return (
-              <div className="teamDetailMemeber" key={item.id}>
+              <div className="teamDetailMemeber" key={item.id}
+              onClick={() => {
+                router.push(`/tab/user/${item.id}`);
+              }}
+              >
                 <img
                   className="teamDetailMemeberThumbnail"
                   src={
                     item?.profilepic != null
-                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                      ? `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
                       : "StartieLogo.png"
                   }
                 />

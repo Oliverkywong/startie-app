@@ -21,6 +21,7 @@ export async function seed(knex: Knex): Promise<void> {
                 email: "oliverwong@gmail.com",
                 phonenumber: "95804970",
                 status_id: 1,
+                isadmin: true,
                 profilepic: "tonystarkicon.png",
                 shortDescription: "One sentence description",
                 description: "testing long descriptiontesting long descriptiontesting long descriptiontesting long descriptiontesting long descriptiontesting long descriptiontesting long descriptiontesting long descriptiontesting long description",
