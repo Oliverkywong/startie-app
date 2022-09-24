@@ -12,6 +12,7 @@ export function teamRoutes(teamController: TeamController) {
   router.get("/category", teamController.getCategory); 
   // ----------------------------Admin Routes-------------------------------------------------------------------------------
   router.get("/team", teamController.getAllTeamsForAdmin);
-  router.put("/team/:id", teamController.updateTeamForAdmin); // no need isLogin
+  router.get("/team/:id", teamController.getTeamForAdmin);
+  router.put("/team/:id", teamController.updateTeamForAdmin);
   return router;
 }
