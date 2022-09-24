@@ -16,7 +16,6 @@ const initialState: AuthState = {
 export function authReducer(state: AuthState = initialState, action: AuthActions): AuthState {
     switch (action.type) {
         case '@@auth/LOGGED_IN':
-            // console.log(action.userinfo)
             return {
                 ...state,
                 info: action.userinfo,

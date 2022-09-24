@@ -445,6 +445,20 @@ export class UserController {
     }
   };
 
+  //-----------
+  // otheruserteam
+  //-----------
+  otheruserTeam = async (req: express.Request, res: express.Response) => {
+    try {
+      const userId = parseInt(req.params.id);
+      const team = await this.userService.checkTeam(userId);
+      res.json(team);
+    } catch (err) {
+      logger.error(err);
+      res.status(400).json({ result: false, msg: "get team fail" });
+    }
+  };
+
   // -------------------------------------------------------------------------------------------------------------------
   // user join team
   // -------------------------------------------------------------------------------------------------------------------
