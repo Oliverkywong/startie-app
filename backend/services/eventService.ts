@@ -48,6 +48,7 @@ export class EventService {
         "shortDescription",
         "maxteammember",
         "event_provider.name AS provider_name",
+        "event_provider.id as event_provider_id",
         "event_provider.profile_pic as event_provider_profile_pic",
         "starttime",
         "event.profilepic as event_profilepic",
@@ -79,8 +80,8 @@ export class EventService {
       if (input.searchcategory_id) {
         query = query.where("searchcategory.id", "=", `${input.searchcategory_id}`);
       }
-      if (show) {
-        query = query.orderBy('id', 'asc')
+      if (show && input._sort && input._order) {
+        query = query.orderBy(`${input._sort}`, `${input._order}`)
       } else {
         query = query.orderBy('id', 'asc').where('status_id', 1)
       }

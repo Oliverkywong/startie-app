@@ -60,9 +60,9 @@ export class YourHaveJoinedThisEventError extends Error {
 export class UserService {
   constructor(private knex: Knex) {}
 
-  //-----------
-  //Apple Login
-  //------------
+  // -------------------------------------------------------------------------------------------------------------------
+  // Apple login
+  // -------------------------------------------------------------------------------------------------------------------
   async socialLogin(email: string){
     const userEmailRecord = await this.knex<User>("user")
         .select("*")
@@ -168,7 +168,7 @@ export class UserService {
   ): Promise<UserListData> {
     let query = this.knex<User>("user")
       .select(
-        "user.id",
+        "user.id as id",
         "username",
         "email",
         "phonenumber",
@@ -219,12 +219,12 @@ export class UserService {
       );
     }
     if (input.isadmin) {
-      query = query.having("isadmin", "=", `%${input.isadmin}%`);
+      query = query.having("isadmin", "=", `${input.isadmin}`);
     }
     if (show) {
-      query = query.orderBy("id", "asc");
+      query = query.orderBy(`${input._sort}`, `${input._order}`)
     } else {
-      query = query.orderBy("id", "asc").where("status_id", 1);
+      query = query.orderBy('id', 'asc').where('status_id', 1)
     }
     let user = await query;
 

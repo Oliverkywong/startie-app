@@ -68,7 +68,7 @@ export class TeamController {
     }
   }
 // -------------------------------------------------------------------------------------------------------------------
-// get all teams
+// get all teams for app
 // -------------------------------------------------------------------------------------------------------------------
   getAllTeams = async (req: Request, res: Response) => {
     try {
@@ -83,7 +83,7 @@ export class TeamController {
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
-  // get one team
+  // get one team for app
   // -------------------------------------------------------------------------------------------------------------------
   getTeam = async (req: Request, res: Response) => {
     try {
@@ -96,8 +96,22 @@ export class TeamController {
       res.status(500).json({ result: false, msg: "getTeam fail" });
     }
   };
+// -------------------------------------------------------------------------------------------------------------------
+// get one team for Admin
+// -------------------------------------------------------------------------------------------------------------------
+  getTeamForAdmin = async (req: Request, res: Response) => {
+    try {
+      const teamId = parseInt(req.params.id);
+      const team = await this.teamService.getTeamForAdmin(teamId);
+
+      res.status(200).json({id:team.team[0].id, data:team.team[0]});
+    } catch (err) {
+      logger.error(err);
+      res.status(500).json({ result: false, msg: "getTeam fail" });
+    }
+  };
   // -------------------------------------------------------------------------------------------------------------------
-  // edit team
+  // edit team 
   // -------------------------------------------------------------------------------------------------------------------
   updateTeamForAdmin = async (req: express.Request, res: express.Response) => {
       try {

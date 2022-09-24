@@ -36,7 +36,7 @@ import { Team, EventInfo } from "../model";
 import { API_ORIGIN } from "../utils/api";
 // import { useGet } from "../hooks/useGet";
 
-const catergorys = {
+const categories = {
   cat1: { src: cat1, title: "All" },
   cat2: { src: cat2, title: "Startup" },
   cat3: { src: cat3, title: "Business" },
@@ -243,9 +243,9 @@ const Homepage: React.FC = () => {
                 router.push(`/tab/event`);
               }}
             >
-              <IonImg className="categoryIcon" src={catergorys.cat1.src} />
+              <IonImg className="categoryIcon" src={categories.cat1.src} />
               <IonLabel className="categoryLable">
-                {catergorys.cat1.title}
+                {categories.cat1.title}
               </IonLabel>
             </div>
           </SwiperSlide>
@@ -256,9 +256,9 @@ const Homepage: React.FC = () => {
                 router.push(`/tab/event/category/startup`);
               }}
             >
-              <IonImg className="categoryIcon" src={catergorys.cat2.src} />
+              <IonImg className="categoryIcon" src={categories.cat2.src} />
               <IonLabel className="categoryLable">
-                {catergorys.cat2.title}
+                {categories.cat2.title}
               </IonLabel>
             </div>
           </SwiperSlide>
@@ -269,9 +269,9 @@ const Homepage: React.FC = () => {
                 router.push(`/tab/event/category/business`);
               }}
             >
-              <IonImg className="categoryIcon" src={catergorys.cat3.src} />
+              <IonImg className="categoryIcon" src={categories.cat3.src} />
               <IonLabel className="categoryLable">
-                {catergorys.cat3.title}
+                {categories.cat3.title}
               </IonLabel>
             </div>
           </SwiperSlide>
@@ -282,9 +282,9 @@ const Homepage: React.FC = () => {
                 router.push(`/tab/event/category/hackathon`);
               }}
             >
-              <IonImg className="categoryIcon" src={catergorys.cat4.src} />
+              <IonImg className="categoryIcon" src={categories.cat4.src} />
               <IonLabel className="categoryLable">
-                {catergorys.cat4.title}
+                {categories.cat4.title}
               </IonLabel>
             </div>
           </SwiperSlide>
