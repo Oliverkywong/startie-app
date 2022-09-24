@@ -22,7 +22,6 @@ import { Team, UserInfo, EventInfo } from "../model";
 import { API_ORIGIN } from "../utils/api";
 export default function SearchPage() {
   const router = useIonRouter();
-  const [searchText, setSearchText] = useState("");
   const [userdata, setUserData] = useState<UserInfo[]>([]);
   const [teamdata, setTeamData] = useState<Team[]>([]);
   const [eventdata, setEventData] = useState<EventInfo[]>([]);
@@ -31,29 +30,26 @@ export default function SearchPage() {
   const [event, setEvent] = useState(false);
 
   const searchfetch = async (e: { target: { value: string } }) => {
-    setSearchText(e.target.value);
+    const searchText = e.target.value
     const teamreq = searchText.replace(/[^a-zA-Z ]/g, "");
     const teamres = await fetch(
-      `${API_ORIGIN}/app/team/?${teamreq}`
+      `${API_ORIGIN}/app/team/?q=${teamreq}`
     );
     const teamresult = await teamres.json();
-    // console.log(teamresult);
     setTeamData(teamresult.teams.rows);
 
     const userreq = searchText.replace(/[^a-zA-Z ]/g, "");
     const userres = await fetch(
-      `${API_ORIGIN}/app/user/?${userreq}`
+      `${API_ORIGIN}/app/user/?q=${userreq}`
     );
     const userresult = await userres.json();
-    // console.log(userresult.user);
     setUserData(userresult.user);
 
     const eventreq = searchText.replace(/[^a-zA-Z ]/g, "");
     const eventres = await fetch(
-      `${API_ORIGIN}/app/event/?${eventreq}`
+      `${API_ORIGIN}/app/event/?q=${eventreq}`
     );
     const eventresult = await eventres.json();
-    // console.log(eventresult.events);
     setEventData(eventresult.events);
   };
 
