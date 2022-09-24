@@ -8,6 +8,7 @@ import {
   IonPage,
   IonToolbar,
   useIonRouter,
+  useIonToast,
 } from "@ionic/react";
 import logo from "../img/StartieLogo.png";
 import {
@@ -29,6 +30,7 @@ const SignUp: React.FC = () => {
   const { register, handleSubmit, watch } = useForm();
   const [passwordShown, setPasswordShown] = useState(false);
   const [checkbox, setCheckbox] = useState(false);
+  const [present] = useIonToast();
 
   const password = watch("password");
 
@@ -55,11 +57,18 @@ const SignUp: React.FC = () => {
                 body: JSON.stringify(data),
               })
 
+              const userRecord = await res.json();
               if (res.status === 200) {
-                const userRecord = await res.json();
                 dispatch(loggedIn(userRecord["user"].user[0], userRecord["jwt"]));
                 dispatch(loadUserInfo(userRecord["user"].user[0]));
                 router.push("/tab/home");
+              } else {
+                present({
+                  message: userRecord.msg,
+                  duration: 1500,
+                  position: "middle",
+                  cssClass: "backtoast"
+                })
               }
             })}
           >

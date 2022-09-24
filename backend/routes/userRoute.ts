@@ -1,6 +1,6 @@
 import express from "express";
 import { UserController } from "../controllers/userController";
-import { isLogin } from "../utils/middleware";
+import { isAdmin, isLogin } from "../utils/middleware";
 
 export function userRoutes(userController: UserController) {
   const userRoutes = express.Router();
@@ -22,8 +22,8 @@ export function userRoutes(userController: UserController) {
   userRoutes.post("/user/me/event/:id", isLogin, userController.joinEvent); //user join event
   userRoutes.get("/user/me/note", isLogin, userController.getNotification);
   // ----------------------------Admin Routes-------------------------------------------------------------------------------
-  userRoutes.get("/user/:id", userController.userInfoForAdmin);
-  userRoutes.put("/user/:id", userController.editUserForAdmin);
-  userRoutes.get("/user", userController.getAllUserForAdmin); //need to add isLogin
+  userRoutes.get("/user/:id", isAdmin, userController.userInfoForAdmin);
+  userRoutes.put("/user/:id", isAdmin, userController.editUserForAdmin);
+  userRoutes.get("/user", isAdmin, userController.getAllUserForAdmin); //need to add isLogin
   return userRoutes;
 }

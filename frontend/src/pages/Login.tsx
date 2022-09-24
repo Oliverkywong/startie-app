@@ -6,6 +6,7 @@ import {
   IonImg,
   IonPage,
   useIonRouter,
+  useIonToast,
 } from "@ionic/react";
 import logo from "../img/StartieLogo.png";
 import {
@@ -26,6 +27,7 @@ const Login: React.FC = () => {
   const [passwordShown, setPasswordShown] = useState(false);
   const dispatch = useDispatch();
   const router = useIonRouter();
+  const [present] = useIonToast();
 
   return (
     <IonPage>
@@ -46,11 +48,18 @@ const Login: React.FC = () => {
                 }
               );
 
+              const userRecord = await res.json();
               if (res.status === 200) {
-                const userRecord = await res.json();
                 dispatch(loggedIn(userRecord["user"], userRecord["jwt"]));
                 dispatch(loadUserInfo(userRecord["user"]));
                 router.push("/tab/home");
+              } else {
+                present({
+                  message: userRecord.msg,
+                  duration: 1500,
+                  position: "middle",
+                  cssClass: "backtoast"
+                })
               }
             })}
           >
