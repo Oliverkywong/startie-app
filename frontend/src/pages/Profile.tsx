@@ -23,12 +23,13 @@ import {
 
 import "./css/Common.css";
 import "./css/Profile.css";
-import UserInfo from "./UserInfo";
-import UserStats from "./UserStats";
-import UserTeams from "./UserTeams";
+import User from "./component/UserInfo";
+import UserStats from "./component/UserStats";
+import UserTeams from "./component/UserTeams";
 import UserSettings from "./UserSettings";
 import { RootState, useAppSelector } from "../store";
 import { Team } from "../model";
+import { API_ORIGIN } from "../utils/api";
 
 const Profile: React.FC = () => {
   const userdetails = useAppSelector(
@@ -54,7 +55,7 @@ const Profile: React.FC = () => {
       }
 
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/app/user/${userdetails?.id}`,
+        `${API_ORIGIN}/app/user/${userdetails?.id}`,
         {
           headers: {
             Authorization: `Bearer ${localtoken}`,
@@ -62,7 +63,7 @@ const Profile: React.FC = () => {
         }
       );
       const selfTeam = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/me/team`,
+        `${API_ORIGIN}/user/me/team`,
         {
           headers: {
             Authorization: `Bearer ${localtoken}`,
@@ -70,17 +71,15 @@ const Profile: React.FC = () => {
         }
       );
       const userTeam = await selfTeam.json();
-      // console.log(userTeam);
       setUserBelongsTeam(userTeam);
 
-      const skillres = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/skill`,
-        {
-          headers: {
-            Authorization: `Bearer ${localtoken}`,
-          },
-        }
-      );
+
+
+      const skillres = await fetch(`${API_ORIGIN}/skill/${userdetails.id}`, {
+        headers: {
+          Authorization: `Bearer ${localtoken}`,
+        },
+      });
 
       const skilldetails = await skillres.json();
 
@@ -94,10 +93,6 @@ const Profile: React.FC = () => {
         skillNameArray.push(skilldetails.detail.skill[i].name);
         skillPointArray.push(skilldetails.detail.skill[i].point);
       }
-
-      // console.log(sectorNameArray);
-      // console.log(skillNameArray);
-      // console.log(skillPointArray);
 
       setSectorName(sectorNameArray);
       setSkillName(skillNameArray);
@@ -122,7 +117,7 @@ const Profile: React.FC = () => {
               className="profilepic"
               src={
                 userdetails?.profilepic != null
-                  ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`
+                  ? `${API_ORIGIN}/userUploadedFiles/${userdetails.profilepic}`
                   : "https://www.w3schools.com/howto/img_avatar.png"
               }
             />
@@ -188,7 +183,7 @@ const Profile: React.FC = () => {
             />
           )}
           {info && (
-            <UserInfo
+            <User
               description={userdetails?.description}
               phone={userdetails?.phonenumber}
               email={userdetails?.email}

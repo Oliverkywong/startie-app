@@ -2,7 +2,7 @@ import { IonIcon } from "@ionic/react";
 import { logoWhatsapp } from "ionicons/icons";
 import React from "react";
 
-import "./css/UserInfo.css";
+import "../css/UserInfo.css";
 
 export default function UserInfo(props: {
   description: string | undefined;

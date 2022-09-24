@@ -5,8 +5,6 @@ import {
   IonHeader,
   IonImg,
   IonPage,
-  IonSelect,
-  IonSelectOption,
   IonTitle,
   IonToolbar,
   useIonRouter,
@@ -19,7 +17,7 @@ import "./css/Common.css";
 import "./css/BuildTeam.css";
 import { Tag } from "../model";
 import ImageCropDialogForTeam from "./ImageCropDialogForTeam";
-import { register } from "../serviceWorkerRegistration";
+import { API_ORIGIN } from "../utils/api";
 
 
 // export declare function useIonFormState<T extends object>(initialValue?: T): {
@@ -41,9 +39,6 @@ import { register } from "../serviceWorkerRegistration";
 //   renderLabel?: typeof IonFormItemOptions.Label;
 // }
 
-
-
-
 const BuildTeam: React.FC = () => {
   const router = useIonRouter();
   const [teamcategory, setTeamcategory] = useState<Tag[]>([]);
@@ -55,7 +50,7 @@ const BuildTeam: React.FC = () => {
         router.push("/tab/login");
       }
 
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/category`, {
+      const res = await fetch(`${API_ORIGIN}/category`, {
         headers: {
           Authorization: `Bearer ${localtoken}`,
         }
@@ -119,14 +114,15 @@ const BuildTeam: React.FC = () => {
             // console.log(data);
             // console.log(formData);
 
-            const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`, {
+            const res = await fetch(`${API_ORIGIN}/team`, {
               method: "POST",
               headers: {
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localtoken}`
               },
-              body: formData,
+              body: JSON.stringify(formData),
             })
-            reset(res)
+            console.log(formData)
             
             router.push("/recommend");
           })}
@@ -202,7 +198,7 @@ const BuildTeam: React.FC = () => {
             setFetchdata(formData)
             console.log(formData);
 
-            const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`, {
+            const res = await fetch(`${API_ORIGIN}/team`, {
               method: "POST",
               headers: {
                 'Authorization': `Bearer ${localtoken}`

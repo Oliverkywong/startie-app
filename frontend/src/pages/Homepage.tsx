@@ -13,9 +13,10 @@ import {
   IonCol,
   IonCardTitle,
   IonHeader,
-  IonToolbar,
+  IonToolbar
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Share } from "@capacitor/share";
 import { notificationsOutline, shareOutline } from "ionicons/icons";
 
 import cat1 from "../img/all.png";
@@ -32,6 +33,7 @@ import { loggedIn, logOut } from "../redux/auth/action";
 import { EffectCards } from "swiper";
 import { loadUserInfo } from "../redux/userInfo/action";
 import { Team, EventInfo } from "../model";
+import { API_ORIGIN } from "../utils/api";
 // import { useGet } from "../hooks/useGet";
 
 const categories = {
@@ -42,37 +44,36 @@ const categories = {
 };
 
 const Homepage: React.FC = () => {
-  const userdetails = useAppSelector(
-    (state: RootState) => state.userInfo.userinfo
-  );
+  const userdetails = useAppSelector((state: RootState) => state.auth.info);
   const isLogin = useAppSelector((state: RootState) => state.auth.loggedIn);
   const [teamData, setTeamData] = useState<Team[]>([]);
   const [eventData, setEventData] = useState<EventInfo[]>([]);
-  // const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const router = useIonRouter();
   const dispatch = useAppDispatch();
-
-  // const loadData = (ev: any) => {
-  //   setTimeout(() => {
-  //     console.log("Loaded data");
-  //     ev.target.complete();
-  //     if (teamData.length === 100) {
-  //       setInfiniteDisabled(true);
-  //     }
-  //   }, 500);
-  // };
 
   useLayoutEffect(() => {
     (async function () {
       const localtoken = localStorage.getItem("token");
-      if (localtoken === null) {
-        dispatch(logOut());
-      } 
-      console.log(localtoken);
-      console.log(isLogin);
+      // if (localtoken === null) {
+      //   dispatch(logOut());
+      // }
+      if (localtoken !== null) {
+        const res = await fetch(
+          `${API_ORIGIN}/user/me`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localtoken}`,
+            },
+          }
+        );
+        const userRecord = await res.json();
+
+        dispatch(loggedIn(userRecord, localtoken));
+      }
 
       const teamRes = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/app/team`,
+        `${API_ORIGIN}/app/team`,
         {
           headers: {
             Authorization: `Bearer ${localtoken}`,
@@ -84,7 +85,7 @@ const Homepage: React.FC = () => {
       setTeamData(teamResult.teams.rows.slice(0, 4)); // remove .teams.rows after backend fix
 
       const eventRes = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/app/event`,
+        `${API_ORIGIN}/app/event`,
         {
           headers: {
             Authorization: `Bearer ${localtoken}`,
@@ -96,7 +97,7 @@ const Homepage: React.FC = () => {
       setEventData(hotEvent);
 
       // const userRes = await fetch(
-      //   `${process.env.REACT_APP_BACKEND_URL}/app/user/:id`,
+      //   `${API_ORIGIN}/app/user/:id`,
       //   {
       //     headers: {
       //       Authorization: `Bearer ${localtoken}`,
@@ -115,14 +116,14 @@ const Homepage: React.FC = () => {
 
   // useLayoutEffect(() => {
   //   (async function () {
-  //     const teamRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`);
+  //     const teamRes = await fetch(`${API_ORIGIN}/team`);
   //     const teamResult = await teamRes.json();
   //     setTeamData(teamResult);
   //     console.log(teamResult);
 
   //     for (let i = 0; i < teamResult.length; i++) {
   //       const tagRes = await fetch(
-  //         `${process.env.REACT_APP_BACKEND_URL}/team/${teamResult[i].id}`
+  //         `${API_ORIGIN}/team/${teamResult[i].id}`
   //       );
 
   //       const tagItem = await tagRes.json();
@@ -137,7 +138,7 @@ const Homepage: React.FC = () => {
 
   // useLayoutEffect(() => {
   //   (async function () {
-  //     const eventRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/event`);
+  //     const eventRes = await fetch(`${API_ORIGIN}/event`);
   //     const eventResult = await eventRes.json();
   //     setEventData(eventResult);
   //   })();
@@ -149,52 +150,55 @@ const Homepage: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader className="header">
-        <div className="homePageHeader">
-          <IonButtons slot="start">
-            <IonButton
-              onClick={() => {
-                isLogin
-                  ? router.push("/tab/profile")
-                  : router.push("/tab/login");
-              }}
-            >
-              <IonImg
-                className="icon"
-                // src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`}
-                src={
-                  userdetails.profilepic !== null
-                    ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`
-                    : "https://www.w3schools.com/howto/img_avatar.png"
-                }
-              />
-            </IonButton>
-          </IonButtons>
-          <IonButtons style={{ width: "100%" }} slot="primary">
-            <IonButton
-              style={{ width: "100%" }}
-              onClick={() => {
-                router.push("/search");
-              }}
-            >
-              <input className="searchbar" placeholder="Search" />
-            </IonButton>
-          </IonButtons>
-          <IonButtons slot="end">
-            <IonButton
-              slot="end"
-              onClick={() => {
-                isLogin
-                  ? router.push("/notification")
-                  : router.push("/tab/login");
-              }}
+        <IonHeader className="header">
+      <IonToolbar color="dark">
+          <div className="homePageHeader">
+            <IonButtons slot="start">
+              <IonButton
+                onClick={() => {
+                  isLogin
+                    ? router.push("/tab/profile")
+                    : router.push("/tab/login");
+                }}
+              >
+
+                <IonImg
+                  className="icon"
+                  // src={`${API_ORIGIN}/userUploadedFiles/${userdetails.profilepic}`}
+                  src={
+                    userdetails?.profilepic !== undefined || null
+                      ? `${API_ORIGIN}/userUploadedFiles/${userdetails?.profilepic}`
+                      : "https://www.w3schools.com/howto/img_avatar.png"
+                  }
+                />
+              </IonButton>
+            </IonButtons>
+            <IonButtons style={{ width: "100%" }} slot="primary">
+              <IonButton
+                style={{ width: "100%" }}
+                onClick={() => {
+                  router.push("/search");
+                }}
+              >
+                <input className="searchbar" placeholder="Search" />
+              </IonButton>
+            </IonButtons>
+            <IonButtons slot="end">
+              <IonButton
+                slot="end"
+                onClick={() => {
+                  isLogin
+                    ? router.push("/notification")
+                    : router.push("/tab/login");
+                }}
               // routerLink="/notification"
-            >
-              <IonIcon icon={notificationsOutline} />
-            </IonButton>
-          </IonButtons>
-        </div>
-      </IonHeader>
+              >
+                <IonIcon icon={notificationsOutline} />
+              </IonButton>
+            </IonButtons>
+          </div>
+      </IonToolbar>
+        </IonHeader>
       <IonContent className="homecontent">
         <IonLabel className="labelTitle">Hot Events</IonLabel>
 
@@ -220,7 +224,7 @@ const Homepage: React.FC = () => {
                   className="homePageEventThumbnail"
                   src={
                     event.event_profilepic != null
-                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${event.event_profilepic}`
+                      ? `${API_ORIGIN}/userUploadedFiles/${event.event_profilepic}`
                       : "StartieLogo.png"
                   }
                 />
@@ -303,7 +307,7 @@ const Homepage: React.FC = () => {
                         className="teamIcon"
                         src={
                           item?.profilepic != null
-                            ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
+                            ? `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
                             : "https://www.w3schools.com/howto/img_avatar.png"
                         }
                       />
@@ -320,7 +324,17 @@ const Homepage: React.FC = () => {
                         })}
                       </div>
                       <div className="shareButton">
-                        <IonIcon icon={shareOutline} />
+                        <IonIcon
+                          icon={shareOutline}
+                          onClick={async () => {
+                            await Share.share({
+                              title: "See cool stuff",
+                              text: "Come to join us",
+                              url: `https://startie.oliverstrat.me/tab/team/${item.id}`,
+                              dialogTitle: "Share with buddies",
+                            });
+                          }}
+                        />
                       </div>
                     </IonCard>
                   </div>
@@ -328,16 +342,6 @@ const Homepage: React.FC = () => {
               );
             })}
           </div>
-          {/* <IonInfiniteScroll
-            onIonInfinite={loadData}
-            threshold="100px"
-            disabled={isInfiniteDisabled}
-          >
-            <IonInfiniteScrollContent
-              loadingSpinner="bubbles"
-              loadingText="Loading more data..."
-            ></IonInfiniteScrollContent>
-          </IonInfiniteScroll> */}
         </IonList>
       </IonContent>
     </IonPage>

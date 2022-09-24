@@ -9,8 +9,10 @@ export class SectorskillController {
 
     allSectorskill = async (req: express.Request, res: express.Response) => {
         try {
-            let userId = parseInt(req.params.id);
-            
+            const userId =
+              req.user?.userId != undefined
+                ? Number(req.user.userId)
+                : parseInt(req.params.id);
             let sectorskill = await this.sectorskillService.getAllSectorSkill(userId)
 
             return res.status(200).json({

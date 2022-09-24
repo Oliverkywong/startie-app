@@ -20,6 +20,10 @@ import {
 import { useForm } from "react-hook-form";
 import "./css/SignUp.css";
 import PasswordComplexity from "./PasswordComplexity";
+import { useDispatch } from "react-redux";
+import { loggedIn } from "../redux/auth/action";
+import { loadUserInfo } from "../redux/userInfo/action";
+import { API_ORIGIN } from "../utils/api";
 
 const SignUp: React.FC = () => {
   const { register, handleSubmit, watch } = useForm();
@@ -29,6 +33,7 @@ const SignUp: React.FC = () => {
   const password = watch("password");
 
   const router = useIonRouter();
+  const dispatch = useDispatch();
 
   return (
     <IonPage>
@@ -41,8 +46,21 @@ const SignUp: React.FC = () => {
         <div className="pageContent">
           <IonImg src={logo} className="logo" />
           <form
-            onSubmit={handleSubmit((data) => {
-              // console.log(data);
+            onSubmit={handleSubmit(async (data) => {
+              const res = await fetch(`${API_ORIGIN}/user`, {
+                method: "POST",
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data),
+              })
+
+              if (res.status === 200) {
+                const userRecord = await res.json();
+                dispatch(loggedIn(userRecord["user"].user[0], userRecord["jwt"]));
+                dispatch(loadUserInfo(userRecord["user"].user[0]));
+                router.push("/tab/home");
+              }
             })}
           >
             <div className="username">
@@ -83,18 +101,19 @@ const SignUp: React.FC = () => {
               />
             </div>
             <PasswordComplexity password={password?.toString() ?? ""} />
-            <input type="checkbox" onChange={() => setCheckbox(!checkbox)} />
-            <span>
-              By Creating an account you accept the Terms & Condition of the
-              Company
-            </span>
+            <div>
+              <input type="checkbox" onChange={() => setCheckbox(!checkbox)} />
+              <span>
+                By Creating an account you accept the Terms & Condition of the
+                Company
+              </span>
+            </div>
             <br />
             {checkbox && <button color="danger">Register</button>}
           </form>
           <div className="signup">
             <p>
               Already a member?
-              <span />
               <span
                 style={{ color: "#4fc564" }}
                 onClick={() => {

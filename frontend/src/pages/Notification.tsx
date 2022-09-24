@@ -16,6 +16,7 @@ import logo from "../img/logo.png";
 import "./css/Notification.css";
 import { OneSignal } from '@awesome-cordova-plugins/onesignal';
 import { Note } from "../model";
+import { API_ORIGIN } from "../utils/api";
 
 const Notification: React.FC = () => {
   const [data, setData] = useState<Note[]>([]);
@@ -40,13 +41,12 @@ const Notification: React.FC = () => {
 
   useLayoutEffect(() => {
     (async function () {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/me/note`, {
+      const res = await fetch(`${API_ORIGIN}/user/me/note`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
       });
       const result = await res.json();
-      // console.log(result)
       setData(result);
     })()
   }, [])

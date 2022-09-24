@@ -18,6 +18,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import icon from "../img/tonystarkicon.png";
 import { RootState, useAppSelector } from "../store";
+import { API_ORIGIN } from "../utils/api";
 import "./css/Common.css";
 import "./css/UserEdit.css";
 import ImageCropDialogForUser from "./ImageCropDialogForUser";
@@ -66,7 +67,6 @@ export default function UserEdit() {
         <form
           className="buildTeamForm"
           onSubmit={handleSubmit(async (data) => {
-            // console.log(data);
             const formData = new FormData();
             formData.append("name", data.name);
             formData.append("Description", data.Description);
@@ -74,7 +74,7 @@ export default function UserEdit() {
             const localtoken = localStorage.getItem("token");
 
             await fetch(
-              `${process.env.REACT_APP_BACKEND_URL}/app/user/${userdetails?.id}`,
+              `${API_ORIGIN}/app/user/${userdetails?.id}`,
               {
                 method: "PUT",
                 headers: {
