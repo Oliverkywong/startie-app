@@ -119,7 +119,6 @@ export class UserController {
       let username = req.body.username.trim();
       let password = req.body.password.trim();
       let user = await this.userService.login(username, password);
-      console.log("user:", user);
 
       const ecPrivateKey = await joseKey();
 
@@ -195,7 +194,7 @@ export class UserController {
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
-  // get user Info by userId
+  // get user Info by  (seems same for admin also, can cut this?)
   // -------------------------------------------------------------------------------------------------------------------
   userInfoById = async (req: express.Request, res: express.Response) => {
     try {
@@ -204,7 +203,7 @@ export class UserController {
       res.json(userInfo[0]);
     } catch (err) {
       logger.error(err);
-      res.json({ error: String(err) });
+      res.json({ result: false, msg: "Get user profile fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -224,7 +223,7 @@ export class UserController {
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
-  // get all userInfo (this should be only for admin & search)
+  // get all userInfo for app
   // -------------------------------------------------------------------------------------------------------------------
   getAllUser = async (req: express.Request, res: express.Response) => {
     try {
@@ -242,7 +241,7 @@ export class UserController {
   };
 
   // -------------------------------------------------------------------------------------------------------------------
-  // get all user
+  // get all user (this should be redundant)
   // -------------------------------------------------------------------------------------------------------------------
   getAllUserList = async (req: express.Request, res: express.Response) => {
     try {
