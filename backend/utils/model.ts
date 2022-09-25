@@ -73,3 +73,14 @@ export interface Category {
   name: string;
   profilepic?: string;
 }
+
+export interface Tag {
+  id: number
+  name: string
+  searchcategory_id: number
+}
+
+export interface Team_Tag {
+  team_id: number
+  tag_id: number
+}

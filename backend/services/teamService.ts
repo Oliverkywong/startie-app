@@ -1,19 +1,19 @@
 import { Knex } from "knex";
 import { TeamListData, TeamListInput } from "../utils/api-types";
-import { Category, Team, User_Team} from "../utils/model";
+import { Category, Tag, Team, Team_Tag, User_Team} from "../utils/model";
 
 export class TeamService {
   constructor(private knex: Knex) {}
   // -------------------------------------------------------------------------------------------------------------------
   // create team
   // -------------------------------------------------------------------------------------------------------------------
-  async createTeam(userId: number, name: string, searchcategory_id: number, shortDescription?: string, description?: string, profilepic?: string) {
+  async createTeam(userId: number, name: string, searchcategory_id: number, shortDescription: string, description?: string, profilepic?: string, looking?:number) {
     try {
       const teamInfo = await this.knex<Team>("team")
         .insert({
           name: name,
           searchcategory_id: searchcategory_id,
-          shortDescription: description,
+          shortDescription: shortDescription,
           description: description,
           profilepic: profilepic,
           status_id: 1,
@@ -24,11 +24,21 @@ export class TeamService {
         .insert({
           user_id: userId,
           team_id: teamInfo[0].id,
-          
+          isboard: true,
+          iswaiting: false,
+          isfollow: true,
+          applytime: new Date()
         })
         .returning("*");
 
-      return {teamInfo, user_team};
+        const team_tag = await this.knex<Team_Tag>("team_tag")
+        .insert({
+          team_id: teamInfo[0].id,
+          tag_id: looking
+        })
+        .returning("*");
+
+      return {teamInfo, user_team, team_tag};
     } catch (err) {
       console.error(err);
       throw err;
@@ -94,7 +104,6 @@ export class TeamService {
     } else {
       query += /*SQL*/ ` ORDER BY clickrate, t.id DESC`;
     }
-    
      const teams = await this.knex.raw(query)
 
     return {teams}
@@ -173,5 +182,12 @@ async getTeamForAdmin(id: number) {
   // -------------------------------------------------------------------------------------------------------------------
   async getCategory() {
     return await this.knex<Category>("searchcategory").select("*");
+  }
+
+  //---------
+  //get all tag 
+  //--------
+  async getAllTag() {
+    return await this.knex<Tag>("tag").select("*");
   }
 }
