@@ -23,7 +23,7 @@ import {
 
 import "./css/Common.css";
 import "./css/Profile.css";
-import User  from "./component/UserInfo";
+import User from "./component/UserInfo";
 import UserStats from "./component/UserStats";
 import UserTeams from "./component/UserTeams";
 import UserSettings from "./UserSettings";
@@ -70,16 +70,17 @@ const Profile: React.FC = () => {
         }
       );
       const userTeam = await selfTeam.json();
-      // console.log(userTeam);
+      console.log(userTeam);
       setUserBelongsTeam(userTeam);
 
-
-
-      const skillres = await fetch(`${process.env.REACT_APP_BACKEND_URL}/skill/${userdetails.id}`, {
-        headers: {
-          Authorization: `Bearer ${localtoken}`,
-        },
-      });
+      const skillres = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/skill/${userdetails.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localtoken}`,
+          },
+        }
+      );
 
       const skilldetails = await skillres.json();
 
@@ -179,7 +180,13 @@ const Profile: React.FC = () => {
               <IonLabel>Account</IonLabel>
             </div>
           </div>
-         {stat && <UserStats sectorName={sectorName} skillName={skillName} skillPoint={skillPoint} />}
+          {stat && (
+            <UserStats
+              sectorName={sectorName}
+              skillName={skillName}
+              skillPoint={skillPoint}
+            />
+          )}
 
           {stat && (
             <UserStats

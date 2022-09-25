@@ -10,7 +10,7 @@ export function userRoutes(userController: UserController) {
   userRoutes.post("/user", userController.register);
   userRoutes.post("/login", userController.login);
   userRoutes.get("/app/user/:id", userController.userInfoById);
-  userRoutes.get("/app/user/me", userController.userInfo);
+  userRoutes.get("/app/user/me", isLogin, userController.userInfo);
   userRoutes.get("/app/user", userController.getAllUser);
   userRoutes.post("/logout", isLogin, userController.logout);
   userRoutes.put("/app/user/:id", isLogin, userController.editUser); //need to add isLogin
