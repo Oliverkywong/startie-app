@@ -71,7 +71,8 @@ export class EventProviderService {
   async updateEventProvidersForAdmin(eventId: number, input: EventProviderListInput) {
     const eventProviderInfo = await this.knex<Event_Provider>("event_provider")
       .update({
-        name: input.name
+        name: input.name,
+        profile_pic: input.profile_pic        
       })
       .where("id", eventId)
       .returning("*");

@@ -2,54 +2,39 @@ import { TeamService } from "../services/teamService";
 import { Request, Response } from "express";
 import { logger } from "../utils/logger";
 import express from "express";
-import { form } from "../utils/middleware";
 import { TeamListInput } from "../utils/api-types";
 
 export class TeamController {
   constructor(private teamService: TeamService) {}
 
-// -------------------------------------------------------------------------------------------------------------------
-// create team
-// -------------------------------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------------------------------
+  // create team
+  // -------------------------------------------------------------------------------------------------------------------
   createTeam = async (req: express.Request, res: express.Response) => {
-      form.parse(req, async (err, fields, files) => {
-        try {
-          const userId = req.user!.userId;
+    try {
+      const userId = req.user!.userId;
+      const searchcategory = parseInt(req.body.data.teamcategory);
+      const name = req.body.data.teamName;
+      const shortDescription = req.body.data.teamshortDescription;
+      const description = req.body.data.teamDescription;
+      const profilepic = req.body.img;
+      const looking = parseInt(req.body.data.teamlooking);
 
-          const searchcategory =
-            fields.category_id != null && !Array.isArray(fields.category_id)
-              ? parseInt(fields.category_id)
-              : 5; //category_id = 5 is "other"
-
-          const name =
-            fields.name != null && !Array.isArray(fields.name)
-              ? fields.name
-              : "Team X";  //should throw error class (missing name)
-
-          const description =
-            fields.description != null && !Array.isArray(fields.description)
-              ? fields.description
-              : "";
-
-          const profilepic =
-            files.profilepic != null && !Array.isArray(files.profilepic)
-              ? files.profilepic.newFilename
-              : "default.jpg"; //default use default.jpg
-
-          const team = await this.teamService.createTeam(
-            userId,
-            name,
-            searchcategory,
-            description,
-            profilepic
-          );
-          res.status(200).json(team.teamInfo);
-        } catch (err) {
-          logger.error(err);
-          res.status(400).json({ result: false, msg: "create team fail" });
-        }
-      });
+      const team = await this.teamService.createTeam(
+        userId,
+        name,
+        searchcategory,
+        shortDescription,
+        description,
+        profilepic,
+        looking
+      );
+      res.status(200).json(team.teamInfo);
+    } catch (err) {
+      logger.error(err);
+      res.status(400).json({ result: false, msg: "create team fail" });
     }
+  }
 // -------------------------------------------------------------------------------------------------------------------
 // create team for Admin
 // -------------------------------------------------------------------------------------------------------------------
@@ -77,8 +62,8 @@ createTeamForAdmin = async (req: express.Request, res: express.Response) => {
 // -------------------------------------------------------------------------------------------------------------------
   getAllTeamsForAdmin = async (req: Request, res: Response) => {
     try {
-      let input:TeamListInput = req.query
-      let show = true
+      let input: TeamListInput = req.query;
+      let show = true;
       let json = await this.teamService.getAllTeams(input, show);
 
       res.set("x-total-count", String(json.count));
@@ -88,14 +73,14 @@ createTeamForAdmin = async (req: express.Request, res: express.Response) => {
       logger.error(err);
       res.status(500).json({ error: String(err) });
     }
-  }
-// -------------------------------------------------------------------------------------------------------------------
-// get all teams for app
-// -------------------------------------------------------------------------------------------------------------------
+  };
+  // -------------------------------------------------------------------------------------------------------------------
+  // get all teams for app
+  // -------------------------------------------------------------------------------------------------------------------
   getAllTeams = async (req: Request, res: Response) => {
     try {
-      let input:TeamListInput = req.query
-      let show = false
+      let input: TeamListInput = req.query;
+      let show = false;
       let json = await this.teamService.getAllTeams(input, show);
 
       res.status(200).json(json);
@@ -118,9 +103,9 @@ createTeamForAdmin = async (req: express.Request, res: express.Response) => {
       res.status(500).json({ result: false, msg: "getTeam fail" });
     }
   };
-// -------------------------------------------------------------------------------------------------------------------
-// get one team for Admin
-// -------------------------------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------------------------------
+  // get one team for Admin
+  // -------------------------------------------------------------------------------------------------------------------
   getTeamForAdmin = async (req: Request, res: Response) => {
     try {
       const teamId = parseInt(req.params.id);
@@ -178,6 +163,19 @@ createTeamForAdmin = async (req: express.Request, res: express.Response) => {
     } catch (err) {
       logger.error(err);
       res.status(500).json({ result: false, msg: "get all category fail" });
+    }
+  };
+
+  // -------------------------------------------------------------------------------------------------------------------
+  // get all tags
+  // -------------------------------------------------------------------------------------------------------------------
+  getAllTag = async (req: Request, res: Response) => {
+    try {
+      const tags = await this.teamService.getAllTag();
+      res.status(200).json(tags);
+    } catch (err) {
+      logger.error(err);
+      res.status(500).json({ result: false, msg: "get all tag fail" });
     }
   };
 }

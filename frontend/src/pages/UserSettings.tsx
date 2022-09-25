@@ -26,7 +26,7 @@ const UserSettings: React.FC = () => {
   const initialState: UserInfo = {
     id: 0,
     username: "dummy",
-    profilepic: null,
+    profilepic: "rooticon.jpeg",
     shortDescription: "short",
     description: "testing",
     tags: ["dummytag", "dummytag2"],
