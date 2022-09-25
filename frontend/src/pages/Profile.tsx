@@ -54,46 +54,24 @@ const Profile: React.FC = () => {
         router.push("/tab/login");
       }
 
-      const res = await fetch(
-        `${API_ORIGIN}/app/user/${userdetails?.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localtoken}`,
-          },
-        }
-      );
-      const selfTeam = await fetch(
-        `${API_ORIGIN}/user/me/team`,
-        {
-          headers: {
-            Authorization: `Bearer ${localtoken}`,
-          },
-        }
-      );
+      const res = await fetch(`${API_ORIGIN}/app/user/${userdetails?.id}`, {
+        headers: {
+          Authorization: `Bearer ${localtoken}`,
+        },
+      });
+      const selfTeam = await fetch(`${API_ORIGIN}/user/me/team`, {
+        headers: {
+          Authorization: `Bearer ${localtoken}`,
+        },
+      });
       const userTeam = await selfTeam.json();
-<<<<<<< HEAD
-      console.log(userTeam);
       setUserBelongsTeam(userTeam);
-
-      const skillres = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/skill/${userdetails.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localtoken}`,
-          },
-        }
-      );
-=======
-      setUserBelongsTeam(userTeam);
-
-
 
       const skillres = await fetch(`${API_ORIGIN}/skill/${userdetails.id}`, {
         headers: {
           Authorization: `Bearer ${localtoken}`,
         },
       });
->>>>>>> ec6d4a455f64bd7d4332102b63892c8f8c8518ad
 
       const skilldetails = await skillres.json();
 
@@ -189,17 +167,6 @@ const Profile: React.FC = () => {
               <IonLabel>Account</IonLabel>
             </div>
           </div>
-<<<<<<< HEAD
-          {stat && (
-            <UserStats
-              sectorName={sectorName}
-              skillName={skillName}
-              skillPoint={skillPoint}
-            />
-          )}
-
-=======
->>>>>>> ec6d4a455f64bd7d4332102b63892c8f8c8518ad
           {stat && (
             <UserStats
               sectorName={sectorName}
