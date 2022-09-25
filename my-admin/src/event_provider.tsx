@@ -14,15 +14,32 @@ import {
     SelectInput,
     SearchInput,
     required,
-    NumberInput
+    NumberInput,
+    BulkExportButton,
+    SaveButton,
+    Toolbar,
+    Pagination
 } from 'react-admin';
 
+const PostBulkActionButtons = () => (
+    <React.Fragment>
+      <BulkExportButton />
+    </React.Fragment>
+  );
+
+  const EventProviderEditToolbar = (props: any) => (
+    <Toolbar {...props}>
+      <SaveButton />
+    </Toolbar>
+  );
+
+  const PostPagination = () => <Pagination rowsPerPageOptions={[5, 10, 15, 20]}/>;
+
 export const EventProviderList = (props:any)=> (
-    <List filters={getEventProviderFilters()} bulkActionButtons={false}>
-     <Datagrid rowClick="edit">
-           <TextField source="id" sortable={false}/>
-           <TextField source="name" sortable={false} />
-           <TextField source="profile_pic" sortable={false}/>
+    <List filters={getEventProviderFilters()} bulkActionButtons={false} pagination={<PostPagination />} >
+     <Datagrid rowClick="edit" bulkActionButtons={<PostBulkActionButtons />}>
+           <TextField source="id" />
+           <TextField source="name" />
                 <EditButton />
         </Datagrid>
     </List>
@@ -30,7 +47,7 @@ export const EventProviderList = (props:any)=> (
 
 export const EventProviderEdit = (props:any) => (
     <Edit  {...props}>
-        <SimpleForm>
+        <SimpleForm toolbar={<EventProviderEditToolbar />} >
         <TextInput disabled source="id" />
             <TextInput source="name" />
             <SelectInput source="profile_pic" resettable choices={[
@@ -47,9 +64,6 @@ export const EventProviderCreate = (props : any) => (
         </Create>
     );
 
-const postFilters = [
-        <SearchInput source="q" label="Search" alwaysOn />
-    ];
 
     const getEventProviderFilters = () =>
     [

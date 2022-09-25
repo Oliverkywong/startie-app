@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   IonPage,
   IonHeader,
@@ -10,8 +10,6 @@ import {
   IonToolbar,
   IonTitle,
   IonBackButton,
-  useIonViewWillEnter,
-  IonCardContent,
   IonCardTitle,
   IonIcon,
 } from "@ionic/react";
@@ -19,34 +17,28 @@ import {
 import { Team } from "../model";
 import "./css/Common.css";
 import "./css/Team.css";
-import { logoWindows, shareOutline } from "ionicons/icons";
+import { shareOutline } from "ionicons/icons";
 import { API_ORIGIN } from "../utils/api";
 
 const TeamList: React.FC = () => {
   const [data, setData] = useState<Team[]>([]);
   const [fetchData, setFetchData] = useState<Team[]>([]);
-  // const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
   const [i, setI] = useState(10);
   const router = useIonRouter();
 
   const isInfiniteDisabled = data.length >= fetchData.length
 
   useEffect(() => {
-    console.log('first time')
-   ; (async function () {
+     (async function () {
       const res = await fetch(`${API_ORIGIN}/app/team`);
       const result = await res.json();
       let newTeams = result.teams.rows
-      console.log('fetch teams:',newTeams)
+      
       setData(newTeams.slice(0, 10));
       setFetchData(newTeams);
       setI(10)
-      // setData(result.teams.rows);
-      // setI(i + 10);
     })();
   }, []);
-
-  // let sliceData: Team[] = [];
 
   const pushData = () => {
     let sliceData = fetchData.slice(i, i + 10);
@@ -58,17 +50,16 @@ const TeamList: React.FC = () => {
     //set loading state
     setTimeout(() => {
       pushData();
-      console.log("Loaded data");
       ev.target.complete();
     }, 500);
   };
 
-  useIonViewWillEnter(() => {
+  // useIonViewWillEnter(() => {
     // pushData();
-  },[]);
+  // },[]);
 
-  console.log('render:',{i,data:data.length,fetchData:fetchData.length})
-  Object.assign(window,{data})
+  // console.log('render:',{i,data:data.length,fetchData:fetchData.length})
+  // Object.assign(window,{data})
 
   return (
     <IonPage>
@@ -92,7 +83,6 @@ const TeamList: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        items: { data.length}
         <div className="teamList">
           {data.map((item) => {
             return (
@@ -106,9 +96,9 @@ const TeamList: React.FC = () => {
                   <img
                     className="teamIcon"
                     src={
-                      item?.profilepic != null
-                        ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
-                        : "https://www.w3schools.com/howto/img_avatar.png"
+                      (item?.profilepic).slice(0,4) === "data"
+                        ? `${item.profilepic}`
+                        : `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
                     }
                   />
                   <IonCardTitle className="teamTitle">{item.name}</IonCardTitle>

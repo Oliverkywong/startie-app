@@ -33,7 +33,7 @@ const httpClient = (url:string, options :any= {}) => {
  console.log("host", host);
  console.log("react admin", REACT_APP_API_URL);
 
-const dataProvider =  jsonServerProvider('https://api.startie.oliverstrat.me', httpClient);
+const dataProvider =  jsonServerProvider('http://localhost:8000', httpClient);
 
 
 const App = () => (
@@ -42,7 +42,7 @@ const App = () => (
       <Resource name="user" list={UserList} edit={UserEdit} create={UserCreate} icon={UserIcon} recordRepresentation="name" />
       <Resource name="team" list={TeamList} edit={TeamEdit} create={TeamCreate} icon={TeamIcon}  />
       <Resource name="event" list={EventList} edit={EventEdit} create={EventCreate} icon={EventIcon} />
-      <Resource name="event_provider" list={EventProviderList} edit={EventProviderEdit} create={EventProviderCreate} icon={EventProviderIcon} />
+      <Resource name="event_provider" list={EventProviderList} edit={EventProviderEdit} create={EventProviderCreate} icon={EventProviderIcon} recordRepresentation="name"/>
     </Admin>
 );
 

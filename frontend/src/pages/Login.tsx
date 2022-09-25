@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import {
-  IonBackButton,
   IonButton,
-  IonButtons,
   IonContent,
-  IonHeader,
   IonIcon,
   IonImg,
   IonPage,
-  IonToolbar,
   useIonRouter,
+  useIonToast,
 } from "@ionic/react";
 import logo from "../img/StartieLogo.png";
 import {
@@ -23,22 +20,17 @@ import "./css/Login.css";
 import { useDispatch } from "react-redux";
 import { loggedIn } from "../redux/auth/action";
 import { loadUserInfo } from "../redux/userInfo/action";
+import { API_ORIGIN } from "../utils/api";
 
 const Login: React.FC = () => {
   const { register, handleSubmit } = useForm();
   const [passwordShown, setPasswordShown] = useState(false);
   const dispatch = useDispatch();
   const router = useIonRouter();
+  const [present] = useIonToast();
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton defaultHref="/tab/home" />
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
       <IonContent className="background">
         <div className="pageContent">
           <IonImg src={logo} className="logo" />
@@ -46,7 +38,7 @@ const Login: React.FC = () => {
           <form
             onSubmit={handleSubmit(async (data) => {
               const res = await fetch(
-                `${process.env.REACT_APP_BACKEND_URL}/login`,
+                `${API_ORIGIN}/login`,
                 {
                   method: "POST",
                   headers: {
@@ -56,11 +48,18 @@ const Login: React.FC = () => {
                 }
               );
 
+              const userRecord = await res.json();
               if (res.status === 200) {
-                const userRecord = await res.json();
                 dispatch(loggedIn(userRecord["user"], userRecord["jwt"]));
                 dispatch(loadUserInfo(userRecord["user"]));
                 router.push("/tab/home");
+              } else {
+                present({
+                  message: userRecord.msg,
+                  duration: 1500,
+                  position: "middle",
+                  cssClass: "backtoast"
+                })
               }
             })}
           >

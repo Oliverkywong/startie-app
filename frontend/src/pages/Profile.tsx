@@ -29,6 +29,7 @@ import UserTeams from "./component/UserTeams";
 import UserSettings from "./UserSettings";
 import { RootState, useAppSelector } from "../store";
 import { Team } from "../model";
+import { API_ORIGIN } from "../utils/api";
 
 const Profile: React.FC = () => {
   const userdetails = useAppSelector(
@@ -54,7 +55,7 @@ const Profile: React.FC = () => {
       }
 
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/app/user/${userdetails?.id}`,
+        `${API_ORIGIN}/app/user/${userdetails?.id}`,
         {
           headers: {
             Authorization: `Bearer ${localtoken}`,
@@ -62,7 +63,7 @@ const Profile: React.FC = () => {
         }
       );
       const selfTeam = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/user/me/team`,
+        `${API_ORIGIN}/user/me/team`,
         {
           headers: {
             Authorization: `Bearer ${localtoken}`,
@@ -70,6 +71,7 @@ const Profile: React.FC = () => {
         }
       );
       const userTeam = await selfTeam.json();
+<<<<<<< HEAD
       console.log(userTeam);
       setUserBelongsTeam(userTeam);
 
@@ -81,6 +83,17 @@ const Profile: React.FC = () => {
           },
         }
       );
+=======
+      setUserBelongsTeam(userTeam);
+
+
+
+      const skillres = await fetch(`${API_ORIGIN}/skill/${userdetails.id}`, {
+        headers: {
+          Authorization: `Bearer ${localtoken}`,
+        },
+      });
+>>>>>>> ec6d4a455f64bd7d4332102b63892c8f8c8518ad
 
       const skilldetails = await skillres.json();
 
@@ -94,10 +107,6 @@ const Profile: React.FC = () => {
         skillNameArray.push(skilldetails.detail.skill[i].name);
         skillPointArray.push(skilldetails.detail.skill[i].point);
       }
-
-      // console.log(sectorNameArray);
-      // console.log(skillNameArray);
-      // console.log(skillPointArray);
 
       setSectorName(sectorNameArray);
       setSkillName(skillNameArray);
@@ -122,7 +131,7 @@ const Profile: React.FC = () => {
               className="profilepic"
               src={
                 userdetails?.profilepic != null
-                  ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`
+                  ? `${API_ORIGIN}/userUploadedFiles/${userdetails.profilepic}`
                   : "https://www.w3schools.com/howto/img_avatar.png"
               }
             />
@@ -180,6 +189,7 @@ const Profile: React.FC = () => {
               <IonLabel>Account</IonLabel>
             </div>
           </div>
+<<<<<<< HEAD
           {stat && (
             <UserStats
               sectorName={sectorName}
@@ -188,6 +198,8 @@ const Profile: React.FC = () => {
             />
           )}
 
+=======
+>>>>>>> ec6d4a455f64bd7d4332102b63892c8f8c8518ad
           {stat && (
             <UserStats
               sectorName={sectorName}

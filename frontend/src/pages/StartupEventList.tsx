@@ -16,6 +16,7 @@ import {
 import "./css/Common.css";
 import "./css/Event.css";
 import { EventInfo } from "../model";
+import { API_ORIGIN } from "../utils/api";
 
 const EventList: React.FC = () => {
   const [data, setData] = useState<EventInfo[]>([]);
@@ -25,7 +26,7 @@ const EventList: React.FC = () => {
   useLayoutEffect(() => {
     (async function () {
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/app/event/?searchcategory_id=1`
+        `${API_ORIGIN}/app/event/?searchcategory_id=1`
       );
       const result = await res.json();
       setData(result.events);
@@ -34,7 +35,6 @@ const EventList: React.FC = () => {
 
   const loadData = (ev: any) => {
     setTimeout(() => {
-      console.log("Loaded data");
       ev.target.complete();
       if (data.length === 100) {
         setInfiniteDisabled(true);
@@ -78,7 +78,7 @@ const EventList: React.FC = () => {
                   className="eventThumbnail"
                   src={
                     item?.event_profilepic != null
-                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.event_profilepic}`
+                      ? `${API_ORIGIN}/userUploadedFiles/${item.event_profilepic}`
                       : "StartieLogo.png"
                   }
                 />
@@ -89,7 +89,7 @@ const EventList: React.FC = () => {
                   <IonImg
                     src={
                       item?.event_provider_profile_pic != null
-                        ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.event_provider_profile_pic}`
+                        ? `${API_ORIGIN}/userUploadedFiles/${item.event_provider_profile_pic}`
                         : "StartieLogo.png"
                     }
                     style={{ width: "10%", height: "10%" }}

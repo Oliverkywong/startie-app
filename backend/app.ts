@@ -72,7 +72,7 @@ declare global {
 
 app.use(
   cors({
-    origin: [process.env.REACT_DOMAIN!,'capacitor://localhost', 'http://localhost:3001'],
+    origin: [process.env.REACT_DOMAIN!,'capacitor://localhost', 'http://localhost:3001','https://admin.startie.oliverstrat.me'],
     credentials: true,
     exposedHeaders: ["x-total-count", "content-length","server" ], //for react-admin
    
