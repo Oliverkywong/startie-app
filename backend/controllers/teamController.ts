@@ -2,7 +2,6 @@ import { TeamService } from "../services/teamService";
 import { Request, Response } from "express";
 import { logger } from "../utils/logger";
 import express from "express";
-// import { form } from "../utils/middleware";
 import { TeamListInput } from "../utils/api-types";
 
 export class TeamController {
@@ -12,30 +11,13 @@ export class TeamController {
 // create team
 // -------------------------------------------------------------------------------------------------------------------
   createTeam = async (req: express.Request, res: express.Response) => {
-      // form.parse(req, async (err, fields, files) => {
         try {
           const userId = req.user!.userId;
-
           const searchcategory = parseInt(req.body.data.teamcategory)
-            // fields.category_id != null && !Array.isArray(fields.category_id)
-            //   ? parseInt(fields.category_id)
-            //   : 5; //category_id = 5 is "other"
-
           const name = req.body.data.teamName
-            // fields.name != null && !Array.isArray(fields.name)
-            //   ? fields.name
-            //   : "Team X";  //should throw error class (missing name)
           const shortDescription = req.body.data.teamshortDescription
           const description = req.body.data.teamDescription
-            // fields.description != null && !Array.isArray(fields.description)
-            //   ? fields.description
-            //   : "";
-
           const profilepic = req.body.img
-            // files.profilepic != null && !Array.isArray(files.profilepic)
-            //   ? files.profilepic.newFilename
-            //   : "default.jpg"; //default use default.jpg
-
           const looking = req.body.data.teamlooking
 
           const team = await this.teamService.createTeam(
@@ -52,7 +34,6 @@ export class TeamController {
           logger.error(err);
           res.status(400).json({ result: false, msg: "create team fail" });
         }
-      // });
     }
 // -------------------------------------------------------------------------------------------------------------------
 // get all teams for react admin
