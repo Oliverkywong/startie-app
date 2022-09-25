@@ -19,7 +19,7 @@ import { OAuth2Client } from "google-auth-library";
 import { UserListInput } from "../utils/api-types";
 
 export class UserController {
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {}
   // -------------------------------------------------------------------------------------------------------------------
   // Google Login
   // -------------------------------------------------------------------------------------------------------------------
@@ -105,14 +105,12 @@ export class UserController {
 
       logger.info(`${username} logged in`);
 
-      res
-        .status(200)
-        .json({
-          result: true,
-          msg: "register success",
-          user: register,
-          jwt: jwt,
-        });
+      res.status(200).json({
+        result: true,
+        msg: "register success",
+        user: register,
+        jwt: jwt,
+      });
     } catch (err) {
       if (err instanceof UserDuplicateUsernameError) {
         res.status(500).json({ result: false, msg: "username already exists" });
@@ -293,12 +291,12 @@ export class UserController {
   editUser = async (req: express.Request, res: express.Response) => {
     try {
       const userId = req.user!.userId; //get userId from JWT
-      const name = req.body.data.name
-      const phonenumber = req.body.data.phone
-      const shortDescription = req.body.data.shortDescription
-      const description = req.body.data.Description
-      const profilepic = req.body.img
-      const goodat = parseInt(req.body.data.goodat)
+      const name = req.body.data.name;
+      const phonenumber = req.body.data.phone;
+      const shortDescription = req.body.data.shortDescription;
+      const description = req.body.data.Description;
+      const profilepic = req.body.img;
+      const goodat = parseInt(req.body.data.goodat);
 
       const userInfo = await this.userService.editUser(
         userId,
@@ -310,12 +308,12 @@ export class UserController {
         goodat
       );
 
-      console.log(userInfo)
+      console.log(userInfo);
 
       res.status(200).json({
         result: true,
         msg: "Edit user profile success",
-        userInfo: userInfo[0]
+        userInfo: userInfo[0],
       });
     } catch (err) {
       logger.error(err);
@@ -502,6 +500,21 @@ export class UserController {
       } else {
         res.status(500).json({ result: false, msg: "join event fail!!" });
       }
+    }
+  };
+  // -------------------------------------------------------------------------------------------------------------------
+  // user leave event
+  // -------------------------------------------------------------------------------------------------------------------
+  quitEvent = async (req: express.Request, res: express.Response) => {
+    try {
+      const userId = req.user!.userId;
+      const { eventId } = req.params;
+      const NumberEventId = parseInt(eventId);
+      const event = await this.userService.quitEvent(userId, NumberEventId);
+      res.json(event);
+    } catch (err) {
+      logger.error(err);
+      res.status(400).json({ result: false, msg: "quit event fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
