@@ -50,7 +50,7 @@ const Profile: React.FC = () => {
   useLayoutEffect(() => {
     (async function () {
       const localtoken = localStorage.getItem("token");
-      if (localtoken === null) {
+      if (localtoken === null || localtoken === undefined) {
         router.push("/tab/login");
       }
 
@@ -65,6 +65,8 @@ const Profile: React.FC = () => {
         },
       });
       const userTeam = await selfTeam.json();
+      console.log(userTeam);
+
       setUserBelongsTeam(userTeam);
 
       const skillres = await fetch(`${API_ORIGIN}/skill/${userdetails.id}`, {

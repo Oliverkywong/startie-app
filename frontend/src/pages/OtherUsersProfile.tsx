@@ -50,22 +50,19 @@ const OtherUserProfile: React.FC = () => {
 
   useLayoutEffect(() => {
     (async function () {
-      const res = await fetch(
-        `${API_ORIGIN}/user/${match?.params.id}`
-      );
+      const res = await fetch(`${API_ORIGIN}/app/user/${match?.params.id}`);
 
       const data = await res.json();
       setData(data);
 
       const selfTeam = await fetch(
-        `${API_ORIGIN}/user/team/${match?.params.id}`);
+        `${API_ORIGIN}/user/team/${match?.params.id}`
+      );
       const userTeam = await selfTeam.json();
-      
+
       setUserBelongsTeam(userTeam);
 
-      const skillres = await fetch(
-        `${API_ORIGIN}/skill/${match?.params.id}`
-      );
+      const skillres = await fetch(`${API_ORIGIN}/skill/${match?.params.id}`);
 
       const skilldetails = await skillres.json();
 
