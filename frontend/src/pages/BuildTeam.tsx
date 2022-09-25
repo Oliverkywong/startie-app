@@ -101,7 +101,6 @@ const BuildTeam: React.FC = () => {
               },
               body: JSON.stringify({ data: data, img: image })
             })
-            console.log(data)
 
             router.push("/recommend");
           })}

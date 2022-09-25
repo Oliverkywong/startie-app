@@ -27,7 +27,7 @@ import { API_ORIGIN } from "../utils/api";
 const rootinfo = {
   id: 0,
   username: "dummy",
-  profilepic: null,
+  profilepic: "rooticon.jpeg",
   shortDescription: "short",
   description: "testing",
   tags: ["dummytag", "dummytag2"],

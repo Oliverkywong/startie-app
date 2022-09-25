@@ -1,7 +1,7 @@
 import { Knex } from "knex";
 import { UserListData, UserListInput } from "../utils/api-types";
 import { checkPassword, hashPassword } from "../utils/hash";
-import { User, User_Team } from "../utils/model";
+import { User, User_Tag, User_Team } from "../utils/model";
 
 export class UserDuplicateUsernameError extends Error {
   constructor(msg?: string) {
@@ -270,19 +270,32 @@ export class UserService {
   // edit User Info
   // -------------------------------------------------------------------------------------------------------------------
   async editUser(
-    userId: number,
-    profilepic: string,
-    phonenumber: number | string,
-    description: string
+    userId:number,
+    name:string,
+    phonenumber:string,
+    shortDescription:string,
+    description:string,
+    profilepic:string,
+    goodat:number,
   ) {
     const userRecord = await this.knex<User>("user")
       .update({
-        profilepic: profilepic,
+        username: name,
         phonenumber: phonenumber,
+        profilepic: profilepic,
+        shortDescription: shortDescription,
         description: description,
       })
       .where("id", userId)
       .returning("*");
+    
+      await this.knex<User_Tag>("user_tag")
+      .insert({
+        user_id: userRecord[0].id,
+        tag_id: goodat
+      })
+      .returning("*");
+    
 
     return userRecord;
   }

@@ -8,6 +8,7 @@ export interface User {
   profilepic: string;
   phonenumber: string | number;
   description: string;
+  shortDescription: string;
   clickrate: number;
   team_id: number;
   event_id: number;
@@ -26,6 +27,11 @@ export interface Team {
 
 export interface Team_Tags {
   team_id: number;
+  tag_id: number;
+}
+
+export interface User_Tag {
+  user_id: number;
   tag_id: number;
 }
 

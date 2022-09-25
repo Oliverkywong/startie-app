@@ -1,7 +1,7 @@
 export interface UserInfo {
   id: number;
   username: string;
-  profilepic: string | null;
+  profilepic: string;
   description: string;
   phonenumber: string;
   tags: string[];

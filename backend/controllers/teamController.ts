@@ -18,7 +18,7 @@ export class TeamController {
           const shortDescription = req.body.data.teamshortDescription
           const description = req.body.data.teamDescription
           const profilepic = req.body.img
-          const looking = req.body.data.teamlooking
+          const looking = parseInt(req.body.data.teamlooking)
 
           const team = await this.teamService.createTeam(
             userId,
