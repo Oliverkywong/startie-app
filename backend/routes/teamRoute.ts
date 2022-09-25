@@ -10,6 +10,7 @@ export function teamRoutes(teamController: TeamController) {
   router.post("/app/team", isLogin,teamController.createTeam); //✅ need to add isLogin, Admin cannot use, disable create team (formidable)
   router.get("/teamtag", teamController.teamTag); 
   router.get("/category", teamController.getCategory); 
+  router.get("/tag", teamController.getAllTag); 
   // ----------------------------Admin Routes-------------------------------------------------------------------------------
   router.get("/team", isAdmin,teamController.getAllTeamsForAdmin);
   router.get("/team/:id", isAdmin, teamController.getTeamForAdmin);
