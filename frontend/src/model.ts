@@ -1,7 +1,7 @@
 export interface UserInfo {
   id: number;
   username: string;
-  profilepic: string | null;
+  profilepic: string;
   description: string;
   phonenumber: string;
   tags: string[];
@@ -33,6 +33,11 @@ export interface EventInfo {
 export interface Tag {
   id: number;
   name: string;
+}
+
+export interface Looking {
+  id: number
+  name: string
 }
 
 export interface TeamData {

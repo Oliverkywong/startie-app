@@ -9,6 +9,7 @@ export interface User {
   phonenumber: string | number;
   shortDescription: string;
   description: string;
+  shortDescription: string;
   clickrate: number;
   team_id: number;
   event_id: number;
@@ -27,6 +28,11 @@ export interface Team {
 
 export interface Team_Tags {
   team_id: number;
+  tag_id: number;
+}
+
+export interface User_Tag {
+  user_id: number;
   tag_id: number;
 }
 
@@ -74,4 +80,15 @@ export interface Category {
   id: number | string;
   name: string;
   profilepic?: string;
+}
+
+export interface Tag {
+  id: number
+  name: string
+  searchcategory_id: number
+}
+
+export interface Team_Tag {
+  team_id: number
+  tag_id: number
 }

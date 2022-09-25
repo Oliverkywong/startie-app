@@ -1,5 +1,4 @@
 import express from "express";
-import { form } from "../utils/middleware";
 import { logger } from "../utils/logger";
 import {
   UserDuplicateEmailError,
@@ -105,14 +104,12 @@ export class UserController {
 
       logger.info(`${username} logged in`);
 
-      res
-        .status(200)
-        .json({
-          result: true,
-          msg: "register success",
-          user: register,
-          jwt: jwt,
-        });
+      res.status(200).json({
+        result: true,
+        msg: "register success",
+        user: register,
+        jwt: jwt,
+      });
     } catch (err) {
       if (err instanceof UserDuplicateUsernameError) {
         res.status(500).json({ result: false, msg: "username already exists" });
@@ -297,41 +294,30 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   editUser = async (req: express.Request, res: express.Response) => {
     try {
-      form.parse(req, async (err, fields, files) => {
-        const userId = req.user!.userId; //get userId from JWT
+      const userId = req.user!.userId; //get userId from JWT
+      const name = req.body.data.name;
+      const phonenumber = req.body.data.phone;
+      const shortDescription = req.body.data.shortDescription;
+      const description = req.body.data.Description;
+      const profilepic = req.body.img;
+      const goodat = parseInt(req.body.data.goodat);
 
-        const userInfos = await this.userService.userInfo(userId);
-        let oldProfilepic = userInfos[0].profilepic;
-        let oldPhoneNumber = userInfos[0].phonenumber;
-        let oldDescription = userInfos[0].description;
+      const userInfo = await this.userService.editUser(
+        userId,
+        name,
+        phonenumber,
+        shortDescription,
+        description,
+        profilepic,
+        goodat
+      );
 
-        const newProfilepic =
-          files.profilepic != null && !Array.isArray(files.profilepic)
-            ? files.profilepic.newFilename
-            : oldProfilepic;
+      console.log(userInfo);
 
-        const newPhoneNumber =
-          fields.phonenumber != null && !Array.isArray(fields.phonenumber)
-            ? fields.phonenumber.trim()
-            : oldPhoneNumber;
-
-        const newDescription =
-          fields.description != null && !Array.isArray(fields.description)
-            ? fields.description
-            : oldDescription;
-
-        const userInfo = await this.userService.editUser(
-          userId,
-          newProfilepic,
-          newPhoneNumber,
-          newDescription
-        );
-
-        res.json({
-          result: true,
-          msg: "Edit user profile success",
-          userInfo,
-        });
+      res.status(200).json({
+        result: true,
+        msg: "Edit user profile success",
+        userInfo: userInfo[0],
       });
     } catch (err) {
       logger.error(err);
@@ -518,6 +504,21 @@ export class UserController {
       } else {
         res.status(500).json({ result: false, msg: "join event fail!!" });
       }
+    }
+  };
+  // -------------------------------------------------------------------------------------------------------------------
+  // user leave event
+  // -------------------------------------------------------------------------------------------------------------------
+  quitEvent = async (req: express.Request, res: express.Response) => {
+    try {
+      const userId = req.user!.userId;
+      const { eventId } = req.params;
+      const NumberEventId = parseInt(eventId);
+      const event = await this.userService.quitEvent(userId, NumberEventId);
+      res.json(event);
+    } catch (err) {
+      logger.error(err);
+      res.status(400).json({ result: false, msg: "quit event fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------

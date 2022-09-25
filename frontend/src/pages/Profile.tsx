@@ -71,6 +71,19 @@ const Profile: React.FC = () => {
         }
       );
       const userTeam = await selfTeam.json();
+<<<<<<< HEAD
+      console.log(userTeam);
+      setUserBelongsTeam(userTeam);
+
+      const skillres = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/skill/${userdetails.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localtoken}`,
+          },
+        }
+      );
+=======
       setUserBelongsTeam(userTeam);
 
 
@@ -80,6 +93,7 @@ const Profile: React.FC = () => {
           Authorization: `Bearer ${localtoken}`,
         },
       });
+>>>>>>> ec6d4a455f64bd7d4332102b63892c8f8c8518ad
 
       const skilldetails = await skillres.json();
 
@@ -175,6 +189,17 @@ const Profile: React.FC = () => {
               <IonLabel>Account</IonLabel>
             </div>
           </div>
+<<<<<<< HEAD
+          {stat && (
+            <UserStats
+              sectorName={sectorName}
+              skillName={skillName}
+              skillPoint={skillPoint}
+            />
+          )}
+
+=======
+>>>>>>> ec6d4a455f64bd7d4332102b63892c8f8c8518ad
           {stat && (
             <UserStats
               sectorName={sectorName}
