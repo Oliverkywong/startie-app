@@ -13,7 +13,6 @@ import {
   IonCol,
   IonCardTitle,
   IonHeader,
-  IonToolbar,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Share } from "@capacitor/share";
@@ -29,7 +28,7 @@ import "./css/Homepage.css";
 // Import Swiper styles
 import "swiper/css";
 import { RootState, useAppDispatch, useAppSelector } from "../store";
-import { loggedIn, logOut } from "../redux/auth/action";
+import { loggedIn } from "../redux/auth/action";
 import { EffectCards } from "swiper";
 import { loadUserInfo } from "../redux/userInfo/action";
 import { Team, EventInfo } from "../model";
@@ -43,7 +42,9 @@ const catergorys = {
 };
 
 const Homepage: React.FC = () => {
-  const userdetails = useAppSelector((state: RootState) => state.auth.info);
+  const userdetails = useAppSelector(
+    (state: RootState) => state.userInfo.userinfo
+  );
   const isLogin = useAppSelector((state: RootState) => state.auth.loggedIn);
   const [teamData, setTeamData] = useState<Team[]>([]);
   const [eventData, setEventData] = useState<EventInfo[]>([]);
@@ -56,11 +57,10 @@ const Homepage: React.FC = () => {
       // if (localtoken === null) {
       //   dispatch(logOut());
       // }
-      if (localtoken !== null) {
+      if (localtoken != null) {
         const res = await fetch(
           `${process.env.REACT_APP_BACKEND_URL}/user/me`,
           {
-            method: "GET",
             headers: {
               Authorization: `Bearer ${localtoken}`,
             },
@@ -69,7 +69,7 @@ const Homepage: React.FC = () => {
         const userRecord = await res.json();
         console.log(userRecord);
 
-        dispatch(loggedIn(userRecord, localtoken));
+        dispatch(loggedIn(userRecord["user"], userRecord["jwt"]));
       }
 
       const teamRes = await fetch(
