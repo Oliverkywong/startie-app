@@ -19,6 +19,8 @@ export class EventController {
         profilepic,
         starttime,
         category_id,
+        shortDescription,
+        event_provider_id
       } = req.body;
 
       const event = await this.eventService.createEvent(
@@ -27,7 +29,9 @@ export class EventController {
         maxteammember,
         profilepic,
         starttime,
-        category_id
+        shortDescription,
+        category_id,
+        event_provider_id
       );
       res.status(200).json(event);
     } catch (err) {
@@ -44,7 +48,7 @@ export class EventController {
       let show = true;
       let json = await this.eventService.getAllEvents(input, show);
 
-      res.set("x-total-count", String(json.events?.length));
+      res.set("x-total-count", String(json.count));
       res.status(200).json(json.events);
     } catch (err) {
       logger.error(err);

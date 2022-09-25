@@ -5,7 +5,7 @@ export async function up(knex: Knex): Promise<void> {
     await knex.schema.createTable("team", (table) => {
       table.increments();
       table.string("name").unique().notNullable();
-      table.integer("room_id").unsigned().unique();
+      table.integer("room_id").unique();
       table.foreign("room_id").references("room.id");
       table.integer("status_id").unsigned().notNullable();
       table.foreign("status_id").references("status.id");

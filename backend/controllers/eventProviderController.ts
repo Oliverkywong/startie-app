@@ -33,7 +33,7 @@ export class EventProviderController {
       let input:EventProviderListInput = req.query
       let json = await this.eventProviderService.getAllEventProvidersForAdmin(input);
       
-      res.set("x-total-count", String(json.event_provider?.length));
+      res.set("x-total-count", String(json.count));
       res.status(200).json(json.event_provider);
     } catch (err) {
       logger.error(err);

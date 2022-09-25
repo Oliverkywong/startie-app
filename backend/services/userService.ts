@@ -60,9 +60,9 @@ export class YourHaveJoinedThisEventError extends Error {
 export class UserService {
   constructor(private knex: Knex) {}
 
-  // -------------------------------------------------------------------------------------------------------------------
-  // Apple login
-  // -------------------------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------------
+// Apple login
+// -------------------------------------------------------------------------------------------------------------------
   async socialLogin(email: string){
     const userEmailRecord = await this.knex<User>("user")
         .select("*")
@@ -76,9 +76,9 @@ export class UserService {
 
   }
 
-  // -------------------------------------------------------------------------------------------------------------------
-  // Register ✅
-  // -------------------------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------------
+// Register ✅
+// -------------------------------------------------------------------------------------------------------------------
   async register(
     username: string,
     password: string,
@@ -86,7 +86,7 @@ export class UserService {
     phonenumber?: string,
     description?: string
   ) {
-    {
+    
       const userEmailRecord = await this.knex<User>("user")
         .select("*")
         .where("email", email);
@@ -106,7 +106,7 @@ export class UserService {
       if (!username || !password || !email) {
         throw new UserMissingRegisterInfoError();
       }
-    }
+    
 
     // insert user
     const user = await this.knex<User>("user").insert({
@@ -183,7 +183,7 @@ export class UserService {
       )
       .join("status as s", "status_id", "s.id")
       .leftJoin("user_tag", "user.id", "user_tag.user_id")
-      .join("tag as t", "user_tag.tag_id", "t.id")
+      .leftJoin("tag as t", "user_tag.tag_id", "t.id")
       .groupBy("user.id", "s.id");
 
     if (input.name) {
@@ -221,14 +221,20 @@ export class UserService {
     if (input.isadmin) {
       query = query.having("isadmin", "=", `${input.isadmin}`);
     }
-    if (show) {
-      query = query.orderBy(`${input._sort}`, `${input._order}`)
+
+    let allUserCount = await query
+
+    if (show && input._sort && input._order && input._start && input._end) {
+      query = query
+      .orderBy(`${input._sort}`, `${input._order}`)
+      .limit(input._end - input._start)
+      .offset(input._start);
     } else {
       query = query.orderBy('id', 'asc').where('status_id', 1)
     }
     let user = await query;
 
-    return { user };
+    return { user: user, count: allUserCount.length };
   }
   // -------------------------------------------------------------------------------------------------------------------
   // get all User List
@@ -258,6 +264,7 @@ export class UserService {
         profilepic: input.profilepic,
         isadmin: input.isadmin,
         phonenumber: input.phonenumber,
+        shortDescription: input.shortDescription,
         description: input.description,
         status_id: input.status_id,
       })
@@ -356,7 +363,7 @@ export class UserService {
       .returning("*");
   }
   // -------------------------------------------------------------------------------------------------------------------
-  //get notification
+  // get notification
   // -------------------------------------------------------------------------------------------------------------------
   async getNotification(userId: number) {
     const notification = await this.knex("notification")

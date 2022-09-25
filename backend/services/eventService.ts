@@ -14,7 +14,9 @@ export class EventService {
     maxteammember: number,
     profilepic: string,
     starttime: Date,
+    shortDescription: string,
     searchcategory_id: number,
+    event_provider_id: number,
   ) {
       const eventInfo = await this.knex<Event>("event")
         .insert({
@@ -23,7 +25,9 @@ export class EventService {
           maxteammember: maxteammember,
           profilepic: profilepic,
           starttime: starttime,
+          shortDescription: shortDescription,
           searchcategory_id: searchcategory_id,
+          event_provider_id: event_provider_id,
           status_id: 1,
         })
         .into("event")
@@ -77,18 +81,27 @@ export class EventService {
       if (input.maxteammember) {
         query = query.where("maxteammember", "<=", `${input.maxteammember}`);
       }
+      if (input.event_provider_id) {
+        query = query.where("event_provider_id", "=", `${input.event_provider_id}`);
+      }
       if (input.searchcategory_id) {
         query = query.where("searchcategory.id", "=", `${input.searchcategory_id}`);
       }
-      if (show && input._sort && input._order) {
-        query = query.orderBy(`${input._sort}`, `${input._order}`)
+
+      const count = await query
+
+      if (show && input._sort && input._order && input._start && input._end) {
+        query = query
+        .orderBy(`${input._sort}`, `${input._order}`)
+        .limit(input._end - input._start)
+        .offset(input._start);
       } else {
         query = query.orderBy('id', 'asc').where('status_id', 1)
       }
       
       let events = await query
       
-      return {events};
+      return {events: events, count: count.length};
   }
 
   // -------------------------------------------------------------------------------------------------------------------
