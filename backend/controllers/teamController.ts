@@ -51,6 +51,28 @@ export class TeamController {
       });
     }
 // -------------------------------------------------------------------------------------------------------------------
+// create team for Admin
+// -------------------------------------------------------------------------------------------------------------------
+createTeamForAdmin = async (req: express.Request, res: express.Response) => {
+    try {
+      const userId = req.body.user_id;
+
+      let { name, category_id, description, shortDescription  } = req.body
+
+      const team = await this.teamService.createTeam(
+        userId,
+        name,
+        category_id,
+        shortDescription,
+        description        
+      );
+      res.status(200).json(team.teamInfo);
+    } catch (err) {
+      logger.error(err);
+      res.status(400).json({ result: false, msg: "create team fail" });
+    }
+}
+// -------------------------------------------------------------------------------------------------------------------
 // get all teams for react admin
 // -------------------------------------------------------------------------------------------------------------------
   getAllTeamsForAdmin = async (req: Request, res: Response) => {
@@ -59,8 +81,8 @@ export class TeamController {
       let show = true
       let json = await this.teamService.getAllTeams(input, show);
 
-      res.set("x-total-count", String(json.teams?.rows?.length));
-      res.status(200).json(json.teams?.rows);
+      res.set("x-total-count", String(json.count));
+      res.status(200).json(json.teams);
 
     } catch (err) {
       logger.error(err);
@@ -104,14 +126,14 @@ export class TeamController {
       const teamId = parseInt(req.params.id);
       const team = await this.teamService.getTeamForAdmin(teamId);
 
-      res.status(200).json({id:team.team[0].id, data:team.team[0]});
+      res.status(200).json(team.team[0]);
     } catch (err) {
       logger.error(err);
       res.status(500).json({ result: false, msg: "getTeam fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
-  // edit team 
+  // edit team for admin
   // -------------------------------------------------------------------------------------------------------------------
   updateTeamForAdmin = async (req: express.Request, res: express.Response) => {
       try {
@@ -123,7 +145,11 @@ export class TeamController {
           teamId,
           input
         );
-        res.status(200).json(team);
+        res.status(200).json({
+          data: team,
+          id: team[0].id
+        }
+          );
       } catch (err) {
         logger.error(err);
         res.status(500).json({ result: false, msg: "update team fail" });

@@ -24,7 +24,6 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   // Google Login
   // -------------------------------------------------------------------------------------------------------------------
-
   loginGoogle = async (req: express.Request, res: express.Response) => {
     try {
       const client = new OAuth2Client(process.env.GOOGLE_IOS_CLIENT_ID);
@@ -93,7 +92,7 @@ export class UserController {
         email
       );
 
-      const ecPrivateKey = await joseKey();
+      const ecPrivateKey = await joseKey(); // login after register
       const jwt = await new jose.SignJWT({
         "urn:example:claim": true,
         userId: req.body.user,
@@ -119,16 +118,18 @@ export class UserController {
         res.status(500).json({ result: false, msg: "username already exists" });
       }
 
-      if (err instanceof UserDuplicateEmailError) {
-        res.status(500).json({ result: false, msg: "email already exists" });
+      else if (err instanceof UserDuplicateEmailError) {
+        res.status(501).json({ result: false, msg: "email already exists" });
       }
 
-      if (err instanceof UserMissingRegisterInfoError) {
-        res.status(500).json({ result: false, msg: "missing register info" });
+      else if (err instanceof UserMissingRegisterInfoError) {
+        res.status(502).json({ result: false, msg: "missing register info" });
+      } else{
+        
+        logger.error(err);
+        res.status(503).json({ result: false, msg: "register error" });
       }
 
-      logger.error(err);
-      res.status(500).json({ result: false, msg: "register error" });
     }
   };
 
@@ -147,6 +148,7 @@ export class UserController {
         "urn:example:claim": true,
         userId: user[0].id,
         username: user[0].username,
+        isadmin: user[0].isadmin
       }) // use private key to sign
         .setProtectedHeader({ alg: "ES256" })
         .setIssuedAt()
@@ -179,10 +181,12 @@ export class UserController {
         return res
           .status(500)
           .json({ result: false, msg: "The user is not active" });
+      } else {
+        logger.error(err);
+        return res.status(500).json({ result: false, msg: "login fail" });
+        
       }
 
-      logger.error(err);
-      return res.status(500).json({ result: false, msg: "login fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -280,7 +284,7 @@ export class UserController {
       let show = true;
       let json = await this.userService.getAllUser(input, show);
 
-      res.set("x-total-count", String(json.user?.length));
+      res.set("x-total-count", String(json.count));
       res.status(200).json(json.user);
     } catch (err) {
       logger.error(err);
@@ -443,9 +447,9 @@ export class UserController {
     }
   };
 
-  //-----------
-  // otheruserteam
-  //-----------
+  // -------------------------------------------------------------------------------------------------------------------
+  // check user other team info
+  // -------------------------------------------------------------------------------------------------------------------
   otheruserTeam = async (req: express.Request, res: express.Response) => {
     try {
       const userId = parseInt(req.params.id);

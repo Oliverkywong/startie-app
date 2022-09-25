@@ -49,17 +49,11 @@ const TeamEditToolbar = (props:any) => (
   </Toolbar>
 );
 
-// const validateName = (value) => {
-//   if (value < 18) {
-//       return 'Must be over 18';
-//   }
-//   return undefined;
-// }
 
 export const TeamList = (props: any) => (
   <List filters={getTeamFilters()} {...props}>
     <Datagrid size="small" rowClick="edit" expand={<DescriptionShow />} bulkActionButtons={<PostBulkActionButtons />}>
-      <TextField source="id" sortByOrder="DESC" />
+      <TextField source="id" />
       <TextField source="name" />
       <TextField source="status" />
       <TextField source="category" />
@@ -71,11 +65,37 @@ export const TeamList = (props: any) => (
 );
 
 export const TeamEdit = (props: any) => (
-  <Edit title={<TeamTitle />} {...props}>
+  <Edit {...props}>
     <SimpleForm toolbar={<TeamEditToolbar />}>
       <TextInput disabled source="id" />
-      <TextInput source="name" />
-      <TextInput source="Description" />
+      <TextInput disabled source="name" />
+      <TextInput disabled multiline source="tags" />
+      <TextInput disabled multiline source="users" />
+      <SelectInput
+        source="category_id"
+        label="Category"
+        validate={required()}
+        resettable
+        choices={[
+          { id: 1, name: "Business" },
+          { id: 2, name: "Startup" },
+          { id: 3, name: "Investment" },
+          { id: 4, name: "Hackathon" },
+          { id: 5, name: "Others" },
+        ]}
+      />
+      <SelectInput
+        source="status_id"
+        validate={required()}
+        resettable
+        choices={[
+          { id: 1, name: "Active" },
+          { id: 2, name: "Inactive" },
+          { id: 3, name: "Pending" },
+        ]}
+      />
+      <TextInput source="shortDescription" multiline />
+      <TextInput source="description" multiline />
     </SimpleForm>
   </Edit>
 );
@@ -93,25 +113,21 @@ export const TeamCreate = (props: any) => (
           { id: 2, name: "Startup" },
           { id: 3, name: "Investment" },
           { id: 4, name: "Hackathon" },
-          { id: 5, name: "Others" },
+          { id: 5, name: "Others" }
         ]}
       />
-      {/* <TextInput validate={required()} source="name" /> */}
       <ReferenceInput
-        source="id"
+        label="First Member" 
+        source="user_id"
         reference="user"
       >
-        <AutocompleteInput label="First Member" />
+        <AutocompleteInput label="First Member" validate={required()}/>
       </ReferenceInput>
+      <TextInput multiline source="shortDescription" fullWidth/>
       <TextInput multiline source="description" fullWidth/>
     </SimpleForm>
   </Create>
 );
-
-const TeamTitle = ({ record }: any) => {
-  // const record = useRecordContext();
-  return <span>Team {record ? `"${record.title}"` : ""}</span>;
-};
 
 const getTeamFilters = () =>
   [
@@ -129,6 +145,7 @@ const getTeamFilters = () =>
     />,
     <TextInput source="tags" label="Looking for" />,
     <TextInput source="users" label="Users" />,
+    <TextInput source="shortDescription" />,
     <TextInput source="description" />,
     <SelectInput
       source="status_id"

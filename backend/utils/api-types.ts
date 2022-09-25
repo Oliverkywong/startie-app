@@ -13,6 +13,7 @@ export type EventListData = { //type of list of events for EventList of react ad
     clickrate: number;
     created_at: string;
   }>;
+  count?: number;
   error?:string
 };
 
@@ -21,7 +22,10 @@ export type EventListInput = { //input query from react admin
   q?: string;
   _order?: string;
   _sort?: string;
+  _start?: number;
+  _end?: number;
   event_name?: string;
+  event_provider_id?: number;
   provider_name?: string;
   profilepic?: string;
   searchcategory_id?: number | string;
@@ -44,6 +48,7 @@ export type TeamListData = {
     clickrate: number;
     profilepic: string;
   }>};
+  count?: number;
   error?:string
 };
 
@@ -51,8 +56,10 @@ export type TeamListInput = {
   name?: string;
   _order?: string;
   _sort?: string;
+  _start?: number;
+  _end?: number;
   q?: string;
-  searchcategory_id?: number | string;
+  category_id?: number | string;
   profile_pic?: string;
   description?: string;
   shortDescription?: string;
@@ -74,6 +81,7 @@ export type UserListData = {
     profilepic: string;
     tags: string[];
   }>;
+  count?: number;
   error?:string
 };
 
@@ -82,6 +90,8 @@ export type UserListInput = {
   q?: string;
   _order?: string;
   _sort?: string;
+  _start?: number;
+  _end?: number;
   email?: string;
   isadmin?: boolean;
   description?: string;
@@ -96,8 +106,9 @@ export type EventProviderListData = {
   event_provider?: Array<{
     id: number;
     name: string;
-    profile_pic?: string;
+    profile_pic: string;
   }>;
+  count?: number;
   error?:string
 };
 

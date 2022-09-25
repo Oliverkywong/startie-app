@@ -24,7 +24,9 @@ export class TeamService {
         .insert({
           user_id: userId,
           team_id: teamInfo[0].id,
-          
+          isboard: true,
+          iswaiting: false,
+          isfollow: false
         })
         .returning("*");
 
@@ -43,10 +45,12 @@ export class TeamService {
     `SELECT
     t.id,
     t.name, 
+    s.id AS status_id,
     s.name AS status,
     s2.name AS category,
+    t.searchcategory_id,
     array_agg(DISTINCT u.username) AS users,
-    t.description, 
+    t.description AS shortdescription, 
     t."shortDescription",
     array_agg(DISTINCT tag.name) AS tags,
     t.clickrate,
@@ -62,23 +66,30 @@ export class TeamService {
 
     if (input.status_id) {
       // let i = binding.length +1 // // method for preventing sql injection
-      query += /*SQL*/ `s.name = '${input.status_id}' AND `
+      query += /*SQL*/ `s.id = '${input.status_id}' AND `
     }
     if (input.name) {
       query += /*SQL*/ `t.name ILIKE '%${input.name}%' AND `
-   }    
+   }   
+   if (input.q) {
+    query += /*SQL*/ `t.name ILIKE '%${input.q}%' AND `
+ }  
     if (input.description) {
       query += /*SQL*/ `t.description ILIKE '%${input.description}%' AND `
     }
+    if (input.category_id) {
+      query += /*SQL*/ `t.searchcategory_id = '${input.category_id}' AND `
+    }
     if (input.shortDescription) {
-      query += /*SQL*/ `t.shortDescription ILIKE '%${input.shortDescription}%' AND `
+      query += /*SQL*/ `t."shortDescription" ILIKE '%${input.shortDescription}%' AND `
     }
     if (input.tags) {
-      query += /*SQL*/ `array_agg(DISTINCT tag.name)::VARCHAR ILIKE '%${input.tags}%'` 
+      query += /*SQL*/ `array_agg(DISTINCT tag.name)::VARCHAR ILIKE '%${input.tags}%' AND ` 
   }
   if (input.users) {
-    query += /*SQL*/ `array_agg(DISTINCT u.username)::VARCHAR ILIKE '%${input.users}%'` 
+    query += /*SQL*/ `array_agg(DISTINCT u.username)::VARCHAR ILIKE '%${input.users}%' AND ` 
 }
+
   if (!show) { // if show is false, only show active teams
     query += /*SQL*/ `s.id = 1 AND `
   }
@@ -89,15 +100,20 @@ export class TeamService {
       query = query.slice(0, -7); // delete the "HAVING"
     }
 
-    if (input._order && input._sort) {
-      query += /*SQL*/ ` ORDER BY ${input._sort} ${input._order}`;
+    const count = await this.knex.raw(query)
+
+    if (input._order && input._sort && input._end && input._start) {
+      query += /*SQL*/ 
+      ` ORDER BY ${input._sort} ${input._order}
+      LIMIT ${input._end - input._start}
+      OFFSET ${input._start}`
     } else {
       query += /*SQL*/ ` ORDER BY clickrate, t.id DESC`;
     }
     
      const teams = await this.knex.raw(query)
 
-    return {teams}
+    return {teams: teams.rows, count: count.rowCount};
   }
 // -------------------------------------------------------------------------------------------------------------------
 // get team
@@ -119,11 +135,11 @@ export class TeamService {
 // -------------------------------------------------------------------------------------------------------------------
 // get one team for admin
 // -------------------------------------------------------------------------------------------------------------------
-async getTeamForAdmin(id: number) {
+async getTeamForAdmin(id: number){
   const team = await this.knex<Team>("team as t")
-  .select("t.id as id", "t.name as name", "t.description as description", "t.shortDescription as shortDescription", "t.profilepic as profilepic", "s.name as status", "sc.name as category", "t.clickrate as clickrate", this.knex.raw("ARRAY_AGG(distinct u.username) AS users"), this.knex.raw("ARRAY_AGG(distinct tag.name) AS tags"))
+  .select("t.id as id", "t.name as name", "t.status_id as status_id", "t.searchcategory_id as category_id", "t.description as description", "t.shortDescription as shortDescription", "t.profilepic as profilepic", "s.name as status", "sc.name as category", "t.clickrate as clickrate", this.knex.raw("ARRAY_AGG(distinct u.username) AS users"), this.knex.raw("ARRAY_AGG(distinct tag.name) AS tags"))
   .leftJoin("team_tag as tt", "t.id", "tt.team_id")
-  .innerJoin("tag", "tt.tag_id", "tag.id")
+  .leftJoin("tag", "tt.tag_id", "tag.id")
   .innerJoin("status as s", "s.id", "t.status_id")
   .innerJoin("searchcategory as sc", "sc.id", "t.searchcategory_id")
   .innerJoin("user_team as ut", "ut.team_id", "t.id")
@@ -144,9 +160,11 @@ async getTeamForAdmin(id: number) {
     const teamInfo = await this.knex<Team>("team")
       .update({
         name: input.name,
-        searchcategory_id: input.searchcategory_id,
+        searchcategory_id: input.category_id,
         description: input.description,
-        profilepic: input.profile_pic
+        shortDescription: input.shortDescription,
+        profilepic: input.profile_pic,
+        status_id: input.status_id,
       })
       .where("id", id)
       .returning("*");

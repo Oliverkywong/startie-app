@@ -1,6 +1,6 @@
 import express from "express";
 import { EventController } from "../controllers/eventController";
-import { isLogin } from "../utils/middleware";
+import { isAdmin, isLogin } from "../utils/middleware";
 
 export function eventRoutes(eventController: EventController) {
   const router = express.Router();
@@ -10,7 +10,7 @@ export function eventRoutes(eventController: EventController) {
   router.post("/event", isLogin, eventController.createEvent);
   // router.put("/app/event/:id", isLogin, eventController.updateEvent); // need to add isLogin + isBoard
   // ----------------------------Admin Routes-------------------------------------------------------------------------------
-  router.get("/event", eventController.getAllEventsForAdmin); // need isAdmin
-  router.put("/event/:id", isLogin, eventController.updateEventForAdmin); // need isAdmin
+  router.get("/event", isAdmin, eventController.getAllEventsForAdmin);
+  router.put("/event/:id", isAdmin, eventController.updateEventForAdmin);
   return router;
 }

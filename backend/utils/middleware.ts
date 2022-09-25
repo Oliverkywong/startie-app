@@ -69,6 +69,8 @@ export const isAdmin = async (
     const publicKey = await josePublicKey();
     const { payload } = await jose.jwtVerify(jwt, publicKey);
 
+    console.log("payload:", payload);
+
     if (payload["isadmin"]) {
       req.user = {
         userId: payload["userId"] as number,
@@ -81,7 +83,7 @@ export const isAdmin = async (
     }
   } catch (e) {
     logger.error(e);
-    res.status(500).json({ result: false, msg: "check admin role fail" });
+    res.status(500).json({ result: false, msg: "check admin fail" });
   }
 };
 
