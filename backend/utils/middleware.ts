@@ -26,7 +26,7 @@ export const isLogin = async (
   next: express.NextFunction
 ) => {
   try {
-    const jwt = permit.check(req);
+    const jwt = permit.check(req); //get jwt from header
 
     console.log("jwt:", jwt);
 
@@ -50,7 +50,7 @@ export const isLogin = async (
     } else if (e.code === "ERR_JWS_INVALID") {
       res.status(401).json({ result: false, msg: "You have to login first!" });
     } else {
-      logger.error(e);
+      logger.error(e.code);
       res.status(500).json({ result: false, msg: "Incorrect Token" });
     }
   }

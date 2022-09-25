@@ -11,6 +11,10 @@ import {
   IonIcon,
   IonContent,
   useIonRouter,
+  IonBackButton,
+  IonButtons,
+  IonHeader,
+  IonToolbar,
 } from "@ionic/react";
 import { logoApple, logoGoogle } from "ionicons/icons";
 import { GooglePlus } from "@awesome-cordova-plugins/google-plus";
@@ -18,35 +22,12 @@ import "./css/Login.css";
 import { useDispatch } from "react-redux";
 import { loggedIn } from "../redux/auth/action";
 import { loadUserInfo } from "../redux/userInfo/action";
+import { API_ORIGIN } from "../utils/api";
 
 export default function SocialLogin() {
 
   const dispatch = useDispatch();
   const router = useIonRouter();
-
-  // async function appleLogin() {
-  //   //@ts-ignore
-  //   SignInWithApple.signin({
-  //     requestedScopes: [
-  //       ASAuthorizationAppleIDRequest.ASAuthorizationScopeFullName,
-  //       ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail,
-  //     ],
-  //   })
-  //     .then((res: AppleSignInResponse) => {
-  //       fetch(`${process.env.REACT_APP_BACKEND_URL}/login/apple`, {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(res),
-  //       });
-  //       // console.log(res)
-  //     })
-  //     .catch((error: AppleSignInErrorResponse) => {
-  //       alert(error.code + " " + error.localizedDescription);
-  //       console.error(error);
-  //     });
-  // }
 
   async function appleLogin() {
     //@ts-ignore
@@ -57,7 +38,7 @@ export default function SocialLogin() {
       ],
     })
       .then(async(res: AppleSignInResponse) => {
-        const data = await fetch(`${process.env.REACT_APP_BACKEND_URL}/login/apple`, {
+        const data = await fetch(`${API_ORIGIN}/login/apple`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -86,7 +67,7 @@ export default function SocialLogin() {
       offline: true,
     })
       .then(async(res) => {
-        const data = await fetch(`${process.env.REACT_APP_BACKEND_URL}/login/google`, {
+        const data = await fetch(`${API_ORIGIN}/login/google`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -108,17 +89,23 @@ export default function SocialLogin() {
   }
   return (
     <IonPage>
+    <IonHeader>
+      <IonToolbar>
+        <IonButtons slot="start">
+          <IonBackButton defaultHref="/tab/home" />
+        </IonButtons>
+      </IonToolbar>
+    </IonHeader>
       <IonContent className="background">
         <div className="sociallogin">
         <IonButton color="dark" onClick={appleLogin}>
           <IonIcon icon={logoApple} />
           Sign in with Apple
         </IonButton>
-        <IonButton color="dark" onClick={googleLogin}>
+        <IonButton onClick={googleLogin}>
           <IonIcon icon={logoGoogle} />
           Sign in with Google
         </IonButton>
-        <IonButton onClick={() => { router.push("/tab/login") }}>Go Back</IonButton>
         </div>
       </IonContent>
     </IonPage>

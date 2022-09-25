@@ -13,6 +13,10 @@ import {
   IonCol,
   IonCardTitle,
   IonHeader,
+<<<<<<< HEAD
+=======
+  IonToolbar
+>>>>>>> ec6d4a455f64bd7d4332102b63892c8f8c8518ad
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Share } from "@capacitor/share";
@@ -32,9 +36,10 @@ import { loggedIn } from "../redux/auth/action";
 import { EffectCards } from "swiper";
 import { loadUserInfo } from "../redux/userInfo/action";
 import { Team, EventInfo } from "../model";
+import { API_ORIGIN } from "../utils/api";
 // import { useGet } from "../hooks/useGet";
 
-const catergorys = {
+const categories = {
   cat1: { src: cat1, title: "All" },
   cat2: { src: cat2, title: "Startup" },
   cat3: { src: cat3, title: "Business" },
@@ -59,7 +64,7 @@ const Homepage: React.FC = () => {
       // }
       if (localtoken != null) {
         const res = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/user/me`,
+          `${API_ORIGIN}/user/me`,
           {
             headers: {
               Authorization: `Bearer ${localtoken}`,
@@ -67,13 +72,12 @@ const Homepage: React.FC = () => {
           }
         );
         const userRecord = await res.json();
-        console.log(userRecord);
 
         dispatch(loggedIn(userRecord["user"], userRecord["jwt"]));
       }
 
       const teamRes = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/app/team`,
+        `${API_ORIGIN}/app/team`,
         {
           headers: {
             Authorization: `Bearer ${localtoken}`,
@@ -85,7 +89,7 @@ const Homepage: React.FC = () => {
       setTeamData(teamResult.teams.rows.slice(0, 4)); // remove .teams.rows after backend fix
 
       const eventRes = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/app/event`,
+        `${API_ORIGIN}/app/event`,
         {
           headers: {
             Authorization: `Bearer ${localtoken}`,
@@ -97,7 +101,7 @@ const Homepage: React.FC = () => {
       setEventData(hotEvent);
 
       // const userRes = await fetch(
-      //   `${process.env.REACT_APP_BACKEND_URL}/app/user/:id`,
+      //   `${API_ORIGIN}/app/user/:id`,
       //   {
       //     headers: {
       //       Authorization: `Bearer ${localtoken}`,
@@ -116,14 +120,14 @@ const Homepage: React.FC = () => {
 
   // useLayoutEffect(() => {
   //   (async function () {
-  //     const teamRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/team`);
+  //     const teamRes = await fetch(`${API_ORIGIN}/team`);
   //     const teamResult = await teamRes.json();
   //     setTeamData(teamResult);
   //     console.log(teamResult);
 
   //     for (let i = 0; i < teamResult.length; i++) {
   //       const tagRes = await fetch(
-  //         `${process.env.REACT_APP_BACKEND_URL}/team/${teamResult[i].id}`
+  //         `${API_ORIGIN}/team/${teamResult[i].id}`
   //       );
 
   //       const tagItem = await tagRes.json();
@@ -138,7 +142,7 @@ const Homepage: React.FC = () => {
 
   // useLayoutEffect(() => {
   //   (async function () {
-  //     const eventRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/event`);
+  //     const eventRes = await fetch(`${API_ORIGIN}/event`);
   //     const eventResult = await eventRes.json();
   //     setEventData(eventResult);
   //   })();
@@ -150,52 +154,55 @@ const Homepage: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader className="header">
-        <div className="homePageHeader">
-          <IonButtons slot="start">
-            <IonButton
-              onClick={() => {
-                isLogin
-                  ? router.push("/tab/profile")
-                  : router.push("/tab/login");
-              }}
-            >
-              <IonImg
-                className="icon"
-                // src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails.profilepic}`}
-                src={
-                  userdetails?.profilepic !== null
-                    ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${userdetails?.profilepic}`
-                    : "https://www.w3schools.com/howto/img_avatar.png"
-                }
-              />
-            </IonButton>
-          </IonButtons>
-          <IonButtons style={{ width: "100%" }} slot="primary">
-            <IonButton
-              style={{ width: "100%" }}
-              onClick={() => {
-                router.push("/search");
-              }}
-            >
-              <input className="searchbar" placeholder="Search" />
-            </IonButton>
-          </IonButtons>
-          <IonButtons slot="end">
-            <IonButton
-              slot="end"
-              onClick={() => {
-                isLogin
-                  ? router.push("/notification")
-                  : router.push("/tab/login");
-              }}
+        <IonHeader className="header">
+      <IonToolbar color="dark">
+          <div className="homePageHeader">
+            <IonButtons slot="start">
+              <IonButton
+                onClick={() => {
+                  isLogin
+                    ? router.push("/tab/profile")
+                    : router.push("/tab/login");
+                }}
+              >
+
+                <IonImg
+                  className="icon"
+                  // src={`${API_ORIGIN}/userUploadedFiles/${userdetails.profilepic}`}
+                  src={
+                    userdetails?.profilepic !== undefined || null
+                      ? `${API_ORIGIN}/userUploadedFiles/${userdetails?.profilepic}`
+                      : "https://www.w3schools.com/howto/img_avatar.png"
+                  }
+                />
+              </IonButton>
+            </IonButtons>
+            <IonButtons style={{ width: "100%" }} slot="primary">
+              <IonButton
+                style={{ width: "100%" }}
+                onClick={() => {
+                  router.push("/search");
+                }}
+              >
+                <input className="searchbar" placeholder="Search" />
+              </IonButton>
+            </IonButtons>
+            <IonButtons slot="end">
+              <IonButton
+                slot="end"
+                onClick={() => {
+                  isLogin
+                    ? router.push("/notification")
+                    : router.push("/tab/login");
+                }}
               // routerLink="/notification"
-            >
-              <IonIcon icon={notificationsOutline} />
-            </IonButton>
-          </IonButtons>
-        </div>
-      </IonHeader>
+              >
+                <IonIcon icon={notificationsOutline} />
+              </IonButton>
+            </IonButtons>
+          </div>
+      </IonToolbar>
+        </IonHeader>
       <IonContent className="homecontent">
         <IonLabel className="labelTitle">Hot Events</IonLabel>
 
@@ -221,7 +228,7 @@ const Homepage: React.FC = () => {
                   className="homePageEventThumbnail"
                   src={
                     event.event_profilepic != null
-                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${event.event_profilepic}`
+                      ? `${API_ORIGIN}/userUploadedFiles/${event.event_profilepic}`
                       : "StartieLogo.png"
                   }
                 />
@@ -240,9 +247,9 @@ const Homepage: React.FC = () => {
                 router.push(`/tab/event`);
               }}
             >
-              <IonImg className="categoryIcon" src={catergorys.cat1.src} />
+              <IonImg className="categoryIcon" src={categories.cat1.src} />
               <IonLabel className="categoryLable">
-                {catergorys.cat1.title}
+                {categories.cat1.title}
               </IonLabel>
             </div>
           </SwiperSlide>
@@ -253,9 +260,9 @@ const Homepage: React.FC = () => {
                 router.push(`/tab/event/category/startup`);
               }}
             >
-              <IonImg className="categoryIcon" src={catergorys.cat2.src} />
+              <IonImg className="categoryIcon" src={categories.cat2.src} />
               <IonLabel className="categoryLable">
-                {catergorys.cat2.title}
+                {categories.cat2.title}
               </IonLabel>
             </div>
           </SwiperSlide>
@@ -266,9 +273,9 @@ const Homepage: React.FC = () => {
                 router.push(`/tab/event/category/business`);
               }}
             >
-              <IonImg className="categoryIcon" src={catergorys.cat3.src} />
+              <IonImg className="categoryIcon" src={categories.cat3.src} />
               <IonLabel className="categoryLable">
-                {catergorys.cat3.title}
+                {categories.cat3.title}
               </IonLabel>
             </div>
           </SwiperSlide>
@@ -279,9 +286,9 @@ const Homepage: React.FC = () => {
                 router.push(`/tab/event/category/hackathon`);
               }}
             >
-              <IonImg className="categoryIcon" src={catergorys.cat4.src} />
+              <IonImg className="categoryIcon" src={categories.cat4.src} />
               <IonLabel className="categoryLable">
-                {catergorys.cat4.title}
+                {categories.cat4.title}
               </IonLabel>
             </div>
           </SwiperSlide>
@@ -303,9 +310,9 @@ const Homepage: React.FC = () => {
                       <img
                         className="teamIcon"
                         src={
-                          item?.profilepic != null
-                            ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`
-                            : "https://www.w3schools.com/howto/img_avatar.png"
+                          (item?.profilepic).slice(0,4) === "data"
+                            ? `${item.profilepic}`
+                            : `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
                         }
                       />
 

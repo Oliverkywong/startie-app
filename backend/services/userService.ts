@@ -1,7 +1,7 @@
 import { Knex } from "knex";
 import { UserListData, UserListInput } from "../utils/api-types";
 import { checkPassword, hashPassword } from "../utils/hash";
-import { User, User_Team } from "../utils/model";
+import { User, User_Tag, User_Team } from "../utils/model";
 
 export class UserDuplicateUsernameError extends Error {
   constructor(msg?: string) {
@@ -60,9 +60,9 @@ export class YourHaveJoinedThisEventError extends Error {
 export class UserService {
   constructor(private knex: Knex) {}
 
-  //-----------
-  //Apple Login
-  //------------
+  // -------------------------------------------------------------------------------------------------------------------
+  // Apple login
+  // -------------------------------------------------------------------------------------------------------------------
   async socialLogin(email: string){
     const userEmailRecord = await this.knex<User>("user")
         .select("*")
@@ -168,7 +168,7 @@ export class UserService {
   ): Promise<UserListData> {
     let query = this.knex<User>("user")
       .select(
-        "user.id",
+        "user.id as id",
         "username",
         "email",
         "phonenumber",
@@ -219,12 +219,12 @@ export class UserService {
       );
     }
     if (input.isadmin) {
-      query = query.having("isadmin", "=", `%${input.isadmin}%`);
+      query = query.having("isadmin", "=", `${input.isadmin}`);
     }
     if (show) {
-      query = query.orderBy("id", "asc");
+      query = query.orderBy(`${input._sort}`, `${input._order}`)
     } else {
-      query = query.orderBy("id", "asc").where("status_id", 1);
+      query = query.orderBy('id', 'asc').where('status_id', 1)
     }
     let user = await query;
 
@@ -270,19 +270,32 @@ export class UserService {
   // edit User Info
   // -------------------------------------------------------------------------------------------------------------------
   async editUser(
-    userId: number,
-    profilepic: string,
-    phonenumber: number | string,
-    description: string
+    userId:number,
+    name:string,
+    phonenumber:string,
+    shortDescription:string,
+    description:string,
+    profilepic:string,
+    goodat:number,
   ) {
     const userRecord = await this.knex<User>("user")
       .update({
-        profilepic: profilepic,
+        username: name,
         phonenumber: phonenumber,
+        profilepic: profilepic,
+        shortDescription: shortDescription,
         description: description,
       })
       .where("id", userId)
       .returning("*");
+    
+      await this.knex<User_Tag>("user_tag")
+      .insert({
+        user_id: userRecord[0].id,
+        tag_id: goodat
+      })
+      .returning("*");
+    
 
     return userRecord;
   }

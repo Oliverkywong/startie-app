@@ -15,6 +15,7 @@ import "./css/Common.css";
 import React, { useLayoutEffect, useState } from "react";
 import { EventInfo } from "../model";
 import { useRouteMatch } from "react-router-dom";
+import { API_ORIGIN } from "../utils/api";
 
 const EventDetail: React.FC = () => {
   const [present] = useIonToast();
@@ -28,7 +29,7 @@ const EventDetail: React.FC = () => {
   useLayoutEffect(() => {
     (async function () {
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/event/${match?.params.id}`
+        `${API_ORIGIN}/event/${match?.params.id}`
       );
       const item = await res.json();
       setData([item]);
@@ -37,7 +38,6 @@ const EventDetail: React.FC = () => {
 
   const loadData = (ev: any) => {
     setTimeout(() => {
-      console.log("Loaded data");
       ev.target.complete();
       if (data.length === 100) {
         setInfiniteDisabled(true);
@@ -48,7 +48,7 @@ const EventDetail: React.FC = () => {
   async function joinEvent() {
     const localtoken = localStorage.getItem("token");
     const fetchResult = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/user/me/event/${match?.params.id}`,
+      `${API_ORIGIN}/user/me/event/${match?.params.id}`,
       {
         headers: {
           Authorization: `Bearer ${localtoken}`,
@@ -83,7 +83,7 @@ const EventDetail: React.FC = () => {
                 className="eventThumbnail"
                 src={
                   item?.event_profilepic != null
-                    ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.event_profilepic}`
+                    ? `${API_ORIGIN}/userUploadedFiles/${item.event_profilepic}`
                     : "StartieLogo.png"
                 }
               />
@@ -95,7 +95,7 @@ const EventDetail: React.FC = () => {
                 <IonImg
                   src={
                     item?.event_provider_profile_pic != null
-                      ? `${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.event_provider_profile_pic}`
+                      ? `${API_ORIGIN}/userUploadedFiles/${item.event_provider_profile_pic}`
                       : "StartieLogo.png"
                   }
                   style={{ width: "10%", height: "10%" }}

@@ -8,6 +8,7 @@ import {
   IonPage,
   IonToolbar,
   useIonRouter,
+  useIonToast,
 } from "@ionic/react";
 import logo from "../img/StartieLogo.png";
 import {
@@ -23,11 +24,13 @@ import PasswordComplexity from "./PasswordComplexity";
 import { useDispatch } from "react-redux";
 import { loggedIn } from "../redux/auth/action";
 import { loadUserInfo } from "../redux/userInfo/action";
+import { API_ORIGIN } from "../utils/api";
 
 const SignUp: React.FC = () => {
   const { register, handleSubmit, watch } = useForm();
   const [passwordShown, setPasswordShown] = useState(false);
   const [checkbox, setCheckbox] = useState(false);
+  const [present] = useIonToast();
 
   const password = watch("password");
 
@@ -36,18 +39,17 @@ const SignUp: React.FC = () => {
 
   return (
     <IonPage>
-      {/* <IonToolbar>
+      <IonToolbar>
         <IonButtons slot="start">
           <IonBackButton defaultHref="/tab/home" />
         </IonButtons>
-      </IonToolbar> */}
+      </IonToolbar>
       <IonContent className="background">
         <div className="pageContent">
           <IonImg src={logo} className="logo" />
           <form
             onSubmit={handleSubmit(async (data) => {
-              // console.log(data);
-              const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user`, {
+              const res = await fetch(`${API_ORIGIN}/user`, {
                 method: "POST",
                 headers: {
                   'Content-Type': 'application/json'
@@ -55,11 +57,18 @@ const SignUp: React.FC = () => {
                 body: JSON.stringify(data),
               })
 
+              const userRecord = await res.json();
               if (res.status === 200) {
-                const userRecord = await res.json();
                 dispatch(loggedIn(userRecord["user"].user[0], userRecord["jwt"]));
                 dispatch(loadUserInfo(userRecord["user"].user[0]));
                 router.push("/tab/home");
+              } else {
+                present({
+                  message: userRecord.msg,
+                  duration: 1500,
+                  position: "middle",
+                  cssClass: "backtoast"
+                })
               }
             })}
           >

@@ -1,22 +1,20 @@
 import React, { useLayoutEffect, useState } from 'react'
-import { IonButton, IonCard, IonCardContent, IonContent, IonHeader, IonImg, IonLabel, IonList, IonPage, useIonRouter } from '@ionic/react'
-import icon from '../img/tonystarkicon.png'
+import { IonContent, IonHeader, IonLabel, IonPage, useIonRouter } from '@ionic/react'
 import { UserInfo } from '../model';
+import { API_ORIGIN } from '../utils/api';
 
 export default function Recommend() {
     const [data, setData] = useState<UserInfo[]>([]);
-    const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
     const router = useIonRouter();
 
     useLayoutEffect(() => {
         (async function () {
-            const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/app/user`, {
+            const res = await fetch(`${API_ORIGIN}/app/user`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
             });
             const result = await res.json();
-            // console.log(result);
             setData(result.user.slice(0,4)); //remove.user after backend fix
         })();
     }, []);
@@ -39,7 +37,7 @@ export default function Recommend() {
                                 >
                                     <img
                                         className="teamIcon"
-                                        src={`${process.env.REACT_APP_BACKEND_URL}/userUploadedFiles/${item.profilepic}`}
+                                        src={`${API_ORIGIN}/userUploadedFiles/${item.profilepic}`}
                                     />
 
                                     <p className="teamTitle">{item.username}</p>

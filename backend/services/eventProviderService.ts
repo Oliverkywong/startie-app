@@ -30,7 +30,6 @@ export class EventProviderService {
   ): Promise<EventProviderListData> {
     let query = this.knex<Event_Provider>("event_provider")
       .select("*")
-      .orderBy('id', 'asc')
   
       if (input.name) {
         query = query.where("name", "ilike", `%${input.name}%`);
@@ -38,6 +37,14 @@ export class EventProviderService {
       if (input.q) {
         query = query.where("name", "ilike", `%${input.q}%`);
       }
+
+      if (input._sort && input._order) {
+        query = query.orderBy(`${input._sort}`, `${input._order}`)
+      }
+
+      // if (input._end && input._start) {
+      //   query = query.offset(input._start).limit(input._end);
+      // }
       
       let event_provider = await query
       
