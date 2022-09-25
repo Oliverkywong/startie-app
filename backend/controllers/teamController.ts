@@ -7,58 +7,57 @@ import { TeamListInput } from "../utils/api-types";
 export class TeamController {
   constructor(private teamService: TeamService) {}
 
-// -------------------------------------------------------------------------------------------------------------------
-// create team
-// -------------------------------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------------------------------
+  // create team
+  // -------------------------------------------------------------------------------------------------------------------
   createTeam = async (req: express.Request, res: express.Response) => {
-        try {
-          const userId = req.user!.userId;
-          const searchcategory = parseInt(req.body.data.teamcategory)
-          const name = req.body.data.teamName
-          const shortDescription = req.body.data.teamshortDescription
-          const description = req.body.data.teamDescription
-          const profilepic = req.body.img
-          const looking = parseInt(req.body.data.teamlooking)
+    try {
+      const userId = req.user!.userId;
+      const searchcategory = parseInt(req.body.data.teamcategory);
+      const name = req.body.data.teamName;
+      const shortDescription = req.body.data.teamshortDescription;
+      const description = req.body.data.teamDescription;
+      const profilepic = req.body.img;
+      const looking = parseInt(req.body.data.teamlooking);
 
-          const team = await this.teamService.createTeam(
-            userId,
-            name,
-            searchcategory,
-            shortDescription,
-            description,
-            profilepic,
-            looking
-          );
-          res.status(200).json(team.teamInfo);
-        } catch (err) {
-          logger.error(err);
-          res.status(400).json({ result: false, msg: "create team fail" });
-        }
+      const team = await this.teamService.createTeam(
+        userId,
+        name,
+        searchcategory,
+        shortDescription,
+        description,
+        profilepic,
+        looking
+      );
+      res.status(200).json(team.teamInfo);
+    } catch (err) {
+      logger.error(err);
+      res.status(400).json({ result: false, msg: "create team fail" });
     }
-// -------------------------------------------------------------------------------------------------------------------
-// get all teams for react admin
-// -------------------------------------------------------------------------------------------------------------------
+  };
+  // -------------------------------------------------------------------------------------------------------------------
+  // get all teams for react admin
+  // -------------------------------------------------------------------------------------------------------------------
   getAllTeamsForAdmin = async (req: Request, res: Response) => {
     try {
-      let input:TeamListInput = req.query
-      let show = true
+      let input: TeamListInput = req.query;
+      let show = true;
       let json = await this.teamService.getAllTeams(input, show);
 
       res.set("x-total-count", String(json.teams?.rows?.length));
       res.status(200).json(json.teams?.rows);
-
     } catch (err) {
       logger.error(err);
       res.status(500).json({ error: String(err) });
     }
-  }
-// -------------------------------------------------------------------------------------------------------------------
-// get all teams for app
-// -------------------------------------------------------------------------------------------------------------------
+  };
+  // -------------------------------------------------------------------------------------------------------------------
+  // get all teams for app
+  // -------------------------------------------------------------------------------------------------------------------
   getAllTeams = async (req: Request, res: Response) => {
     try {
-      let input:TeamListInput = req.query
-      let show = false
+      let input: TeamListInput = req.query;
+      let show = false;
       let json = await this.teamService.getAllTeams(input, show);
 
       res.status(200).json(json);
@@ -81,38 +80,35 @@ export class TeamController {
       res.status(500).json({ result: false, msg: "getTeam fail" });
     }
   };
-// -------------------------------------------------------------------------------------------------------------------
-// get one team for Admin
-// -------------------------------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------------------------------
+  // get one team for Admin
+  // -------------------------------------------------------------------------------------------------------------------
   getTeamForAdmin = async (req: Request, res: Response) => {
     try {
       const teamId = parseInt(req.params.id);
       const team = await this.teamService.getTeamForAdmin(teamId);
 
-      res.status(200).json({id:team.team[0].id, data:team.team[0]});
+      res.status(200).json({ id: team.team[0].id, data: team.team[0] });
     } catch (err) {
       logger.error(err);
       res.status(500).json({ result: false, msg: "getTeam fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
-  // edit team 
+  // edit team
   // -------------------------------------------------------------------------------------------------------------------
   updateTeamForAdmin = async (req: express.Request, res: express.Response) => {
-      try {
-        const teamId = parseInt(req.params.id);
-  
-        const input: TeamListInput = req.body;
-  
-        const team = await this.teamService.updateTeam(
-          teamId,
-          input
-        );
-        res.status(200).json(team);
-      } catch (err) {
-        logger.error(err);
-        res.status(500).json({ result: false, msg: "update team fail" });
-      }
+    try {
+      const teamId = parseInt(req.params.id);
+
+      const input: TeamListInput = req.body;
+
+      const team = await this.teamService.updateTeam(teamId, input);
+      res.status(200).json(team);
+    } catch (err) {
+      logger.error(err);
+      res.status(500).json({ result: false, msg: "update team fail" });
+    }
   };
   // -------------------------------------------------------------------------------------------------------------------
   // get tags of team
@@ -151,5 +147,5 @@ export class TeamController {
       logger.error(err);
       res.status(500).json({ result: false, msg: "get all tag fail" });
     }
-  }
+  };
 }

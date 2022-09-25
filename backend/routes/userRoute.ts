@@ -20,6 +20,7 @@ export function userRoutes(userController: UserController) {
   userRoutes.post("/user/me/team/:teamid", isLogin, userController.joinTeam); //user join team
   userRoutes.delete("/user/me/:teamid", isLogin, userController.quitTeam); //user quit team
   userRoutes.post("/user/me/event/:id", isLogin, userController.joinEvent); //user join event
+  userRoutes.delete("/user/me/event/:id", isLogin, userController.quitEvent); //user quit event
   userRoutes.get("/user/me/note", isLogin, userController.getNotification);
   // ----------------------------Admin Routes-------------------------------------------------------------------------------
   userRoutes.get("/user/:id", isAdmin, userController.userInfoForAdmin);

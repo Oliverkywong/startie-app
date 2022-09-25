@@ -63,17 +63,16 @@ export class UserService {
   // -------------------------------------------------------------------------------------------------------------------
   // Apple login
   // -------------------------------------------------------------------------------------------------------------------
-  async socialLogin(email: string){
+  async socialLogin(email: string) {
     const userEmailRecord = await this.knex<User>("user")
-        .select("*")
-        .where("email", email)
-        .returning('id')
-        if (userEmailRecord.length > 0) {
-          return {result:true ,userId:userEmailRecord[0].id}
-        }else {
-          return {result:false, userId:null}
-        }
-
+      .select("*")
+      .where("email", email)
+      .returning("id");
+    if (userEmailRecord.length > 0) {
+      return { result: true, userId: userEmailRecord[0].id };
+    } else {
+      return { result: false, userId: null };
+    }
   }
 
   // -------------------------------------------------------------------------------------------------------------------
@@ -109,16 +108,18 @@ export class UserService {
     }
 
     // insert user
-    const user = await this.knex<User>("user").insert({
-      username: username,
-      password: await hashPassword(password),
-      email: email,
-      status_id: 1,
-      profilepic: "tonystarkicon.png",
-      phonenumber: "0000000000"
-    }).returning('*')
+    const user = await this.knex<User>("user")
+      .insert({
+        username: username,
+        password: await hashPassword(password),
+        email: email,
+        status_id: 1,
+        profilepic: "tonystarkicon.png",
+        phonenumber: "0000000000",
+      })
+      .returning("*");
 
-    return {result:true ,user:user}
+    return { result: true, user: user };
   }
   // -------------------------------------------------------------------------------------------------------------------
   // Login ✅
@@ -222,9 +223,9 @@ export class UserService {
       query = query.having("isadmin", "=", `${input.isadmin}`);
     }
     if (show) {
-      query = query.orderBy(`${input._sort}`, `${input._order}`)
+      query = query.orderBy(`${input._sort}`, `${input._order}`);
     } else {
-      query = query.orderBy('id', 'asc').where('status_id', 1)
+      query = query.orderBy("id", "asc").where("status_id", 1);
     }
     let user = await query;
 
@@ -270,13 +271,13 @@ export class UserService {
   // edit User Info
   // -------------------------------------------------------------------------------------------------------------------
   async editUser(
-    userId:number,
-    name:string,
-    phonenumber:string,
-    shortDescription:string,
-    description:string,
-    profilepic:string,
-    goodat:number,
+    userId: number,
+    name: string,
+    phonenumber: string,
+    shortDescription: string,
+    description: string,
+    profilepic: string,
+    goodat: number
   ) {
     const userRecord = await this.knex<User>("user")
       .update({
@@ -288,14 +289,13 @@ export class UserService {
       })
       .where("id", userId)
       .returning("*");
-    
-      await this.knex<User_Tag>("user_tag")
+
+    await this.knex<User_Tag>("user_tag")
       .insert({
         user_id: userRecord[0].id,
-        tag_id: goodat
+        tag_id: goodat,
       })
       .returning("*");
-    
 
     return userRecord;
   }
@@ -317,15 +317,15 @@ export class UserService {
   // -------------------------------------------------------------------------------------------------------------------
   async joinTeam(teamId: number, userId: number) {
     const joinTeamRecord = await this.knex<User_Team>("user_team")
-    .select("*")
-    .where("user_id",userId)
-    .andWhere("team_id", teamId);
+      .select("*")
+      .where("user_id", userId)
+      .andWhere("team_id", teamId);
 
     if (joinTeamRecord.length > 0) {
       throw new YourHaveJoinedThisTeamError();
     }
 
-     return await this.knex<User_Team>("user_team")
+    return await this.knex<User_Team>("user_team")
       .insert({
         user_id: userId,
         team_id: teamId,
@@ -352,10 +352,10 @@ export class UserService {
   // -------------------------------------------------------------------------------------------------------------------
   async joinEvent(userId: number, eventId: number) {
     const joinEventRecord = await this.knex("user_event")
-    .select("*")
-    .where("user_id",userId)
-    .andWhere("event_id", eventId);
-    
+      .select("*")
+      .where("user_id", userId)
+      .andWhere("event_id", eventId);
+
     if (joinEventRecord.length > 0) {
       throw new YourHaveJoinedThisEventError();
     }
@@ -367,6 +367,15 @@ export class UserService {
         isfollow: false,
       })
       .returning("*");
+  }
+  // -------------------------------------------------------------------------------------------------------------------
+  // quit event
+  // -------------------------------------------------------------------------------------------------------------------
+  async quitEvent(userId: number, eventId: number) {
+    return await this.knex("user_event")
+      .where("user_id", userId)
+      .andWhere("event_id", eventId)
+      .del();
   }
   // -------------------------------------------------------------------------------------------------------------------
   //get notification
