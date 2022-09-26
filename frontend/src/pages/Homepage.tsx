@@ -155,14 +155,8 @@ const Homepage: React.FC = () => {
               >
                 <IonImg
                   className="icon"
-                  // src={
-                  //   userdetails?.profilepic !== undefined || null
-                  //     ? `${API_ORIGIN}/userUploadedFiles/${userdetails?.profilepic}`
-                  //     : "https://www.w3schools.com/howto/img_avatar.png"
-                  // }
-
                   src={
-                    userdetails?.profilepic !== undefined || null
+                    userdetails?.profilepic !== null
                       ? (userdetails?.profilepic).slice(0, 4) === "data"
                         ? `${userdetails.profilepic}`
                         : `${API_ORIGIN}/userUploadedFiles/${userdetails.profilepic}`
@@ -221,9 +215,11 @@ const Homepage: React.FC = () => {
                 <img
                   className="homePageEventThumbnail"
                   src={
-                    event.event_profilepic != null
-                      ? `${API_ORIGIN}/userUploadedFiles/${event.event_profilepic}`
-                      : "StartieLogo.png"
+                    event?.event_profilepic !== null
+                      ? (event?.event_profilepic).slice(0, 4) === "data"
+                        ? `${event.event_profilepic}`
+                        : `${API_ORIGIN}/userUploadedFiles/${event.event_profilepic}`
+                      : "https://www.w3schools.com/howto/img_avatar.png"
                   }
                 />
               </SwiperSlide>
@@ -304,9 +300,11 @@ const Homepage: React.FC = () => {
                       <img
                         className="teamIcon"
                         src={
-                          (item?.profilepic).slice(0, 4) === "data"
-                            ? `${item.profilepic}`
-                            : `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
+                          item?.profilepic !== null
+                            ? (item?.profilepic).slice(0, 4) === "data"
+                              ? `${item.profilepic}`
+                              : `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
+                            : "https://www.w3schools.com/howto/img_avatar.png"
                         }
                       />
 

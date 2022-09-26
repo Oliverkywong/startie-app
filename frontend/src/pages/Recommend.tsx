@@ -37,7 +37,13 @@ export default function Recommend() {
                                 >
                                     <img
                                         className="teamIcon"
-                                        src={`${API_ORIGIN}/userUploadedFiles/${item.profilepic}`}
+                                        src={
+                                          item?.profilepic !== null
+                                            ? (item?.profilepic).slice(0, 4) === "data"
+                                              ? `${item.profilepic}`
+                                              : `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
+                                            : "https://www.w3schools.com/howto/img_avatar.png"
+                                        }
                                     />
 
                                     <p className="teamTitle">{item.username}</p>

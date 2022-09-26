@@ -9,33 +9,41 @@ import "../css/UserEvent.css";
 
 export default function UserEvents(props: { event: EventInfo[] }) {
   const router = useIonRouter();
+  console.log(props.event);
+
   return (
     <>
-      {props.event.map((event) => {
-        return (
-          <div
-            className="userEvent"
-            key={event.id}
-            onClick={() => router.push(`event/${event.id}`)}
-          >
-            <IonImg
-              src={
-                event?.profilepic != null
-                  ? `${API_ORIGIN}/userUploadedFiles/${event.profilepic}`
-                  : "https://www.w3schools.com/howto/img_avatar.png"
-              }
-              style={{ width: "50px", height: "50px" }}
-            />
+      {props.event.length === 0 ? (
+        <p>User don't have event yet</p>
+      ) : (
+        props.event.map((event) => {
+          return (
+            <div
+              className="userEvent"
+              key={event.id}
+              onClick={() => router.push(`event/${event.id}`)}
+            >
+              <IonImg
+                src={
+                  event?.profilepic !== null
+                    ? (event?.profilepic).slice(0, 4) === "data"
+                      ? `${event.profilepic}`
+                      : `${API_ORIGIN}/userUploadedFiles/${event.profilepic}`
+                    : "https://www.w3schools.com/howto/img_avatar.png"
+                }
+                style={{ width: "50px", height: "50px" }}
+              />
 
-            <div className="userTeamCaption">
-              <p className="userTeamTitle">{event.name}</p>
-              <span className="userTeamShortDescription">
-                {event.shortDescription}
-              </span>
+              <div className="userTeamCaption">
+                <p className="userTeamTitle">{event.name}</p>
+                <span className="userTeamShortDescription">
+                  {event.shortDescription}
+                </span>
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })
+      )}
     </>
   );
 }

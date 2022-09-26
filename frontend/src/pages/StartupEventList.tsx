@@ -25,9 +25,7 @@ const EventList: React.FC = () => {
 
   useLayoutEffect(() => {
     (async function () {
-      const res = await fetch(
-        `${API_ORIGIN}/app/event/?searchcategory_id=1`
-      );
+      const res = await fetch(`${API_ORIGIN}/app/event/?searchcategory_id=1`);
       const result = await res.json();
       setData(result.events);
     })();
@@ -77,9 +75,11 @@ const EventList: React.FC = () => {
                 <img
                   className="eventThumbnail"
                   src={
-                    item?.event_profilepic != null
-                      ? `${API_ORIGIN}/userUploadedFiles/${item.event_profilepic}`
-                      : "StartieLogo.png"
+                    item?.event_profilepic !== null
+                      ? (item?.event_profilepic).slice(0, 4) === "data"
+                        ? `${item.event_profilepic}`
+                        : `${API_ORIGIN}/userUploadedFiles/${item.event_profilepic}`
+                      : "https://www.w3schools.com/howto/img_avatar.png"
                   }
                 />
 
@@ -88,9 +88,11 @@ const EventList: React.FC = () => {
                 <div className="eventData">
                   <IonImg
                     src={
-                      item?.event_provider_profile_pic != null
-                        ? `${API_ORIGIN}/userUploadedFiles/${item.event_provider_profile_pic}`
-                        : "StartieLogo.png"
+                      item?.event_profilepic !== null
+                        ? (item?.event_profilepic).slice(0, 4) === "data"
+                          ? `${item.event_profilepic}`
+                          : `${API_ORIGIN}/userUploadedFiles/${item.event_profilepic}`
+                        : "https://www.w3schools.com/howto/img_avatar.png"
                     }
                     style={{ width: "10%", height: "10%" }}
                   />

@@ -428,7 +428,7 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   // check user other team info
   // -------------------------------------------------------------------------------------------------------------------
-  otheruserTeam = async (req: express.Request, res: express.Response) => {
+  otherUserTeam = async (req: express.Request, res: express.Response) => {
     try {
       const userId = parseInt(req.params.id);
       const team = await this.userService.checkTeam(userId);
@@ -445,7 +445,7 @@ export class UserController {
   joinTeam = async (req: express.Request, res: express.Response) => {
     try {
       const userId = req.user!.userId;
-      const teamId = req.params.teamid;
+      const teamId = req.params.teamId;
       const NumberTeamId = parseInt(teamId);
       const team = await this.userService.joinTeam(NumberTeamId, userId);
       res
@@ -466,14 +466,15 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   quitTeam = async (req: express.Request, res: express.Response) => {
     try {
-      const { userId, teamId } = req.params;
-      const NumberUserId = parseInt(userId);
+      const userId = req.user!.userId;
+      const { teamId } = req.params;
       const NumberTeamId = parseInt(teamId);
-      const team = await this.userService.quitTeam(NumberUserId, NumberTeamId);
+
+      const team = await this.userService.quitTeam(userId, NumberTeamId);
       res.json(team);
     } catch (err) {
       logger.error(err);
-      res.status(400).json({ result: false, msg: "guit team fail" });
+      res.status(400).json({ result: false, msg: "quit team fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -495,7 +496,7 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   // check user other event info
   // -------------------------------------------------------------------------------------------------------------------
-  otheruserEvent = async (req: express.Request, res: express.Response) => {
+  otherUserEvent = async (req: express.Request, res: express.Response) => {
     try {
       const userId = parseInt(req.params.id);
       const event = await this.userService.checkEvent(userId);
