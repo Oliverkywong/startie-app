@@ -35,8 +35,10 @@ export default function UserTeams(props: { team: Team[] }) {
             >
               <IonImg
                 src={
-                  team?.profilepic != null
-                    ? `${API_ORIGIN}/userUploadedFiles/${team.profilepic}`
+                  team?.profilepic !== null
+                    ? (team?.profilepic).slice(0, 4) === "data"
+                      ? `${team.profilepic}`
+                      : `${API_ORIGIN}/userUploadedFiles/${team.profilepic}`
                     : "https://www.w3schools.com/howto/img_avatar.png"
                 }
                 style={{ width: "50px", height: "50px" }}

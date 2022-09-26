@@ -82,9 +82,11 @@ const EventDetail: React.FC = () => {
               <img
                 className="eventThumbnail"
                 src={
-                  item?.event_profilepic != null
-                    ? `${API_ORIGIN}/userUploadedFiles/${item.event_profilepic}`
-                    : "StartieLogo.png"
+                  item?.event_profilepic !== null
+                    ? (item?.event_profilepic).slice(0, 4) === "data"
+                      ? `${item.event_profilepic}`
+                      : `${API_ORIGIN}/userUploadedFiles/${item.event_profilepic}`
+                    : "https://www.w3schools.com/howto/img_avatar.png"
                 }
               />
               <h1 className="evenDetailTitle">{item.event_name}</h1>

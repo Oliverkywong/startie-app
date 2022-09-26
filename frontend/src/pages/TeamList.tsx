@@ -96,7 +96,7 @@ const TeamList: React.FC = () => {
                   <img
                     className="teamIcon"
                     src={
-                      item?.profilepic !== undefined || null
+                      item?.profilepic !== null
                         ? (item?.profilepic).slice(0, 4) === "data"
                           ? `${item.profilepic}`
                           : `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
