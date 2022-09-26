@@ -113,20 +113,14 @@ export class UserController {
     } catch (err) {
       if (err instanceof UserDuplicateUsernameError) {
         res.status(500).json({ result: false, msg: "username already exists" });
-      }
-
-      else if (err instanceof UserDuplicateEmailError) {
+      } else if (err instanceof UserDuplicateEmailError) {
         res.status(501).json({ result: false, msg: "email already exists" });
-      }
-
-      else if (err instanceof UserMissingRegisterInfoError) {
+      } else if (err instanceof UserMissingRegisterInfoError) {
         res.status(502).json({ result: false, msg: "missing register info" });
-      } else{
-        
+      } else {
         logger.error(err);
         res.status(503).json({ result: false, msg: "register error" });
       }
-
     }
   };
 
@@ -145,7 +139,7 @@ export class UserController {
         "urn:example:claim": true,
         userId: user[0].id,
         username: user[0].username,
-        isadmin: user[0].isadmin
+        isadmin: user[0].isadmin,
       }) // use private key to sign
         .setProtectedHeader({ alg: "ES256" })
         .setIssuedAt()
@@ -181,9 +175,7 @@ export class UserController {
       } else {
         logger.error(err);
         return res.status(500).json({ result: false, msg: "login fail" });
-        
       }
-
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -426,7 +418,9 @@ export class UserController {
           ? Number(req.user.userId)
           : parseInt(req.params.id);
       const team = await this.userService.checkTeam(userId);
-      res.json(team);
+      console.log([team]);
+
+      res.json([team]);
     } catch (err) {
       logger.error(err);
       res.status(400).json({ result: false, msg: "get team fail" });
