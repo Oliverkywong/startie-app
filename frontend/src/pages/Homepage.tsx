@@ -11,7 +11,6 @@ import {
   useIonRouter,
   IonList,
   IonCol,
-  IonCardTitle,
   IonHeader,
   IonToolbar,
 } from "@ionic/react";

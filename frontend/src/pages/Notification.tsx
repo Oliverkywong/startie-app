@@ -17,6 +17,7 @@ import "./css/Notification.css";
 import { OneSignal } from "@awesome-cordova-plugins/onesignal";
 import { Note } from "../model";
 import { API_ORIGIN } from "../utils/api";
+import moment from "moment";
 
 const Notification: React.FC = () => {
   const [data, setData] = useState<Note[]>([]);
@@ -68,7 +69,7 @@ const Notification: React.FC = () => {
               <IonImg src={logo} style={{ width: "10%" }} />
               <div>
                 <p>{item.content}</p>
-                <p>Send at: {item.created_at.slice(0, 10)}</p>
+                <p>Send at: {moment(item.created_at).format("DD MMM YYYY")}</p>
               </div>
             </div>
           );

@@ -1,25 +1,15 @@
-import { IonImg, useIonRouter } from "@ionic/react";
+import { IonImg, useIonRouter, useIonToast } from "@ionic/react";
 import React from "react";
-import { useRouteMatch } from "react-router";
 import { Team } from "../../model";
 import { API_ORIGIN } from "../../utils/api";
 
 import "../css/Common.css";
 import "../css/UserTeam.css";
 
-async function QuitTeam() {
-  let match = useRouteMatch<{ id: string }>("/app/user/:id");
-
-  const localtoken = localStorage.getItem("token");
-  await fetch(`${API_ORIGIN}/user/me/team/${match?.params.id}`, {
-    headers: {
-      Authorization: `Bearer ${localtoken}`,
-    },
-    method: "DELETE",
-  });
-}
-
-export default function UserTeams(props: { team: Team[] }) {
+export default function UserTeams(props: {
+  team: Team[];
+  onQuitTeam: (teamId: number) => void;
+}) {
   const router = useIonRouter();
   return (
     <>
@@ -52,7 +42,13 @@ export default function UserTeams(props: { team: Team[] }) {
               </div>
 
               <div>
-                <button className="quitButton" onClick={QuitTeam}>
+                <button
+                  className="quitButton"
+                  onClick={(e) => {
+                    props.onQuitTeam(team.id);
+                    e.stopPropagation();
+                  }}
+                >
                   Quit Team
                 </button>
               </div>
