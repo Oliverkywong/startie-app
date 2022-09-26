@@ -6,18 +6,13 @@ import {
   IonButtons,
   IonBackButton,
   IonTitle,
-  IonImg,
-  IonInput,
-  IonItem,
-  IonLabel,
-  IonSelect,
-  IonSelectOption,
   useIonRouter,
 } from "@ionic/react";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Looking } from "../model";
-import { RootState, useAppSelector } from "../store";
+import { loadUserInfo } from "../redux/userInfo/action";
+import { RootState, useAppDispatch, useAppSelector } from "../store";
 import { API_ORIGIN } from "../utils/api";
 import "./css/Common.css";
 import "./css/UserEdit.css";
@@ -29,13 +24,11 @@ export default function UserEdit() {
   const [look, setLook] = useState<Looking[]>([]);
   const [image, setImage] = useState<any>(null);
   const { register, handleSubmit } = useForm();
+  const dispatch = useAppDispatch();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     (async function () {
       const localtoken = localStorage.getItem("token");
-      if (localtoken === null) {
-        router.push("/tab/login");
-      }
 
       const lookres = await fetch(`${API_ORIGIN}/tag`, {
         headers: {
@@ -98,44 +91,46 @@ export default function UserEdit() {
                 body: JSON.stringify({ data: data, img: image })
               }
             );
-            const result = res.json()
-            console.log(result)
-            // dispatch(loadUserInfo(userRecord["user"].user[0]));
-            router.push("/tab/profile");
+            const result = await res.json()
+            if (result.result) {
+              console.log(result.userInfo)
+              dispatch(loadUserInfo(result.userInfo));
+              router.goBack();
+            }
           })}
         >
           <img className="userEditIcon"
             src={
-              userdetails!.profilepic !== undefined || null
-                ? (userdetails!.profilepic).slice(0, 4) === "data"
+              image === null ?
+                ((userdetails!.profilepic).slice(0, 4) === "data"
                   ? `${userdetails!.profilepic}`
-                  : `${API_ORIGIN}/userUploadedFiles/${userdetails!.profilepic}`
-                : "https://www.w3schools.com/howto/img_avatar.png"
+                  : `${API_ORIGIN}/userUploadedFiles/${userdetails!.profilepic}`)
+                : image
             }
           />
-          <IonLabel className="formTitle">Icon:</IonLabel>
+          <label className="formTitle">Icon:</label>
           <input type="file" {...register("icon")} onChange={imghandle} />
 
-          <IonLabel className="formTitle">Name</IonLabel>
-          <IonInput
+          <label className="formTitle">Name</label>
+          <input
             {...register("name", { required: true })}
             type="text"
             placeholder="User Name"
           />
-          <IonLabel className="formTitle">Phone Number:</IonLabel>
-          <IonInput
+          <label className="formTitle">Phone Number:</label>
+          <input
             {...register("phone", { required: true })}
             type="text"
             placeholder="Phone Number"
           />
-          <IonLabel className="formTitle">Short Description:</IonLabel>
-          <IonInput
+          <label className="formTitle">Short Description:</label>
+          <input
             {...register("shortDescription")}
             type="text"
             placeholder="One sentence to describe yourself"
           />
-          <IonLabel className="formTitle">Description:</IonLabel>
-          <IonInput
+          <label className="formTitle">Description:</label>
+          <input
             {...register("Description")}
             type="text"
             placeholder="Description"
