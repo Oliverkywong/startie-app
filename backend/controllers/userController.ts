@@ -309,9 +309,7 @@ export class UserController {
         profilepic,
         goodat
       );
-
-      console.log(userInfo)
-
+      
       res.status(200).json({
         result: true,
         msg: "Edit user profile success",
