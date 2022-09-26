@@ -303,7 +303,6 @@ export class UserController {
         profilepic,
         goodat
       );
-      
 
       // console.log(userInfo);
 
@@ -419,9 +418,9 @@ export class UserController {
           ? Number(req.user.userId)
           : parseInt(req.params.id);
       const team = await this.userService.checkTeam(userId);
-      console.log([team]);
+      console.log(team);
 
-      res.json([team]);
+      res.json(team);
     } catch (err) {
       logger.error(err);
       res.status(400).json({ result: false, msg: "get team fail" });

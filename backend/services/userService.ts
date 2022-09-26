@@ -60,10 +60,10 @@ export class YourHaveJoinedThisEventError extends Error {
 export class UserService {
   constructor(private knex: Knex) {}
 
-// -------------------------------------------------------------------------------------------------------------------
-// Apple login
-// -------------------------------------------------------------------------------------------------------------------
-  async socialLogin(email: string){
+  // -------------------------------------------------------------------------------------------------------------------
+  // Apple login
+  // -------------------------------------------------------------------------------------------------------------------
+  async socialLogin(email: string) {
     const userEmailRecord = await this.knex<User>("user")
       .select("*")
       .where("email", email)
@@ -75,9 +75,9 @@ export class UserService {
     }
   }
 
-// -------------------------------------------------------------------------------------------------------------------
-// Register ✅
-// -------------------------------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------------------------------
+  // Register ✅
+  // -------------------------------------------------------------------------------------------------------------------
   async register(
     username: string,
     password: string,
@@ -85,27 +85,25 @@ export class UserService {
     phonenumber?: string,
     description?: string
   ) {
-    
-      const userEmailRecord = await this.knex<User>("user")
-        .select("*")
-        .where("email", email);
+    const userEmailRecord = await this.knex<User>("user")
+      .select("*")
+      .where("email", email);
 
-      const userRecord = await this.knex<User>("user")
-        .select("*")
-        .where("username", username);
+    const userRecord = await this.knex<User>("user")
+      .select("*")
+      .where("username", username);
 
-      if (userRecord.length > 0) {
-        throw new UserDuplicateUsernameError();
-      }
+    if (userRecord.length > 0) {
+      throw new UserDuplicateUsernameError();
+    }
 
-      if (userEmailRecord.length > 0) {
-        throw new UserDuplicateEmailError();
-      }
+    if (userEmailRecord.length > 0) {
+      throw new UserDuplicateEmailError();
+    }
 
-      if (!username || !password || !email) {
-        throw new UserMissingRegisterInfoError();
-      }
-    
+    if (!username || !password || !email) {
+      throw new UserMissingRegisterInfoError();
+    }
 
     // insert user
     const user = await this.knex<User>("user")
@@ -122,11 +120,11 @@ export class UserService {
       .returning("*");
 
     await this.knex<User_Tag>("user_tag")
-    .insert({
-      user_id: user[0].id,
-      tag_id: 1,
-    })
-    .returning("*");
+      .insert({
+        user_id: user[0].id,
+        tag_id: 1,
+      })
+      .returning("*");
 
     return { result: true, user: user };
   }
@@ -232,13 +230,13 @@ export class UserService {
       query = query.having("isadmin", "=", `${input.isadmin}`);
     }
 
-    let allUserCount = await query
+    let allUserCount = await query;
 
     if (show && input._sort && input._order && input._start && input._end) {
       query = query
-      .orderBy(`${input._sort}`, `${input._order}`)
-      .limit(input._end - input._start)
-      .offset(input._start);
+        .orderBy(`${input._sort}`, `${input._order}`)
+        .limit(input._end - input._start)
+        .offset(input._start);
     } else {
       query = query.orderBy("id", "asc").where("status_id", 1);
     }
@@ -321,7 +319,7 @@ export class UserService {
   // -------------------------------------------------------------------------------------------------------------------
   async checkTeam(userId: number) {
     const userRecord = await this.knex<User>("user_team")
-      .join("team", "user_id", "team.id")
+      .join("team", "team_id", "team.id")
       .select("*")
       .where("user_id", userId);
 
