@@ -11,7 +11,6 @@ import {
   useIonRouter,
   IonList,
   IonCol,
-  IonCardTitle,
   IonHeader,
   IonToolbar,
 } from "@ionic/react";
@@ -31,10 +30,8 @@ import "swiper/css";
 import { RootState, useAppDispatch, useAppSelector } from "../store";
 import { loggedIn } from "../redux/auth/action";
 import { EffectCards } from "swiper";
-import { loadUserInfo } from "../redux/userInfo/action";
 import { Team, EventInfo } from "../model";
 import { API_ORIGIN } from "../utils/api";
-// import { useGet } from "../hooks/useGet";
 
 const categories = {
   cat1: { src: cat1, title: "All" },
@@ -56,9 +53,6 @@ const Homepage: React.FC = () => {
   useLayoutEffect(() => {
     (async function () {
       const localtoken = localStorage.getItem("token");
-      // if (localtoken === null) {
-      //   dispatch(logOut());
-      // }
       if (localtoken != null) {
         const res = await fetch(`${API_ORIGIN}/app/user/me`, {
           headers: {
@@ -87,58 +81,8 @@ const Homepage: React.FC = () => {
       const eventResult = await eventRes.json();
       const hotEvent = eventResult.events.slice(0, 4);
       setEventData(hotEvent);
-
-      // const userRes = await fetch(
-      //   `${API_ORIGIN}/app/user/:id`,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${localtoken}`,
-      //     },
-      //   }
-      // );
-
-      // if (userRes.status === 200) {
-      //   const userRecord = await userRes.json();
-      //   dispatch(loadUserInfo(userRecord));
-      //   // setIsLogin(true);
-      //   // router.push("/tab/home");
-      // }
     })();
   }, []);
-
-  // useLayoutEffect(() => {
-  //   (async function () {
-  //     const teamRes = await fetch(`${API_ORIGIN}/team`);
-  //     const teamResult = await teamRes.json();
-  //     setTeamData(teamResult);
-  //     console.log(teamResult);
-
-  //     for (let i = 0; i < teamResult.length; i++) {
-  //       const tagRes = await fetch(
-  //         `${API_ORIGIN}/team/${teamResult[i].id}`
-  //       );
-
-  //       const tagItem = await tagRes.json();
-  //       const tagArray: string[] = [];
-  //       for (let i = 0; i < tagItem.teamTag.length; i++) {
-  //         tagArray.push(tagItem.teamTag[i].name);
-  //       }
-  //       setTag(tagArray);
-  //     }
-  //   })();
-  // }, []);
-
-  // useLayoutEffect(() => {
-  //   (async function () {
-  //     const eventRes = await fetch(`${API_ORIGIN}/event`);
-  //     const eventResult = await eventRes.json();
-  //     setEventData(eventResult);
-  //   })();
-  // }, []);
-
-  // const events = useGet<Event[]>('/event')
-
-  // const events = useGet<Event[]>('/event')
 
   return (
     <IonPage>
@@ -155,12 +99,6 @@ const Homepage: React.FC = () => {
               >
                 <IonImg
                   className="icon"
-                  // src={
-                  //   userdetails?.profilepic !== undefined || null
-                  //     ? `${API_ORIGIN}/userUploadedFiles/${userdetails?.profilepic}`
-                  //     : "https://www.w3schools.com/howto/img_avatar.png"
-                  // }
-
                   src={
                     userdetails?.profilepic !== undefined || null
                       ? (userdetails?.profilepic).slice(0, 4) === "data"

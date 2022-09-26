@@ -3,8 +3,6 @@
 // -------------------------------------------------------------------------------------------------------------------
 import express from "express";
 import { logger } from "./utils/logger";
-// import grant from "grant";
-// import { client } from "./utils/db";
 import dotenv from "dotenv";
 import { UserService } from "./services/userService";
 import { UserController } from "./controllers/userController";
@@ -43,11 +41,6 @@ const knex = Knex(knexConfig);
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-// export interface UserId_Username {
-//   userId: number;
-//   username: string;
-//   isadmin?: boolean;
-// }
 declare global {
   namespace Express {
     interface Request {
@@ -60,16 +53,6 @@ declare global {
   }
 }
 
-// const allowedOrigins = [
-//   'capacitor://localhost',
-//   'ionic://localhost',
-//   'http://localhost',
-//   'http://localhost:8080',
-//   'http://localhost:8100',
-//   'https://api.startie.oliverstrat.me',
-//   'http://localhost:3000',
-// ];
-
 app.use(
   cors({
     origin: [process.env.REACT_DOMAIN!,'capacitor://localhost', 'http://localhost:3001','https://admin.startie.oliverstrat.me'],
@@ -79,29 +62,9 @@ app.use(
   })
 );
 
-//grant
-// const grantExpress = grant.express({
-//   defaults: {
-//     origin: "https://api.startie.oliverstrat.me",
-//     transport: "session",
-//     state: true,
-//   },
-//   google: {
-//     key: process.env.GOOGLE_CLIENT_ID || "",
-//     secret: process.env.GOOGLE_CLIENT_SECRET || "",
-//     scope: ["profile", "email"],
-//     callback: "/login/google",
-//   },
-// });
-
-// app.use(grantExpress as express.RequestHandler);
-
 // -------------------------------------------------------------------------------------------------------------------
 // others
 // -------------------------------------------------------------------------------------------------------------------
-
-//connect to client
-// client.connect();
 
 //urlencoded
 app.use(express.urlencoded({ extended: true }));

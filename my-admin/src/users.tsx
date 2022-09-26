@@ -44,7 +44,6 @@ const UserEditToolbar = (props:any) => (
 );
 
 export const UserList = () => (
-  // pagination={<PostPagination />}
   <List filters={getUserFilters()} >
     <Datagrid size="small" rowClick="edit" expand={<DescriptionShow />} bulkActionButtons={<PostBulkActionButtons />}>
       <TextField source="id" />

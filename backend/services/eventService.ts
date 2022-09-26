@@ -149,30 +149,4 @@ export class EventService {
 
     return eventInfo;
   }
-  // // -------------------------------------------------------------------------------------------------------------------
-  // // update event
-  // // -------------------------------------------------------------------------------------------------------------------
-  //   async updateEvent(
-  //     eventId: number,
-  //     eventName: string,
-  //     description: string,
-  //     maxteammember: number,
-  //     profilepic: string,
-  //     starttime: Date | string,
-  //     newStatusId: number
-  //   ) {
-  //         const eventInfo = await this.knex<Event>("event")
-  //           .update({
-  //             name: eventName,
-  //             description: description,
-  //             maxteammember: maxteammember,
-  //             profilepic: profilepic,
-  //             starttime: starttime,
-  //             status_id: newStatusId,
-  //           })
-  //           .where("id", eventId)
-  //           .returning("*");
-
-  //         return eventInfo;
-  //       }
 }
