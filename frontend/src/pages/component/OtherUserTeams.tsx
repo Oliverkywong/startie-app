@@ -26,11 +26,15 @@ export default function OtherUserTeams(props: { team: Team[] }) {
               }
             />
             <div>
-              <IonTitle>{team.name}</IonTitle>
+              <p>{team.name}</p>
             </div>
 
             <div>
-              <IonLabel>{team.description}</IonLabel>
+              <p>{team.shortDescription}</p>
+            </div>
+
+            <div>
+              <p>{team.description}</p>
             </div>
           </div>
         );
