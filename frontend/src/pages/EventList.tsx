@@ -96,9 +96,11 @@ const EventList: React.FC = () => {
                 <div className="eventData">
                   <IonImg
                     src={
-                      item?.event_provider_profile_pic != null
-                        ? `${API_ORIGIN}/userUploadedFiles/${item.event_provider_profile_pic}`
-                        : "StartieLogo.png"
+                      item?.event_profilepic !== null
+                        ? (item?.event_profilepic).slice(0, 4) === "data"
+                          ? `${item.event_profilepic}`
+                          : `${API_ORIGIN}/userUploadedFiles/${item.event_profilepic}`
+                        : "https://www.w3schools.com/howto/img_avatar.png"
                     }
                     style={{ width: "10%", height: "10%" }}
                   />

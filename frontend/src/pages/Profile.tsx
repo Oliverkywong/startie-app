@@ -135,7 +135,7 @@ const Profile: React.FC = () => {
             <IonImg
               className="profilepic"
               src={
-                userdetails?.profilepic !== undefined || null
+                userdetails?.profilepic !== null
                   ? (userdetails?.profilepic).slice(0, 4) === "data"
                     ? `${userdetails.profilepic}`
                     : `${API_ORIGIN}/userUploadedFiles/${userdetails.profilepic}`

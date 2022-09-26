@@ -181,18 +181,18 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   // Logout
   // -------------------------------------------------------------------------------------------------------------------
-  logout = async (req: express.Request, res: express.Response) => {
-    try {
-      logger.info(`${req.user!.username} logging out`);
+  // logout = async (req: express.Request, res: express.Response) => {
+  //   try {
+  //     logger.info(`${req.user!.username} logging out`);
 
-      // req.session.destroy( () => {
-      //   res.status(500).json({ result: true, msg: "logout successful" });
-      // })
-    } catch (err) {
-      logger.error(err);
-      res.status(500).json({ result: false, msg: "logout error" });
-    }
-  };
+  //     // req.session.destroy( () => {
+  //     //   res.status(500).json({ result: true, msg: "logout successful" });
+  //     // })
+  //   } catch (err) {
+  //     logger.error(err);
+  //     res.status(500).json({ result: false, msg: "logout error" });
+  //   }
+  // };
   // -------------------------------------------------------------------------------------------------------------------
   // get self user Info
   // -------------------------------------------------------------------------------------------------------------------
@@ -209,7 +209,7 @@ export class UserController {
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
-  // get user Info by  (seems same for admin also, can cut this?)
+  // get other user Info params id (seems same for admin also, can cut this?)
   // -------------------------------------------------------------------------------------------------------------------
   userInfoById = async (req: express.Request, res: express.Response) => {
     try {
@@ -429,7 +429,7 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   // check user other team info
   // -------------------------------------------------------------------------------------------------------------------
-  otheruserTeam = async (req: express.Request, res: express.Response) => {
+  otherUserTeam = async (req: express.Request, res: express.Response) => {
     try {
       const userId = parseInt(req.params.id);
       const team = await this.userService.checkTeam(userId);
@@ -497,7 +497,7 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   // check user other event info
   // -------------------------------------------------------------------------------------------------------------------
-  otheruserEvent = async (req: express.Request, res: express.Response) => {
+  otherUserEvent = async (req: express.Request, res: express.Response) => {
     try {
       const userId = parseInt(req.params.id);
       const event = await this.userService.checkEvent(userId);
