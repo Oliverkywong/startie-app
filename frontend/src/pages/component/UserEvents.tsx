@@ -1,20 +1,20 @@
-import { IonImg, IonLabel, IonTitle, useIonRouter } from "@ionic/react";
+import { IonImg, useIonRouter } from "@ionic/react";
 import React from "react";
-import { useRouteMatch } from "react-router";
 import { EventInfo } from "../../model";
 import { API_ORIGIN } from "../../utils/api";
 
 import "../css/Common.css";
 import "../css/UserTeam.css";
+import "../css/UserEvent.css";
 
 export default function UserEvents(props: { event: EventInfo[] }) {
   const router = useIonRouter();
   return (
-    <div>
+    <>
       {props.event.map((event) => {
         return (
           <div
-            className="userTeam"
+            className="userEvent"
             key={event.id}
             onClick={() => router.push(`event/${event.id}`)}
           >
@@ -24,21 +24,18 @@ export default function UserEvents(props: { event: EventInfo[] }) {
                   ? `${API_ORIGIN}/userUploadedFiles/${event.profilepic}`
                   : "https://www.w3schools.com/howto/img_avatar.png"
               }
+              style={{ width: "50px", height: "50px" }}
             />
-            <div>
-              <p>{event.name}</p>
-            </div>
 
-            <div>
-              <p>{event.shortDescription}</p>
-            </div>
-
-            <div>
-              <p>{event.description}</p>
+            <div className="userTeamCaption">
+              <p className="userTeamTitle">{event.name}</p>
+              <span className="userTeamShortDescription">
+                {event.shortDescription}
+              </span>
             </div>
           </div>
         );
       })}
-    </div>
+    </>
   );
 }

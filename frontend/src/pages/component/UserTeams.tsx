@@ -1,4 +1,4 @@
-import { IonImg, IonLabel, IonTitle, useIonRouter } from "@ionic/react";
+import { IonImg, useIonRouter } from "@ionic/react";
 import React from "react";
 import { useRouteMatch } from "react-router";
 import { Team } from "../../model";
@@ -22,11 +22,11 @@ async function QuitTeam() {
 export default function UserTeams(props: { team: Team[] }) {
   const router = useIonRouter();
   return (
-    <div>
+    <>
       {props.team.map((team) => {
         return (
           <div
-            className="userTeam"
+            className="selfUserTeam"
             key={team.id}
             onClick={() => router.push(`team/${team.id}`)}
           >
@@ -36,21 +36,24 @@ export default function UserTeams(props: { team: Team[] }) {
                   ? `${API_ORIGIN}/userUploadedFiles/${team.profilepic}`
                   : "https://www.w3schools.com/howto/img_avatar.png"
               }
+              style={{ width: "50px", height: "50px" }}
             />
-            <div>
-              <p>{team.name}</p>
+
+            <div className="userTeamCaption">
+              <p className="userTeamTitle">{team.name}</p>
+              <span className="userTeamShortDescription">
+                {team.shortDescription}
+              </span>
             </div>
 
             <div>
-              <p>{team.description}</p>
-            </div>
-
-            <div>
-              <button onClick={QuitTeam}>Quit Team</button>
+              <button className="quitButton" onClick={QuitTeam}>
+                Quit Team
+              </button>
             </div>
           </div>
         );
       })}
-    </div>
+    </>
   );
 }
