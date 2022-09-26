@@ -318,7 +318,7 @@ export class UserController {
       res.status(200).json({
         result: true,
         msg: "Edit user profile success",
-        userInfo: userInfo[0],
+        userInfo: userInfo,
       });
     } catch (err) {
       logger.error(err);
