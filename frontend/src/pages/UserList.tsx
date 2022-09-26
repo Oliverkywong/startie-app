@@ -22,23 +22,23 @@ const UserList: React.FC = () => {
   const [fetchData, setFetchData] = useState<UserInfo[]>([]);
   const [i, setI] = useState(10);
   const router = useIonRouter();
-  const isInfiniteDisabled = data.length >= fetchData.length
+  const isInfiniteDisabled = data.length >= fetchData.length;
 
   useEffect(() => {
     (async function () {
       const res = await fetch(`${API_ORIGIN}/app/user`);
       const result = await res.json();
-      
+
       setData(result.user.slice(0, 10)); //remove.user after backend fix
       setFetchData(result.user);
-      setI(10)
+      setI(10);
     })();
   }, []);
 
   const pushData = () => {
     let sliceData = fetchData.slice(i, i + 10);
-    setI(i=>i + 10);
-    setData(data=>[...data, ...sliceData]);
+    setI((i) => i + 10);
+    setData((data) => [...data, ...sliceData]);
   };
 
   const loadData = (ev: any) => {
@@ -81,9 +81,11 @@ const UserList: React.FC = () => {
                   <img
                     className="teamIcon"
                     src={
-                      (item?.profilepic).slice(0, 4) === "data"
-                        ? `${item.profilepic}`
-                        : `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
+                      item?.profilepic !== null
+                        ? (item?.profilepic).slice(0, 4) === "data"
+                          ? `${item.profilepic}`
+                          : `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
+                        : "https://www.w3schools.com/howto/img_avatar.png"
                     }
                   />
 

@@ -1,24 +1,29 @@
 /* Ionic Variables and Theming. For more info, please see:
 http://ionicframework.com/docs/theming/ */
 
-ion-image {
+.ion-image {
   max-width: 100%;
+}
+
+.ion-toolbar {
+  background-color: #000;
 }
 
 .backtoast {
   --width: 300px;
   --background: #000;
-  font-size:25px;
-  color:#fff;
+  font-size: 25px;
+  color: #fff;
   --height: 100px;
   --border-radius: 17px;
   --padding: 10px;
-  text-align: center;;
+  text-align: center;
 }
 /** Ionic CSS Variables **/
 :root {
   /** primary **/
   background-image: url("../img/bgimage.png");
+  background-size: cover;
   --ion-color-primary: #3880ff;
   --ion-color-primary-rgb: 56, 128, 255;
   --ion-color-primary-contrast: #ffffff;
@@ -67,7 +72,7 @@ ion-image {
   --ion-color-danger-tint: #ed576b;
 
   /** dark **/
-  --ion-color-dark: #222428;
+  --ion-color-dark: #000;
   --ion-color-dark-rgb: 34, 36, 40;
   --ion-color-dark-contrast: #ffffff;
   --ion-color-dark-contrast-rgb: 255, 255, 255;

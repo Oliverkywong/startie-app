@@ -100,11 +100,11 @@ export default function UserEdit() {
           <img
             className="userEditIcon"
             src={
-              image === null
+              userdetails!.profilepic !== null
                 ? userdetails!.profilepic.slice(0, 4) === "data"
                   ? `${userdetails!.profilepic}`
                   : `${API_ORIGIN}/userUploadedFiles/${userdetails!.profilepic}`
-                : image
+                : "https://www.w3schools.com/howto/img_avatar.png"
             }
           />
           <label className="formTitle">Icon:</label>

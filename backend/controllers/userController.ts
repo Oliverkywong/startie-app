@@ -182,6 +182,7 @@ export class UserController {
   // get self user Info
   // -------------------------------------------------------------------------------------------------------------------
   userInfo = async (req: express.Request, res: express.Response) => {
+    console.log("userId", req.user?.userId);
     try {
       let userId = req.user!.userId; // get userId from JWT
 
@@ -189,11 +190,11 @@ export class UserController {
       res.json(userInfo[0]);
     } catch (err) {
       logger.error(err);
-      res.json({ result: false, msg: "Get user profile fail" });
+      res.json({ result: false, msg: "Get self user profile fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
-  // get user Info by  (seems same for admin also, can cut this?)
+  // get other user Info params id (seems same for admin also, can cut this?)
   // -------------------------------------------------------------------------------------------------------------------
   userInfoById = async (req: express.Request, res: express.Response) => {
     try {
@@ -405,7 +406,7 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   // check user other team info
   // -------------------------------------------------------------------------------------------------------------------
-  otheruserTeam = async (req: express.Request, res: express.Response) => {
+  otherUserTeam = async (req: express.Request, res: express.Response) => {
     try {
       const userId = parseInt(req.params.id);
       const team = await this.userService.checkTeam(userId);
@@ -448,7 +449,9 @@ export class UserController {
       const NumberTeamId = parseInt(teamId);
 
       const team = await this.userService.quitTeam(userId, NumberTeamId);
-      res.json(team);
+      res
+        .status(200)
+        .json({ team: team, result: true, msg: "quit team success!!" });
     } catch (err) {
       logger.error(err);
       res.status(400).json({ result: false, msg: "quit team fail" });
@@ -473,7 +476,7 @@ export class UserController {
   // -------------------------------------------------------------------------------------------------------------------
   // check user other event info
   // -------------------------------------------------------------------------------------------------------------------
-  otheruserEvent = async (req: express.Request, res: express.Response) => {
+  otherUserEvent = async (req: express.Request, res: express.Response) => {
     try {
       const userId = parseInt(req.params.id);
       const event = await this.userService.checkEvent(userId);

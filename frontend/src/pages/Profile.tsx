@@ -11,6 +11,7 @@ import {
   IonTitle,
   IonToolbar,
   useIonRouter,
+  useIonToast,
 } from "@ionic/react";
 
 import {
@@ -27,17 +28,20 @@ import "./css/Profile.css";
 import UserStats from "./component/UserStats";
 import UserTeams from "./component/UserTeams";
 import UserSettings from "./UserSettings";
-import { RootState, useAppSelector } from "../store";
+import { RootState, useAppDispatch, useAppSelector } from "../store";
 import { Team, EventInfo } from "../model";
 import { API_ORIGIN } from "../utils/api";
 import UserDetail from "./component/UserInfo";
 import UserEvents from "./component/UserEvents";
+import { loadUserInfo } from "../redux/userInfo/action";
+import { loggedIn } from "../redux/auth/action";
 
 const Profile: React.FC = () => {
   const userdetails = useAppSelector(
     (state: RootState) => state.userInfo.userinfo
   );
 
+  const [present] = useIonToast();
   const [sectorName, setSectorName] = useState<string[]>([]);
   const [skillName, setSkillName] = useState<string[]>([]);
   const [skillPoint, setSkillPoint] = useState<number[]>([]);
@@ -52,12 +56,23 @@ const Profile: React.FC = () => {
   );
 
   const router = useIonRouter();
+  const dispatch = useAppDispatch();
 
   useLayoutEffect(() => {
     (async function () {
       const localtoken = localStorage.getItem("token");
       if (localtoken === null || localtoken === undefined) {
         router.push("/tab/login");
+      }
+      if (localtoken != null) {
+        const res = await fetch(`${API_ORIGIN}/app/user/me`, {
+          headers: {
+            Authorization: `Bearer ${localtoken}`,
+          },
+        });
+        const userRecord = await res.json();
+        dispatch(loadUserInfo(userRecord));
+        dispatch(loggedIn(userRecord, localtoken));
       }
 
       const res = await fetch(`${API_ORIGIN}/app/user/${userdetails?.id}`, {
@@ -106,6 +121,24 @@ const Profile: React.FC = () => {
     })();
   }, []);
 
+  async function QuitTeam(teamId: number) {
+    const localtoken = localStorage.getItem("token");
+    const quitTeam = await fetch(`${API_ORIGIN}/user/me/team/${teamId}`, {
+      headers: {
+        Authorization: `Bearer ${localtoken}`,
+      },
+      method: "DELETE",
+    });
+
+    const quitTeamResult = await quitTeam.json();
+
+    present({
+      message: quitTeamResult.msg,
+      duration: 1500,
+      position: "middle",
+      cssClass: "backtoast",
+    });
+  }
   return (
     <IonPage>
       <IonHeader>
@@ -122,7 +155,7 @@ const Profile: React.FC = () => {
             <IonImg
               className="profilepic"
               src={
-                userdetails?.profilepic !== undefined || null
+                userdetails?.profilepic !== null
                   ? (userdetails?.profilepic).slice(0, 4) === "data"
                     ? `${userdetails.profilepic}`
                     : `${API_ORIGIN}/userUploadedFiles/${userdetails.profilepic}`
@@ -215,7 +248,7 @@ const Profile: React.FC = () => {
               email={userdetails?.email}
             />
           )}
-          {team && <UserTeams team={userBelongsTeam} />}
+          {team && <UserTeams team={userBelongsTeam} onQuitTeam={QuitTeam} />}
           {event && <UserEvents event={userBelongsEvent} />}
           {setting && <UserSettings />}
         </div>

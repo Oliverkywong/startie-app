@@ -16,6 +16,7 @@ import React, { useLayoutEffect, useState } from "react";
 import { EventInfo } from "../model";
 import { useRouteMatch } from "react-router-dom";
 import { API_ORIGIN } from "../utils/api";
+import moment from "moment";
 
 const EventDetail: React.FC = () => {
   const [present] = useIonToast();
@@ -28,9 +29,7 @@ const EventDetail: React.FC = () => {
 
   useLayoutEffect(() => {
     (async function () {
-      const res = await fetch(
-        `${API_ORIGIN}/event/${match?.params.id}`
-      );
+      const res = await fetch(`${API_ORIGIN}/event/${match?.params.id}`);
       const item = await res.json();
       setData([item]);
     })();
@@ -62,8 +61,8 @@ const EventDetail: React.FC = () => {
       message: result.msg,
       duration: 1500,
       position: "middle",
-      cssClass: "backtoast"
-    })
+      cssClass: "backtoast",
+    });
   }
 
   return (
@@ -82,13 +81,17 @@ const EventDetail: React.FC = () => {
               <img
                 className="eventThumbnail"
                 src={
-                  item?.event_profilepic != null
-                    ? `${API_ORIGIN}/userUploadedFiles/${item.event_profilepic}`
-                    : "StartieLogo.png"
+                  item?.event_profilepic !== null
+                    ? (item?.event_profilepic).slice(0, 4) === "data"
+                      ? `${item.event_profilepic}`
+                      : `${API_ORIGIN}/userUploadedFiles/${item.event_profilepic}`
+                    : "https://www.w3schools.com/howto/img_avatar.png"
                 }
               />
               <h1 className="evenDetailTitle">{item.event_name}</h1>
-              <span className="eventDetailDescription">Short Description: </span>
+              <span className="eventDetailDescription">
+                Short Description:{" "}
+              </span>
               <p className="eventDetailDescription">{item.shortDescription}</p>
               <span className="eventDetailDescription">Description: </span>
               <p className="eventDetailDescription">{item.description}</p>
@@ -104,7 +107,9 @@ const EventDetail: React.FC = () => {
                 />
                 <div>
                   <p className="eventDescription">{item.provider_name}</p>
-                  <p className="eventDate">Due date: {item.starttime}</p>
+                  <p className="eventDate">
+                    Due:{moment(item.starttime).format("DD MMM YYYY")}
+                  </p>
                 </div>
               </div>
             </div>
