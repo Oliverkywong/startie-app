@@ -113,20 +113,14 @@ export class UserController {
     } catch (err) {
       if (err instanceof UserDuplicateUsernameError) {
         res.status(500).json({ result: false, msg: "username already exists" });
-      }
-
-      else if (err instanceof UserDuplicateEmailError) {
+      } else if (err instanceof UserDuplicateEmailError) {
         res.status(501).json({ result: false, msg: "email already exists" });
-      }
-
-      else if (err instanceof UserMissingRegisterInfoError) {
+      } else if (err instanceof UserMissingRegisterInfoError) {
         res.status(502).json({ result: false, msg: "missing register info" });
-      } else{
-        
+      } else {
         logger.error(err);
         res.status(503).json({ result: false, msg: "register error" });
       }
-
     }
   };
 
@@ -145,7 +139,7 @@ export class UserController {
         "urn:example:claim": true,
         userId: user[0].id,
         username: user[0].username,
-        isadmin: user[0].isadmin
+        isadmin: user[0].isadmin,
       }) // use private key to sign
         .setProtectedHeader({ alg: "ES256" })
         .setIssuedAt()
@@ -181,9 +175,7 @@ export class UserController {
       } else {
         logger.error(err);
         return res.status(500).json({ result: false, msg: "login fail" });
-        
       }
-
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -311,7 +303,6 @@ export class UserController {
         profilepic,
         goodat
       );
-      
 
       // console.log(userInfo);
 
@@ -444,7 +435,7 @@ export class UserController {
       res.json(team);
     } catch (err) {
       logger.error(err);
-      res.status(400).json({ result: false, msg: "get team fail" });
+      res.status(400).json({ result: false, msg: "get other team fail" });
     }
   };
 
@@ -486,6 +477,22 @@ export class UserController {
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
+  // check event
+  // -------------------------------------------------------------------------------------------------------------------
+  checkEvent = async (req: express.Request, res: express.Response) => {
+    try {
+      const userId =
+        req.user?.userId != undefined
+          ? Number(req.user.userId)
+          : parseInt(req.params.id);
+      const event = await this.userService.checkEvent(userId);
+      res.json(event);
+    } catch (err) {
+      logger.error(err);
+      res.status(400).json({ result: false, msg: "get event fail" });
+    }
+  };
+  // -------------------------------------------------------------------------------------------------------------------
   // user join event
   // -------------------------------------------------------------------------------------------------------------------
   joinEvent = async (req: express.Request, res: express.Response) => {
@@ -493,11 +500,10 @@ export class UserController {
       const userId = req.user!.userId;
       const eventId = req.params.id;
       const NumberEventId = parseInt(eventId);
-      const event = await this.userService.joinEvent(NumberEventId, userId);
+      const event = await this.userService.joinEvent(userId, NumberEventId);
       res
         .status(200)
         .json({ result: true, msg: "join event success!!", event: event }); //for frontend toast box
-      // console.log("joinEvent", event);
     } catch (err) {
       logger.error(err);
       if (err instanceof YourHaveJoinedThisEventError) {

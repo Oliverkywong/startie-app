@@ -16,6 +16,7 @@ import {
 import {
   documentTextOutline,
   pencil,
+  peopleCircleOutline,
   peopleOutline,
   settingsOutline,
   statsChart,
@@ -23,13 +24,14 @@ import {
 
 import "./css/Common.css";
 import "./css/Profile.css";
-import User from "./component/UserInfo";
 import UserStats from "./component/UserStats";
 import UserTeams from "./component/UserTeams";
 import UserSettings from "./UserSettings";
 import { RootState, useAppSelector } from "../store";
-import { Team } from "../model";
+import { Team, EventInfo } from "../model";
 import { API_ORIGIN } from "../utils/api";
+import UserDetail from "./component/UserInfo";
+import UserEvents from "./component/UserEvents";
 
 const Profile: React.FC = () => {
   const userdetails = useAppSelector(
@@ -42,8 +44,12 @@ const Profile: React.FC = () => {
   const [stat, setStat] = React.useState(false);
   const [info, setInfo] = React.useState(true);
   const [team, setTeam] = React.useState(false);
+  const [event, setEvent] = React.useState(false);
   const [setting, setSetting] = React.useState(false);
   const [userBelongsTeam, setUserBelongsTeam] = React.useState<Team[]>([]);
+  const [userBelongsEvent, setUserBelongsEvent] = React.useState<EventInfo[]>(
+    []
+  );
 
   const router = useIonRouter();
 
@@ -65,9 +71,15 @@ const Profile: React.FC = () => {
         },
       });
       const userTeam = await selfTeam.json();
-      console.log(userTeam);
-
       setUserBelongsTeam(userTeam);
+
+      const userEvent = await fetch(`${API_ORIGIN}/user/me/event`, {
+        headers: {
+          Authorization: `Bearer ${localtoken}`,
+        },
+      });
+      const userEventJson = await userEvent.json();
+      setUserBelongsEvent(userEventJson);
 
       const skillres = await fetch(`${API_ORIGIN}/skill/${userdetails.id}`, {
         headers: {
@@ -132,6 +144,7 @@ const Profile: React.FC = () => {
                 setInfo(false);
                 setStat(true);
                 setTeam(false);
+                setEvent(false);
                 setSetting(false);
               }}
             >
@@ -144,6 +157,7 @@ const Profile: React.FC = () => {
                 setInfo(true);
                 setStat(false);
                 setTeam(false);
+                setEvent(false);
                 setSetting(false);
               }}
             >
@@ -156,12 +170,27 @@ const Profile: React.FC = () => {
                 setInfo(false);
                 setStat(false);
                 setTeam(true);
+                setEvent(false);
                 setSetting(false);
               }}
             >
               <IonIcon icon={peopleOutline} />
-              <IonLabel>My Teams</IonLabel>
+              <IonLabel>Teams</IonLabel>
             </div>
+
+            <div
+              onClick={() => {
+                setInfo(false);
+                setStat(false);
+                setTeam(false);
+                setEvent(true);
+                setSetting(false);
+              }}
+            >
+              <IonIcon icon={peopleCircleOutline} />
+              <IonLabel>Events</IonLabel>
+            </div>
+
             <div
               onClick={() => {
                 router.push("/settings");
@@ -179,13 +208,15 @@ const Profile: React.FC = () => {
             />
           )}
           {info && (
-            <User
+            <UserDetail
+              shortDescription={userdetails?.shortDescription}
               description={userdetails?.description}
               phone={userdetails?.phonenumber}
               email={userdetails?.email}
             />
           )}
           {team && <UserTeams team={userBelongsTeam} />}
+          {event && <UserEvents event={userBelongsEvent} />}
           {setting && <UserSettings />}
         </div>
       </IonContent>

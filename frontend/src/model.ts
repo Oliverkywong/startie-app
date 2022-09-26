@@ -24,6 +24,7 @@ export interface EventInfo {
   id: number;
   provider_name: string;
   event_name: string;
+  name: string;
   description: string;
   event_profilepic: string;
   event_provider_profile_pic: string;
@@ -36,8 +37,8 @@ export interface Tag {
 }
 
 export interface Looking {
-  id: number
-  name: string
+  id: number;
+  name: string;
 }
 
 export interface TeamData {

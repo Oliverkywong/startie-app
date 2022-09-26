@@ -13,16 +13,22 @@ import {
   useIonRouter,
 } from "@ionic/react";
 
-import { documentTextOutline, peopleOutline, statsChart } from "ionicons/icons";
+import {
+  documentTextOutline,
+  peopleCircleOutline,
+  peopleOutline,
+  statsChart,
+} from "ionicons/icons";
 
 import "./css/Common.css";
 import "./css/Profile.css";
-import User from "./component/UserInfo";
 import UserStats from "./component/UserStats";
-import UserTeams from "./component/UserTeams";
 import { useRouteMatch } from "react-router";
-import { UserInfo } from "../model";
+import { EventInfo, UserInfo } from "../model";
 import { API_ORIGIN } from "../utils/api";
+import OtherUserTeams from "./component/OtherUserTeams";
+import UserDetail from "./component/UserInfo";
+import OtherUserEvents from "./component/OtherUserEvents";
 
 const rootinfo = {
   id: 0,
@@ -39,8 +45,12 @@ const OtherUserProfile: React.FC = () => {
   const [stat, setStat] = useState(false);
   const [info, setInfo] = useState(true);
   const [team, setTeam] = useState(false);
+  const [event, setEvent] = useState(false);
   const [data, setData] = useState<UserInfo>(rootinfo);
   const [userBelongsTeam, setUserBelongsTeam] = useState([]);
+  const [userBelongsEvent, setUserBelongsEvent] = React.useState<EventInfo[]>(
+    []
+  );
   const [sectorName, setSectorName] = useState<string[]>([]);
   const [skillName, setSkillName] = useState<string[]>([]);
   const [skillPoint, setSkillPoint] = useState<number[]>([]);
@@ -59,8 +69,11 @@ const OtherUserProfile: React.FC = () => {
         `${API_ORIGIN}/user/team/${match?.params.id}`
       );
       const userTeam = await selfTeam.json();
-
       setUserBelongsTeam(userTeam);
+
+      // const userEvent = await fetch(`${API_ORIGIN}/user/me/event`);
+      // const userEventJson = await userEvent.json();
+      // setUserBelongsEvent(userEventJson);
 
       const skillres = await fetch(`${API_ORIGIN}/skill/${match?.params.id}`);
 
@@ -116,6 +129,7 @@ const OtherUserProfile: React.FC = () => {
                 setInfo(false);
                 setStat(true);
                 setTeam(false);
+                setEvent(false);
               }}
             >
               <IonIcon icon={statsChart} />
@@ -127,6 +141,7 @@ const OtherUserProfile: React.FC = () => {
                 setInfo(true);
                 setStat(false);
                 setTeam(false);
+                setEvent(false);
               }}
             >
               <IonIcon icon={documentTextOutline} />
@@ -138,14 +153,28 @@ const OtherUserProfile: React.FC = () => {
                 setInfo(false);
                 setStat(false);
                 setTeam(true);
+                setEvent(false);
               }}
             >
               <IonIcon icon={peopleOutline} />
-              <IonLabel>My Teams</IonLabel>
+              <IonLabel>Teams</IonLabel>
+            </div>
+
+            <div
+              onClick={() => {
+                setInfo(false);
+                setStat(false);
+                setTeam(false);
+                setEvent(true);
+              }}
+            >
+              <IonIcon icon={peopleCircleOutline} />
+              <IonLabel>Events</IonLabel>
             </div>
           </div>
           {info && (
-            <User
+            <UserDetail
+              shortDescription={data?.shortDescription}
               description={data?.description}
               phone={data?.phonenumber}
               email={data?.email}
@@ -158,7 +187,8 @@ const OtherUserProfile: React.FC = () => {
               skillPoint={skillPoint}
             />
           )}
-          {team && <UserTeams team={userBelongsTeam} />}
+          {team && <OtherUserTeams team={userBelongsTeam} />}
+          {event && <OtherUserEvents event={userBelongsEvent} />}
         </div>
       </IonContent>
     </IonPage>
