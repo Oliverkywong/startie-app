@@ -56,9 +56,6 @@ const Homepage: React.FC = () => {
   useLayoutEffect(() => {
     (async function () {
       const localtoken = localStorage.getItem("token");
-      // if (localtoken === null) {
-      //   dispatch(logOut());
-      // }
       if (localtoken != null) {
         const res = await fetch(`${API_ORIGIN}/app/user/me`, {
           headers: {
@@ -66,8 +63,8 @@ const Homepage: React.FC = () => {
           },
         });
         const userRecord = await res.json();
-
-        dispatch(loggedIn(userRecord["user"], userRecord["jwt"]));
+        dispatch(loadUserInfo(userRecord));
+        dispatch(loggedIn(userRecord, localtoken));
       }
 
       const teamRes = await fetch(`${API_ORIGIN}/app/team`, {

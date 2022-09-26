@@ -20,7 +20,7 @@ export class EventController {
         starttime,
         category_id,
         shortDescription,
-        event_provider_id
+        event_provider_id,
       } = req.body;
 
       const event = await this.eventService.createEvent(

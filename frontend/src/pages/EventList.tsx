@@ -12,6 +12,7 @@ import {
   IonBackButton,
   IonButtons,
 } from "@ionic/react";
+import moment from "moment";
 
 import "./css/Common.css";
 import "./css/Event.css";
@@ -23,7 +24,7 @@ const EventList: React.FC = () => {
   const [fetchData, setFetchData] = useState<EventInfo[]>([]);
   const [i, setI] = useState(10);
   const router = useIonRouter();
-  const isInfiniteDisabled = data.length >= fetchData.length
+  const isInfiniteDisabled = data.length >= fetchData.length;
 
   useEffect(() => {
     (async function () {
@@ -32,14 +33,14 @@ const EventList: React.FC = () => {
 
       setData(result.events.slice(0, 10));
       setFetchData(result.events);
-      setI(10)
+      setI(10);
     })();
   }, []);
 
   const pushData = () => {
     let sliceData = fetchData.slice(i, i + 10);
-    setI(i=>i + 10);
-    setData(data=>[...data, ...sliceData]);
+    setI((i) => i + 10);
+    setData((data) => [...data, ...sliceData]);
   };
 
   const loadData = (ev: any) => {
@@ -71,7 +72,7 @@ const EventList: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-      <div className="eventContainer">
+        <div className="eventContainer">
           {data.map((item) => {
             return (
               <div
@@ -103,7 +104,9 @@ const EventList: React.FC = () => {
                   />
                   <div>
                     <p className="eventDescription">{item.provider_name}</p>
-                    <p className="eventDate">Due: {item.starttime}</p>
+                    <p className="eventDate">
+                      Due: {moment().format(item.starttime)}
+                    </p>
                   </div>
                 </div>
               </div>

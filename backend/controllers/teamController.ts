@@ -34,32 +34,32 @@ export class TeamController {
       logger.error(err);
       res.status(400).json({ result: false, msg: "create team fail" });
     }
-  }
-// -------------------------------------------------------------------------------------------------------------------
-// create team for Admin
-// -------------------------------------------------------------------------------------------------------------------
-createTeamForAdmin = async (req: express.Request, res: express.Response) => {
+  };
+  // -------------------------------------------------------------------------------------------------------------------
+  // create team for Admin
+  // -------------------------------------------------------------------------------------------------------------------
+  createTeamForAdmin = async (req: express.Request, res: express.Response) => {
     try {
       const userId = req.body.user_id;
 
-      let { name, category_id, description, shortDescription  } = req.body
+      let { name, category_id, description, shortDescription } = req.body;
 
       const team = await this.teamService.createTeam(
         userId,
         name,
         category_id,
         shortDescription,
-        description        
+        description
       );
       res.status(200).json(team.teamInfo);
     } catch (err) {
       logger.error(err);
       res.status(400).json({ result: false, msg: "create team fail" });
     }
-}
-// -------------------------------------------------------------------------------------------------------------------
-// get all teams for react admin
-// -------------------------------------------------------------------------------------------------------------------
+  };
+  // -------------------------------------------------------------------------------------------------------------------
+  // get all teams for react admin
+  // -------------------------------------------------------------------------------------------------------------------
   getAllTeamsForAdmin = async (req: Request, res: Response) => {
     try {
       let input: TeamListInput = req.query;
@@ -68,7 +68,6 @@ createTeamForAdmin = async (req: express.Request, res: express.Response) => {
 
       res.set("x-total-count", String(json.count));
       res.status(200).json(json.teams);
-
     } catch (err) {
       logger.error(err);
       res.status(500).json({ error: String(err) });
@@ -121,24 +120,20 @@ createTeamForAdmin = async (req: express.Request, res: express.Response) => {
   // edit team for admin
   // -------------------------------------------------------------------------------------------------------------------
   updateTeamForAdmin = async (req: express.Request, res: express.Response) => {
-      try {
-        const teamId = parseInt(req.params.id);
-  
-        const input: TeamListInput = req.body;
-  
-        const team = await this.teamService.updateTeam(
-          teamId,
-          input
-        );
-        res.status(200).json({
-          data: team,
-          id: team[0].id
-        }
-          );
-      } catch (err) {
-        logger.error(err);
-        res.status(500).json({ result: false, msg: "update team fail" });
-      }
+    try {
+      const teamId = parseInt(req.params.id);
+
+      const input: TeamListInput = req.body;
+
+      const team = await this.teamService.updateTeam(teamId, input);
+      res.status(200).json({
+        data: team,
+        id: team[0].id,
+      });
+    } catch (err) {
+      logger.error(err);
+      res.status(500).json({ result: false, msg: "update team fail" });
+    }
   };
   // -------------------------------------------------------------------------------------------------------------------
   // get tags of team
