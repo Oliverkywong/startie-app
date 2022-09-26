@@ -116,24 +116,28 @@ export default function UserEdit() {
             {...register("name", { required: true })}
             type="text"
             placeholder="User Name"
+            value={userdetails?.username}
           />
           <label className="formTitle">Phone Number:</label>
           <input
             {...register("phone", { required: true })}
             type="text"
             placeholder="Phone Number"
+            value={userdetails?.phonenumber}
           />
           <label className="formTitle">Short Description:</label>
           <input
             {...register("shortDescription")}
             type="text"
             placeholder="One sentence to describe yourself"
+            value={userdetails?.shortDescription}
           />
           <label className="formTitle">Description:</label>
           <input
             {...register("Description")}
             type="text"
             placeholder="Description"
+            value={userdetails?.description}
           />
           <label htmlFor="dropdownList" className="formTitle">
             Good at:
