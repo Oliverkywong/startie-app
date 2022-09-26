@@ -11,7 +11,7 @@ async function QuitTeam() {
   let match = useRouteMatch<{ id: string }>("/app/user/:id");
 
   const localtoken = localStorage.getItem("token");
-  await fetch(`${API_ORIGIN}/user/me/event/${match?.params.id}`, {
+  await fetch(`${API_ORIGIN}/user/me/team/${match?.params.id}`, {
     headers: {
       Authorization: `Bearer ${localtoken}`,
     },
@@ -38,11 +38,11 @@ export default function UserTeams(props: { team: Team[] }) {
               }
             />
             <div>
-              <IonTitle>{team.name}</IonTitle>
+              <p>{team.name}</p>
             </div>
 
             <div>
-              <IonLabel>{team.description}</IonLabel>
+              <p>{team.description}</p>
             </div>
 
             <div>
