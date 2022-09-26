@@ -9,7 +9,6 @@ export interface User {
   phonenumber: string | number;
   shortDescription: string;
   description: string;
-  shortDescription: string;
   clickrate: number;
   team_id: number;
   event_id: number;

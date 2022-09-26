@@ -303,8 +303,9 @@ export class UserController {
         profilepic,
         goodat
       );
+      
 
-      console.log(userInfo);
+      // console.log(userInfo);
 
       res.status(200).json({
         result: true,

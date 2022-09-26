@@ -96,9 +96,11 @@ const TeamList: React.FC = () => {
                   <img
                     className="teamIcon"
                     src={
-                      (item?.profilepic).slice(0, 4) === "data"
-                        ? `${item.profilepic}`
-                        : `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
+                      item?.profilepic !== undefined || null
+                        ? (item?.profilepic).slice(0, 4) === "data"
+                          ? `${item.profilepic}`
+                          : `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
+                        : "https://www.w3schools.com/howto/img_avatar.png"
                     }
                   />
                   <IonCardTitle className="teamTitle">{item.name}</IonCardTitle>

@@ -116,8 +116,17 @@ export class UserService {
         status_id: 1,
         profilepic: "tonystarkicon.png",
         phonenumber: "0000000000",
+        shortDescription: "Short Description",
+        description: "Description",
       })
       .returning("*");
+
+    await this.knex<User_Tag>("user_tag")
+    .insert({
+      user_id: user[0].id,
+      tag_id: 1,
+    })
+    .returning("*");
 
     return { result: true, user: user };
   }
