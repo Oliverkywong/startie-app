@@ -71,9 +71,11 @@ const OtherUserProfile: React.FC = () => {
       const userTeam = await selfTeam.json();
       setUserBelongsTeam(userTeam);
 
-      // const userEvent = await fetch(`${API_ORIGIN}/user/me/event`);
-      // const userEventJson = await userEvent.json();
-      // setUserBelongsEvent(userEventJson);
+      const userEvent = await fetch(
+        `${API_ORIGIN}/user/event/${match?.params.id}`
+      );
+      const userEventJson = await userEvent.json();
+      setUserBelongsEvent(userEventJson);
 
       const skillres = await fetch(`${API_ORIGIN}/skill/${match?.params.id}`);
 
