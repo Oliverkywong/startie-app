@@ -493,19 +493,6 @@ export class UserController {
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
-  // check user other event info
-  // -------------------------------------------------------------------------------------------------------------------
-  otheruserEvent = async (req: express.Request, res: express.Response) => {
-    try {
-      const userId = parseInt(req.params.id);
-      const event = await this.userService.checkEvent(userId);
-      res.json(event);
-    } catch (err) {
-      logger.error(err);
-      res.status(400).json({ result: false, msg: "get other event fail" });
-    }
-  };
-  // -------------------------------------------------------------------------------------------------------------------
   // user join event
   // -------------------------------------------------------------------------------------------------------------------
   joinEvent = async (req: express.Request, res: express.Response) => {

@@ -12,21 +12,21 @@ export function userRoutes(userController: UserController) {
   userRoutes.get("/app/user/:id", userController.userInfoById);
   userRoutes.get("/app/user/me", isLogin, userController.userInfo);
   userRoutes.get("/app/user", userController.getAllUser);
-  userRoutes.post("/logout", isLogin, userController.logout);
-  userRoutes.put("/app/user/:id", isLogin, userController.editUser); //need to add isLogin
+  // userRoutes.post("/logout", isLogin, userController.logout);
+  userRoutes.put("/app/user/:id", isLogin, userController.editUser);
   // -----------------------------------------------------------------------------------------------------------------------
-  userRoutes.get("/user/me/team", isLogin, userController.checkTeam); /// user/team/checkteam?user"
-  userRoutes.get("/user/me/event", isLogin, userController.checkEvent); /// check event
+  userRoutes.get("/user/me/team", isLogin, userController.checkTeam); // user/team/checkteam?user"
+  userRoutes.get("/user/me/event", isLogin, userController.checkEvent);
   userRoutes.get("/user/team/:id", userController.otheruserTeam);
   userRoutes.get("/user/event/:id", userController.otheruserEvent);
-  userRoutes.post("/user/me/team/:teamid", isLogin, userController.joinTeam); //user join team
-  userRoutes.delete("/user/me/:teamid", isLogin, userController.quitTeam); //user quit team
-  userRoutes.post("/user/me/event/:id", isLogin, userController.joinEvent); //user join event
-  userRoutes.delete("/user/me/event/:id", isLogin, userController.quitEvent); //user quit event
+  userRoutes.post("/user/me/team/:teamid", isLogin, userController.joinTeam);
+  userRoutes.delete("/user/me/:teamid", isLogin, userController.quitTeam);
+  userRoutes.post("/user/me/event/:id", isLogin, userController.joinEvent);
+  userRoutes.delete("/user/me/event/:id", isLogin, userController.quitEvent);
   userRoutes.get("/user/me/note", isLogin, userController.getNotification);
   // ----------------------------Admin Routes-------------------------------------------------------------------------------
   userRoutes.get("/user/:id", isAdmin, userController.userInfoForAdmin);
   userRoutes.put("/user/:id", isAdmin, userController.editUserForAdmin);
-  userRoutes.get("/user", isAdmin, userController.getAllUserForAdmin); //need to add isLogin
+  userRoutes.get("/user", isAdmin, userController.getAllUserForAdmin);
   return userRoutes;
 }
