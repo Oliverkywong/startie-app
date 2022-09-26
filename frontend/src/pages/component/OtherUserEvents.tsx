@@ -20,17 +20,21 @@ export default function UserEvents(props: { event: EventInfo[] }) {
           >
             <IonImg
               src={
-                event?.event_profilepic != null
-                  ? `${API_ORIGIN}/userUploadedFiles/${event.event_profilepic}`
+                event?.profilepic != null
+                  ? `${API_ORIGIN}/userUploadedFiles/${event.profilepic}`
                   : "https://www.w3schools.com/howto/img_avatar.png"
               }
             />
             <div>
-              <IonTitle>{event.name}</IonTitle>
+              <p>{event.name}</p>
             </div>
 
             <div>
-              <IonLabel>{event.description}</IonLabel>
+              <p>{event.shortDescription}</p>
+            </div>
+
+            <div>
+              <p>{event.description}</p>
             </div>
           </div>
         );
