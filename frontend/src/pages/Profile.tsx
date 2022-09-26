@@ -27,11 +27,13 @@ import "./css/Profile.css";
 import UserStats from "./component/UserStats";
 import UserTeams from "./component/UserTeams";
 import UserSettings from "./UserSettings";
-import { RootState, useAppSelector } from "../store";
+import { RootState, useAppDispatch, useAppSelector } from "../store";
 import { Team, EventInfo } from "../model";
 import { API_ORIGIN } from "../utils/api";
 import UserDetail from "./component/UserInfo";
 import UserEvents from "./component/UserEvents";
+import { loadUserInfo } from "../redux/userInfo/action";
+import { loggedIn } from "../redux/auth/action";
 
 const Profile: React.FC = () => {
   const userdetails = useAppSelector(
@@ -52,12 +54,23 @@ const Profile: React.FC = () => {
   );
 
   const router = useIonRouter();
+  const dispatch = useAppDispatch();
 
   useLayoutEffect(() => {
     (async function () {
       const localtoken = localStorage.getItem("token");
       if (localtoken === null || localtoken === undefined) {
         router.push("/tab/login");
+      }
+      if (localtoken != null) {
+        const res = await fetch(`${API_ORIGIN}/app/user/me`, {
+          headers: {
+            Authorization: `Bearer ${localtoken}`,
+          },
+        });
+        const userRecord = await res.json();
+        dispatch(loadUserInfo(userRecord));
+        dispatch(loggedIn(userRecord, localtoken));
       }
 
       const res = await fetch(`${API_ORIGIN}/app/user/${userdetails?.id}`, {
