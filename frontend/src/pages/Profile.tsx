@@ -110,8 +110,10 @@ const Profile: React.FC = () => {
             <IonImg
               className="profilepic"
               src={
-                userdetails?.profilepic != null
-                  ? `${API_ORIGIN}/userUploadedFiles/${userdetails.profilepic}`
+                userdetails?.profilepic !== undefined || null
+                  ? (userdetails?.profilepic).slice(0, 4) === "data"
+                    ? `${userdetails.profilepic}`
+                    : `${API_ORIGIN}/userUploadedFiles/${userdetails.profilepic}`
                   : "https://www.w3schools.com/howto/img_avatar.png"
               }
             />

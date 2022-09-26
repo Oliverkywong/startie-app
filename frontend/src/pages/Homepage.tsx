@@ -155,10 +155,17 @@ const Homepage: React.FC = () => {
               >
                 <IonImg
                   className="icon"
-                  // src={`${API_ORIGIN}/userUploadedFiles/${userdetails.profilepic}`}
+                  // src={
+                  //   userdetails?.profilepic !== undefined || null
+                  //     ? `${API_ORIGIN}/userUploadedFiles/${userdetails?.profilepic}`
+                  //     : "https://www.w3schools.com/howto/img_avatar.png"
+                  // }
+
                   src={
                     userdetails?.profilepic !== undefined || null
-                      ? `${API_ORIGIN}/userUploadedFiles/${userdetails?.profilepic}`
+                      ? (userdetails?.profilepic).slice(0, 4) === "data"
+                        ? `${userdetails.profilepic}`
+                        : `${API_ORIGIN}/userUploadedFiles/${userdetails.profilepic}`
                       : "https://www.w3schools.com/howto/img_avatar.png"
                   }
                 />
@@ -182,7 +189,7 @@ const Homepage: React.FC = () => {
                     ? router.push("/notification")
                     : router.push("/tab/login");
                 }}
-                // routerLink="/notification"
+              // routerLink="/notification"
               >
                 <IonIcon icon={notificationsOutline} />
               </IonButton>
