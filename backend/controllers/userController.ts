@@ -472,7 +472,9 @@ export class UserController {
       const NumberTeamId = parseInt(teamId);
 
       const team = await this.userService.quitTeam(userId, NumberTeamId);
-      res.json(team);
+      res
+        .status(200)
+        .json({ team: team, result: true, msg: "quit team success!!" });
     } catch (err) {
       logger.error(err);
       res.status(400).json({ result: false, msg: "quit team fail" });
