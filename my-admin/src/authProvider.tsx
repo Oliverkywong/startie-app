@@ -5,7 +5,7 @@ const authProvider = {
     //https://api.startie.oliverstrat.me/login
     login: async({ username, password }:{username:string, password:string}) =>  {
        try{
-        const res = await fetch('http://localhost:8000/login', {
+        const res = await fetch('https://api.startie.oliverstrat.me/login', {
         method: 'POST',
         body: JSON.stringify({ username, password }),
         headers: new Headers({ "Content-Type": "application/json" }),

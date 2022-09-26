@@ -11,10 +11,8 @@ import authProvider from './authProvider';
 import { MyLayout } from './Darktheme';
 import { EventCreate, EventEdit, EventList } from './event';
 import jsonServerProvider from 'ra-data-json-server';
-import {BACKEND_URL, REACT_APP_API_URL} from './variables';
 import { EventProviderList, EventProviderEdit, EventProviderCreate } from './event_provider';
 
-// const dataProvider = jsonServerProvider('https://oliverproject.oliverstrat.me');
 const httpClient = (url:string, options :any= {}) => {
   if (!options.headers) {
     options.headers = new Headers( {Accept: 'application/json'} );
@@ -28,13 +26,8 @@ const httpClient = (url:string, options :any= {}) => {
   return fetchUtils.fetchJson(url, options);
  };
 
- const host = BACKEND_URL
-
- console.log("host", host);
- console.log("react admin", REACT_APP_API_URL);
-
-const dataProvider =  jsonServerProvider('http://localhost:8000', httpClient);
-//https://api.startie.oliverstrat.me
+const dataProvider =  jsonServerProvider('https://api.startie.oliverstrat.me', httpClient);
+//http://localhost:8000
 
 
 const App = () => (
