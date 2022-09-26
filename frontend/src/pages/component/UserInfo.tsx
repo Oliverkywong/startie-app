@@ -4,13 +4,16 @@ import React from "react";
 
 import "../css/UserInfo.css";
 
-export default function UserInfo(props: {
+export default function UserDetail(props: {
+  shortDescription: string | undefined;
   description: string | undefined;
   phone: string | undefined;
   email: string | undefined;
 }) {
   return (
     <div className="userDetail">
+      <p className="userLabel">Short Description</p>
+      <p className="userDescription">{props.shortDescription}</p>
       <p className="userLabel">Description:</p>
       <p className="userDescription">{props.description}</p>
       <p className="userLabel">Email: </p>

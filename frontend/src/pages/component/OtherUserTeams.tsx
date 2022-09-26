@@ -7,19 +7,7 @@ import { API_ORIGIN } from "../../utils/api";
 import "../css/Common.css";
 import "../css/UserTeam.css";
 
-async function QuitTeam() {
-  let match = useRouteMatch<{ id: string }>("/app/user/:id");
-
-  const localtoken = localStorage.getItem("token");
-  await fetch(`${API_ORIGIN}/user/me/team/${match?.params.id}`, {
-    headers: {
-      Authorization: `Bearer ${localtoken}`,
-    },
-    method: "DELETE",
-  });
-}
-
-export default function UserTeams(props: { team: Team[] }) {
+export default function OtherUserTeams(props: { team: Team[] }) {
   const router = useIonRouter();
   return (
     <div>
@@ -38,15 +26,11 @@ export default function UserTeams(props: { team: Team[] }) {
               }
             />
             <div>
-              <p>{team.name}</p>
+              <IonTitle>{team.name}</IonTitle>
             </div>
 
             <div>
-              <p>{team.description}</p>
-            </div>
-
-            <div>
-              <button onClick={QuitTeam}>Quit Team</button>
+              <IonLabel>{team.description}</IonLabel>
             </div>
           </div>
         );

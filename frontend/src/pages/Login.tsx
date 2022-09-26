@@ -37,19 +37,17 @@ const Login: React.FC = () => {
           <h1>Hey, Welcome Back!</h1>
           <form
             onSubmit={handleSubmit(async (data) => {
-              const res = await fetch(
-                `${API_ORIGIN}/login`,
-                {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify(data),
-                }
-              );
+              const res = await fetch(`${API_ORIGIN}/login`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+              });
 
               const userRecord = await res.json();
               if (res.status === 200) {
+                localStorage.setItem("token", userRecord["jwt"]);
                 dispatch(loggedIn(userRecord["user"], userRecord["jwt"]));
                 dispatch(loadUserInfo(userRecord["user"]));
                 router.push("/tab/home");
@@ -58,8 +56,8 @@ const Login: React.FC = () => {
                   message: userRecord.msg,
                   duration: 1500,
                   position: "middle",
-                  cssClass: "backtoast"
-                })
+                  cssClass: "backtoast",
+                });
               }
             })}
           >
