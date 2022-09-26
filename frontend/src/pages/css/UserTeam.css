@@ -1,7 +1,29 @@
-.userTeam {
+.userTeam,
+.selfUserTeam {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
+  column-gap: 20px;
   align-items: center;
   width: 100%;
+}
+
+.selfUserTeam {
+  justify-content: space-between;
+}
+
+.userTeamCaption {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.userTeamTitle {
+  font-size: 18px;
+}
+
+.userTeamShortDescription {
+  font-size: 15px;
+  text-align: center;
+  margin-bottom: 10px;
 }

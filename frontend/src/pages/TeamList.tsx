@@ -103,11 +103,11 @@ const TeamList: React.FC = () => {
                         : "https://www.w3schools.com/howto/img_avatar.png"
                     }
                   />
-                  <IonCardTitle className="teamTitle">{item.name}</IonCardTitle>
+                  <p className="teamTitle">{item.name}</p>
 
-                  <p className="teamContent">{item.shortDescription}</p>
+                  <span className="teamContent">{item.shortDescription}</span>
 
-                  <p className="teamLookingFor">Looking for: </p>
+                  <span className="teamLookingFor">Looking for: </span>
 
                   <div className="tag">
                     {item.tags.map((tag) => {

@@ -189,7 +189,7 @@ const Homepage: React.FC = () => {
                     ? router.push("/notification")
                     : router.push("/tab/login");
                 }}
-              // routerLink="/notification"
+                // routerLink="/notification"
               >
                 <IonIcon icon={notificationsOutline} />
               </IonButton>
@@ -310,11 +310,11 @@ const Homepage: React.FC = () => {
                         }
                       />
 
-                      <IonCardTitle className="teamTitle">
-                        {item.name}
-                      </IonCardTitle>
+                      <p className="teamTitle">{item.name}</p>
 
-                      <p className="teamContent">{item.shortDescription}</p>
+                      <span className="teamContent">
+                        {item.shortDescription}
+                      </span>
 
                       <div className="tag">
                         {item.tags.map((tag) => {
