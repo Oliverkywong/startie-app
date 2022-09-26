@@ -134,9 +134,9 @@ const Profile: React.FC = () => {
             <IonIcon color="light" className="proedit" icon={pencil}></IonIcon>
           </div>
 
-          <IonLabel className="uresname">
+          <p className="uresname">
             {userdetails?.username ? userdetails.username : "new user"}
-          </IonLabel>
+          </p>
 
           <div className="profilebar">
             <div

@@ -16,7 +16,7 @@
 
 .eventTitle {
   padding-left: 20px;
-  padding-right:20px;
+  padding-right: 20px;
   font-size: 20px;
 }
 
@@ -26,6 +26,7 @@
 
 .eventThumbnail {
   width: 100%;
+  object-fit: cover;
 }
 
 .eventData {
@@ -37,9 +38,9 @@
   column-gap: 20px;
 }
 
-.eventshortDescription{
+.eventshortDescription {
   padding-left: 20px;
-  padding-right:20px;
+  padding-right: 20px;
 }
 .eventDescription {
   font-size: 12px;

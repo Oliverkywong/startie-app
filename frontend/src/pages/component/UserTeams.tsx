@@ -23,37 +23,41 @@ export default function UserTeams(props: { team: Team[] }) {
   const router = useIonRouter();
   return (
     <>
-      {props.team.map((team) => {
-        return (
-          <div
-            className="selfUserTeam"
-            key={team.id}
-            onClick={() => router.push(`team/${team.id}`)}
-          >
-            <IonImg
-              src={
-                team?.profilepic != null
-                  ? `${API_ORIGIN}/userUploadedFiles/${team.profilepic}`
-                  : "https://www.w3schools.com/howto/img_avatar.png"
-              }
-              style={{ width: "50px", height: "50px" }}
-            />
+      {props.team.length === 0 ? (
+        <p>Don't have team yet</p>
+      ) : (
+        props.team.map((team) => {
+          return (
+            <div
+              className="selfUserTeam"
+              key={team.id}
+              onClick={() => router.push(`/tab/team/${team.id}`)}
+            >
+              <IonImg
+                src={
+                  team?.profilepic != null
+                    ? `${API_ORIGIN}/userUploadedFiles/${team.profilepic}`
+                    : "https://www.w3schools.com/howto/img_avatar.png"
+                }
+                style={{ width: "50px", height: "50px" }}
+              />
 
-            <div className="userTeamCaption">
-              <p className="userTeamTitle">{team.name}</p>
-              <span className="userTeamShortDescription">
-                {team.shortDescription}
-              </span>
-            </div>
+              <div className="userTeamCaption">
+                <p className="userTeamTitle">{team.name}</p>
+                <span className="userTeamShortDescription">
+                  {team.shortDescription}
+                </span>
+              </div>
 
-            <div>
-              <button className="quitButton" onClick={QuitTeam}>
-                Quit Team
-              </button>
+              <div>
+                <button className="quitButton" onClick={QuitTeam}>
+                  Quit Team
+                </button>
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })
+      )}
     </>
   );
 }

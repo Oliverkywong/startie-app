@@ -19,8 +19,8 @@ export function userRoutes(userController: UserController) {
   userRoutes.get("/user/me/event", isLogin, userController.checkEvent); /// check event
   userRoutes.get("/user/team/:id", userController.otheruserTeam);
   userRoutes.get("/user/event/:id", userController.otheruserEvent);
-  userRoutes.post("/user/me/team/:teamid", isLogin, userController.joinTeam); //user join team
-  userRoutes.delete("/user/me/:teamid", isLogin, userController.quitTeam); //user quit team
+  userRoutes.post("/user/me/team/:teamId", isLogin, userController.joinTeam); //user join team
+  userRoutes.delete("/user/me/team/:teamId", isLogin, userController.quitTeam); //user quit team
   userRoutes.post("/user/me/event/:id", isLogin, userController.joinEvent); //user join event
   userRoutes.delete("/user/me/event/:id", isLogin, userController.quitEvent); //user quit event
   userRoutes.get("/user/me/note", isLogin, userController.getNotification);
