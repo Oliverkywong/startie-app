@@ -33,11 +33,10 @@ export default function UserEdit() {
       const lookres = await fetch(`${API_ORIGIN}/tag`, {
         headers: {
           Authorization: `Bearer ${localtoken}`,
-        }
+        },
       });
       const lookresult = await lookres.json();
       setLook(lookresult);
-
     })();
   }, []);
 
@@ -85,26 +84,27 @@ export default function UserEdit() {
               {
                 method: "PUT",
                 headers: {
-                  'Content-Type': 'application/json',
+                  "Content-Type": "application/json",
                   Authorization: `Bearer ${localtoken}`,
                 },
-                body: JSON.stringify({ data: data, img: image })
+                body: JSON.stringify({ data: data, img: image }),
               }
             );
-            const result = await res.json()
+            const result = await res.json();
             if (result.result) {
-              console.log(result.userInfo)
+              console.log(result.userInfo);
               dispatch(loadUserInfo(result.userInfo));
               router.goBack();
             }
           })}
         >
-          <img className="userEditIcon"
+          <img
+            className="userEditIcon"
             src={
-              image === null ?
-                ((userdetails!.profilepic).slice(0, 4) === "data"
+              image === null
+                ? userdetails!.profilepic.slice(0, 4) === "data"
                   ? `${userdetails!.profilepic}`
-                  : `${API_ORIGIN}/userUploadedFiles/${userdetails!.profilepic}`)
+                  : `${API_ORIGIN}/userUploadedFiles/${userdetails!.profilepic}`
                 : image
             }
           />
@@ -116,32 +116,34 @@ export default function UserEdit() {
             {...register("name", { required: true })}
             type="text"
             placeholder="User Name"
+            value={userdetails?.username}
           />
           <label className="formTitle">Phone Number:</label>
           <input
             {...register("phone", { required: true })}
             type="text"
             placeholder="Phone Number"
+            value={userdetails?.phonenumber}
           />
           <label className="formTitle">Short Description:</label>
           <input
             {...register("shortDescription")}
             type="text"
             placeholder="One sentence to describe yourself"
+            value={userdetails?.shortDescription}
           />
           <label className="formTitle">Description:</label>
           <input
             {...register("Description")}
             type="text"
             placeholder="Description"
+            value={userdetails?.description}
           />
           <label htmlFor="dropdownList" className="formTitle">
             Good at:
           </label>
           <select id="dropdownList" className="formDropdownSelect" required>
-            <option value="" >
-              Select one
-            </option>
+            <option value="">Select one</option>
             {look.map((item) => (
               <option
                 className="formDropdownList"

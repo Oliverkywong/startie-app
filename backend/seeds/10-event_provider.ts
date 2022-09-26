@@ -9,6 +9,14 @@ export async function seed(knex: Knex): Promise<void> {
   await knex
     .insert([
       {
+        name: "Hong Kong New Generation Cultural Association",
+        profile_pic: "eventp1.png",
+      },
+      {
+        name: "City University of Hong Kong",
+        profile_pic: "eventp2.png",
+      },
+      {
         name: "Michael_Company",
         profile_pic: "com1.png",
       },
@@ -19,7 +27,7 @@ export async function seed(knex: Knex): Promise<void> {
       {
         name: "Yeung_Company",
         profile_pic: "com1.png",
-      },
+      }
     ])
     .into("event_provider");
 
