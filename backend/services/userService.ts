@@ -68,6 +68,7 @@ export class UserService {
       .select("*")
       .where("email", email)
       .returning("id");
+      
     if (userEmailRecord.length > 0) {
       return { result: true, userId: userEmailRecord[0].id };
     } else {
@@ -131,7 +132,6 @@ export class UserService {
   // -------------------------------------------------------------------------------------------------------------------
   // Login ✅
   // -------------------------------------------------------------------------------------------------------------------
-
   async login(username: string, password: string) {
     let result = this.knex<User>("user")
       .select("*")
