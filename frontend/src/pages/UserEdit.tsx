@@ -29,7 +29,7 @@ export default function UserEdit() {
   const [look, setLook] = useState<Looking[]>([]);
   const [image, setImage] = useState<any>(null);
   const { register, handleSubmit } = useForm();
- 
+
   useLayoutEffect(() => {
     (async function () {
       const localtoken = localStorage.getItem("token");
@@ -104,12 +104,15 @@ export default function UserEdit() {
             router.push("/tab/profile");
           })}
         >
-          <img className="userEditIcon" src={image === null ?
-            ((userdetails!.profilepic).slice(0, 4) === "data"
-              ? `${userdetails!.profilepic}`
-              : `${API_ORIGIN}/userUploadedFiles/${userdetails!.profilepic}`)
-            : image
-          } />
+          <img className="userEditIcon"
+            src={
+              userdetails!.profilepic !== undefined || null
+                ? (userdetails!.profilepic).slice(0, 4) === "data"
+                  ? `${userdetails!.profilepic}`
+                  : `${API_ORIGIN}/userUploadedFiles/${userdetails!.profilepic}`
+                : "https://www.w3schools.com/howto/img_avatar.png"
+            }
+          />
           <IonLabel className="formTitle">Icon:</IonLabel>
           <input type="file" {...register("icon")} onChange={imghandle} />
 

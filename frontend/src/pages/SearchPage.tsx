@@ -120,7 +120,13 @@ export default function SearchPage() {
                   >
                     <img
                       className="teamIcon"
-                      src={`${API_ORIGIN}/userUploadedFiles/${item.profilepic}`}
+                      src={
+                        item?.profilepic !== undefined || null
+                          ? (item?.profilepic).slice(0, 4) === "data"
+                            ? `${item.profilepic}`
+                            : `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
+                          : "https://www.w3schools.com/howto/img_avatar.png"
+                      }
                     />
 
                     <p className="teamTitle">{item.username}</p>
@@ -128,10 +134,10 @@ export default function SearchPage() {
                     <p className="teamContent">{item.description}</p>
 
                     <div className="tag">
-                    {item.tags.map((tag) => {
-                      return <span key={tag}>{tag}</span>;
-                    })}
-                  </div>
+                      {item.tags.map((tag) => {
+                        return <span key={tag}>{tag}</span>;
+                      })}
+                    </div>
                   </div>
                 </div>
               );
@@ -152,8 +158,10 @@ export default function SearchPage() {
                       <img
                         className="teamIcon"
                         src={
-                          item?.profilepic != null
-                            ? `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
+                          item?.profilepic !== undefined || null
+                            ? (item?.profilepic).slice(0, 4) === "data"
+                              ? `${item.profilepic}`
+                              : `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
                             : "https://www.w3schools.com/howto/img_avatar.png"
                         }
                       />

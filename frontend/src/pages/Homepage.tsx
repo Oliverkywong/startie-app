@@ -13,7 +13,7 @@ import {
   IonCol,
   IonCardTitle,
   IonHeader,
-  IonToolbar
+  IonToolbar,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Share } from "@capacitor/share";
@@ -29,7 +29,7 @@ import "./css/Homepage.css";
 // Import Swiper styles
 import "swiper/css";
 import { RootState, useAppDispatch, useAppSelector } from "../store";
-import { loggedIn, logOut } from "../redux/auth/action";
+import { loggedIn } from "../redux/auth/action";
 import { EffectCards } from "swiper";
 import { loadUserInfo } from "../redux/userInfo/action";
 import { Team, EventInfo } from "../model";
@@ -44,7 +44,9 @@ const categories = {
 };
 
 const Homepage: React.FC = () => {
-  const userdetails = useAppSelector((state: RootState) => state.auth.info);
+  const userdetails = useAppSelector(
+    (state: RootState) => state.userInfo.userinfo
+  );
   const isLogin = useAppSelector((state: RootState) => state.auth.loggedIn);
   const [teamData, setTeamData] = useState<Team[]>([]);
   const [eventData, setEventData] = useState<EventInfo[]>([]);
@@ -57,41 +59,31 @@ const Homepage: React.FC = () => {
       // if (localtoken === null) {
       //   dispatch(logOut());
       // }
-      if (localtoken !== null) {
-        const res = await fetch(
-          `${API_ORIGIN}/user/me`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${localtoken}`,
-            },
-          }
-        );
+      if (localtoken != null) {
+        const res = await fetch(`${API_ORIGIN}/app/user/me`, {
+          headers: {
+            Authorization: `Bearer ${localtoken}`,
+          },
+        });
         const userRecord = await res.json();
 
-        dispatch(loggedIn(userRecord, localtoken));
+        dispatch(loggedIn(userRecord["user"], userRecord["jwt"]));
       }
 
-      const teamRes = await fetch(
-        `${API_ORIGIN}/app/team`,
-        {
-          headers: {
-            Authorization: `Bearer ${localtoken}`,
-          },
-        }
-      );
+      const teamRes = await fetch(`${API_ORIGIN}/app/team`, {
+        headers: {
+          Authorization: `Bearer ${localtoken}`,
+        },
+      });
       const teamResult = await teamRes.json();
 
-      setTeamData(teamResult.teams.rows.slice(0, 4)); // remove .teams.rows after backend fix
+      setTeamData(teamResult.teams.slice(0, 4)); // remove .teams.rows after backend fix
 
-      const eventRes = await fetch(
-        `${API_ORIGIN}/app/event`,
-        {
-          headers: {
-            Authorization: `Bearer ${localtoken}`,
-          },
-        }
-      );
+      const eventRes = await fetch(`${API_ORIGIN}/app/event`, {
+        headers: {
+          Authorization: `Bearer ${localtoken}`,
+        },
+      });
       const eventResult = await eventRes.json();
       const hotEvent = eventResult.events.slice(0, 4);
       setEventData(hotEvent);
@@ -150,8 +142,8 @@ const Homepage: React.FC = () => {
 
   return (
     <IonPage>
-        <IonHeader className="header">
-      <IonToolbar color="dark">
+      <IonHeader className="header">
+        <IonToolbar color="dark">
           <div className="homePageHeader">
             <IonButtons slot="start">
               <IonButton
@@ -161,13 +153,19 @@ const Homepage: React.FC = () => {
                     : router.push("/tab/login");
                 }}
               >
-
                 <IonImg
                   className="icon"
-                  // src={`${API_ORIGIN}/userUploadedFiles/${userdetails.profilepic}`}
+                  // src={
+                  //   userdetails?.profilepic !== undefined || null
+                  //     ? `${API_ORIGIN}/userUploadedFiles/${userdetails?.profilepic}`
+                  //     : "https://www.w3schools.com/howto/img_avatar.png"
+                  // }
+
                   src={
                     userdetails?.profilepic !== undefined || null
-                      ? `${API_ORIGIN}/userUploadedFiles/${userdetails?.profilepic}`
+                      ? (userdetails?.profilepic).slice(0, 4) === "data"
+                        ? `${userdetails.profilepic}`
+                        : `${API_ORIGIN}/userUploadedFiles/${userdetails.profilepic}`
                       : "https://www.w3schools.com/howto/img_avatar.png"
                   }
                 />
@@ -197,8 +195,8 @@ const Homepage: React.FC = () => {
               </IonButton>
             </IonButtons>
           </div>
-      </IonToolbar>
-        </IonHeader>
+        </IonToolbar>
+      </IonHeader>
       <IonContent className="homecontent">
         <IonLabel className="labelTitle">Hot Events</IonLabel>
 
@@ -306,7 +304,7 @@ const Homepage: React.FC = () => {
                       <img
                         className="teamIcon"
                         src={
-                          (item?.profilepic).slice(0,4) === "data"
+                          (item?.profilepic).slice(0, 4) === "data"
                             ? `${item.profilepic}`
                             : `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
                         }

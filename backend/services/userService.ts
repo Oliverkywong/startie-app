@@ -60,25 +60,24 @@ export class YourHaveJoinedThisEventError extends Error {
 export class UserService {
   constructor(private knex: Knex) {}
 
-  // -------------------------------------------------------------------------------------------------------------------
-  // Apple login
-  // -------------------------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------------
+// Apple login
+// -------------------------------------------------------------------------------------------------------------------
   async socialLogin(email: string){
     const userEmailRecord = await this.knex<User>("user")
-        .select("*")
-        .where("email", email)
-        .returning('id')
-        if (userEmailRecord.length > 0) {
-          return {result:true ,userId:userEmailRecord[0].id}
-        }else {
-          return {result:false, userId:null}
-        }
-
+      .select("*")
+      .where("email", email)
+      .returning("id");
+    if (userEmailRecord.length > 0) {
+      return { result: true, userId: userEmailRecord[0].id };
+    } else {
+      return { result: false, userId: null };
+    }
   }
 
-  // -------------------------------------------------------------------------------------------------------------------
-  // Register ✅
-  // -------------------------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------------
+// Register ✅
+// -------------------------------------------------------------------------------------------------------------------
   async register(
     username: string,
     password: string,
@@ -86,7 +85,7 @@ export class UserService {
     phonenumber?: string,
     description?: string
   ) {
-    {
+    
       const userEmailRecord = await this.knex<User>("user")
         .select("*")
         .where("email", email);
@@ -106,19 +105,30 @@ export class UserService {
       if (!username || !password || !email) {
         throw new UserMissingRegisterInfoError();
       }
-    }
+    
 
     // insert user
-    const user = await this.knex<User>("user").insert({
-      username: username,
-      password: await hashPassword(password),
-      email: email,
-      status_id: 1,
-      profilepic: "tonystarkicon.png",
-      phonenumber: "0000000000"
-    }).returning('*')
+    const user = await this.knex<User>("user")
+      .insert({
+        username: username,
+        password: await hashPassword(password),
+        email: email,
+        status_id: 1,
+        profilepic: "tonystarkicon.png",
+        phonenumber: "0000000000",
+        shortDescription: "Short Description",
+        description: "Description",
+      })
+      .returning("*");
 
-    return {result:true ,user:user}
+    await this.knex<User_Tag>("user_tag")
+    .insert({
+      user_id: user[0].id,
+      tag_id: 1,
+    })
+    .returning("*");
+
+    return { result: true, user: user };
   }
   // -------------------------------------------------------------------------------------------------------------------
   // Login ✅
@@ -183,7 +193,7 @@ export class UserService {
       )
       .join("status as s", "status_id", "s.id")
       .leftJoin("user_tag", "user.id", "user_tag.user_id")
-      .join("tag as t", "user_tag.tag_id", "t.id")
+      .leftJoin("tag as t", "user_tag.tag_id", "t.id")
       .groupBy("user.id", "s.id");
 
     if (input.name) {
@@ -221,14 +231,20 @@ export class UserService {
     if (input.isadmin) {
       query = query.having("isadmin", "=", `${input.isadmin}`);
     }
-    if (show) {
-      query = query.orderBy(`${input._sort}`, `${input._order}`)
+
+    let allUserCount = await query
+
+    if (show && input._sort && input._order && input._start && input._end) {
+      query = query
+      .orderBy(`${input._sort}`, `${input._order}`)
+      .limit(input._end - input._start)
+      .offset(input._start);
     } else {
-      query = query.orderBy('id', 'asc').where('status_id', 1)
+      query = query.orderBy("id", "asc").where("status_id", 1);
     }
     let user = await query;
 
-    return { user };
+    return { user: user, count: allUserCount.length };
   }
   // -------------------------------------------------------------------------------------------------------------------
   // get all User List
@@ -258,6 +274,7 @@ export class UserService {
         profilepic: input.profilepic,
         isadmin: input.isadmin,
         phonenumber: input.phonenumber,
+        shortDescription: input.shortDescription,
         description: input.description,
         status_id: input.status_id,
       })
@@ -270,13 +287,13 @@ export class UserService {
   // edit User Info
   // -------------------------------------------------------------------------------------------------------------------
   async editUser(
-    userId:number,
-    name:string,
-    phonenumber:string,
-    shortDescription:string,
-    description:string,
-    profilepic:string,
-    goodat:number,
+    userId: number,
+    name: string,
+    phonenumber: string,
+    shortDescription: string,
+    description: string,
+    profilepic: string,
+    goodat: number
   ) {
     const userRecord = await this.knex<User>("user")
       .update({
@@ -288,14 +305,13 @@ export class UserService {
       })
       .where("id", userId)
       .returning("*");
-    
-      await this.knex<User_Tag>("user_tag")
+
+    await this.knex<User_Tag>("user_tag")
       .insert({
         user_id: userRecord[0].id,
-        tag_id: goodat
+        tag_id: goodat,
       })
       .returning("*");
-    
 
     return userRecord;
   }
@@ -317,15 +333,15 @@ export class UserService {
   // -------------------------------------------------------------------------------------------------------------------
   async joinTeam(teamId: number, userId: number) {
     const joinTeamRecord = await this.knex<User_Team>("user_team")
-    .select("*")
-    .where("user_id",userId)
-    .andWhere("team_id", teamId);
+      .select("*")
+      .where("user_id", userId)
+      .andWhere("team_id", teamId);
 
     if (joinTeamRecord.length > 0) {
       throw new YourHaveJoinedThisTeamError();
     }
 
-     return await this.knex<User_Team>("user_team")
+    return await this.knex<User_Team>("user_team")
       .insert({
         user_id: userId,
         team_id: teamId,
@@ -352,10 +368,10 @@ export class UserService {
   // -------------------------------------------------------------------------------------------------------------------
   async joinEvent(userId: number, eventId: number) {
     const joinEventRecord = await this.knex("user_event")
-    .select("*")
-    .where("user_id",userId)
-    .andWhere("event_id", eventId);
-    
+      .select("*")
+      .where("user_id", userId)
+      .andWhere("event_id", eventId);
+
     if (joinEventRecord.length > 0) {
       throw new YourHaveJoinedThisEventError();
     }
@@ -367,6 +383,15 @@ export class UserService {
         isfollow: false,
       })
       .returning("*");
+  }
+  // -------------------------------------------------------------------------------------------------------------------
+  // quit event
+  // -------------------------------------------------------------------------------------------------------------------
+  async quitEvent(userId: number, eventId: number) {
+    return await this.knex("user_event")
+      .where("user_id", userId)
+      .andWhere("event_id", eventId)
+      .del();
   }
   // -------------------------------------------------------------------------------------------------------------------
   //get notification
