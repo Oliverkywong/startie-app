@@ -31,25 +31,19 @@ export default function SearchPage() {
   const [event, setEvent] = useState(false);
 
   const searchfetch = async (e: { target: { value: string } }) => {
-    const searchText = e.target.value
+    const searchText = e.target.value;
     const teamreq = searchText.replace(/[^a-zA-Z ]/g, "");
-    const teamres = await fetch(
-      `${API_ORIGIN}/app/team/?q=${teamreq}`
-    );
+    const teamres = await fetch(`${API_ORIGIN}/app/team/?q=${teamreq}`);
     const teamresult = await teamres.json();
     setTeamData(teamresult.teams.rows);
 
     const userreq = searchText.replace(/[^a-zA-Z ]/g, "");
-    const userres = await fetch(
-      `${API_ORIGIN}/app/user/?q=${userreq}`
-    );
+    const userres = await fetch(`${API_ORIGIN}/app/user/?q=${userreq}`);
     const userresult = await userres.json();
     setUserData(userresult.user);
 
     const eventreq = searchText.replace(/[^a-zA-Z ]/g, "");
-    const eventres = await fetch(
-      `${API_ORIGIN}/app/event/?q=${eventreq}`
-    );
+    const eventres = await fetch(`${API_ORIGIN}/app/event/?q=${eventreq}`);
     const eventresult = await eventres.json();
     setEventData(eventresult.events);
   };
@@ -121,7 +115,7 @@ export default function SearchPage() {
                     <img
                       className="teamIcon"
                       src={
-                        item?.profilepic !== undefined || null
+                        item?.profilepic !== null
                           ? (item?.profilepic).slice(0, 4) === "data"
                             ? `${item.profilepic}`
                             : `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
@@ -158,7 +152,7 @@ export default function SearchPage() {
                       <img
                         className="teamIcon"
                         src={
-                          item?.profilepic !== undefined || null
+                          item?.profilepic !== null
                             ? (item?.profilepic).slice(0, 4) === "data"
                               ? `${item.profilepic}`
                               : `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
@@ -211,9 +205,11 @@ export default function SearchPage() {
                   <div className="eventData">
                     <IonImg
                       src={
-                        item?.event_provider_profile_pic != null
-                          ? `${API_ORIGIN}/userUploadedFiles/${item.event_provider_profile_pic}`
-                          : "StartieLogo.png"
+                        item?.event_profilepic !== null
+                          ? (item?.event_profilepic).slice(0, 4) === "data"
+                            ? `${item.event_profilepic}`
+                            : `${API_ORIGIN}/userUploadedFiles/${item.event_profilepic}`
+                          : "https://www.w3schools.com/howto/img_avatar.png"
                       }
                       style={{ width: "10%", height: "10%" }}
                     />

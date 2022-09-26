@@ -14,9 +14,10 @@ import {
 import React, { useLayoutEffect, useState } from "react";
 import logo from "../img/logo.png";
 import "./css/Notification.css";
-import { OneSignal } from '@awesome-cordova-plugins/onesignal';
+import { OneSignal } from "@awesome-cordova-plugins/onesignal";
 import { Note } from "../model";
 import { API_ORIGIN } from "../utils/api";
+import moment from "moment";
 
 const Notification: React.FC = () => {
   const [data, setData] = useState<Note[]>([]);
@@ -37,19 +38,19 @@ const Notification: React.FC = () => {
   //   OneSignal.endInit();
   // }, []);
 
-  
-
   useLayoutEffect(() => {
     (async function () {
       const res = await fetch(`${API_ORIGIN}/user/me/note`, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
       const result = await res.json();
+      console.log(result);
+
       setData(result);
-    })()
-  }, [])
+    })();
+  }, []);
 
   return (
     <IonPage>
@@ -62,22 +63,17 @@ const Notification: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonList>
-          {data.map((item) => {
-            return (
-              <IonItem key={item.id}>
-                <div className="note">
-                  <div className="event">
-                    <IonImg src={logo} style={{ width: "10%" }} />
-                    <div className="eventinfo">
-                      <IonLabel>{item.content}</IonLabel>
-                      <IonLabel>Send at: {item.created_at.slice(0, 10)}</IonLabel>
-                    </div>
-                  </div>
-                </div>
-              </IonItem>)
-          })}
-        </IonList>
+        {data.map((item) => {
+          return (
+            <div key={item.id} className="note">
+              <IonImg src={logo} style={{ width: "10%" }} />
+              <div>
+                <p>{item.content}</p>
+                <p>Send at: {moment(item.created_at).format("DD MMM YYYY")}</p>
+              </div>
+            </div>
+          );
+        })}
       </IonContent>
     </IonPage>
   );

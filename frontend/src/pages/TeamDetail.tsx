@@ -27,9 +27,7 @@ const TeamDetail: React.FC = () => {
 
   useLayoutEffect(() => {
     (async function () {
-      const res = await fetch(
-        `${API_ORIGIN}/app/team/${match?.params.id}`
-      );
+      const res = await fetch(`${API_ORIGIN}/app/team/${match?.params.id}`);
       const item = await res.json();
 
       setData(item.team);
@@ -81,7 +79,7 @@ const TeamDetail: React.FC = () => {
               <img
                 className="teamThumbnail"
                 src={
-                  item?.profilepic !== undefined || null
+                  item?.profilepic !== null
                     ? (item?.profilepic).slice(0, 4) === "data"
                       ? `${item.profilepic}`
                       : `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
@@ -105,7 +103,6 @@ const TeamDetail: React.FC = () => {
           );
         })}
         <div className="teamDetailButtonContainer">
-          <button className="chatButton">Chat</button>
 
           <button className="joinButton" onClick={joinTeam}>
             Join
@@ -115,17 +112,21 @@ const TeamDetail: React.FC = () => {
         <div className="teamDetailMemeberContainer">
           {teamMember.map((item) => {
             return (
-              <div className="teamDetailMemeber" key={item.id}
-              onClick={() => {
-                router.push(`/tab/user/${item.id}`);
-              }}
+              <div
+                className="teamDetailMemeber"
+                key={item.id}
+                onClick={() => {
+                  router.push(`/tab/user/${item.id}`);
+                }}
               >
                 <img
                   className="teamDetailMemeberThumbnail"
                   src={
-                    item?.profilepic != null
-                      ? `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
-                      : "StartieLogo.png"
+                    item?.profilepic !== null
+                      ? (item?.profilepic).slice(0, 4) === "data"
+                        ? `${item.profilepic}`
+                        : `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
+                      : "https://www.w3schools.com/howto/img_avatar.png"
                   }
                 />
                 <div className="teamDetailCaption">

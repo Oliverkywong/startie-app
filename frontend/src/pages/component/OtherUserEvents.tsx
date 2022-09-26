@@ -23,8 +23,10 @@ export default function UserEvents(props: { event: EventInfo[] }) {
             >
               <IonImg
                 src={
-                  event?.profilepic != null
-                    ? `${API_ORIGIN}/userUploadedFiles/${event.profilepic}`
+                  event?.profilepic !== null
+                    ? (event?.profilepic).slice(0, 4) === "data"
+                      ? `${event.profilepic}`
+                      : `${API_ORIGIN}/userUploadedFiles/${event.profilepic}`
                     : "https://www.w3schools.com/howto/img_avatar.png"
                 }
                 style={{ width: "50px", height: "50px" }}
