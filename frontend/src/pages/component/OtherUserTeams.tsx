@@ -15,7 +15,7 @@ export default function OtherUserTeams(props: { team: Team[] }) {
           <div
             className="userTeam"
             key={team.id}
-            onClick={() => router.push(`team/${team.id}`)}
+            onClick={() => router.push(`/tab/team/${team.id}`)}
           >
             <IonImg
               src={
