@@ -33,11 +33,10 @@ export default function UserEdit() {
       const lookres = await fetch(`${API_ORIGIN}/tag`, {
         headers: {
           Authorization: `Bearer ${localtoken}`,
-        }
+        },
       });
       const lookresult = await lookres.json();
       setLook(lookresult);
-
     })();
   }, []);
 
@@ -85,27 +84,28 @@ export default function UserEdit() {
               {
                 method: "PUT",
                 headers: {
-                  'Content-Type': 'application/json',
+                  "Content-Type": "application/json",
                   Authorization: `Bearer ${localtoken}`,
                 },
-                body: JSON.stringify({ data: data, img: image })
+                body: JSON.stringify({ data: data, img: image }),
               }
             );
-            const result = await res.json()
+            const result = await res.json();
             if (result.result) {
-              console.log(result.userInfo)
+              console.log(result.userInfo);
               dispatch(loadUserInfo(result.userInfo));
               router.goBack();
             }
           })}
         >
-          <img className="userEditIcon"
+          <img
+            className="userEditIcon"
             src={
-              image === null ?
-                ((userdetails!.profilepic).slice(0, 4) === "data"
+              userdetails!.profilepic !== null
+                ? userdetails!.profilepic.slice(0, 4) === "data"
                   ? `${userdetails!.profilepic}`
-                  : `${API_ORIGIN}/userUploadedFiles/${userdetails!.profilepic}`)
-                : image
+                  : `${API_ORIGIN}/userUploadedFiles/${userdetails!.profilepic}`
+                : "https://www.w3schools.com/howto/img_avatar.png"
             }
           />
           <label className="formTitle">Icon:</label>
@@ -143,9 +143,7 @@ export default function UserEdit() {
             Good at:
           </label>
           <select id="dropdownList" className="formDropdownSelect" required>
-            <option value="" >
-              Select one
-            </option>
+            <option value="">Select one</option>
             {look.map((item) => (
               <option
                 className="formDropdownList"
