@@ -19,10 +19,10 @@ import "./css/Common.css";
 import "./css/Profile.css";
 import User from "./component/UserInfo";
 import UserStats from "./component/UserStats";
-import UserTeams from "./component/UserTeams";
 import { useRouteMatch } from "react-router";
 import { UserInfo } from "../model";
 import { API_ORIGIN } from "../utils/api";
+import OtherUserTeams from "./component/OtherUserTeams";
 
 const rootinfo = {
   id: 0,
@@ -158,7 +158,7 @@ const OtherUserProfile: React.FC = () => {
               skillPoint={skillPoint}
             />
           )}
-          {team && <UserTeams team={userBelongsTeam} />}
+          {team && <OtherUserTeams team={userBelongsTeam} />}
         </div>
       </IonContent>
     </IonPage>
