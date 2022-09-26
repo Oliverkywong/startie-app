@@ -25,6 +25,7 @@ export interface EventInfo {
   provider_name: string;
   event_name: string;
   name: string;
+  profilepic: string;
   description: string;
   event_profilepic: string;
   event_provider_profile_pic: string;
