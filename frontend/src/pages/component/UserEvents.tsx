@@ -9,7 +9,6 @@ import "../css/UserEvent.css";
 
 export default function UserEvents(props: { event: EventInfo[] }) {
   const router = useIonRouter();
-  console.log(props.event);
 
   return (
     <>

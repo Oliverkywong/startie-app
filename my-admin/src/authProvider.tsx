@@ -2,7 +2,6 @@ import Dashboard from "./Dashboard";
 
 const authProvider = {
     // called when the user attempts to log in
-    //https://api.startie.oliverstrat.me/login
     login: async({ username, password }:{username:string, password:string}) =>  {
        try{
         const res = await fetch('https://api.startie.oliverstrat.me/login', {
@@ -64,10 +63,7 @@ const authProvider = {
   },
   // called when the user navigates to a new location, to check for permissions / roles
   getPermissions: () => Promise.resolve(),
-  // {
-  //     const role = localStorage.getItem('role');
-  //     return Promise.resolve(role);
-  // },
+
   getIdentity: (): any => {
     return Promise.resolve({
       id: localStorage.getItem("login"),

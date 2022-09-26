@@ -27,8 +27,6 @@ const httpClient = (url:string, options :any= {}) => {
  };
 
 const dataProvider =  jsonServerProvider('https://api.startie.oliverstrat.me', httpClient);
-//http://localhost:8000
-
 
 const App = () => (
   <Admin dashboard={Dashboard} authProvider={authProvider} dataProvider={dataProvider} layout={MyLayout}>

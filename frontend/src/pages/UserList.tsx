@@ -28,7 +28,7 @@ const UserList: React.FC = () => {
     (async function () {
       const res = await fetch(`${API_ORIGIN}/app/user`);
       const result = await res.json();
-      console.log(result.user)
+      
       setData(result.user.slice(0, 10)); //remove.user after backend fix
       setFetchData(result.user);
       setI(10)
