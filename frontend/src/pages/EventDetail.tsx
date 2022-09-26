@@ -88,7 +88,9 @@ const EventDetail: React.FC = () => {
                 }
               />
               <h1 className="evenDetailTitle">{item.event_name}</h1>
+              <span className="eventDetailDescription">Short Description: </span>
               <p className="eventDetailDescription">{item.shortDescription}</p>
+              <span className="eventDetailDescription">Description: </span>
               <p className="eventDetailDescription">{item.description}</p>
 
               <div className="eventData">

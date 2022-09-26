@@ -36,18 +36,18 @@ export async function seed(knex: Knex): Promise<void> {
                 profilepic: "michaelicon.jpeg",
                 shortDescription: "Test",
                 description: "testing",
-                clickrate: 0,
+                clickrate: 700,
             },
             {
                 username: "Yeung",
                 password: c,
                 email: "yeung@gmail.com",
-                phonenumber: "54129917",
+                phonenumber: "54048869",
                 status_id: 1,
                 profilepic: "yeungicon.jpeg",
                 shortDescription: "Test",
                 description: "testing",
-                clickrate: 0,
+                clickrate: 700,
             },
             {
                 username: "Leo",
@@ -58,7 +58,7 @@ export async function seed(knex: Knex): Promise<void> {
                 profilepic: "leoicon.jpeg",
                 shortDescription: "Test",
                 description: "testing",
-                clickrate: 0,
+                clickrate: 700,
             },
         ])
         .into("user");
