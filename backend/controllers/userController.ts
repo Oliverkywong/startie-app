@@ -19,11 +19,10 @@ import { OAuth2Client } from "google-auth-library";
 import { UserListInput } from "../utils/api-types";
 
 export class UserController {
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {}
   // -------------------------------------------------------------------------------------------------------------------
   // Google Login
   // -------------------------------------------------------------------------------------------------------------------
-
   loginGoogle = async (req: express.Request, res: express.Response) => {
     try {
       const client = new OAuth2Client(process.env.GOOGLE_IOS_CLIENT_ID);
@@ -92,7 +91,7 @@ export class UserController {
         email
       );
 
-      const ecPrivateKey = await joseKey();
+      const ecPrivateKey = await joseKey(); // login after register
       const jwt = await new jose.SignJWT({
         "urn:example:claim": true,
         userId: req.body.user,
@@ -105,29 +104,29 @@ export class UserController {
 
       logger.info(`${username} logged in`);
 
-      res
-        .status(200)
-        .json({
-          result: true,
-          msg: "register success",
-          user: register,
-          jwt: jwt,
-        });
+      res.status(200).json({
+        result: true,
+        msg: "register success",
+        user: register,
+        jwt: jwt,
+      });
     } catch (err) {
       if (err instanceof UserDuplicateUsernameError) {
         res.status(500).json({ result: false, msg: "username already exists" });
       }
 
-      if (err instanceof UserDuplicateEmailError) {
-        res.status(500).json({ result: false, msg: "email already exists" });
+      else if (err instanceof UserDuplicateEmailError) {
+        res.status(501).json({ result: false, msg: "email already exists" });
       }
 
-      if (err instanceof UserMissingRegisterInfoError) {
-        res.status(500).json({ result: false, msg: "missing register info" });
+      else if (err instanceof UserMissingRegisterInfoError) {
+        res.status(502).json({ result: false, msg: "missing register info" });
+      } else{
+        
+        logger.error(err);
+        res.status(503).json({ result: false, msg: "register error" });
       }
 
-      logger.error(err);
-      res.status(500).json({ result: false, msg: "register error" });
     }
   };
 
@@ -146,6 +145,7 @@ export class UserController {
         "urn:example:claim": true,
         userId: user[0].id,
         username: user[0].username,
+        isadmin: user[0].isadmin
       }) // use private key to sign
         .setProtectedHeader({ alg: "ES256" })
         .setIssuedAt()
@@ -178,10 +178,12 @@ export class UserController {
         return res
           .status(500)
           .json({ result: false, msg: "The user is not active" });
+      } else {
+        logger.error(err);
+        return res.status(500).json({ result: false, msg: "login fail" });
+        
       }
 
-      logger.error(err);
-      return res.status(500).json({ result: false, msg: "login fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
@@ -279,7 +281,7 @@ export class UserController {
       let show = true;
       let json = await this.userService.getAllUser(input, show);
 
-      res.set("x-total-count", String(json.user?.length));
+      res.set("x-total-count", String(json.count));
       res.status(200).json(json.user);
     } catch (err) {
       logger.error(err);
@@ -293,12 +295,12 @@ export class UserController {
   editUser = async (req: express.Request, res: express.Response) => {
     try {
       const userId = req.user!.userId; //get userId from JWT
-      const name = req.body.data.name
-      const phonenumber = req.body.data.phone
-      const shortDescription = req.body.data.shortDescription
-      const description = req.body.data.Description
-      const profilepic = req.body.img
-      const goodat = parseInt(req.body.data.goodat)
+      const name = req.body.data.name;
+      const phonenumber = req.body.data.phone;
+      const shortDescription = req.body.data.shortDescription;
+      const description = req.body.data.Description;
+      const profilepic = req.body.img;
+      const goodat = parseInt(req.body.data.goodat);
 
       const userInfo = await this.userService.editUser(
         userId,
@@ -310,10 +312,13 @@ export class UserController {
         goodat
       );
       
+
+      // console.log(userInfo);
+
       res.status(200).json({
         result: true,
         msg: "Edit user profile success",
-        userInfo: userInfo[0]
+        userInfo: userInfo[0],
       });
     } catch (err) {
       logger.error(err);
@@ -429,9 +434,9 @@ export class UserController {
     }
   };
 
-  //-----------
-  // otheruserteam
-  //-----------
+  // -------------------------------------------------------------------------------------------------------------------
+  // check user other team info
+  // -------------------------------------------------------------------------------------------------------------------
   otheruserTeam = async (req: express.Request, res: express.Response) => {
     try {
       const userId = parseInt(req.params.id);
@@ -500,6 +505,21 @@ export class UserController {
       } else {
         res.status(500).json({ result: false, msg: "join event fail!!" });
       }
+    }
+  };
+  // -------------------------------------------------------------------------------------------------------------------
+  // user leave event
+  // -------------------------------------------------------------------------------------------------------------------
+  quitEvent = async (req: express.Request, res: express.Response) => {
+    try {
+      const userId = req.user!.userId;
+      const { eventId } = req.params;
+      const NumberEventId = parseInt(eventId);
+      const event = await this.userService.quitEvent(userId, NumberEventId);
+      res.json(event);
+    } catch (err) {
+      logger.error(err);
+      res.status(400).json({ result: false, msg: "quit event fail" });
     }
   };
   // -------------------------------------------------------------------------------------------------------------------

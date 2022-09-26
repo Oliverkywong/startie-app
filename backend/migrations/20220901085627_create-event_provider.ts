@@ -5,7 +5,7 @@ export async function up(knex: Knex): Promise<void> {
     await knex.schema.createTable("event_provider", (table) => {
       table.increments();
       table.text("profile_pic");
-      table.text("name");
+      table.text("name").unique().notNullable();
       table.timestamps(false, true);
     });
   }

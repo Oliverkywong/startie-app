@@ -42,13 +42,18 @@ export class EventProviderService {
         query = query.orderBy(`${input._sort}`, `${input._order}`)
       }
 
-      // if (input._end && input._start) {
-      //   query = query.offset(input._start).limit(input._end);
-      // }
+      const count = await query
+
+      if (input._sort && input._order && input._start && input._end) {
+        query = query
+        .orderBy(`${input._sort}`, `${input._order}`)
+        .limit(input._end - input._start)
+        .offset(input._start);
+      }
       
       let event_provider = await query
       
-      return {event_provider};
+      return {event_provider: event_provider, count: count.length};
   }
 
   // -------------------------------------------------------------------------------------------------------------------
@@ -66,7 +71,8 @@ export class EventProviderService {
   async updateEventProvidersForAdmin(eventId: number, input: EventProviderListInput) {
     const eventProviderInfo = await this.knex<Event_Provider>("event_provider")
       .update({
-        name: input.name
+        name: input.name,
+        profile_pic: input.profile_pic        
       })
       .where("id", eventId)
       .returning("*");

@@ -1,52 +1,13 @@
 # startie-app
 
-todolist
+Things we need to work on:
 
-- [ ] Login
-
-  - [x] basic login
-  - [ ] linkin login
-  - [ ] google login
-  - [ ] apple login
-
-- [x] Register
-
-  - [x] team register
-  - [x] user register
-  - [x] jobs register
-
-- [x] Info
-
-  - [x] team info
-  - [x] user info
-  - [x] events info
-  - [x] jobs info
-
-- [x] Update
-
-  - [x] team update
-  - [x] user update
-  - [x] events update
-  - [x] jobs update
-
-- [ ] Search
-
-  - [x] search team
-  - [ ] search user
-  - [ ] search events
-  - [ ] search jobs
-
-- [ ] Notification
-- [ ] Settings
-
-- [ ] followed media
-
-  - [ ] followed team
-  - [ ] followed user
-  - [ ] followed events
-  - [ ] followed jobs
-
-- [ ] Chat room
+[] quit event
+[] show what event you joined
+[] quit team
+[] select / join a new team when joining a event
+[] notifications
+[] auto login when toke are not expaired
 
 required / tools we need
 
@@ -66,3 +27,5 @@ required / tools we need
 - zxcvbn
 - cors
 - formiddable
+- react admin
+- one signal

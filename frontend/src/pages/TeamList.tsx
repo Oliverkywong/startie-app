@@ -26,24 +26,24 @@ const TeamList: React.FC = () => {
   const [i, setI] = useState(10);
   const router = useIonRouter();
 
-  const isInfiniteDisabled = data.length >= fetchData.length
+  const isInfiniteDisabled = data.length >= fetchData.length;
 
   useEffect(() => {
-     (async function () {
+    (async function () {
       const res = await fetch(`${API_ORIGIN}/app/team`);
       const result = await res.json();
-      let newTeams = result.teams.rows
-      
+      let newTeams = result.teams;
+
       setData(newTeams.slice(0, 10));
       setFetchData(newTeams);
-      setI(10)
+      setI(10);
     })();
   }, []);
 
   const pushData = () => {
     let sliceData = fetchData.slice(i, i + 10);
-    setI(i=>i + 10);
-    setData(data=>[...data, ...sliceData]);
+    setI((i) => i + 10);
+    setData((data) => [...data, ...sliceData]);
   };
 
   const loadData = (ev: any) => {
@@ -55,7 +55,7 @@ const TeamList: React.FC = () => {
   };
 
   // useIonViewWillEnter(() => {
-    // pushData();
+  // pushData();
   // },[]);
 
   // console.log('render:',{i,data:data.length,fetchData:fetchData.length})
@@ -96,9 +96,11 @@ const TeamList: React.FC = () => {
                   <img
                     className="teamIcon"
                     src={
-                      (item?.profilepic).slice(0,4) === "data"
-                        ? `${item.profilepic}`
-                        : `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
+                      item?.profilepic !== undefined || null
+                        ? (item?.profilepic).slice(0, 4) === "data"
+                          ? `${item.profilepic}`
+                          : `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
+                        : "https://www.w3schools.com/howto/img_avatar.png"
                     }
                   />
                   <IonCardTitle className="teamTitle">{item.name}</IonCardTitle>

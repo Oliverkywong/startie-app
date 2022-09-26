@@ -4,7 +4,8 @@ const authProvider = {
     // called when the user attempts to log in
     //https://api.startie.oliverstrat.me/login
     login: async({ username, password }:{username:string, password:string}) =>  {
-       try{const res = await fetch('http://localhost:8000/login', {
+       try{
+        const res = await fetch('http://localhost:8000/login', {
         method: 'POST',
         body: JSON.stringify({ username, password }),
         headers: new Headers({ "Content-Type": "application/json" }),
@@ -40,10 +41,11 @@ const authProvider = {
   // called when the API returns an error
   checkError: (error: any) => {
     const status = error.status;
-    if (status === 401 || status === 403) {
-      localStorage.removeItem("token");
-      return Promise.reject();
-    }
+        if (status === 401 || status === 403) {
+        localStorage.removeItem("token");
+        return Promise.reject();
+      }
+
     // other error code (404, 500, etc): no need to log out
     return Promise.resolve();
   },

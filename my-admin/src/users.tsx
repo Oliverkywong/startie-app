@@ -17,9 +17,13 @@ import {
   SimpleShowLayout,
   RichTextField,
   BulkExportButton,
-  Toolbar,
   SaveButton,
+  email,
+  useListContext,
 } from "react-admin";
+import { Button, Toolbar } from '@mui/material';
+import ChevronLeft from '@mui/icons-material/ChevronLeft';
+import ChevronRight from '@mui/icons-material/ChevronRight';
 
 const DescriptionShow = () => (
   <SimpleShowLayout>
@@ -40,6 +44,7 @@ const UserEditToolbar = (props:any) => (
 );
 
 export const UserList = () => (
+  // pagination={<PostPagination />}
   <List filters={getUserFilters()} >
     <Datagrid size="small" rowClick="edit" expand={<DescriptionShow />} bulkActionButtons={<PostBulkActionButtons />}>
       <TextField source="id" />
@@ -48,7 +53,8 @@ export const UserList = () => (
       <TextField source="phonenumber" label="Phone" />
       <TextField source="status" />
       <BooleanField source="isadmin" label="Admin" />
-      <TextField source="created_at" sortable={false}/>
+      <TextField source="created_at"/>
+      <TextField source="shortDescription"/>
       <TextField source="profilepic" label="Profile pic" sortable={false} />
     </Datagrid>
   </List>
@@ -58,8 +64,9 @@ export const UserEdit = (props: any) => (
   <Edit {...props}>
     <SimpleForm toolbar={<UserEditToolbar />}>
       <TextInput disabled source="id" />
-      <TextInput disabled source="username" resettable />
-      <TextInput disabled source="email" resettable />
+      <TextInput disabled source="username" />
+      <TextInput disabled source="email" />
+      <TextInput disabled source="tags" fullWidth />
       <BooleanInput source="isadmin" label="Admin"/>
       <TextInput source="phonenumber" label="Phone"/>
       <SelectInput
@@ -72,6 +79,7 @@ export const UserEdit = (props: any) => (
           { id: 3, name: "Pending" },
         ]}
       />
+      <TextInput multiline source="shortDescription" fullWidth resettable />
       <TextInput multiline source="description" fullWidth resettable />
       <SelectInput
         source="profilepic"
@@ -87,7 +95,7 @@ export const UserCreate = (props: any) => (
     <SimpleForm>
       <TextInput source="username" validate={[required()]} />
       <PasswordInput source="password" validate={[required()]} />
-      <TextInput source="email" validate={[required()]} />
+      <TextInput source="email" validate={[required(), email()]} />
     </SimpleForm>
   </Create>
 );
@@ -99,6 +107,7 @@ const getUserFilters = () =>
     <TextInput source="phonenumber" label="Phone"/>,
     <TextInput source="email" />,
     <TextInput source="description" />,
+    <TextInput source="shortDescription" />,
     <SelectInput
       source="status_id"
       choices={[

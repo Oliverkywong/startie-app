@@ -40,7 +40,7 @@ const EventEditToolbar = (props: any) => (
 );
 
 export const EventList = (props: any) => (
-  <List filters={getUserFilters()}>
+  <List filters={getEventFilters()}>
     <Datagrid
       size="small"
       rowClick="edit"
@@ -60,8 +60,8 @@ export const EventList = (props: any) => (
       </ReferenceField>
       <TextField source="status" />\
       <TextField source="maxteammember" />
-      <TextField source="shortDescription" sortable={false} />
-      <TextField source="event_profilepic" label="Profile pic" sortable={false} />
+      <TextField source="shortDescription" />
+      <TextField source="event_profilepic" label="Profile pic"/>
     </Datagrid>
   </List>
 );
@@ -131,7 +131,8 @@ export const EventCreate = (props: any) => (
           { id: 5, name: "Others" },
         ]}
       />
-      <TextInput multiline source="description" fullWidth resettable/>
+      <TextInput multiline source="shortDescription" fullWidth resettable/>
+      <TextInput multiline source="description" fullWidth resettable/>     
       <ReferenceInput 
         label="Provider"
         source="event_provider_id"
@@ -143,10 +144,19 @@ export const EventCreate = (props: any) => (
   </Create>
 );
 
-const getUserFilters = () =>
+const getEventFilters = () =>
   [
     <SearchInput source="q" alwaysOn />,
     <TextInput source="name" />,
+    <SelectInput
+    source="searchcategory_id"
+    choices={[
+      { id: 1, name: "Business" },
+      { id: 2, name: "Startup" },
+      { id: 3, name: "Investment" },
+      { id: 4, name: "Hackathon" },
+      { id: 5, name: "Others" },
+    ]} label="Category"/>,
     <SelectInput
       source="status_id"
       choices={[
@@ -155,6 +165,14 @@ const getUserFilters = () =>
         { id: 3, name: "Pending" },
       ]}
     />,
+    <ReferenceInput 
+        label="Provider"
+        source="event_provider_id"
+        reference="event_provider"
+      >
+        <AutocompleteInput  fullWidth label="Provider" validate={required()}/>
+      </ReferenceInput>,
     <NumberInput source="maxteammember" min={0} />,
     <TextInput source="description" />,
+    <TextInput source="shortDescription" label="Short Description" />
   ].filter((filter) => filter !== null);

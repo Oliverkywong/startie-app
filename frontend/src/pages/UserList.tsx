@@ -28,7 +28,7 @@ const UserList: React.FC = () => {
     (async function () {
       const res = await fetch(`${API_ORIGIN}/app/user`);
       const result = await res.json();
-
+      console.log(result.user)
       setData(result.user.slice(0, 10)); //remove.user after backend fix
       setFetchData(result.user);
       setI(10)
@@ -80,7 +80,11 @@ const UserList: React.FC = () => {
                 >
                   <img
                     className="teamIcon"
-                    src={`${API_ORIGIN}/userUploadedFiles/${item.profilepic}`}
+                    src={
+                      (item?.profilepic).slice(0, 4) === "data"
+                        ? `${item.profilepic}`
+                        : `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
+                    }
                   />
 
                   <p className="teamTitle">{item.username}</p>

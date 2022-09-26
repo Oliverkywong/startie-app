@@ -50,22 +50,19 @@ const OtherUserProfile: React.FC = () => {
 
   useLayoutEffect(() => {
     (async function () {
-      const res = await fetch(
-        `${API_ORIGIN}/user/${match?.params.id}`
-      );
+      const res = await fetch(`${API_ORIGIN}/app/user/${match?.params.id}`);
 
       const data = await res.json();
       setData(data);
 
       const selfTeam = await fetch(
-        `${API_ORIGIN}/user/team/${match?.params.id}`);
+        `${API_ORIGIN}/user/team/${match?.params.id}`
+      );
       const userTeam = await selfTeam.json();
-      
+
       setUserBelongsTeam(userTeam);
 
-      const skillres = await fetch(
-        `${API_ORIGIN}/skill/${match?.params.id}`
-      );
+      const skillres = await fetch(`${API_ORIGIN}/skill/${match?.params.id}`);
 
       const skilldetails = await skillres.json();
 
@@ -102,8 +99,10 @@ const OtherUserProfile: React.FC = () => {
             <IonImg
               className="profilepic"
               src={
-                data?.profilepic != null
-                  ? `${API_ORIGIN}/userUploadedFiles/${data.profilepic}`
+                data?.profilepic !== undefined || null
+                  ? (data?.profilepic).slice(0, 4) === "data"
+                    ? `${data.profilepic}`
+                    : `${API_ORIGIN}/userUploadedFiles/${data.profilepic}`
                   : "https://www.w3schools.com/howto/img_avatar.png"
               }
             />

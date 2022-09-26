@@ -50,30 +50,24 @@ const Profile: React.FC = () => {
   useLayoutEffect(() => {
     (async function () {
       const localtoken = localStorage.getItem("token");
-      if (localtoken === null) {
+      if (localtoken === null || localtoken === undefined) {
         router.push("/tab/login");
       }
 
-      const res = await fetch(
-        `${API_ORIGIN}/app/user/${userdetails?.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localtoken}`,
-          },
-        }
-      );
-      const selfTeam = await fetch(
-        `${API_ORIGIN}/user/me/team`,
-        {
-          headers: {
-            Authorization: `Bearer ${localtoken}`,
-          },
-        }
-      );
+      const res = await fetch(`${API_ORIGIN}/app/user/${userdetails?.id}`, {
+        headers: {
+          Authorization: `Bearer ${localtoken}`,
+        },
+      });
+      const selfTeam = await fetch(`${API_ORIGIN}/user/me/team`, {
+        headers: {
+          Authorization: `Bearer ${localtoken}`,
+        },
+      });
       const userTeam = await selfTeam.json();
+      console.log(userTeam);
+
       setUserBelongsTeam(userTeam);
-
-
 
       const skillres = await fetch(`${API_ORIGIN}/skill/${userdetails.id}`, {
         headers: {
@@ -116,8 +110,10 @@ const Profile: React.FC = () => {
             <IonImg
               className="profilepic"
               src={
-                userdetails?.profilepic != null
-                  ? `${API_ORIGIN}/userUploadedFiles/${userdetails.profilepic}`
+                userdetails?.profilepic !== undefined || null
+                  ? (userdetails?.profilepic).slice(0, 4) === "data"
+                    ? `${userdetails.profilepic}`
+                    : `${API_ORIGIN}/userUploadedFiles/${userdetails.profilepic}`
                   : "https://www.w3schools.com/howto/img_avatar.png"
               }
             />

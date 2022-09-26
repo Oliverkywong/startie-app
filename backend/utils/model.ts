@@ -7,8 +7,8 @@ export interface User {
   status_id: number | string;
   profilepic: string;
   phonenumber: string | number;
-  description: string;
   shortDescription: string;
+  description: string;
   clickrate: number;
   team_id: number;
   event_id: number;
@@ -21,7 +21,7 @@ export interface Team {
   shortDescription: string;
   description?: string;
   profilepic?: string;
-  status_id: number;
+  status_id: number | string;
   clickrate: number;
 }
 
@@ -56,12 +56,13 @@ export interface Event {
   status_id: number | string;
   clickrate: number;
   searchcategory_id: number | string,
+  event_provider_id: number | string,
 }
 
 export interface Event_Provider {
   id: number;
   name: string;
-  profile_pic?: string;
+  profile_pic: string;
 }
 
 export interface User_Team {

@@ -7,13 +7,14 @@ export function teamRoutes(teamController: TeamController) {
   router.get("/app/team", teamController.getAllTeams);
 
   router.get("/app/team/:id", teamController.getTeam); //error when not logged in
-  router.post("/app/team", isLogin,teamController.createTeam); //✅ need to add isLogin, Admin cannot use, disable create team (formidable)
+  router.post("/app/team", isLogin,teamController.createTeam); //✅ need to add isLogin
   router.get("/teamtag", teamController.teamTag); 
   router.get("/category", teamController.getCategory); 
   router.get("/tag", teamController.getAllTag); 
   // ----------------------------Admin Routes-------------------------------------------------------------------------------
-  router.get("/team", isAdmin,teamController.getAllTeamsForAdmin);
+  router.get("/team", isAdmin, teamController.getAllTeamsForAdmin);
+  router.post("/team", isAdmin, teamController.createTeamForAdmin);
   router.get("/team/:id", isAdmin, teamController.getTeamForAdmin);
-  router.put("/team/:id", isAdmin,teamController.updateTeamForAdmin);
+  router.put("/team/:id", isAdmin, teamController.updateTeamForAdmin);
   return router;
 }
