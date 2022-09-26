@@ -66,6 +66,8 @@ export const isAdmin = async (
 ) => {
   try {
     const jwt = permit.check(req);
+    console.log(jwt);
+    
     const publicKey = await josePublicKey();
     const { payload } = await jose.jwtVerify(jwt, publicKey);
 
