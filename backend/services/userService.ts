@@ -57,6 +57,20 @@ export class YourHaveJoinedThisEventError extends Error {
   }
 }
 
+export class UserNameAlreadyExistError extends Error {
+  constructor(msg?: string) {
+    super(msg);
+    Object.setPrototypeOf(this, UserNameAlreadyExistError.prototype);
+  }
+}
+
+export class NotInTeamError extends Error {
+  constructor(msg?: string) {
+    super(msg);
+    Object.setPrototypeOf(this, NotInTeamError.prototype);
+  }
+}
+
 export class UserService {
   constructor(private knex: Knex) {}
 
@@ -83,8 +97,8 @@ export class UserService {
     username: string,
     password: string,
     email: string,
-    phonenumber?: string,
-    description?: string
+    phonenumber: string,
+    profilepic: string
   ) {
     const userEmailRecord = await this.knex<User>("user")
       .select("*")
@@ -120,14 +134,14 @@ export class UserService {
       })
       .returning("*");
 
-    await this.knex<User_Tag>("user_tag")
+    const user_tag = await this.knex<User_Tag>("user_tag")
       .insert({
         user_id: user[0].id,
         tag_id: 1,
       })
       .returning("*");
 
-    return { result: true, user: user };
+    return { result: true, user: user, user_tag };
   }
   // -------------------------------------------------------------------------------------------------------------------
   // Login ✅
@@ -291,8 +305,12 @@ export class UserService {
     shortDescription: string,
     description: string,
     profilepic: string,
-    goodat: number
+    goodAt: number
   ) {
+    const user = await this.knex<User>("user")
+    .select("username")
+    .where("username", name)
+
     const userRecord = await this.knex<User>("user")
       .update({
         username: name,
@@ -304,12 +322,17 @@ export class UserService {
       .where("id", userId)
       .returning("*");
 
+      if (user.length > 0) {
+        throw new UserNameAlreadyExistError();
+      }
+
     await this.knex<User_Tag>("user_tag")
       .insert({
         user_id: userRecord[0].id,
-        tag_id: goodat,
+        tag_id: goodAt,
       })
       .returning("*");
+      
 
     return userRecord[0];
   }
@@ -355,10 +378,21 @@ export class UserService {
   // quit team
   // -------------------------------------------------------------------------------------------------------------------
   async quitTeam(userId: number, teamId: number) {
-    return await this.knex<User>("user_team")
+    const team = await this.knex<User_Team>("user_team")
+    .select("*")
+    .where("user_id", userId)
+    .andWhere("team_id", teamId)
+
+    if (team.length === 0) {
+      throw new NotInTeamError();
+    }
+
+     const quitTeam = await this.knex<User_Team>("user_team")
       .where("user_id", userId)
       .andWhere("team_id", teamId)
       .del();
+
+      return quitTeam
   }
 
   // -------------------------------------------------------------------------------------------------------------------

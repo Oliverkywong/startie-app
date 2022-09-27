@@ -17,17 +17,18 @@ export class TeamController {
       const name = req.body.data.teamName;
       const shortDescription = req.body.data.teamshortDescription;
       const description = req.body.data.teamDescription;
-      const profilepic = req.body.img;
-      const looking = parseInt(req.body.data.teamlooking);
+      const profilepic = req.body.img ? req.body.img : "tonystarkicon.png"
+      const looking = parseInt(req.body.data.teamlooking ? req.body.data.teamlooking : 1);
 
       const team = await this.teamService.createTeam(
         userId,
         name,
         searchcategory,
         shortDescription,
+        looking,
         description,
         profilepic,
-        looking
+        
       );
       res.status(200).json(team.teamInfo);
     } catch (err) {
