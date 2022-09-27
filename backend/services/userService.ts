@@ -97,8 +97,8 @@ export class UserService {
     username: string,
     password: string,
     email: string,
-    phonenumber: string,
-    profilepic: string
+    phonenumber?: string,
+    profilepic?: string
   ) {
     const userEmailRecord = await this.knex<User>("user")
       .select("*")

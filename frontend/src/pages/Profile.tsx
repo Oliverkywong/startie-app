@@ -60,10 +60,23 @@ const Profile: React.FC = () => {
 
   useLayoutEffect(() => {
     (async function () {
+      // const localtoken = localStorage.getItem("token");
+      // console.log(localtoken)
+      // if (localtoken === null || localtoken === undefined) {
+      //   router.push("/tab/login");
+      // }
+      // else {
+      //   const res = await fetch(`${API_ORIGIN}/app/user/me`, {
+      //     headers: {
+      //       Authorization: `Bearer ${localtoken}`,
+      //     },
+      //   });
+      //   const userRecord = await res.json();
+      //   console.log("hi")
+      //   dispatch(loadUserInfo(userRecord));
+      //   dispatch(loggedIn(userRecord, localtoken));
+      // }
       const localtoken = localStorage.getItem("token");
-      if (localtoken === null || localtoken === undefined) {
-        router.push("/tab/login");
-      }
       if (localtoken != null) {
         const res = await fetch(`${API_ORIGIN}/app/user/me`, {
           headers: {
@@ -71,9 +84,14 @@ const Profile: React.FC = () => {
           },
         });
         const userRecord = await res.json();
-        dispatch(loadUserInfo(userRecord));
-        dispatch(loggedIn(userRecord, localtoken));
+        if (userRecord.result) {
+          dispatch(loadUserInfo(userRecord));
+          dispatch(loggedIn(userRecord, localtoken));
+        } else {
+          router.push("/tab/login")
+        }
       }
+
 
       const res = await fetch(`${API_ORIGIN}/app/user/${userdetails?.id}`, {
         headers: {
