@@ -1,6 +1,7 @@
 .userEvent {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: flex-start;
+  column-gap: 20px;
   width: 100%;
 }

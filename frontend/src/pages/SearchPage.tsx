@@ -6,10 +6,6 @@ import {
   IonToolbar,
   IonContent,
   IonBackButton,
-  IonCard,
-  IonCardContent,
-  IonCardTitle,
-  IonCol,
   IonItem,
   IonLabel,
   IonSegment,
@@ -17,10 +13,13 @@ import {
   IonImg,
   IonIcon,
 } from "@ionic/react";
-import { search } from "ionicons/icons";
+import { search, shareOutline } from "ionicons/icons";
+import moment from "moment";
 import { useState } from "react";
 import { Team, UserInfo, EventInfo } from "../model";
 import { API_ORIGIN } from "../utils/api";
+import "./css/Common.css";
+import "./css/Team.css";
 export default function SearchPage() {
   const router = useIonRouter();
   const [userdata, setUserData] = useState<UserInfo[]>([]);
@@ -35,7 +34,9 @@ export default function SearchPage() {
     const teamreq = searchText.replace(/[^a-zA-Z ]/g, "");
     const teamres = await fetch(`${API_ORIGIN}/app/team/?q=${teamreq}`);
     const teamresult = await teamres.json();
-    setTeamData(teamresult.teams.rows);
+    console.log(teamresult);
+
+    setTeamData(teamresult.teams);
 
     const userreq = searchText.replace(/[^a-zA-Z ]/g, "");
     const userres = await fetch(`${API_ORIGIN}/app/user/?q=${userreq}`);
@@ -143,39 +144,40 @@ export default function SearchPage() {
           <div className="teamList homePageTeamList">
             {teamdata.map((item) => {
               return (
-                <IonCol key={item.id}>
-                  <div className="teamInfo">
-                    <IonCard
-                      className="teamCard"
-                      routerLink={`/tab/team/${item.id}`}
-                    >
-                      <img
-                        className="teamIcon"
-                        src={
-                          item?.profilepic !== null
-                            ? (item?.profilepic).slice(0, 4) === "data"
-                              ? `${item.profilepic}`
-                              : `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
-                            : "https://www.w3schools.com/howto/img_avatar.png"
-                        }
-                      />
+                <div
+                  key={item.id}
+                  className="teamInfo"
+                  onClick={() => {
+                    router.push(`/tab/team/${item.id}`);
+                  }}
+                >
+                  <img
+                    className="teamIcon"
+                    src={
+                      item?.profilepic !== null
+                        ? (item?.profilepic).slice(0, 4) === "data"
+                          ? `${item.profilepic}`
+                          : `${API_ORIGIN}/userUploadedFiles/${item.profilepic}`
+                        : "https://www.w3schools.com/howto/img_avatar.png"
+                    }
+                  />
 
-                      <IonCardTitle className="teamTitle">
-                        {item.name}
-                      </IonCardTitle>
+                  <p className="teamTitle">{item.name}</p>
 
-                      <IonCardContent className="teamContent">
-                        {item.description}
-                      </IonCardContent>
+                  <p className="teamContent">{item.shortDescription}</p>
 
-                      <div className="tag">
-                        {item.tags.map((tag) => {
-                          return <span key={tag}>{tag}</span>;
-                        })}
-                      </div>
-                    </IonCard>
+                  <span className="teamLookingFor">Looking for: </span>
+
+                  <div className="tag">
+                    {item.tags.map((tag) => {
+                      return <span key={tag}>{tag}</span>;
+                    })}
                   </div>
-                </IonCol>
+
+                  <div className="shareButton">
+                    <IonIcon icon={shareOutline} />
+                  </div>
+                </div>
               );
             })}
           </div>
@@ -189,7 +191,7 @@ export default function SearchPage() {
                   className="eventinfo"
                   key={item.id}
                   onClick={() => {
-                    router.push(`event/${item.id}`);
+                    router.push(`/tab/event/${item.id}`);
                   }}
                 >
                   <img
@@ -203,7 +205,7 @@ export default function SearchPage() {
 
                   <p className="eventTitle">{item.event_name}</p>
                   <div className="eventData">
-                    <IonImg
+                    <img
                       src={
                         item?.event_profilepic !== null
                           ? (item?.event_profilepic).slice(0, 4) === "data"
@@ -211,11 +213,13 @@ export default function SearchPage() {
                             : `${API_ORIGIN}/userUploadedFiles/${item.event_profilepic}`
                           : "https://www.w3schools.com/howto/img_avatar.png"
                       }
-                      style={{ width: "10%", height: "10%" }}
+                      style={{ width: "50px", height: "50px" }}
                     />
-                    <div className="">
+                    <div>
                       <p className="eventDescription">{item.description}</p>
-                      <p className="eventDate">Due: {item.starttime}</p>
+                      <p className="eventDate">
+                        Due: {moment(item.starttime).format("DD/MM/YYYY")}
+                      </p>
                     </div>
                   </div>
                 </div>
