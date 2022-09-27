@@ -88,7 +88,9 @@ export class UserController {
       const register = await this.userService.register(
         username,
         password,
-        email
+        email,
+        req.body.phonenumber,
+        req.body.description
       );
 
       const ecPrivateKey = await joseKey(); // login after register
@@ -293,7 +295,7 @@ export class UserController {
       const shortDescription = req.body.data.shortDescription;
       const description = req.body.data.Description;
       const profilepic = req.body.img;
-      const goodat = parseInt(req.body.data.goodat);
+      const goodAt = parseInt(req.body.data.goodat);
 
       const userInfo = await this.userService.editUser(
         userId,
@@ -302,7 +304,7 @@ export class UserController {
         shortDescription,
         description,
         profilepic,
-        goodat
+        goodAt
       );
 
       // console.log(userInfo);

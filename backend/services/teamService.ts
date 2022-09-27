@@ -7,7 +7,7 @@ export class TeamService {
   // -------------------------------------------------------------------------------------------------------------------
   // create team
   // -------------------------------------------------------------------------------------------------------------------
-  async createTeam(userId: number, name: string, searchcategory_id: number, shortDescription: string, description?: string, profilepic?: string, looking?:number) {
+  async createTeam(userId: number, name: string, searchcategory_id: number, shortDescription: string, looking:number, description?: string, profilepic?: string) {
     try {
       const teamInfo = await this.knex<Team>("team")
         .insert({
