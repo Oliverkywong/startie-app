@@ -181,21 +181,6 @@ export class UserController {
     }
   };
   // -------------------------------------------------------------------------------------------------------------------
-  // Logout
-  // -------------------------------------------------------------------------------------------------------------------
-  // logout = async (req: express.Request, res: express.Response) => {
-  //   try {
-  //     logger.info(`${req.user!.username} logging out`);
-
-  //     // req.session.destroy( () => {
-  //     //   res.status(500).json({ result: true, msg: "logout successful" });
-  //     // })
-  //   } catch (err) {
-  //     logger.error(err);
-  //     res.status(500).json({ result: false, msg: "logout error" });
-  //   }
-  // };
-  // -------------------------------------------------------------------------------------------------------------------
   // get self user Info
   // -------------------------------------------------------------------------------------------------------------------
   userInfo = async (req: express.Request, res: express.Response) => {
@@ -307,8 +292,6 @@ export class UserController {
         goodAt
       );
 
-      // console.log(userInfo);
-
       res.status(200).json({
         result: true,
         msg: "Edit user profile success",
@@ -325,13 +308,7 @@ export class UserController {
   editUserForAdmin = async (req: express.Request, res: express.Response) => {
     try {
       const userId = parseInt(req.params.id);
-
-      console.log("edit User", userId);
-
       const input: UserListInput = req.body;
-
-      // console.log(req.body);
-
       const userInfo = await this.userService.editUserForAdmin(userId, input);
 
       res.status(200).json({
@@ -474,7 +451,9 @@ export class UserController {
       const NumberTeamId = parseInt(teamId);
 
       const team = await this.userService.quitTeam(userId, NumberTeamId);
-      res.json(team);
+      res
+        .status(200)
+        .json({ team: team, result: true, msg: "quit team success!!" });
     } catch (err) {
       logger.error(err);
       res.status(400).json({ result: false, msg: "quit team fail" });
@@ -554,7 +533,6 @@ export class UserController {
         req.user?.userId != undefined
           ? Number(req.user.userId)
           : parseInt(req.params.id);
-      // console.log("userId", userId);
       const notification = await this.userService.getNotification(userId);
       res.json(notification);
     } catch (err) {

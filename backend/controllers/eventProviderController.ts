@@ -40,28 +40,6 @@ export class EventProviderController {
       res.status(500).json({ error: String(err) });
     }
   }
-  // -------------------------------------------------------------------------------------------------------------------
-  // get all events
-  // -------------------------------------------------------------------------------------------------------------------
-//   getAllEventProviders = async (req: Request, res: Response) => {
-//     try {
-
-//       // let show;
-//       // const name = req.query.name as string != undefined ? req.query.name as string : req.query.q as string;
-//       // const description = req.query.description as string;
-//       // const status:any = req.query.status_id;
-//       // const maxTeammember = parseInt(String(req.query.maxteammember));
-
-//       let input:EventListInput = req.query
-//       let show = false
-//       let json = await this.eventService.getAllEvents(input, show);
-
-//       res.status(200).json(json);
-//     } catch (err) {
-//       logger.error(err);
-//       res.status(500).json({ error: String(err) });
-//     }
-//   };
 // -------------------------------------------------------------------------------------------------------------------
 // get an event provider
 // -------------------------------------------------------------------------------------------------------------------

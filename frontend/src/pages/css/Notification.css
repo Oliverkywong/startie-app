@@ -1,3 +1,5 @@
-.note{
-    display: flex;
+.note {
+  display: flex;
+  column-gap: 10px;
+  text-overflow: ellipsis;
 }

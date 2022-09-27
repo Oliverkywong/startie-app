@@ -103,7 +103,6 @@ const TeamDetail: React.FC = () => {
           );
         })}
         <div className="teamDetailButtonContainer">
-          <button className="chatButton">Chat</button>
 
           <button className="joinButton" onClick={joinTeam}>
             Join

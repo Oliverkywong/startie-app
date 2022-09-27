@@ -27,13 +27,8 @@ export const isLogin = async (
 ) => {
   try {
     const jwt = permit.check(req); //get jwt from header
-
-    console.log("jwt:", jwt);
-
     const publicKey = await josePublicKey();
     const { payload } = await jose.jwtVerify(jwt, publicKey); //use the public key to verify the token
-
-    // console.log('payload:',payload);
 
     if (payload["userId"]) {
       req.user = {
@@ -66,12 +61,8 @@ export const isAdmin = async (
 ) => {
   try {
     const jwt = permit.check(req);
-    console.log(jwt);
-
     const publicKey = await josePublicKey();
     const { payload } = await jose.jwtVerify(jwt, publicKey);
-
-    console.log("payload:", payload);
 
     if (payload["isadmin"]) {
       req.user = {
