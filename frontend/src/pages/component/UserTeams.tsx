@@ -23,24 +23,25 @@ export default function UserTeams(props: {
               key={team.id}
               onClick={() => router.push(`/tab/team/${team.id}`)}
             >
-              <IonImg
-                src={
-                  team?.profilepic !== null
-                    ? (team?.profilepic).slice(0, 4) === "data"
-                      ? `${team.profilepic}`
-                      : `${API_ORIGIN}/userUploadedFiles/${team.profilepic}`
-                    : "https://www.w3schools.com/howto/img_avatar.png"
-                }
-                style={{ width: "50px", height: "50px" }}
-              />
+              <div className="selfUserTeamInfo">
+                <IonImg
+                  src={
+                    team?.profilepic !== null
+                      ? (team?.profilepic).slice(0, 4) === "data"
+                        ? `${team.profilepic}`
+                        : `${API_ORIGIN}/userUploadedFiles/${team.profilepic}`
+                      : "https://www.w3schools.com/howto/img_avatar.png"
+                  }
+                  style={{ width: "50px", height: "50px" }}
+                />
 
-              <div className="userTeamCaption">
-                <p className="userTeamTitle">{team.name}</p>
-                <span className="userTeamShortDescription">
-                  {team.shortDescription}
-                </span>
+                <div className="userTeamCaption">
+                  <p className="userTeamTitle">{team.name}</p>
+                  <span className="userTeamShortDescription">
+                    {team.shortDescription}
+                  </span>
+                </div>
               </div>
-
               <div>
                 <button
                   className="quitButton"
