@@ -33,12 +33,16 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>Startie want to use your Library for you to upload image</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Startie want to use your contacts</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Startie want to use your Location</string>
+	<string>Startie want to use your loaction</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Startie want to use your Library for you to upload image</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

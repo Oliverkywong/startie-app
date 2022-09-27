@@ -61,8 +61,12 @@ const Homepage: React.FC = () => {
           },
         });
         const userRecord = await res.json();
-        dispatch(loadUserInfo(userRecord));
-        dispatch(loggedIn(userRecord, localtoken));
+        if (userRecord.result) {
+          dispatch(loadUserInfo(userRecord));
+          dispatch(loggedIn(userRecord, localtoken));
+        } else {
+          router.push("/tab/login")
+        }
       }
 
       const teamRes = await fetch(`${API_ORIGIN}/app/team`, {
@@ -128,7 +132,7 @@ const Homepage: React.FC = () => {
                     ? router.push("/notification")
                     : router.push("/tab/login");
                 }}
-                // routerLink="/notification"
+              // routerLink="/notification"
               >
                 <IonIcon icon={notificationsOutline} />
               </IonButton>
