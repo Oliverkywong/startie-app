@@ -11,6 +11,7 @@ import {
   IonTitle,
   IonToolbar,
   useIonRouter,
+  useIonToast,
 } from "@ionic/react";
 
 import {
@@ -40,6 +41,7 @@ const Profile: React.FC = () => {
     (state: RootState) => state.userInfo.userinfo
   );
 
+  const [present] = useIonToast();
   const [sectorName, setSectorName] = useState<string[]>([]);
   const [skillName, setSkillName] = useState<string[]>([]);
   const [skillPoint, setSkillPoint] = useState<number[]>([]);
@@ -119,6 +121,24 @@ const Profile: React.FC = () => {
     })();
   }, []);
 
+  async function QuitTeam(teamId: number) {
+    const localtoken = localStorage.getItem("token");
+    const quitTeam = await fetch(`${API_ORIGIN}/user/me/team/${teamId}`, {
+      headers: {
+        Authorization: `Bearer ${localtoken}`,
+      },
+      method: "DELETE",
+    });
+
+    const quitTeamResult = await quitTeam.json();
+
+    present({
+      message: quitTeamResult.msg,
+      duration: 1500,
+      position: "middle",
+      cssClass: "backtoast",
+    });
+  }
   return (
     <IonPage>
       <IonHeader>
@@ -228,7 +248,7 @@ const Profile: React.FC = () => {
               email={userdetails?.email}
             />
           )}
-          {team && <UserTeams team={userBelongsTeam} />}
+          {team && <UserTeams team={userBelongsTeam} onQuitTeam={QuitTeam} />}
           {event && <UserEvents event={userBelongsEvent} />}
           {setting && <UserSettings />}
         </div>

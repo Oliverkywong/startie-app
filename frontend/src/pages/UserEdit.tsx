@@ -92,7 +92,6 @@ export default function UserEdit() {
             );
             const result = await res.json();
             if (result.result) {
-              console.log(result.userInfo);
               dispatch(loadUserInfo(result.userInfo));
               router.goBack();
             }
