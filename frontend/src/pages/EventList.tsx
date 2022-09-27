@@ -107,7 +107,7 @@ const EventList: React.FC = () => {
                   <div>
                     <p className="eventDescription">{item.provider_name}</p>
                     <p className="eventDate">
-                      Due: {moment().format(item.starttime)}
+                      Due: {moment(item.starttime).format("DD/MM/YYYY")}
                     </p>
                   </div>
                 </div>
