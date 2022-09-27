@@ -45,18 +45,17 @@ export interface Job {
 
 export interface Event {
   id: number;
-  event_name?: string;
-  name?:string;
-  description?: string;
+  name:string;
+  description: string;
   provider_name?: string;
-  shortDescription?: string;
-  maxteammember: number | string;
-  profilepic?: string;
-  starttime: Date | string;
-  status_id: number | string;
+  shortDescription: string;
+  maxteammember: number;
+  profilepic: string;
+  starttime: Date;
+  status_id: number ;
   clickrate: number;
-  searchcategory_id: number | string,
-  event_provider_id: number | string,
+  searchcategory_id: number,
+  event_provider_id: number ,
 }
 
 export interface Event_Provider {

@@ -28,11 +28,11 @@ export type EventListInput = { //input query from react admin
   event_provider_id?: number;
   provider_name?: string;
   profilepic?: string;
-  searchcategory_id?: number | string;
+  searchcategory_id?: number;
   description?: string;
   shortDescription?: string;
-  maxteammember?: number | string;
-  status_id?: number | string;
+  maxteammember?: number ;
+  status_id?: number;
 };
 // ====================================================================================================================
 export type TeamListData = {
