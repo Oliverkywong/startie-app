@@ -46,7 +46,7 @@ export class EventController {
     try {
       let input: EventListInput = req.query;
       let show = true;
-      let json = await this.eventService.getAllEvents(input, show);
+      let json = await this.eventService.getAllEvents(show, input );
 
       res.set("x-total-count", String(json.count));
       res.status(200).json(json.events);
@@ -62,7 +62,7 @@ export class EventController {
     try {
       let input: EventListInput = req.query;
       let show = false;
-      let json = await this.eventService.getAllEvents(input, show);
+      let json = await this.eventService.getAllEvents(show, input);
 
       res.status(200).json(json);
     } catch (err) {
