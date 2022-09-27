@@ -9,6 +9,8 @@
 
 .selfUserTeam {
   justify-content: space-between;
+  column-gap: 0;
+  flex-shrink: 0;
 }
 
 .userTeamCaption {
@@ -23,7 +25,14 @@
 }
 
 .userTeamShortDescription {
-  font-size: 15px;
+  font-size: 12px;
   text-align: center;
   margin-bottom: 10px;
+}
+
+.selfUserTeamInfo{
+  display:flex;
+  justify-content: flex-start;
+  align-items: center;
+  column-gap: 20px;
 }
