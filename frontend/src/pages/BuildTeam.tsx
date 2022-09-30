@@ -24,7 +24,7 @@ const BuildTeam: React.FC = () => {
 
   useLayoutEffect(() => {
     (async function () {
-      const localtoken = localStorage.getItem("token");
+      const localtoken = localStorage.getItem("token"); // why not reudx?
       if (localtoken === null) {
         router.push("/tab/login");
       }
@@ -32,7 +32,7 @@ const BuildTeam: React.FC = () => {
       const res = await fetch(`${API_ORIGIN}/category`, {
         headers: {
           Authorization: `Bearer ${localtoken}`,
-        }
+        },
       });
       const teamcategory = await res.json();
       setTeamcategory(teamcategory);
@@ -40,11 +40,10 @@ const BuildTeam: React.FC = () => {
       const lookres = await fetch(`${API_ORIGIN}/tag`, {
         headers: {
           Authorization: `Bearer ${localtoken}`,
-        }
+        },
       });
       const lookresult = await lookres.json();
       setLook(lookresult);
-
     })();
   }, []);
 
@@ -96,11 +95,11 @@ const BuildTeam: React.FC = () => {
             const res = await fetch(`${API_ORIGIN}/app/team`, {
               method: "POST",
               headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localtoken}`
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localtoken}`,
               },
-              body: JSON.stringify({ data: data, img: image })
-            })
+              body: JSON.stringify({ data: data, img: image }),
+            });
 
             router.push("/recommend");
           })}
@@ -120,9 +119,7 @@ const BuildTeam: React.FC = () => {
             Category:
           </label>
           <select id="dropdownList" className="formDropdownSelect" required>
-            <option value="" >
-              Select Category
-            </option>
+            <option value="">Select Category</option>
             {teamcategory.map((item) => (
               <option
                 className="formDropdownList"
@@ -168,9 +165,7 @@ const BuildTeam: React.FC = () => {
             Looking for:
           </label>
           <select id="dropdownList" className="formDropdownSelect" required>
-            <option value="" >
-              Select one
-            </option>
+            <option value="">Select one</option>
             {look.map((item) => (
               <option
                 className="formDropdownList"

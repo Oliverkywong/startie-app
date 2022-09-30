@@ -64,9 +64,15 @@ const Homepage: React.FC = () => {
         if (userRecord.result) {
           dispatch(loadUserInfo(userRecord.user));
           dispatch(loggedIn(userRecord.user, localtoken));
+
+          // what if logged in
         } else {
-          router.push("/tab/login")
+          // what if logged in but expired
+          // reset token/localstorage
+          router.push("/tab/login");
         }
+      } else {
+        // what if not logged in
       }
 
       const teamRes = await fetch(`${API_ORIGIN}/app/team`, {
@@ -132,7 +138,7 @@ const Homepage: React.FC = () => {
                     ? router.push("/notification")
                     : router.push("/tab/login");
                 }}
-              // routerLink="/notification"
+                // routerLink="/notification"
               >
                 <IonIcon icon={notificationsOutline} />
               </IonButton>
@@ -268,19 +274,19 @@ const Homepage: React.FC = () => {
                           return <span key={tag}>{tag}</span>;
                         })}
                       </div>
-                      <div className="shareButton"
+                      <div
+                        className="shareButton"
                         onClick={async (e) => {
+                          e.stopPropagation();
                           await Share.share({
                             title: "See cool stuff",
                             text: "Come to join us",
                             url: `https://startie.oliverstrat.me/tab/team/${item.id}`,
                             dialogTitle: "Share with buddies",
                           });
-                          e.stopPropagation();
-                        }}>
-                        <IonIcon
-                          icon={shareOutline}
-                        />
+                        }}
+                      >
+                        <IonIcon icon={shareOutline} />
                       </div>
                     </IonCard>
                   </div>

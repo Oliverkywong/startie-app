@@ -22,7 +22,7 @@ export default function UserEdit() {
   const userdetails = useAppSelector((state: RootState) => state.auth.info);
   const router = useIonRouter();
   const [look, setLook] = useState<Looking[]>([]);
-  const [image, setImage] = useState<any>(null);
+  const [image, setImage] = useState<string | ArrayBuffer | null>(null);
   const { register, handleSubmit } = useForm();
   const dispatch = useAppDispatch();
 

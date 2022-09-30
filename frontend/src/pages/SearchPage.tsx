@@ -66,6 +66,7 @@ export default function SearchPage() {
         <IonSegment>
           <IonSegmentButton
             value="User"
+            defaultChecked={user}
             onClick={() => {
               setUser(true);
               setTeam(false);
@@ -172,7 +173,8 @@ export default function SearchPage() {
                     })}
                   </div>
 
-                  <div className="shareButton"
+                  <div
+                    className="shareButton"
                     onClick={async (e) => {
                       await Share.share({
                         title: "See cool stuff",
@@ -181,7 +183,8 @@ export default function SearchPage() {
                         dialogTitle: "Share with buddies",
                       });
                       e.stopPropagation();
-                    }}>
+                    }}
+                  >
                     <IonIcon icon={shareOutline} />
                   </div>
                 </div>

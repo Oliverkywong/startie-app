@@ -7,7 +7,11 @@ const ImageCropDialogForUser = ({
   imageUrl,
   onCancel,
   setCroppedImageFor,
-}: any) => {
+}: {
+  imageUrl: string | ArrayBuffer | null;
+  onCancel: () => void;
+  setCroppedImageFor: (result: string) => void;
+}) => {
   const [zoom, setZoom] = useState(1);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
@@ -24,15 +28,17 @@ const ImageCropDialogForUser = ({
   return (
     <IonPage>
       <IonContent>
-        <Cropper
-          image={imageUrl}
-          zoom={zoom}
-          crop={crop}
-          aspect={1}
-          onCropChange={setCrop}
-          onZoomChange={setZoom}
-          onCropComplete={onCropComplete}
-        />
+        {typeof imageUrl === "string" && (
+          <Cropper
+            image={imageUrl}
+            zoom={zoom}
+            crop={crop}
+            aspect={1}
+            onCropChange={setCrop}
+            onZoomChange={setZoom}
+            onCropComplete={onCropComplete}
+          />
+        )}
         <IonItem>
           <button onClick={onCancel}>Cancel</button>
           <button onClick={onCrop}>Crop</button>

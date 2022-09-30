@@ -33,16 +33,7 @@ const EventDetail: React.FC = () => {
       const item = await res.json();
       setData([item]);
     })();
-  }, []);
-
-  const loadData = (ev: any) => {
-    setTimeout(() => {
-      ev.target.complete();
-      if (data.length === 100) {
-        setInfiniteDisabled(true);
-      }
-    }, 500);
-  };
+  }, [setData]);
 
   async function joinEvent() {
     const localtoken = localStorage.getItem("token");
