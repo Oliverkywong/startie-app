@@ -65,7 +65,7 @@ export class TeamController {
     try {
       let input: TeamListInput = req.query;
       let show = true;
-      let json = await this.teamService.getAllTeams(input, show);
+      let json = await this.teamService.getAllTeams(show, input);
 
       res.set("x-total-count", String(json.count));
       res.status(200).json(json.teams);
@@ -81,7 +81,7 @@ export class TeamController {
     try {
       let input: TeamListInput = req.query;
       let show = false;
-      let json = await this.teamService.getAllTeams(input, show);
+      let json = await this.teamService.getAllTeams(show, input);
 
       res.status(200).json(json);
     } catch (err) {
@@ -113,7 +113,7 @@ export class TeamController {
 
       res.status(200).json(team.team[0]);
     } catch (err) {
-      logger.error(err);
+      // logger.error(err);
       res.status(500).json({ result: false, msg: "getTeam fail" });
     }
   };

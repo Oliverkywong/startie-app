@@ -10,10 +10,9 @@ import {
   IonToolbar,
   IonTitle,
   IonBackButton,
-  IonCardTitle,
   IonIcon,
 } from "@ionic/react";
-
+import { Share } from "@capacitor/share";
 import { Team } from "../model";
 import "./css/Common.css";
 import "./css/Team.css";
@@ -115,7 +114,16 @@ const TeamList: React.FC = () => {
                     })}
                   </div>
 
-                  <div className="shareButton">
+                  <div className="shareButton"
+                        onClick={async (e) => {
+                          await Share.share({
+                            title: "See cool stuff",
+                            text: "Come to join us",
+                            url: `https://startie.oliverstrat.me/tab/team/${item.id}`,
+                            dialogTitle: "Share with buddies",
+                          });
+                          e.stopPropagation();
+                        }}>
                     <IonIcon icon={shareOutline} />
                   </div>
                 </div>

@@ -13,9 +13,10 @@ import {
   IonImg,
   IonIcon,
 } from "@ionic/react";
-import { search, shareOutline } from "ionicons/icons";
+import { shareOutline } from "ionicons/icons";
 import moment from "moment";
 import { useState } from "react";
+import { Share } from "@capacitor/share";
 import { Team, UserInfo, EventInfo } from "../model";
 import { API_ORIGIN } from "../utils/api";
 import "./css/Common.css";
@@ -34,8 +35,6 @@ export default function SearchPage() {
     const teamreq = searchText.replace(/[^a-zA-Z ]/g, "");
     const teamres = await fetch(`${API_ORIGIN}/app/team/?q=${teamreq}`);
     const teamresult = await teamres.json();
-    console.log(teamresult);
-
     setTeamData(teamresult.teams);
 
     const userreq = searchText.replace(/[^a-zA-Z ]/g, "");
@@ -56,7 +55,6 @@ export default function SearchPage() {
           <IonButtons slot="start">
             <IonBackButton />
           </IonButtons>
-          {/* <IonIcon icon={search} /> */}
           <input
             className="searchbar"
             placeholder="Search"
@@ -174,7 +172,16 @@ export default function SearchPage() {
                     })}
                   </div>
 
-                  <div className="shareButton">
+                  <div className="shareButton"
+                    onClick={async (e) => {
+                      await Share.share({
+                        title: "See cool stuff",
+                        text: "Come to join us",
+                        url: `https://startie.oliverstrat.me/tab/team/${item.id}`,
+                        dialogTitle: "Share with buddies",
+                      });
+                      e.stopPropagation();
+                    }}>
                     <IonIcon icon={shareOutline} />
                   </div>
                 </div>

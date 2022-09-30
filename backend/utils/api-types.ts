@@ -59,7 +59,7 @@ export type TeamListInput = {
   _start?: number;
   _end?: number;
   q?: string;
-  category_id?: number | string;
+  category_id?: number;
   profile_pic?: string;
   description?: string;
   shortDescription?: string;
