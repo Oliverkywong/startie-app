@@ -61,7 +61,7 @@ export default function Recommend() {
                     })}
                 </div>
 
-                <IonLabel onClick={() => router.push('tab/home')}>No Thanks</IonLabel>
+                <button onClick={() => router.push('/tab/home')}>No Thanks</button>
             </IonContent>
         </IonPage>
     )

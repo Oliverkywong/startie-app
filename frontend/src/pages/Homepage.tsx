@@ -62,8 +62,8 @@ const Homepage: React.FC = () => {
         });
         const userRecord = await res.json();
         if (userRecord.result) {
-          dispatch(loadUserInfo(userRecord));
-          dispatch(loggedIn(userRecord, localtoken));
+          dispatch(loadUserInfo(userRecord.user));
+          dispatch(loggedIn(userRecord.user, localtoken));
         } else {
           router.push("/tab/login")
         }
@@ -268,17 +268,18 @@ const Homepage: React.FC = () => {
                           return <span key={tag}>{tag}</span>;
                         })}
                       </div>
-                      <div className="shareButton">
+                      <div className="shareButton"
+                        onClick={async (e) => {
+                          await Share.share({
+                            title: "See cool stuff",
+                            text: "Come to join us",
+                            url: `https://startie.oliverstrat.me/tab/team/${item.id}`,
+                            dialogTitle: "Share with buddies",
+                          });
+                          e.stopPropagation();
+                        }}>
                         <IonIcon
                           icon={shareOutline}
-                          onClick={async () => {
-                            await Share.share({
-                              title: "See cool stuff",
-                              text: "Come to join us",
-                              url: `https://startie.oliverstrat.me/tab/team/${item.id}`,
-                              dialogTitle: "Share with buddies",
-                            });
-                          }}
                         />
                       </div>
                     </IonCard>

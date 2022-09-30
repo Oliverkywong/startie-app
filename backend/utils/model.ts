@@ -17,10 +17,10 @@ export interface User {
 export interface Team {
   id: number;
   name: string;
-  searchcategory_id: number | string;
+  searchcategory_id: number;
   shortDescription: string;
-  description?: string;
-  profilepic?: string;
+  description: string;
+  profilepic: string;
   status_id: number | string;
   clickrate: number;
 }

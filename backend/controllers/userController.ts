@@ -184,12 +184,11 @@ export class UserController {
   // get self user Info
   // -------------------------------------------------------------------------------------------------------------------
   userInfo = async (req: express.Request, res: express.Response) => {
-    console.log("userId", req.user?.userId);
     try {
       let userId = req.user!.userId; // get userId from JWT
 
       const userInfo = await this.userService.userInfo(userId);
-      res.json(userInfo[0]);
+      res.json({result:true, user:userInfo[0]});
     } catch (err) {
       logger.error(err);
       res.json({ result: false, msg: "Get self user profile fail" });
