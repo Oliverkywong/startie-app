@@ -43,6 +43,7 @@ const UserList: React.FC = () => {
 
   const loadData = (ev: any) => {
     setTimeout(() => {
+      // debounce
       pushData();
       ev.target.complete();
     }, 500);

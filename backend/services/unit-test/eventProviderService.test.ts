@@ -9,18 +9,17 @@ const knexfile = require("../../knexfile");
 const knex = Knex(knexfile["test"]);
 
 describe("EventProviderService CRUD", () => {
-
   let eventProviderService = new EventProviderService(knex);
   const eventProvider: Event_Provider = {
     id: 1,
     name: "eventProvider",
-    profile_pic: "eventProviderProfilepic"
-  }
+    profile_pic: "eventProviderProfilepic",
+  };
 
   const newEventProvider: Event_Provider = {
     id: 1,
     name: "newEventProviderName",
-    profile_pic: "newEventProviderProfilepic"
+    profile_pic: "newEventProviderProfilepic",
   };
 
   const eventProviderInput: EventProviderListInput = {
@@ -30,7 +29,7 @@ describe("EventProviderService CRUD", () => {
     _sort: "id",
     _start: 1,
     _end: 1,
-    profile_pic: "newEventProviderProfilepic"
+    profile_pic: "newEventProviderProfilepic",
   };
 
   beforeAll(async () => {
@@ -57,27 +56,35 @@ describe("EventProviderService CRUD", () => {
   });
 
   it("function getAllEventProviders positive test", async () => {
-
-    const getAllEventProviders = await eventProviderService.getAllEventProvidersForAdmin();
+    const getAllEventProviders =
+      await eventProviderService.getAllEventProvidersForAdmin();
 
     expect(getAllEventProviders.count).toBeGreaterThan(0);
   });
 
   it("function getEventProvider positive test", async () => {
-    const getEventProvider = await eventProviderService.getEventProvider(eventProvider.id);
+    const getEventProvider = await eventProviderService.getEventProvider(
+      eventProvider.id
+    );
     expect(getEventProvider.length).toBeGreaterThan(0);
     expect(getEventProvider[0].id).toBe(eventProvider.id);
   });
 
   it("function updateEventProvidersForAdmin positive test", async () => {
-    const getEventProvider = await eventProviderService.getEventProvider(eventProvider.id);
+    const getEventProvider = await eventProviderService.getEventProvider(
+      eventProvider.id
+    );
     expect(getEventProvider[0].id).toBe(eventProvider.id);
 
-    const updateEventProvider = await eventProviderService.updateEventProvidersForAdmin(
-      eventProvider.id,
-      eventProviderInput);
+    const updateEventProvider =
+      await eventProviderService.updateEventProvidersForAdmin(
+        eventProvider.id,
+        eventProviderInput
+      );
     expect(updateEventProvider[0].name).toBe(newEventProvider.name);
-    expect(updateEventProvider[0].profile_pic).toBe(newEventProvider.profile_pic);
+    expect(updateEventProvider[0].profile_pic).toBe(
+      newEventProvider.profile_pic
+    );
   });
 
   it("function createEventProvider negative test", async () => {
@@ -86,15 +93,16 @@ describe("EventProviderService CRUD", () => {
         eventProvider.name,
         eventProvider.profile_pic
       );
+      fail();
     } catch (err) {
       expect(err).toBeInstanceOf(DuplicatenameError);
     }
   });
 
   it("function getAllEventProviders negative test", async () => {
-    const input = { q: 'zzzzz' }
-    const getAllEventProviders = await eventProviderService.getAllEventProvidersForAdmin(
-      input);
+    const input = { q: "zzzzz" };
+    const getAllEventProviders =
+      await eventProviderService.getAllEventProvidersForAdmin(input);
 
     expect(getAllEventProviders.count).toBe(0);
   });
@@ -108,9 +116,11 @@ describe("EventProviderService CRUD", () => {
     const getEventProvider = await eventProviderService.getEventProvider(0);
     expect(getEventProvider[0]).toBeUndefined();
 
-    const updateEventProvider = await eventProviderService.updateEventProvidersForAdmin(
-      200,
-      eventProviderInput);
+    const updateEventProvider =
+      await eventProviderService.updateEventProvidersForAdmin(
+        200,
+        eventProviderInput
+      );
     expect(updateEventProvider[0]).toBeUndefined();
   });
 });

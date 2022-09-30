@@ -20,6 +20,7 @@ const TeamDetail: React.FC = () => {
   const [data, setData] = useState<TeamData[]>([]);
   const [tag, setTag] = useState<string[]>([]);
   const [teamMember, setTeamMember] = useState<TeamMember[]>([]);
+  const [forceUpdate, setForceUpdate] = useState(0);
 
   const router = useIonRouter();
 
@@ -40,7 +41,7 @@ const TeamDetail: React.FC = () => {
 
       setTag(tagArray);
     })();
-  }, []);
+  }, [forceUpdate]);
 
   async function joinTeam() {
     const localtoken = localStorage.getItem("token");
@@ -54,6 +55,8 @@ const TeamDetail: React.FC = () => {
       }
     );
     const result = await fetchResult.json();
+
+    setForceUpdate((i) => i + 1);
 
     present({
       message: result.msg,
@@ -103,7 +106,6 @@ const TeamDetail: React.FC = () => {
           );
         })}
         <div className="teamDetailButtonContainer">
-
           <button className="joinButton" onClick={joinTeam}>
             Join
           </button>
