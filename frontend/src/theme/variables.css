@@ -22,7 +22,7 @@ http://ionicframework.com/docs/theming/ */
 /** Ionic CSS Variables **/
 :root {
   /** primary **/
-  background-image: url("../img/bgimage.png");
+  background-image: url("../img/bgimage.jpg");
   background-size: cover;
   --ion-color-primary: #3880ff;
   --ion-color-primary-rgb: 56, 128, 255;
