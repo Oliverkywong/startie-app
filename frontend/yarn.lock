@@ -4167,9 +4167,10 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001370, caniuse-lite@^1.0.30001373:
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001385.tgz"
   integrity sha512-MpiCqJGhBkHgpyimE9GWmZTnyHyEEM35u115bD3QBrXpjvL/JgcP8cUhKJshfmg4OtEHFenifcK5sZayEw5tvQ==
 
-"capacitor-apple-login@github:rlfrahm/capacitor-apple-login":
-  version "0.0.6"
-  resolved "git+ssh://git@github.com/rlfrahm/capacitor-apple-login.git#29a0422ab8daa0681a8e084e370c51904613c32b"
+capacitor-apple-login@0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/capacitor-apple-login/-/capacitor-apple-login-0.0.7.tgz#58d6fece0c25f5ad2688a96921a7b9cca2f51329"
+  integrity sha512-JKlhIyabwhrA5pSn9kn2wNJ5yr7J5c1SyY/VQVXBrYW+S/ns+XdnwkEE6AFI3+QSWocKVB6ciP+noZh3TmHGAg==
   dependencies:
     "@capacitor/core" latest
 

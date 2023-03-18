@@ -42,7 +42,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/zxcvbn": "^4.4.1",
     "bcryptjs": "^2.4.3",
-    "capacitor-apple-login": "github:rlfrahm/capacitor-apple-login",
+    "capacitor-apple-login": "0.0.7",
     "chart.js": "^3.9.1",
     "cordova-plugin-googleplus": "^8.5.2",
     "cordova-plugin-sign-in-with-apple": "^0.1.2",
