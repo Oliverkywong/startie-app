@@ -7638,6 +7638,22 @@ ra-core@^4.3.1:
     react-is "^17.0.2"
     react-query "^3.32.1"
 
+ra-core@^4.8.4:
+  version "4.8.4"
+  resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-4.8.4.tgz#eca7e0c6e077e41918196032a9633c186f708a0c"
+  integrity sha512-OVyE4DGngIzfyh8Aj9ohv0uE1KMb+L0kxA/mvODAXkd9aucmRzj7MYKMUbcn/f5PX28raZ+wwZdPqiXVaZZcJQ==
+  dependencies:
+    clsx "^1.1.1"
+    date-fns "^2.19.0"
+    eventemitter3 "^4.0.7"
+    inflection "~1.12.0"
+    jsonexport "^3.2.0"
+    lodash "~4.17.5"
+    prop-types "^15.6.1"
+    query-string "^7.1.1"
+    react-is "^17.0.2"
+    react-query "^3.32.1"
+
 ra-data-fakerest@^4.3.2:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/ra-data-fakerest/-/ra-data-fakerest-4.3.2.tgz#3cee6fd2716519c5373c9ed6f0d0ee68860c6120"
@@ -7645,13 +7661,13 @@ ra-data-fakerest@^4.3.2:
   dependencies:
     fakerest "^3.0.0"
 
-ra-data-json-server@^4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/ra-data-json-server/-/ra-data-json-server-4.3.1.tgz#0770cd836c4702fd468393e19a61fa10b31a1dac"
-  integrity sha512-72OzC3SxAmcVORbSPGVuIpe1CURLNGz75mYX60SeYHKaxd0MyiPt1O+1S+602wDWhItZKO1/3/r/Sgy1tSlYxw==
+ra-data-json-server@^4.8.1:
+  version "4.8.4"
+  resolved "https://registry.yarnpkg.com/ra-data-json-server/-/ra-data-json-server-4.8.4.tgz#1b4a8db63d1051eb8272f2a04c66bc50f1345c4a"
+  integrity sha512-PSdlznZpAg3Q/8poD5cbSASOIcIBa4zrxMeemHTCytXQpfQS9akqG+Ujj1kIH/1H+qLIf9ncPwMkREKEUT6+Kw==
   dependencies:
     query-string "^7.1.1"
-    ra-core "^4.3.1"
+    ra-core "^4.8.4"
 
 ra-data-simple-rest@^4.3.2:
   version "4.3.2"
