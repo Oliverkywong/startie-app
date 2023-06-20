@@ -23,7 +23,7 @@
     "@types/node": "^18.6.4",
     "@types/permit": "^0.2.2",
     "@types/pg": "^8.6.5",
-    "apple-signin-auth": "^1.7.4",
+    "apple-signin-auth": "^1.7.5",
     "bcryptjs": "^2.4.3",
     "better-sqlite3-proxy": "^1.4.2",
     "cors": "^2.8.5",
